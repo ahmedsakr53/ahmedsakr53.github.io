@@ -184,14 +184,16 @@ async function kvConfig(env) {
 }
 
 const ADMIN_PIN_HTML = ADMIN_LOGIN_HTML
+  .replace('</style>', '.rec{display:block;text-align:center;margin-top:14px;font-size:13px;color:#0e8a9e;text-decoration:none}</style>')
   .replace('action="/admin/login"', 'action="/admin/pin"')
   .replace('كلمة السر</label>', 'رمز الدخول</label>')
-  .replace('type="password" autocomplete="current-password"', 'type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off"')
+  .replace('name="password" type="password" autocomplete="current-password"', 'name="pin" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off"')
   .replace('letter-spacing:2px', 'letter-spacing:10px')
   .replace('دخول</button>', 'دخول</button>\n<a class="rec" href="/admin?recovery=1">نسيت الرمز؟ ادخل بكلمة السر</a>')
   .replace('المنطقة دي للأدمن بس', 'المنطقة دي للأدمن بس — اكتب رمز الـ ٤ أرقام');
 
 const ADMIN_LOGIN_HTML2 = ADMIN_LOGIN_HTML
+  .replace('</style>', '.rec{display:block;text-align:center;margin-top:14px;font-size:13px;color:#0e8a9e;text-decoration:none}</style>')
   .replace('دخول</button>', 'دخول</button>\n<a class="rec" href="/admin">الدخول برمز الـ ٤ أرقام</a>');
 
 async function adminPinPage(env, msg, locked) {
