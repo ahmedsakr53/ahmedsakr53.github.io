@@ -657,3 +657,7 @@ p.pf-para {
 .pf-lang-toggle-opt.pf-lang-toggle-active {
     color: #081018;
 }
+
+/* visit counter badge */
+.pf-visits { margin-top: 16px; display: flex; justify-content: center; }
+.pf-visits img { height: 22px; border-radius: 6px; opacity: 0.92; box-shadow: 0 2px 10px rgba(20, 40, 90, 0.25); }

@@ -30,6 +30,7 @@
       nameAr: 'أحمد مختار عوض (صقر)',
       role: 'Junior Cybersecurity Analyst · Network Technician · Software & Games Designer',
       tagline: 'طالب هندسة كهرباء قسم اتصالات — جامعة سوهاج، يشق طريقه في الأمن السيبراني والشبكات بشهادات Cisco وتدريب عملي يومي، وهدفه القريب أول تدريب SOC.',
+      visitsTitle: 'عدد زيارات الموقع',
       chips: ['طما، سوهاج، مصر', 'هندسة كهرباء قسم اتصالات — دفعة ٢٠٢٨', 'الهدف: تدريب SOC'],
       ctaProjects: 'استعرض مشاريعي',
       ctaContact: 'تواصل معي',
@@ -98,6 +99,7 @@
       nameAr: 'أحمد مختار عوض (صقر)',
       role: 'Junior Cybersecurity Analyst · Network Technician · Software & Games Designer',
       tagline: 'An Electrical Engineering student, Communications section, at Sohag University, building his path in cybersecurity and networking with Cisco certifications and daily hands-on practice, with a near goal of a first SOC internship.',
+      visitsTitle: 'Site visit count',
       chips: ['Tama, Sohag, Egypt', 'EE, Communications — Class of 2028', 'Goal: SOC internship'],
       ctaProjects: 'See my projects',
       ctaContact: 'Contact me',
@@ -189,7 +191,9 @@
       '<div class="pf-cta">' +
       '<a class="pf-btn pf-btn-primary" href="#/projects">' + esc(t.ctaProjects) + '</a>' +
       '<a class="pf-btn pf-btn-ghost" href="#/contact">' + esc(t.ctaContact) + '</a>' +
-      '</div></div></div></div>';
+      '</div>' +
+      '<div class="pf-visits" title="' + esc(t.visitsTitle) + '"><img src="https://hits.sh/ahmedsakr53.github.io/hits.svg?label=%F0%9F%91%81&color=2f7fd4&style=flat" alt="' + esc(t.visitsTitle) + '" loading="lazy"></div>' +
+      '</div></div></div>';
   }
 
   function renderAbout(t) {
