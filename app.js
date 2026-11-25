@@ -74,7 +74,7 @@
       ctaProjects: 'استعرض مشاريعي',
       ctaContact: 'تواصل معي',
       aboutEyebrow: 'ABOUT',
-      aboutTitle: 'من أنا؟',
+      aboutTitle: 'من هو؟',
       aboutBio: [
         'من طما، محافظة سوهاج، تخرج أحمد مختار عوض (صقر) في الثانوية العامة شعبة علمي رياضة بمجموع 92.25%، والتحق بكلية الهندسة جامعة سوهاج، هندسة كهرباء قسم اتصالات، وهو يعرف تمامًا إلى أين يتجه.',
         'شغفه بالأمن السيبراني والشبكات ليس مادة في منهج، بل حياة يومية: شهادتان من Cisco (محلل أمن سيبراني مبتدئ، وفني شبكات)، وشهادة مقدمة في الأمن السيبراني، وشهادة شبكات من منصة إدراك، وتدريب عملي مستمر على TryHackMe. يبني ويختبر ويتعلم بيده: من أنظمة IoT ذكية إلى مواقع كاملة صممها ونفذها بنفسه.',
@@ -184,18 +184,18 @@
       role: 'Junior Cybersecurity Analyst · Network Technician · Software & Games Designer',
       tagline: 'An Electrical Engineering student, Communications section, at Sohag University, building his path in cybersecurity and networking with Cisco certifications and daily hands-on practice, with a near goal of a first SOC internship.',
       visitsTitle: 'Site visit count',
-      chips: ['Tama, Sohag, Egypt', 'EE, Communications — Class of 2028', 'Goal: SOC internship'],
+      chips: ['Tima, Sohag, Egypt', 'EE, Communications — Class of 2028', 'Goal: SOC internship'],
       ctaProjects: 'See my projects',
       ctaContact: 'Contact me',
       aboutEyebrow: 'ABOUT',
-      aboutTitle: 'Who am I?',
+      aboutTitle: 'Who is he?',
       aboutBio: [
-        'From Tama, Sohag Governorate, Ahmed Mokhtar Awad (Sakr) graduated from Thanaweya Amma, advanced mathematics track, with a score of 92.25%, and entered the Faculty of Engineering at Sohag University, Electrical Engineering, Communications section, knowing exactly where he was headed.',
+        'From Tima, Sohag Governorate, Ahmed Mokhtar Awad (Sakr) graduated from Thanaweya Amma, advanced mathematics track, with a score of 92.25%, and entered the Faculty of Engineering at Sohag University, Electrical Engineering, Communications section, knowing exactly where he was headed.',
         'His passion for cybersecurity and networking is not a course in a curriculum; it is a daily life: two Cisco certifications (Junior Cybersecurity Analyst and Network Technician), an Introduction to Cybersecurity certificate, a networking certificate from the Edraak platform, and continuous hands-on training on TryHackMe. He builds, tests, and learns with his own hands: from smart IoT systems to complete websites he designed and built himself.',
         'He is not waiting for his graduation certificate to begin. His path is being built right now, and the goal is clear: a SOC analyst you can rely on.'
       ],
       facts: [
-        ['Location', 'Tama, Sohag, Egypt'],
+        ['Location', 'Tima, Sohag, Egypt'],
         ['Education', 'Electrical Engineering, Communications section, Sohag University — Third year (2028) • Thanaweya Amma, advanced math track, class of 2024 — 92.25%'],
         ['Current goal', 'SOC internship or technical support']
       ],
@@ -230,7 +230,7 @@
       journeyDone: 'Done',
       journeyNext: 'Up next',
       journey: [
-        ['Thanaweya Amma, 92.25%', 'Advanced mathematics track — Tama, Sohag.', true],
+        ['Thanaweya Amma, 92.25%', 'Advanced mathematics track — Tima, Sohag.', true],
         ['Sohag Engineering, EE Communications', 'Third year, class of 2028.', true],
         ['The Smart Speed Bump', 'A working Arduino project I built and presented myself.', true],
         ['Learning web development', 'HTML, CSS, JavaScript and Tailwind.', true],
