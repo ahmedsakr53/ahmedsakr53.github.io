@@ -236,6 +236,10 @@
       saqrUnmute: 'تشغيل صوت صقر',
       saqrMic: 'اتكلم بصوتك',
       saqrListening: 'بسمعك...',
+      saqrConsentText: 'تحب نحتفظ بمحادثتك عشان نطوّر صقر؟ بنسجّل نص المحادثة بس، من غير أي بيانات عنك.',
+      saqrConsentYes: 'موافق',
+      saqrConsentNo: 'لا شكرًا',
+      saqrConsentThanks: 'تمام، اختيارك اتسجّل 🦅',
       saqrGreeting: 'أهلا بيك! أنا صقر، اسألني أي حاجة.',
       servicesEyebrow: 'SERVICES',
       servicesTitle: 'خدماتي',
@@ -452,6 +456,10 @@
       saqrUnmute: 'Unmute Saqr voice',
       saqrMic: 'Speak your question',
       saqrListening: 'Listening...',
+      saqrConsentText: 'Mind if we keep this chat so we can improve Saqr? Only the chat text is saved, nothing about you.',
+      saqrConsentYes: 'Sure',
+      saqrConsentNo: 'No thanks',
+      saqrConsentThanks: 'Got it, your choice is saved 🦅',
       saqrGreeting: "Hey there! I'm Saqr, ask me anything.",
       servicesEyebrow: 'SERVICES',
       servicesTitle: 'My services',
@@ -866,8 +874,16 @@
 
   var saqrVoice = { muted: false };
   try { saqrVoice.muted = localStorage.getItem('pf-saqr-muted') === '1'; } catch (e) {}
+  var saqrConsent = null;
+  try { saqrConsent = localStorage.getItem('pf-saqr-consent'); } catch (e) {}
+  var saqrChatId = '';
+  try {
+    saqrChatId = sessionStorage.getItem('pf-saqr-chatid') || '';
+    if (!saqrChatId && window.crypto && crypto.randomUUID) { saqrChatId = crypto.randomUUID(); sessionStorage.setItem('pf-saqr-chatid', saqrChatId); }
+  } catch (e) { saqrChatId = 'chat-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
   var SaqrRecog = window.SpeechRecognition || window.webkitSpeechRecognition || null;
-  var saqrRecog = null, saqrListening = false;
+  var saqrRecog = null, saqrListening = false, saqrFinalBuf = '', saqrSilenceTimer = null, saqrManualStop = false;
+  var SAQR_SILENCE_MS = 3000;
 
   function saqrSpeak(text, lg) {
     if (saqrVoice.muted || !('speechSynthesis' in window)) return;
@@ -884,29 +900,63 @@
     } catch (e) {}
   }
 
+  function saqrArmSilence() {
+    clearTimeout(saqrSilenceTimer);
+    saqrSilenceTimer = setTimeout(function () { saqrStopListening(true); }, SAQR_SILENCE_MS);
+  }
+
+  function saqrStopListening(send) {
+    if (!saqrListening) return;
+    saqrListening = false;
+    saqrManualStop = true;
+    clearTimeout(saqrSilenceTimer);
+    try { if (saqrRecog) saqrRecog.stop(); } catch (e) {}
+    var mb = document.querySelector('.pf-saqr-micbig'); if (mb) mb.classList.remove('pf-saqr-live');
+    var inp = document.getElementById('pf-saqr-input');
+    if (inp) inp.placeholder = T[lang].saqrPlaceholder;
+    if (send && inp && inp.value.trim()) saqrSend();
+  }
+
   function saqrStartListening(t) {
-    if (!SaqrRecog || saqrListening) return;
+    if (!SaqrRecog) return;
+    if (saqrListening) { saqrStopListening(true); return; }
     try {
       saqrRecog = new SaqrRecog();
       saqrRecog.lang = lang === 'ar' ? 'ar-EG' : 'en-US';
-      saqrRecog.interimResults = false;
+      saqrRecog.continuous = true;
+      saqrRecog.interimResults = true;
       saqrRecog.maxAlternatives = 1;
       saqrListening = true;
+      saqrManualStop = false;
+      saqrFinalBuf = '';
       var inp = document.getElementById('pf-saqr-input');
       if (inp) inp.placeholder = t.saqrListening;
       var mb = document.querySelector('.pf-saqr-micbig'); if (mb) mb.classList.add('pf-saqr-live');
       saqrRecog.onresult = function (e) {
-        var txt = e.results && e.results[0] && e.results[0][0] ? e.results[0][0].transcript : '';
-        if (inp && txt) { inp.value = txt; saqrSend(); }
+        var interim = '';
+        for (var i = e.resultIndex; i < e.results.length; i++) {
+          if (e.results[i].isFinal) saqrFinalBuf += e.results[i][0].transcript;
+          else interim += e.results[i][0].transcript;
+        }
+        var inp2 = document.getElementById('pf-saqr-input');
+        if (inp2) inp2.value = (saqrFinalBuf + interim).trim();
+        saqrArmSilence();
       };
       saqrRecog.onend = function () {
+        if (saqrListening && !saqrManualStop) {
+          try { saqrRecog.start(); return; } catch (e) {}
+        }
         saqrListening = false;
+        clearTimeout(saqrSilenceTimer);
         var mb2 = document.querySelector('.pf-saqr-micbig'); if (mb2) mb2.classList.remove('pf-saqr-live');
-        var inp2 = document.getElementById('pf-saqr-input');
-        if (inp2) inp2.placeholder = T[lang].saqrPlaceholder;
+        var inp3 = document.getElementById('pf-saqr-input');
+        if (inp3) inp3.placeholder = T[lang].saqrPlaceholder;
       };
-      saqrRecog.onerror = saqrRecog.onend;
+      saqrRecog.onerror = function (ev) {
+        if (ev && (ev.error === 'not-allowed' || ev.error === 'service-not-allowed')) saqrStopListening(false);
+      };
       saqrRecog.start();
+      saqrArmSilence();
     } catch (e) { saqrListening = false; }
   }
 
@@ -948,6 +998,16 @@
             saqrSpeak(T[lang].saqrGreeting, lang);
             var inp = document.getElementById('pf-saqr-input'); if (inp) inp.focus();
           } else if ('speechSynthesis' in window) { window.speechSynthesis.cancel(); }
+        } else if (e.target.closest('.pf-saqr-consent-yes')) {
+          saqrConsent = '1';
+          try { localStorage.setItem('pf-saqr-consent', '1'); } catch (err) {}
+          saqrState.msgs.push({ role: 'assistant', content: T[lang].saqrConsentThanks });
+          saqrEnsure(T[lang]);
+        } else if (e.target.closest('.pf-saqr-consent-no')) {
+          saqrConsent = '0';
+          try { localStorage.setItem('pf-saqr-consent', '0'); } catch (err) {}
+          saqrState.msgs.push({ role: 'assistant', content: T[lang].saqrConsentThanks });
+          saqrEnsure(T[lang]);
         } else if (e.target.closest('.pf-saqr-mute')) {
           saqrVoice.muted = !saqrVoice.muted;
           try { localStorage.setItem('pf-saqr-muted', saqrVoice.muted ? '1' : '0'); } catch (err) {}
@@ -956,6 +1016,7 @@
         } else if (e.target.closest('.pf-saqr-micbig')) {
           saqrStartListening(T[lang]);
         } else if (e.target.closest('.pf-saqr-close')) {
+          saqrStopListening(false);
           saqrState.open = false;
           saqrEnsure(T[lang]);
         }
@@ -973,6 +1034,11 @@
     var box = document.getElementById('pf-saqr-msgs');
     if (!box) return;
     var html = '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">🦅</span><div class="pf-saqr-bubble">' + esc(t.saqrWelcome) + '</div></div>';
+    if (saqrConsent === null) {
+      html += '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">🦅</span><div class="pf-saqr-bubble pf-saqr-consent">' + esc(t.saqrConsentText) +
+        '<div class="pf-saqr-consent-btns"><button type="button" class="pf-saqr-consent-yes">' + esc(t.saqrConsentYes) + '</button>' +
+        '<button type="button" class="pf-saqr-consent-no">' + esc(t.saqrConsentNo) + '</button></div></div></div>';
+    }
     saqrState.msgs.forEach(function (m) {
       if (m.role === 'user') html += '<div class="pf-saqr-msg pf-saqr-me"><div class="pf-saqr-bubble">' + esc(m.content) + '</div></div>';
       else html += '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">🦅</span><div class="pf-saqr-bubble">' + esc(m.content) + '</div></div>';
@@ -1002,7 +1068,7 @@
     fetch(SAQR_WORKER_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ lang: lang, messages: history })
+      body: JSON.stringify({ lang: lang, messages: history, consent: saqrConsent === '1', chatId: saqrConsent === '1' ? saqrChatId : undefined })
     }).then(function (r) {
       if (!r.ok) throw new Error('http ' + r.status);
       return r.json();

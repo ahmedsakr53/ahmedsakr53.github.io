@@ -1557,6 +1557,16 @@ html[data-theme="dark"] .pf-saqr-bubble { background: rgb(69 200 221 / 0.1); }
     50% { box-shadow: 0 0 0 18px rgb(14 138 158 / 0); }
 }
 .pf-saqr-micbig-lbl { font-size: 0.78rem; color: var(--ds-ink-2); }
+
+.pf-saqr-consent { line-height: 1.7; }
+.pf-saqr-consent-btns { display: flex; gap: 8px; margin-top: 10px; }
+.pf-saqr-consent-yes, .pf-saqr-consent-no {
+  border: none; border-radius: 999px; padding: 8px 18px; font-size: 0.85rem; font-weight: 700;
+  cursor: pointer; font-family: inherit; transition: transform .15s ease, opacity .15s ease;
+}
+.pf-saqr-consent-yes { background: var(--ds-brand, #0d7d8c); color: #fff; }
+.pf-saqr-consent-no { background: transparent; color: var(--ds-ink-2); border: 1px solid var(--ds-line, #d8d8d8); }
+.pf-saqr-consent-yes:hover, .pf-saqr-consent-no:hover { transform: translateY(-1px); opacity: .9; }
 html[data-theme="dark"] .pf-saqr-micbig {
     background: linear-gradient(135deg, #189ab4, #1c6f9e);
     box-shadow: 0 12px 32px rgb(0 0 0 / 0.55);

@@ -9,7 +9,13 @@ const SYSTEM_PROMPT = `أنت «صقر» 🦅، المساعد الذكي بتا
 
 هوية صقر:
 - لو حد سألك مين عملك أو مين مطورك، جاوب بالضبط بروح الجملة دي: «أنا صقر، اتعملت على إيد المهندس أحمد مختار صقر».
-- إنت شخصية صقر ودودة وسريعة البديهة، بتتكلم بالعامية المصرية الخفيفة. لو المستخدم كتب إنجليزي، رد إنجليزي.
+- إنت شخصية صقر ودودة وسريعة البديهة.
+
+قاعدة اللغة (مهمة جداً):
+- لازم تتكلم عامية مصرية طبيعية 100% زي ما المصريين بيتكلموا فعلاً: سلِسة ودافية، من غير أي فصحى خالص.
+- ممنوع كلمات الفصحى دي نهائياً: «تريد، لقد، سوف، يُرجى، أهلاً بك، كيف حالك، يسعدني، هل يمكنك، شكراً لك». استخدم بدلها: «عايز، قوي/خالص، هـ، لو سمحت، أهلاً بيك، عامل إيه، تحت أمرك، تقدر، متشكر».
+- أمثلة على الأسلوب المطلوب: «يا هلا! عامل إيه؟»، «تحت أمرك، قولّي عايز إيه»، «بص يا صاحبي، الحكاية بسيطة»، «تمام كده؟ محتاج حاجة تانية؟».
+- حتى لو المستخدم كتب فصحى، ردّ عليه عامية مصرية برضه. لو كتب إنجليزي، ردّ إنجليزي ودود وطبيعي.
 
 قاعدة الخصوصية الصارمة (أهم قاعدة):
 - مسموح لك تشارك فقط المعلومات المنشورة فعلاً على الموقع، وهي كلها مذكورة تحت.
@@ -36,7 +42,7 @@ const SYSTEM_PROMPT = `أنت «صقر» 🦅، المساعد الذكي بتا
 - الأسعار: مفيش أسعار ثابتة منشورة؛ التسعير بالاتفاق حسب المشروع عن طريق التواصل على واتساب من الموقع.
 
 أسلوب الرد:
-- ردود قصيرة ومركزة (سطرين لأربعة غالباً)، ودودة وبروح صقر 🦅.
+- ردود قصيرة ومركزة (سطرين لأربعة غالباً)، ودودة وبروح صقر 🦅، وبعامية مصرية حلوة وطبيعية في كل رد.
 - تقدر تتكلم في مواضيع عامة وتجاوب أسئلة عامة بشكل مفيد، مش بس عن أحمد.
 - لو حد طلب حاجة ضارة (اختراق، سرقة حسابات، نصب) ارفض بأدب ووجهه للحماية الصح.
 - متقولش أبداً إنك نموذج ذكاء اصطناعي من جوجل أو أي شركة؛ إنت «صقر» بتاع موقع المهندس أحمد.`;
@@ -73,7 +79,7 @@ function corsHeaders(origin) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const origin = request.headers.get('Origin') || '';
 
@@ -143,8 +149,25 @@ export default {
       data.candidates[0].content.parts &&
       data.candidates[0].content.parts.map((p) => p.text || '').join('').trim();
 
+    const finalReply = reply || 'معلش، مخي وقف ثانية. اسألني تاني 🦅';
+
+    // Consent-gated logging: only when the visitor explicitly agreed in the widget.
+    // Anonymous by design: no IP, no identifiers beyond the random chat id the
+    // visitor's browser generated for this visit, and only the text they typed.
+    if (body.consent === true && env.SAQR_CHATS) {
+      try {
+        const chatId = String(body.chatId || '');
+        if (/^[A-Za-z0-9-]{8,64}$/.test(chatId)) {
+          const lastUser = contents[contents.length - 1].parts[0].text;
+          const key = chatId + ':' + Date.now();
+          const val = JSON.stringify({ ts: new Date().toISOString(), user: lastUser, saqr: finalReply });
+          ctx.waitUntil(env.SAQR_CHATS.put(key, val, { expirationTtl: 15552000 })); // 180 days
+        }
+      } catch (e) { /* logging must never break the chat */ }
+    }
+
     return Response.json(
-      { reply: reply || 'معلش، مخي وقف ثانية. اسألني تاني 🦅' },
+      { reply: finalReply },
       { status: 200, headers: corsHeaders(origin) }
     );
   },
