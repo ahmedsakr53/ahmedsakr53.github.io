@@ -885,6 +885,11 @@
   var saqrRecog = null, saqrListening = false, saqrFinalBuf = '', saqrSilenceTimer = null, saqrManualStop = false;
   var SAQR_SILENCE_MS = 3000;
 
+  function saqrSetSpeaking(on) {
+    var fab = document.querySelector('.pf-saqr-fab');
+    if (fab) fab.classList.toggle('pf-saqr-speaking', !!on);
+  }
+
   function saqrSpeak(text, lg) {
     if (saqrVoice.muted || !('speechSynthesis' in window)) return;
     try {
@@ -896,6 +901,9 @@
       var v = voices.find(function (x) { return x.lang && x.lang.toLowerCase().indexOf(pref) === 0; });
       if (v) u.voice = v;
       u.rate = 1;
+      u.onstart = function () { saqrSetSpeaking(true); };
+      u.onend = function () { saqrSetSpeaking(false); };
+      u.onerror = function () { saqrSetSpeaking(false); };
       window.speechSynthesis.speak(u);
     } catch (e) {}
   }
@@ -969,7 +977,8 @@
     }
     root.innerHTML =
       '<button type="button" class="pf-saqr-fab" aria-label="' + esc(t.saqrFab) + '" title="' + esc(t.saqrFab) + '">' +
-        '<span class="pf-saqr-fab-ico">🦅</span><span class="pf-saqr-fab-txt">' + esc(t.saqrFab) + '</span></button>' +
+        '<span class="pf-saqr-fab-ico">🦅</span><span class="pf-saqr-fab-txt">' + esc(t.saqrFab) + '</span>' +
+        '<span class="pf-saqr-waves" aria-hidden="true"><i></i><i></i><i></i></span></button>' +
       '<section class="pf-saqr-panel' + (saqrState.open ? ' pf-saqr-open' : '') + '" role="dialog" aria-label="' + esc(t.saqrTitle) + '">' +
         '<header class="pf-saqr-head">' +
           '<div class="pf-saqr-id"><span class="pf-saqr-avatar">🦅</span>' +
