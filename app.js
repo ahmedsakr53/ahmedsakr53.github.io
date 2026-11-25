@@ -242,7 +242,9 @@
       saqrCallSpeaking: 'صقر بيتكلم… اتكلم في أي وقت عشان تقاطعه',
       saqrCallThinking: 'صقر بيفكر…',
       saqrListening: 'بسمعك...',
-      saqrConsentText: 'تحب نحتفظ بمحادثتك عشان نطوّر صقر؟ بنسجّل نص المحادثة بس، من غير أي بيانات عنك.',
+      saqrConsentText: 'تحب نحتفظ بنص محادثتك عشان نطوّر صقر؟ بيتحفظ نص الشات بس (مش الصوت)، بشكل مجهول تمامًا، لمدة 180 يوم وبعدين بيتمسح لوحده، ومحدش يقدر يشوفه غير صاحب الموقع. بلاش تكتب بيانات شخصية حساسة في الشات.',
+      saqrVoiceNotice: 'ثانية واحدة قبل ما تتكلم 🎙️ المتصفح هو اللي بيحوّل صوتك لكلام مكتوب، والخطوة دي ممكن تعدّي على خدمة الصوت بتاعة المتصفح نفسه (زي خدمة جوجل في كروم). الكلام المكتوب بيروح لصقر عشان يرد عليك. صوتك نفسه مش بيتحفظ عندنا خالص، ولو وافقت على حفظ المحادثة، اللي بيتحفظ هو النص بس.',
+      saqrVoiceNoticeOk: 'تمام، فهمت',
       saqrConsentYes: 'موافق',
       saqrConsentNo: 'لا شكرًا',
       saqrConsentThanks: 'تمام، اختيارك اتسجّل 🦅',
@@ -468,7 +470,9 @@
       saqrCallSpeaking: 'Saqr is speaking… talk anytime to interrupt',
       saqrCallThinking: 'Saqr is thinking…',
       saqrListening: 'Listening...',
-      saqrConsentText: 'Mind if we keep this chat so we can improve Saqr? Only the chat text is saved, nothing about you.',
+      saqrConsentText: "Mind if we keep this chat's text so we can improve Saqr? Only the chat text is saved (not audio), fully anonymous, kept for 180 days and then deleted automatically, and readable only by the site owner. Please avoid typing sensitive personal details in the chat.",
+      saqrVoiceNotice: "One quick thing before you talk 🎙️ Your browser turns your voice into text, and that step may go through the browser's own speech service (like Google's in Chrome). The text goes to Saqr so he can reply. Your voice itself is never stored on our side, and if you agree to save the chat, only the text is kept.",
+      saqrVoiceNoticeOk: 'Got it',
       saqrConsentYes: 'Sure',
       saqrConsentNo: 'No thanks',
       saqrConsentThanks: 'Got it, your choice is saved 🦅',
@@ -928,6 +932,9 @@
   try { saqrVoice.muted = localStorage.getItem('pf-saqr-muted') === '1'; } catch (e) {}
   var saqrConsent = null;
   try { saqrConsent = localStorage.getItem('pf-saqr-consent'); } catch (e) {}
+  var saqrVoiceOk = false;
+  try { saqrVoiceOk = localStorage.getItem('pf-saqr-voice-ok') === '1'; } catch (e) {}
+  var saqrVoicePending = null; // 'mic' | 'call' while the voice notice card is showing
   var saqrChatId = '';
   try {
     saqrChatId = sessionStorage.getItem('pf-saqr-chatid') || '';
@@ -1174,14 +1181,24 @@
           saqrState.msgs.push({ role: 'assistant', content: T[lang].saqrConsentThanks });
           saqrEnsure(T[lang]);
         } else if (e.target.closest('.pf-saqr-call')) {
-          if (saqrCall.active) saqrEndCall(); else saqrStartCall();
+          if (saqrCall.active) saqrEndCall();
+          else if (!saqrVoiceOk) { saqrVoicePending = 'call'; paintSaqrMsgs(T[lang]); }
+          else saqrStartCall();
+        } else if (e.target.closest('.pf-saqr-voice-ok')) {
+          saqrVoiceOk = true;
+          try { localStorage.setItem('pf-saqr-voice-ok', '1'); } catch (err) {}
+          var pend = saqrVoicePending; saqrVoicePending = null;
+          paintSaqrMsgs(T[lang]);
+          if (pend === 'call') saqrStartCall();
+          else if (pend === 'mic') saqrStartListening(T[lang]);
         } else if (e.target.closest('.pf-saqr-mute')) {
           saqrVoice.muted = !saqrVoice.muted;
           try { localStorage.setItem('pf-saqr-muted', saqrVoice.muted ? '1' : '0'); } catch (err) {}
           if (saqrVoice.muted && 'speechSynthesis' in window) window.speechSynthesis.cancel();
           saqrEnsure(T[lang]);
         } else if (e.target.closest('.pf-saqr-micbig')) {
-          saqrStartListening(T[lang]);
+          if (!saqrVoiceOk && !saqrListening) { saqrVoicePending = 'mic'; paintSaqrMsgs(T[lang]); }
+          else saqrStartListening(T[lang]);
         } else if (e.target.closest('.pf-saqr-close')) {
           if (!saqrCall.active) { saqrStopListening(false); if ('speechSynthesis' in window) window.speechSynthesis.cancel(); }
           saqrState.open = false;
@@ -1205,6 +1222,10 @@
       html += '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">' + SAQR_FEATHER + '</span><div class="pf-saqr-bubble pf-saqr-consent">' + esc(t.saqrConsentText) +
         '<div class="pf-saqr-consent-btns"><button type="button" class="pf-saqr-consent-yes">' + esc(t.saqrConsentYes) + '</button>' +
         '<button type="button" class="pf-saqr-consent-no">' + esc(t.saqrConsentNo) + '</button></div></div></div>';
+    }
+    if (saqrVoicePending) {
+      html += '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">' + SAQR_FEATHER + '</span><div class="pf-saqr-bubble pf-saqr-consent">' + esc(t.saqrVoiceNotice) +
+        '<div class="pf-saqr-consent-btns"><button type="button" class="pf-saqr-voice-ok">' + esc(t.saqrVoiceNoticeOk) + '</button></div></div></div>';
     }
     saqrState.msgs.forEach(function (m) {
       if (m.role === 'user') html += '<div class="pf-saqr-msg pf-saqr-me"><div class="pf-saqr-bubble">' + esc(m.content) + '</div></div>';
