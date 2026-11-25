@@ -298,6 +298,33 @@ p.pf-para {
     color: #7ee7f5;
     margin-bottom: 8px;
 }
+.pf-nick {
+    background: linear-gradient(120deg, #22d3ee, #5b8cff 55%, #a78bfa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+    display: inline-block;
+    padding: 0 2px;
+}
+.pf-nick::after {
+    content: '';
+    position: absolute;
+    right: 2px;
+    left: 2px;
+    bottom: -3px;
+    height: 4px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #a78bfa, #5b8cff 45%, #22d3ee);
+    opacity: 0.9;
+}
+.pf-nick-en {
+    background: linear-gradient(120deg, #7ee7f5, #5b8cff 55%, #a78bfa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 700;
+}
 .pf-name {
     animation: pfFadeUp 0.55s ease 0.3s both;
     font-family: var(--ds-font-display);

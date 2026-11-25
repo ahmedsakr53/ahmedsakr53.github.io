@@ -64,7 +64,7 @@
       navAria: 'صفحات الموقع',
       nav: ['الرئيسية', 'نبذة عني', 'الشهادات', 'المشاريع', 'خدماتي', 'التواصل'],
       heroAlt: 'أحمد صقر ببدلة كحلية رسمية على خلفية استوديو بسيطة',
-      nameAr: 'أحمد مختار عوض (صقر)',
+      nameAr: 'أحمد مختار عوض',
       role: 'Junior Cybersecurity Analyst · Network Technician · Software & Games Designer',
       tagline: 'طالب هندسة كهرباء قسم اتصالات — جامعة سوهاج، يشق طريقه في الأمن السيبراني والشبكات بشهادات Cisco وتدريب عملي يومي، وهدفه القريب أول تدريب SOC.',
       visitsTitle: 'عدد زيارات الموقع',
@@ -177,7 +177,7 @@
       navAria: 'Site pages',
       nav: ['Home', 'About', 'Certifications', 'Projects', 'Services', 'Contact'],
       heroAlt: 'Ahmed Sakr in a formal navy suit on a simple studio background',
-      nameAr: 'أحمد مختار عوض (صقر)',
+      nameAr: 'أحمد مختار عوض',
       role: 'Junior Cybersecurity Analyst · Network Technician · Software & Games Designer',
       tagline: 'An Electrical Engineering student, Communications section, at Sohag University, building his path in cybersecurity and networking with Cisco certifications and daily hands-on practice, with a near goal of a first SOC internship.',
       visitsTitle: 'Site visit count',
@@ -313,8 +313,8 @@
       '<div class="pf-hero-glow pf-glow-a"></div><div class="pf-hero-glow pf-glow-b"></div>' +
       '<div class="pf-hero-inner">' +
       '<div class="pf-portrait"><img src="photos/about-studio.jpg" alt="' + esc(t.heroAlt) + '"></div>' +
-      '<div class="pf-name-en">AHMED MOKHTAR AWAD (SAKR)</div>' +
-      '<h1 class="pf-name">' + esc(t.nameAr) + '</h1>' +
+      '<div class="pf-name-en">AHMED MOKHTAR AWAD <span class="pf-nick-en">SAKR</span></div>' +
+      '<h1 class="pf-name">' + esc(t.nameAr) + ' <span class="pf-nick">صقر</span></h1>' +
       '<div class="pf-role"><bdi>' + esc(t.role) + '</bdi></div>' +
       '<p class="pf-tagline">' + esc(t.tagline) + '</p>' +
       '<div class="pf-chips">' + t.chips.map(function (c) { return '<span class="pf-chip">' + esc(c) + '</span>'; }).join('') + '</div>' +
