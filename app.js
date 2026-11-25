@@ -955,6 +955,36 @@
   var saqrCall = { active: false, phase: 'idle' };
   var saqrBarge = false;
 
+  if ('speechSynthesis' in window) {
+    try {
+      window.speechSynthesis.getVoices();
+      window.speechSynthesis.onvoiceschanged = function () { try { window.speechSynthesis.getVoices(); } catch (e) {} };
+    } catch (e) {}
+  }
+
+  function saqrPickVoice(lg) {
+    var voices = [];
+    try { voices = window.speechSynthesis.getVoices() || []; } catch (e) {}
+    if (!voices.length) return null;
+    var pref = lg === 'ar' ? 'ar' : 'en';
+    var pool = voices.filter(function (x) { return x.lang && x.lang.toLowerCase().replace('_', '-').indexOf(pref) === 0; });
+    if (!pool.length) return null;
+    if (pref === 'ar') {
+      var eg = pool.filter(function (x) { return /-eg\b/i.test(x.lang) || /egypt|salma|shakir|hoda|مصر/i.test(x.name); });
+      if (eg.length) pool = eg;
+      var nice = pool.filter(function (x) { return /google|natural|neural|online|premium|wavenet|microsoft/i.test(x.name) && !/espeak|mbrola|pico|festival/i.test(x.name); });
+      if (nice.length) pool = nice;
+    }
+    return pool[0];
+  }
+
+  function saqrCleanForSpeech(text) {
+    var s = String(text || '');
+    try { s = s.replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE00}-\u{FE0F}\u{200D}]/gu, ' '); } catch (e) { s = s.replace(/🦅/g, ' '); }
+    s = s.replace(/https?:\/\/\S+/g, ' ').replace(/[*_`#>|•●○◦]/g, ' ');
+    return s.replace(/\s+/g, ' ').trim();
+  }
+
   function saqrCallSetPhase(p) {
     saqrCall.phase = p;
     var st = document.querySelector('.pf-saqr-micstage');
@@ -976,12 +1006,15 @@
   function saqrCallListen() {
     if (!saqrCall.active) return;
     saqrCallSetPhase('listening');
+    if (saqrListening) { saqrArmSilence(); return; } // barge-in session is already recording: reuse it, never stomp it
     saqrStartListening(T[lang]);
   }
 
+  var saqrBargeGraceUntil = 0;
   function saqrCallBargeListen() {
     if (!SaqrRecog || saqrListening) return;
     try {
+      saqrBargeGraceUntil = Date.now() + 900;
       saqrRecog = new SaqrRecog();
       saqrRecog.lang = lang === 'ar' ? 'ar-EG' : 'en-US';
       saqrRecog.continuous = true;
@@ -992,6 +1025,7 @@
       saqrFinalBuf = '';
       saqrBarge = true;
       saqrRecog.onresult = function (e) {
+        if (Date.now() < saqrBargeGraceUntil) return; // ignore speaker echo of Saqr's own voice at TTS start
         var i, any = '';
         for (i = e.resultIndex; i < e.results.length; i++) any += e.results[i][0].transcript;
         if (saqrBarge && any.trim()) {
@@ -1055,14 +1089,14 @@
   function saqrSpeak(text, lg, ondone) {
     if (saqrVoice.muted || !('speechSynthesis' in window)) { if (ondone) ondone(); return; }
     try {
+      var spoken = saqrCleanForSpeech(text);
+      if (!spoken) { if (ondone) ondone(); return; }
       window.speechSynthesis.cancel();
-      var u = new SpeechSynthesisUtterance(text.replace(/🦅/g, ''));
+      var u = new SpeechSynthesisUtterance(spoken);
       u.lang = lg === 'ar' ? 'ar-EG' : 'en-US';
-      var voices = window.speechSynthesis.getVoices();
-      var pref = lg === 'ar' ? 'ar' : 'en';
-      var v = voices.find(function (x) { return x.lang && x.lang.toLowerCase().indexOf(pref) === 0; });
+      var v = saqrPickVoice(lg);
       if (v) u.voice = v;
-      u.rate = 1;
+      u.rate = 0.98;
       u.onstart = function () { saqrSetSpeaking(true); };
       u.onend = function () { saqrSetSpeaking(false); if (ondone) ondone(); };
       u.onerror = function () { saqrSetSpeaking(false); if (ondone) ondone(); };
@@ -1275,6 +1309,11 @@
       }
     }).catch(function () {
       saqrState.msgs.push({ role: 'assistant', content: t.saqrError });
+      if (saqrCall.active) {
+        saqrCallSetPhase('speaking');
+        saqrSpeak(t.saqrError, lang, function () { if (saqrCall.active && saqrCall.phase === 'speaking') saqrCallListen(); });
+        saqrCallBargeListen();
+      }
     }).finally(function () {
       saqrState.sending = false;
       paintSaqrMsgs(T[lang]);
