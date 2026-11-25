@@ -338,6 +338,21 @@ html[data-theme="dark"] .pf-nav {
     background: linear-gradient(90deg, #a78bfa, #5b8cff 45%, #22d3ee);
     opacity: 0.9;
 }
+.pf-nickwrap {
+    white-space: nowrap;
+}
+.pf-verified {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: -3px;
+    margin-inline-start: 2px;
+}
+.pf-verified .pf-icon {
+    width: 19px;
+    height: 19px;
+    fill: #3ec6e0;
+    filter: drop-shadow(0 1px 4px rgb(34 211 238 / 0.45));
+}
 .pf-nick-en {
     background: linear-gradient(120deg, #7ee7f5, #5b8cff 55%, #a78bfa);
     -webkit-background-clip: text;
@@ -349,7 +364,7 @@ html[data-theme="dark"] .pf-nav {
     animation: pfFadeUp 0.55s ease 0.3s both;
     font-family: 'Space Grotesk', 'Cairo', 'IBM Plex Sans Arabic', system-ui, sans-serif;
     font-weight: 700;
-    font-size: 27px;
+    font-size: 26px;
     line-height: 1.25;
     letter-spacing: -0.02em;
     margin: 0 0 10px;
