@@ -182,7 +182,21 @@ p.pf-para {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin-bottom: 24px;
+    position: sticky;
+    top: 8px;
+    z-index: 60;
+    background: rgb(255 255 255 / 0.82);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--ds-hairline);
+    border-radius: 18px;
+    padding: 8px;
+    margin: 0 -4px 20px;
+    box-shadow: 0 6px 20px rgb(20 40 80 / 0.07);
+}
+html[data-theme="dark"] .pf-nav {
+    background: rgb(17 22 34 / 0.82);
+    box-shadow: 0 6px 20px rgb(0 0 0 / 0.35);
 }
 .pf-nav {
     justify-content: center;
