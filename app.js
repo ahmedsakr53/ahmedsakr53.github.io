@@ -61,13 +61,13 @@
   function icon(name) {
     return '<svg class="pf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="' + ICON_PATHS[name] + '"/></svg>';
   }
-  var navPaths = ['#/', '#/app', '#/about', '#/certifications', '#/projects', '#/services', '#/checkup', '#/contact'];
+  var navPaths = ['#/', '#/app', '#/about', '#/certifications', '#/projects', '#/services', '#/contact'];
   var navIcons = ['home', 'navApp', 'navUser', 'navCert', 'navCode', 'navGrid', 'navShield', 'mail'];
 
   var T = {
     ar: {
       navAria: 'صفحات الموقع',
-      nav: ['الرئيسية', 'التطبيق', 'نبذة عني', 'الشهادات', 'المشاريع', 'خدماتي', 'اطمّن', 'التواصل'],
+      nav: ['الرئيسية', 'التطبيق', 'نبذة عني', 'الشهادات', 'المشاريع', 'خدماتي', 'التواصل'],
       heroAlt: 'أحمد صقر ببدلة كحلية رسمية على خلفية استوديو بسيطة',
       verifiedTitle: 'الموقع الرسمي لأحمد مختار صقر',
       nameAr: 'أحمد مختار عوض',
@@ -293,7 +293,7 @@
     },
     en: {
       navAria: 'Site pages',
-      nav: ['Home', 'The App', 'About', 'Certifications', 'Projects', 'Services', 'Checkup', 'Contact'],
+      nav: ['Home', 'The App', 'About', 'Certifications', 'Projects', 'Services', 'Contact'],
       heroAlt: 'Ahmed Sakr in a formal navy suit on a simple studio background',
       verifiedTitle: "Ahmed Mokhtar Sakr's official website",
       nameAr: 'أحمد مختار عوض',
