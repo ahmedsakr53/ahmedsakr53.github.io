@@ -411,7 +411,7 @@
         return '<a class="pf-btn pf-btn-ghost pf-btn-social" href="' + href + '" target="_blank" rel="noopener">' + icon(socialIcons[i]) + esc(t.socials[i]) + '</a>';
       }).join('') + '</div>' +
       '<div class="pf-contact pf-contact-cv">' +
-      '<a class="pf-btn pf-btn-primary" href="cv.pdf" target="_blank" rel="noopener">' + icon('doc') + esc(t.cvBtn) + '</a>' +
+      '<a class="pf-btn pf-btn-primary" href="cv.pdf?v=2" target="_blank" rel="noopener">' + icon('doc') + esc(t.cvBtn) + '</a>' +
       '</div></div>';
   }
 
