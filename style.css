@@ -1133,3 +1133,34 @@ html[data-theme="dark"] .pf-map-word {
     box-shadow: 0 10px 30px rgb(0 0 0 / 0.35);
     cursor: pointer;
 }
+
+/* Big services CTA on the hero */
+.pf-btn-services {
+    background: linear-gradient(135deg, #fbbf24, #f97316);
+    color: #1c1005;
+    font-size: 17px;
+    padding: 14px 26px;
+    border-radius: 14px;
+    box-shadow: 0 10px 28px rgb(249 115 22 / 0.35);
+    flex-basis: 100%;
+    order: -1;
+}
+.pf-btn-services .pf-icon {
+    width: 24px;
+    height: 24px;
+}
+.pf-btn-services > span {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.2;
+}
+.pf-btn-services small {
+    font-size: 11.5px;
+    font-weight: 500;
+    opacity: 0.75;
+}
+.pf-btn-services:hover {
+    color: #1c1005;
+    box-shadow: 0 14px 36px rgb(249 115 22 / 0.5);
+}

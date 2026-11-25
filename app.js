@@ -75,6 +75,8 @@
       chips: ['طما، سوهاج، مصر', 'هندسة كهرباء قسم اتصالات — دفعة ٢٠٢٨', 'الهدف: تدريب SOC'],
       ctaProjects: 'استعرض مشاريعي',
       ctaContact: 'تواصل معي',
+      ctaServices: 'خدماتي',
+      ctaServicesSub: 'اطلب خدمتك الآن',
       aboutEyebrow: 'ABOUT',
       appEyebrow: 'THE APP',
       appTitle: 'نبذة عن التطبيق',
@@ -221,6 +223,8 @@
       chips: ['Tima, Sohag, Egypt', 'EE, Communications — Class of 2028', 'Goal: SOC internship'],
       ctaProjects: 'See my projects',
       ctaContact: 'Contact me',
+      ctaServices: 'My services',
+      ctaServicesSub: 'Order your service',
       aboutEyebrow: 'ABOUT',
       appEyebrow: 'THE APP',
       appTitle: 'About the app',
@@ -389,6 +393,7 @@
       '<p class="pf-tagline">' + esc(t.tagline) + '</p>' +
       '<div class="pf-chips">' + t.chips.map(function (c) { return '<span class="pf-chip">' + esc(c) + '</span>'; }).join('') + '</div>' +
       '<div class="pf-cta">' +
+      '<a class="pf-btn pf-btn-services" href="#/services">' + icon('navGrid') + '<span>' + esc(t.ctaServices) + '<small>' + esc(t.ctaServicesSub) + '</small></span></a>' +
       '<a class="pf-btn pf-btn-primary" href="#/projects">' + esc(t.ctaProjects) + '</a>' +
       '<a class="pf-btn pf-btn-ghost" href="#/contact">' + esc(t.ctaContact) + '</a>' +
       '</div>' +
