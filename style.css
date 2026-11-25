@@ -1384,6 +1384,7 @@ html[data-theme="dark"] .pf-card-free {
 .pf-saqr-fab:hover { padding-inline-end: 18px; box-shadow: -8px 10px 26px rgb(14 138 158 / 0.5); }
 .pf-saqr-fab:active { padding-inline-end: 10px; }
 .pf-saqr-fab-ico { font-size: 1.15rem; }
+.pf-saqr-fab-ico .pf-saqr-feather { width: 17px; height: 17px; display: block; }
 
 .pf-saqr-waves { display: none; align-items: flex-end; gap: 2px; height: 14px; margin-inline-start: 6px; }
 .pf-saqr-speaking .pf-saqr-waves { display: inline-flex; }

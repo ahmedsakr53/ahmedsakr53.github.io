@@ -977,7 +977,7 @@
     }
     root.innerHTML =
       '<button type="button" class="pf-saqr-fab" aria-label="' + esc(t.saqrFab) + '" title="' + esc(t.saqrFab) + '">' +
-        '<span class="pf-saqr-fab-ico">🦅</span><span class="pf-saqr-fab-txt">' + esc(t.saqrFab) + '</span>' +
+        '<span class="pf-saqr-fab-ico">' + '<svg class="pf-icon pf-saqr-feather" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="9" y2="15"/></svg>' + '</span><span class="pf-saqr-fab-txt">' + esc(t.saqrFab) + '</span>' +
         '<span class="pf-saqr-waves" aria-hidden="true"><i></i><i></i><i></i></span></button>' +
       '<section class="pf-saqr-panel' + (saqrState.open ? ' pf-saqr-open' : '') + '" role="dialog" aria-label="' + esc(t.saqrTitle) + '">' +
         '<header class="pf-saqr-head">' +
