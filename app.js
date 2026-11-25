@@ -82,7 +82,7 @@
       projectsEyebrow: 'PROJECTS',
       projectsTitle: 'مشاريع نفذتها بنفسي',
       projects: [
-        { name: 'المطب الصناعي الذكي', detail: 'مشروع إنترنت أشياء باستخدام Arduino: مطب صناعي ذكي يستشعر الحركة ويتفاعل معها.' },
+        { name: 'المطب الصناعي الذكي', detail: 'مشروع إنترنت أشياء باستخدام Arduino: مطب صناعي ذكي يستشعر الحركة ويتفاعل معها.', img: 'photos/speed-bump.jpg', imgAlt: 'أحمد مع النموذج الأولي للمطب الصناعي الذكي أمام كلية الهندسة بجامعة سوهاج' },
         { name: 'منصة تجارية', detail: 'تصميم وتنفيذ منصة تجارية لصالح عميل خاص — تفاصيل المشروع محفوظة التزاماً بسرية العمل مع العملاء.' },
         { name: 'لعبة متحركة عالية الجودة', detail: 'لعبة جري لا نهائية برسوم كرتونية عالية الجودة وتجربة موبايل كاملة — في مراحلها الأخيرة، قريباً.' }
       ],
@@ -153,7 +153,7 @@
       projectsEyebrow: 'PROJECTS',
       projectsTitle: 'Things I built myself',
       projects: [
-        { name: 'The Smart Speed Bump', detail: 'An Arduino IoT project: a smart speed bump that senses motion and reacts.' },
+        { name: 'The Smart Speed Bump', detail: 'An Arduino IoT project: a smart speed bump that senses motion and reacts.', img: 'photos/speed-bump.jpg', imgAlt: 'Ahmed holding the Smart Speed Bump prototype at the Faculty of Engineering, Sohag University' },
         { name: 'Commercial Platform', detail: 'Design and delivery of a commercial platform for a private client — project details kept confidential under client privacy.' },
         { name: 'High-Quality Animated Game', detail: 'An endless-runner mobile game with high-quality cartoon art and a full gameplay experience — in final stages, coming soon.' }
       ],
@@ -231,9 +231,13 @@
 
   function renderProjects(t) {
     var cards = t.projects.map(function (p, i) {
-      return '<div class="pf-card"><div class="pf-card-num">' + (i + 1) + '</div>' +
+      var body = '<div class="pf-card-num">' + (i + 1) + '</div>' +
         '<div class="pf-card-name">' + esc(p.name) + '</div>' +
-        '<div class="pf-card-detail">' + esc(p.detail) + '</div></div>';
+        '<div class="pf-card-detail">' + esc(p.detail) + '</div>';
+      if (p.img) return '<div class="pf-card pf-card-media">' +
+        '<div class="pf-card-media-img"><img src="' + esc(p.img) + '" alt="' + esc(p.imgAlt || p.name) + '" loading="lazy"></div>' +
+        '<div class="pf-card-media-body">' + body + '</div></div>';
+      return '<div class="pf-card">' + body + '</div>';
     }).join('');
     return '<div class="pf-page">' + pageHead(t.projectsEyebrow, t.projectsTitle) +
       '<div class="pf-grid">' + cards + '</div></div>';
