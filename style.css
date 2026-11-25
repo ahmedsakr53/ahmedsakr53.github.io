@@ -1164,3 +1164,12 @@ html[data-theme="dark"] .pf-map-word {
     color: #1c1005;
     box-shadow: 0 14px 36px rgb(249 115 22 / 0.5);
 }
+
+/* Engineer title prefix in the hero name */
+.pf-name .pf-eng {
+    font-size: 0.42em;
+    font-weight: 700;
+    color: #fbbf24;
+    vertical-align: 0.35em;
+    letter-spacing: 0.02em;
+}

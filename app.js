@@ -69,6 +69,7 @@
       heroAlt: 'أحمد صقر ببدلة كحلية رسمية على خلفية استوديو بسيطة',
       verifiedTitle: 'الموقع الرسمي لأحمد مختار صقر',
       nameAr: 'أحمد مختار عوض',
+      engPrefix: 'المهندس',
       role: 'Junior Cybersecurity Analyst · Network Technician · Software & Games Designer',
       tagline: 'طالب هندسة كهرباء قسم اتصالات — جامعة سوهاج، يشق طريقه في الأمن السيبراني والشبكات بشهادات Cisco وتدريب عملي يومي، وهدفه القريب أول تدريب SOC.',
       visitsTitle: 'عدد زيارات الموقع',
@@ -217,6 +218,7 @@
       heroAlt: 'Ahmed Sakr in a formal navy suit on a simple studio background',
       verifiedTitle: "Ahmed Mokhtar Sakr's official website",
       nameAr: 'أحمد مختار عوض',
+      engPrefix: 'Eng.',
       role: 'Junior Cybersecurity Analyst · Network Technician · Software & Games Designer',
       tagline: 'An Electrical Engineering student, Communications section, at Sohag University, building his path in cybersecurity and networking with Cisco certifications and daily hands-on practice, with a near goal of a first SOC internship.',
       visitsTitle: 'Site visit count',
@@ -387,8 +389,8 @@
       '<div class="pf-hero-inner">' +
       '<div class="pf-portrait"><img src="photos/about-studio.webp" alt="' + esc(t.heroAlt) + '" fetchpriority="high"></div>' +
       '<div class="pf-hero-text">' +
-      '<div class="pf-name-en">AHMED MOKHTAR AWAD <span class="pf-nick-en">SAKR</span></div>' +
-      '<h1 class="pf-name">' + esc(t.nameAr) + ' <span class="pf-nickwrap"><span class="pf-nick">صقر</span> <span class="pf-verified" title="' + esc(t.verifiedTitle) + '" role="img" aria-label="' + esc(t.verifiedTitle) + '">' + icon('verified') + '</span></span></h1>' +
+      '<div class="pf-name-en">ENG. AHMED MOKHTAR AWAD <span class="pf-nick-en">SAKR</span></div>' +
+      '<h1 class="pf-name"><span class="pf-eng">' + esc(t.engPrefix) + '</span> ' + esc(t.nameAr) + ' <span class="pf-nickwrap"><span class="pf-nick">صقر</span> <span class="pf-verified" title="' + esc(t.verifiedTitle) + '" role="img" aria-label="' + esc(t.verifiedTitle) + '">' + icon('verified') + '</span></span></h1>' +
       '<div class="pf-role"><bdi>' + esc(t.role) + '</bdi></div>' +
       '<p class="pf-tagline">' + esc(t.tagline) + '</p>' +
       '<div class="pf-chips">' + t.chips.map(function (c) { return '<span class="pf-chip">' + esc(c) + '</span>'; }).join('') + '</div>' +
