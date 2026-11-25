@@ -375,6 +375,8 @@ html[data-theme="dark"] .pf-nav {
 }
 .pf-nickwrap {
     white-space: nowrap;
+    direction: rtl;
+    unicode-bidi: isolate;
 }
 .pf-verified {
     display: inline-flex;
@@ -396,6 +398,7 @@ html[data-theme="dark"] .pf-nav {
     font-weight: 700;
 }
 .pf-name {
+    direction: rtl;
     animation: pfFadeUp 0.55s ease 0.3s both;
     font-family: 'Space Grotesk', 'Cairo', 'IBM Plex Sans Arabic', system-ui, sans-serif;
     font-weight: 700;
