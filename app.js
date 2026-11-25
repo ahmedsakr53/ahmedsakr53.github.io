@@ -37,18 +37,25 @@
     sun: 'M12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0-5 2.39 3.42a5.09 5.09 0 0 0-4.78 0L12 2zm10 10-3.42 2.39a5.09 5.09 0 0 0 0-4.78L22 12zM12 22l-2.39-3.42a5.09 5.09 0 0 0 4.78 0L12 22zM2 12l3.42-2.39a5.09 5.09 0 0 0 0 4.78L2 12zm17.07-7.07-.72 4.1a5.09 5.09 0 0 0-3.38-3.38l4.1-.72zM4.93 19.07l.72-4.1a5.09 5.09 0 0 0 3.38 3.38l-4.1.72zm14.14 0-4.1-.72a5.09 5.09 0 0 0 3.38-3.38l.72 4.1zM4.93 4.93l4.1.72a5.09 5.09 0 0 0-3.38 3.38l-.72-4.1z',
     imo: 'M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z',
     x: 'M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z',
-    github: 'M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12'
+    github: 'M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12',
+    javascript: 'M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z',
+    html5: 'M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z',
+    css3: 'M1.5 0h21l-1.91 21.563L11.977 24l-8.565-2.438L1.5 0zm17.09 4.413L5.41 4.41l.213 2.622 10.125.002-.255 2.716h-6.64l.24 2.573h6.182l-.366 3.523-2.91.804-2.956-.81-.188-2.11h-2.61l.29 3.855L12 19.288l5.373-1.53L18.59 4.414z',
+    tailwind: 'M12.001,4.8c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 C13.666,10.618,15.027,12,18.001,12c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C16.337,6.182,14.976,4.8,12.001,4.8z M6.001,12c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 c1.177,1.194,2.538,2.576,5.512,2.576c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C10.337,13.382,8.976,12,6.001,12z',
+    python: 'M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z',
+    chip: 'M15 9H9v6h6V9zm-2 4h-2v-2h2v2zm8-2V9h-3V6c0-1.1-.9-2-2-2h-3V1h-2v3h-4V1H9v3H6C4.9 4 4 4.9 4 6v3H1v2h3v2H1v2h3v3c0 1.1.9 2 2 2h3v3h2v-3h4v3h2v-3h3c1.1 0 2-.9 2-2v-3h3v-2h-3v-2h3zm-4 8H7V7h10v10z',
+    store: 'M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z'
   };
   var socialIcons = ['facebook', 'telegram', 'whatsapp', 'instagram', 'github', 'tiktok', 'x', 'imo'];
   function icon(name) {
     return '<svg class="pf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="' + ICON_PATHS[name] + '"/></svg>';
   }
-  var navPaths = ['#/', '#/about', '#/certifications', '#/projects', '#/contact'];
+  var navPaths = ['#/', '#/about', '#/certifications', '#/projects', '#/services', '#/contact'];
 
   var T = {
     ar: {
       navAria: 'صفحات الموقع',
-      nav: ['الرئيسية', 'نبذة عني', 'الشهادات', 'المشاريع', 'التواصل'],
+      nav: ['الرئيسية', 'نبذة عني', 'الشهادات', 'المشاريع', 'خدماتي', 'التواصل'],
       heroAlt: 'أحمد صقر ببدلة كحلية رسمية على خلفية استوديو بسيطة',
       nameAr: 'أحمد مختار عوض (صقر)',
       role: 'Junior Cybersecurity Analyst · Network Technician · Software & Games Designer',
@@ -84,6 +91,26 @@
         'إنترنت الأشياء (IoT)',
         'TryHackMe — تدريب يومي'
       ],
+      techTitle: 'التقنيات',
+      tech: [
+        { n: 'JavaScript', i: 'javascript' },
+        { n: 'HTML5', i: 'html5' },
+        { n: 'CSS3', i: 'css3' },
+        { n: 'Tailwind CSS', i: 'tailwind' },
+        { n: 'Python', i: 'python' },
+        { n: 'Arduino', i: 'chip' },
+        { n: 'GitHub Pages', i: 'github' }
+      ],
+      journeyTitle: 'رحلتي',
+      journey: [
+        ['التفوق في الثانوية', '92.25% في الثانوية العامة شعبة علمي رياضة، من طما بسوهاج.'],
+        ['كلية الهندسة', 'التحقت بكلية الهندسة جامعة سوهاج، هندسة كهرباء قسم اتصالات، وأنا عارف طريقي كويس.'],
+        ['أول مشروع حقيقي', 'المطب الصناعي الذكي بـ Arduino: نموذج شغال صنعته بيدي، من الفكرة للتنفيذ.'],
+        ['عالم الويب', 'اتعلمت HTML وCSS وJavaScript وبنيت موقعي بنفسي ونشرته على GitHub Pages.'],
+        ['الأمن السيبراني', 'شهادات Cisco ومسار TryHackMe وتدريب عملي يومي مستمر.'],
+        ['تطوير الألعاب', '«اجري يا صقر!» — لعبة جري كاملة بالجافاسكريبت برسوم كرتونية.'],
+        ['الهدف القادم', 'أول تدريب SOC إن شاء الله.']
+      ],
       langsTitle: 'اللغات',
       langs: [
         ['العربية', 'اللغة الأم'],
@@ -105,10 +132,19 @@
       projectsEyebrow: 'PROJECTS',
       projectsTitle: 'مشاريع نفذتها بنفسي',
       projects: [
-        { name: 'المطب الصناعي الذكي', detail: 'مشروع إنترنت أشياء باستخدام Arduino: مطب صناعي ذكي يستشعر الحركة ويتفاعل معها.', img: 'photos/speed-bump.jpg', imgAlt: 'أحمد مع النموذج الأولي للمطب الصناعي الذكي أمام كلية الهندسة بجامعة سوهاج' },
+        { name: 'المطب الصناعي الذكي', detail: 'مشروع إنترنت أشياء باستخدام Arduino: مطب صناعي ذكي يستشعر الحركة ويتفاعل معها.', imgs: ['photos/speed-bump.jpg', 'photos/speed-bump-vest.jpg'], imgAlts: ['أحمد مع النموذج الأولي للمطب الصناعي الذكي أمام كلية الهندسة بجامعة سوهاج', 'أحمد بسترة أمان ممسكاً النموذج الأولي للمطب الصناعي الذكي في معرض مشاريع'] },
         { name: 'منصة تجارية', detail: 'تصميم وتنفيذ منصة تجارية لصالح عميل خاص — تفاصيل المشروع محفوظة التزاماً بسرية العمل مع العملاء.' },
         { name: 'اجري يا صقر!', detail: 'لعبة جري لا نهائية برسوم كرتونية عالية الجودة وتجربة موبايل كاملة — في مراحلها الأخيرة، قريباً.', img: 'photos/game-cover.jpg', imgAlt: 'الغلاف الرسمي للعبة اجري يا صقر: العريس يجري ووالد العروسة والعروسة وراءه في شوارع مصرية' }
       ],
+      servicesEyebrow: 'SERVICES',
+      servicesTitle: 'خدماتي',
+      servicesIntro: 'خدمات أقدمها بنفس الجودة التي تراها في هذا الموقع:',
+      services: [
+        { name: 'موقع شخصي أو صفحة تعريفية', detail: 'صفحة واحدة أنيقة وسريعة، مصممة للموبايل أولاً — تماماً مثل هذا الموقع.' },
+        { name: 'صفحة هبوط لنشاطك التجاري', detail: 'صفحة تعرّف بمنتجك أو خدمتك وتجلب لك العملاء، مع أزرار تواصل جاهزة.' },
+        { name: 'لعبة متصفح خفيفة', detail: 'لعبة جافاسكريبت كاملة تعمل من المتصفح على الموبايل والكمبيوتر.' }
+      ],
+      khamsatSoon: 'قريباً: اطلب خدماتي عبر منصة خمسات',
       contactEyebrow: 'CONTACT',
       contactTitle: 'تواصل معي',
       contactIntro: 'للتدريبات والفرص المهنية، أسهل طريقتين للتواصل معي:',
@@ -121,7 +157,7 @@
     },
     en: {
       navAria: 'Site pages',
-      nav: ['Home', 'About', 'Certifications', 'Projects', 'Contact'],
+      nav: ['Home', 'About', 'Certifications', 'Projects', 'Services', 'Contact'],
       heroAlt: 'Ahmed Sakr in a formal navy suit on a simple studio background',
       nameAr: 'أحمد مختار عوض (صقر)',
       role: 'Junior Cybersecurity Analyst · Network Technician · Software & Games Designer',
@@ -157,6 +193,26 @@
         'Internet of Things (IoT)',
         'TryHackMe — daily practice'
       ],
+      techTitle: 'Tech stack',
+      tech: [
+        { n: 'JavaScript', i: 'javascript' },
+        { n: 'HTML5', i: 'html5' },
+        { n: 'CSS3', i: 'css3' },
+        { n: 'Tailwind CSS', i: 'tailwind' },
+        { n: 'Python', i: 'python' },
+        { n: 'Arduino', i: 'chip' },
+        { n: 'GitHub Pages', i: 'github' }
+      ],
+      journeyTitle: 'My journey',
+      journey: [
+        ['Excelling at school', '92.25% in Thanaweya Amma, advanced mathematics track, from Tama, Sohag.'],
+        ['Faculty of Engineering', 'Joined the Faculty of Engineering at Sohag University, Electrical Engineering, Communications — knowing exactly where I was headed.'],
+        ['First real project', 'The Smart Speed Bump with Arduino: a working prototype I built with my own hands, from idea to build.'],
+        ['The web world', 'Learned HTML, CSS and JavaScript, and built and published this site myself on GitHub Pages.'],
+        ['Cybersecurity', 'Cisco certificates, the TryHackMe path, and continuous daily hands-on practice.'],
+        ['Game development', '"Run, Sakr!" — a complete JavaScript endless-runner with cartoon art.'],
+        ['Next goal', 'A first SOC internship, God willing.']
+      ],
       langsTitle: 'Languages',
       langs: [
         ['Arabic', 'Native'],
@@ -178,10 +234,19 @@
       projectsEyebrow: 'PROJECTS',
       projectsTitle: 'Things I built myself',
       projects: [
-        { name: 'The Smart Speed Bump', detail: 'An Arduino IoT project: a smart speed bump that senses motion and reacts.', img: 'photos/speed-bump.jpg', imgAlt: 'Ahmed holding the Smart Speed Bump prototype at the Faculty of Engineering, Sohag University' },
+        { name: 'The Smart Speed Bump', detail: 'An Arduino IoT project: a smart speed bump that senses motion and reacts.', imgs: ['photos/speed-bump.jpg', 'photos/speed-bump-vest.jpg'], imgAlts: ['Ahmed holding the Smart Speed Bump prototype at the Faculty of Engineering, Sohag University', 'Ahmed in a safety vest holding the Smart Speed Bump prototype at a projects exhibition'] },
         { name: 'Commercial Platform', detail: 'Design and delivery of a commercial platform for a private client — project details kept confidential under client privacy.' },
         { name: 'Run, Sakr! (اجري يا صقر)', detail: 'An endless-runner mobile game with high-quality cartoon art and a full gameplay experience — in final stages, coming soon.', img: 'photos/game-cover.jpg', imgAlt: 'Official cover art of Run Sakr: the groom sprinting away from the bride and her father through Egyptian streets' }
       ],
+      servicesEyebrow: 'SERVICES',
+      servicesTitle: 'My services',
+      servicesIntro: 'What I can build for you, with the same quality you see on this site:',
+      services: [
+        { name: 'Personal one-page website', detail: 'A clean, fast, mobile-first page — just like this very site.' },
+        { name: 'Landing page for your business', detail: 'A page that presents your product or service and brings you customers, with ready contact buttons.' },
+        { name: 'A light browser game', detail: 'A complete JavaScript game that runs in the browser on mobile and desktop.' }
+      ],
+      khamsatSoon: 'Coming soon: order my services on Khamsat',
       contactEyebrow: 'CONTACT',
       contactTitle: 'Contact me',
       contactIntro: 'For internships and professional opportunities, the two easiest ways to reach me:',
@@ -237,11 +302,19 @@
       '<div class="pf-facts">' + t.facts.map(function (f) {
         return '<div class="pf-fact"><span class="pf-fact-label">' + esc(f[0]) + '</span><span class="pf-fact-value">' + esc(f[1]) + '</span></div>';
       }).join('') + '</div>' +
+      '<h3 class="pf-h3">' + esc(t.techTitle) + '</h3>' +
+      '<div class="pf-skills">' + t.tech.map(function (s) { return '<span class="pf-skill pf-tech">' + icon(s.i) + '<bdi>' + esc(s.n) + '</bdi></span>'; }).join('') + '</div>' +
       '<h3 class="pf-h3">' + esc(t.skillsTitle) + '</h3>' +
       '<div class="pf-skills">' + t.skills.map(function (s) { return '<span class="pf-skill"><bdi>' + esc(s) + '</bdi></span>'; }).join('') + '</div>' +
       '<h3 class="pf-h3">' + esc(t.langsTitle) + '</h3>' +
       '<div class="pf-langs">' + t.langs.map(function (l) {
         return '<div class="pf-lang"><span class="pf-lang-name">' + esc(l[0]) + '</span><span class="pf-lang-level">' + esc(l[1]) + '</span></div>';
+      }).join('') + '</div>' +
+      '<h3 class="pf-h3">' + esc(t.journeyTitle) + '</h3>' +
+      '<div class="pf-timeline">' + t.journey.map(function (j) {
+        return '<div class="pf-timeline-item"><div class="pf-timeline-dot"></div>' +
+          '<div class="pf-timeline-name">' + esc(j[0]) + '</div>' +
+          '<div class="pf-timeline-detail">' + esc(j[1]) + '</div></div>';
       }).join('') + '</div></div>';
   }
 
@@ -265,6 +338,11 @@
       var body = '<div class="pf-card-num">' + (i + 1) + '</div>' +
         '<div class="pf-card-name">' + esc(p.name) + '</div>' +
         '<div class="pf-card-detail">' + esc(p.detail) + '</div>';
+      if (p.imgs) return '<div class="pf-card pf-card-media">' +
+        '<div class="pf-card-media-imgs">' + p.imgs.map(function (src, k) {
+          return '<img src="' + esc(src) + '" alt="' + esc((p.imgAlts && p.imgAlts[k]) || p.name) + '" loading="lazy">';
+        }).join('') + '</div>' +
+        '<div class="pf-card-media-body">' + body + '</div></div>';
       if (p.img) return '<div class="pf-card pf-card-media">' +
         '<div class="pf-card-media-img"><img src="' + esc(p.img) + '" alt="' + esc(p.imgAlt || p.name) + '" loading="lazy"></div>' +
         '<div class="pf-card-media-body">' + body + '</div></div>';
@@ -272,6 +350,18 @@
     }).join('');
     return '<div class="pf-page">' + pageHead(t.projectsEyebrow, t.projectsTitle) +
       '<div class="pf-grid">' + cards + '</div></div>';
+  }
+
+  function renderServices(t) {
+    var cards = t.services.map(function (s, i) {
+      return '<div class="pf-card"><div class="pf-card-num">' + (i + 1) + '</div>' +
+        '<div class="pf-card-name">' + esc(s.name) + '</div>' +
+        '<div class="pf-card-detail">' + esc(s.detail) + '</div></div>';
+    }).join('');
+    return '<div class="pf-page">' + pageHead(t.servicesEyebrow, t.servicesTitle) +
+      '<p class="pf-para">' + esc(t.servicesIntro) + '</p>' +
+      '<div class="pf-grid">' + cards + '</div>' +
+      '<div class="pf-contact"><span class="pf-btn pf-btn-ghost pf-btn-soon">' + icon('store') + esc(t.khamsatSoon) + '</span></div></div>';
   }
 
   function renderContact(t) {
@@ -320,10 +410,33 @@
     if (route === '#/about') page = renderAbout(t);
     else if (route === '#/certifications') page = renderCerts(t);
     else if (route === '#/projects') page = renderProjects(t);
+    else if (route === '#/services') page = renderServices(t);
     else if (route === '#/contact') page = renderContact(t);
     else page = renderHome(t);
     document.getElementById('app').innerHTML = nav + page + '<div class="pf-closing">' + esc(t.closing) + '</div>';
     if (openCert >= 0 && route === '#/certifications') showLightbox(openCert);
+    setupReveal();
+  }
+
+  function setupReveal() {
+    var els = document.querySelectorAll('.pf-card, .pf-fact, .pf-lang, .pf-skill, .pf-timeline-item, .pf-contact .pf-btn, .pf-pagehead, .pf-para, .pf-h3, .pf-closing');
+    if (!('IntersectionObserver' in window)) return;
+    var dirs = ['pf-reveal-l', 'pf-reveal-r', 'pf-reveal-b'];
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          en.target.classList.add('pf-in');
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+    var idx = 0;
+    els.forEach(function (el) {
+      el.classList.add('pf-reveal', dirs[idx % 3]);
+      el.style.transitionDelay = ((idx % 4) * 70) + 'ms';
+      idx++;
+      io.observe(el);
+    });
   }
 
   function showLightbox(i) {

@@ -747,3 +747,62 @@ p.pf-para {
   .pf-card-media { flex-direction: column; }
   .pf-card-media-img { flex-basis: auto; max-height: 260px; }
 }
+
+/* ==== New sections: services, tech stack, journey timeline, scroll reveal ==== */
+
+/* two stacked photos on a media card */
+.pf-card-media-imgs { flex: 0 0 38%; display: flex; flex-direction: column; gap: 10px; }
+.pf-card-media-imgs img { width: 100%; height: 0; flex: 1 1 0; min-height: 0; object-fit: cover; border-radius: 12px; display: block; }
+@media (max-width: 640px) {
+  .pf-card-media-imgs { flex-basis: auto; }
+  .pf-card-media-imgs img { flex: none; height: 210px; min-height: 0; }
+}
+
+/* tech stack chips with icons */
+.pf-tech { display: inline-flex; align-items: center; gap: 7px; }
+.pf-tech .pf-icon { width: 15px; height: 15px; fill: var(--ds-teal); flex: 0 0 auto; }
+
+/* journey timeline */
+.pf-timeline { position: relative; margin: 8px 0 26px; padding-inline-start: 26px; }
+.pf-timeline::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 7px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--ds-teal), rgba(14, 138, 158, 0.15));
+}
+.pf-timeline-item { position: relative; padding: 0 0 20px; }
+.pf-timeline-item:last-child { padding-bottom: 4px; }
+.pf-timeline-dot {
+  position: absolute;
+  inset-inline-start: -26px;
+  top: 5px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--ds-teal);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px var(--ds-teal);
+}
+html[data-theme="dark"] .pf-timeline-dot { border-color: #151a26; }
+.pf-timeline-name { font-weight: 700; color: var(--ds-ink); font-size: 15px; margin-bottom: 2px; }
+.pf-timeline-detail { color: var(--ds-ink-2); font-size: 14px; line-height: 1.7; }
+
+/* khamsat placeholder button */
+.pf-btn-soon { cursor: default; opacity: 0.75; border-style: dashed; }
+.pf-btn-soon:hover { transform: none; }
+.pf-btn-soon .pf-icon { width: 16px; height: 16px; }
+
+/* scroll reveal: directional, staggered */
+.pf-reveal { opacity: 0; transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1); will-change: opacity, transform; }
+.pf-reveal-l { transform: translateX(-28px); }
+.pf-reveal-r { transform: translateX(28px); }
+.pf-reveal-b { transform: translateY(24px); }
+.pf-reveal.pf-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .pf-reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+.pf-card-media-imgs img { object-position: center 22%; }
