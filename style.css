@@ -203,6 +203,24 @@ p.pf-para {
     color: #081018;
     border-color: transparent;
 }
+.pf-nav a.pf-nav-home {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #22d3ee, #5b8cff);
+    border-color: transparent;
+    padding: 7px 12px;
+}
+.pf-nav a.pf-nav-home .pf-icon {
+    width: 16px;
+    height: 16px;
+    fill: #081018;
+}
+.pf-nav a.pf-nav-home:hover {
+    color: inherit;
+    border-color: transparent;
+    filter: brightness(1.1);
+}
 
 /* Hero */
 .pf-hero {
