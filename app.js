@@ -24,6 +24,7 @@
     'https://x.com/sakr5_3',
     'https://s.imoim.net/qkDhIX'
   ];
+  var renderDone = false;
   var ICON_PATHS = {
     mail: 'M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z',
     linkedin: 'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z',
@@ -151,9 +152,9 @@
       projectsEyebrow: 'PROJECTS',
       projectsTitle: 'مشاريع نفذتها بنفسي',
       projects: [
-        { name: 'المطب الصناعي الذكي', detail: 'مشروع إنترنت أشياء باستخدام Arduino: مطب صناعي ذكي يستشعر الحركة ويتفاعل معها.', img: 'photos/speed-bump.jpg', imgAlt: 'أحمد مع النموذج الأولي للمطب الصناعي الذكي أمام كلية الهندسة بجامعة سوهاج' },
+        { name: 'المطب الصناعي الذكي', detail: 'مشروع إنترنت أشياء باستخدام Arduino: مطب صناعي ذكي يستشعر الحركة ويتفاعل معها.', img: 'photos/speed-bump.webp', imgAlt: 'أحمد مع النموذج الأولي للمطب الصناعي الذكي أمام كلية الهندسة بجامعة سوهاج' },
         { name: 'منصة تجارية', detail: 'تصميم وتنفيذ منصة تجارية لصالح عميل خاص — تفاصيل المشروع محفوظة التزاماً بسرية العمل مع العملاء.' },
-        { name: 'اجري يا صقر!', detail: 'لعبة جري لا نهائية برسوم كرتونية عالية الجودة وتجربة موبايل كاملة — في مراحلها الأخيرة، قريباً.', img: 'photos/game-cover.jpg', imgAlt: 'الغلاف الرسمي للعبة اجري يا صقر: العريس يجري ووالد العروسة والعروسة وراءه في شوارع مصرية' }
+        { name: 'اجري يا صقر!', detail: 'لعبة جري لا نهائية برسوم كرتونية عالية الجودة وتجربة موبايل كاملة — في مراحلها الأخيرة، قريباً.', img: 'photos/game-cover.webp', imgAlt: 'الغلاف الرسمي للعبة اجري يا صقر: العريس يجري ووالد العروسة والعروسة وراءه في شوارع مصرية' }
       ],
       servicesEyebrow: 'SERVICES',
       servicesTitle: 'خدماتي',
@@ -164,6 +165,14 @@
         { name: 'لعبة متصفح خفيفة', detail: 'لعبة جافاسكريبت كاملة تعمل من المتصفح على الموبايل والكمبيوتر.' },
         { name: 'تأمين وفحص أجهزتك وشبكتك', detail: 'مراجعة أساسية لإعدادات الأمان لجهازك أو شبكتك الصغيرة، مع خطوات عملية للحماية بمعايير Cisco.' }
       ],
+      serviceWa: 'اطلب الخدمة',
+      serviceWaLinks: [
+        'https://wa.me/201154655875?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B+%D8%A3%D8%AD%D9%85%D8%AF%D8%8C+%D8%B9%D8%A7%D9%88%D8%B2+%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1+%D8%B9%D9%86+%D8%AE%D8%AF%D9%85%D8%A9%3A+%D9%85%D9%88%D9%82%D8%B9+%D8%B4%D8%AE%D8%B5%D9%8A+%D8%A3%D9%88+%D8%B5%D9%81%D8%AD%D8%A9+%D8%AA%D8%B9%D8%B1%D9%8A%D9%81%D9%8A%D8%A9',
+        'https://wa.me/201154655875?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B+%D8%A3%D8%AD%D9%85%D8%AF%D8%8C+%D8%B9%D8%A7%D9%88%D8%B2+%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1+%D8%B9%D9%86+%D8%AE%D8%AF%D9%85%D8%A9%3A+%D8%B5%D9%81%D8%AD%D8%A9+%D9%87%D8%A8%D9%88%D8%B7+%D9%84%D9%86%D8%B4%D8%A7%D8%B7%D9%8A+%D8%A7%D9%84%D8%AA%D8%AC%D8%A7%D8%B1%D9%8A',
+        'https://wa.me/201154655875?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B+%D8%A3%D8%AD%D9%85%D8%AF%D8%8C+%D8%B9%D8%A7%D9%88%D8%B2+%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1+%D8%B9%D9%86+%D8%AE%D8%AF%D9%85%D8%A9%3A+%D9%84%D8%B9%D8%A8%D8%A9+%D9%85%D8%AA%D8%B5%D9%81%D8%AD+%D8%AE%D9%81%D9%8A%D9%81%D8%A9',
+        'https://wa.me/201154655875?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B+%D8%A3%D8%AD%D9%85%D8%AF%D8%8C+%D8%B9%D8%A7%D9%88%D8%B2+%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1+%D8%B9%D9%86+%D8%AE%D8%AF%D9%85%D8%A9%3A+%D8%AA%D8%A3%D9%85%D9%8A%D9%86+%D9%88%D9%81%D8%AD%D8%B5+%D8%A3%D8%AC%D9%87%D8%B2%D8%AA%D9%8A+%D9%88%D8%B4%D8%A8%D9%83%D8%AA%D9%8A'
+      ],
+      cvArBtn: 'السيرة الذاتية بالعربية',
       khamsatSoon: 'قريباً: اطلب خدماتي عبر منصة خمسات',
       contactEyebrow: 'CONTACT',
       contactTitle: 'تواصل معي',
@@ -265,9 +274,9 @@
       projectsEyebrow: 'PROJECTS',
       projectsTitle: 'Things I built myself',
       projects: [
-        { name: 'The Smart Speed Bump', detail: 'An Arduino IoT project: a smart speed bump that senses motion and reacts.', img: 'photos/speed-bump.jpg', imgAlt: 'Ahmed holding the Smart Speed Bump prototype at the Faculty of Engineering, Sohag University' },
+        { name: 'The Smart Speed Bump', detail: 'An Arduino IoT project: a smart speed bump that senses motion and reacts.', img: 'photos/speed-bump.webp', imgAlt: 'Ahmed holding the Smart Speed Bump prototype at the Faculty of Engineering, Sohag University' },
         { name: 'Commercial Platform', detail: 'Design and delivery of a commercial platform for a private client — project details kept confidential under client privacy.' },
-        { name: 'Run, Sakr! (اجري يا صقر)', detail: 'An endless-runner mobile game with high-quality cartoon art and a full gameplay experience — in final stages, coming soon.', img: 'photos/game-cover.jpg', imgAlt: 'Official cover art of Run Sakr: the groom sprinting away from the bride and her father through Egyptian streets' }
+        { name: 'Run, Sakr! (اجري يا صقر)', detail: 'An endless-runner mobile game with high-quality cartoon art and a full gameplay experience — in final stages, coming soon.', img: 'photos/game-cover.webp', imgAlt: 'Official cover art of Run Sakr: the groom sprinting away from the bride and her father through Egyptian streets' }
       ],
       servicesEyebrow: 'SERVICES',
       servicesTitle: 'My services',
@@ -278,6 +287,14 @@
         { name: 'A light browser game', detail: 'A complete JavaScript game that runs in the browser on mobile and desktop.' },
         { name: 'Security checkup for your devices and network', detail: 'A basic review of the security settings of your device or small network, with practical hardening steps following Cisco standards.' }
       ],
+      serviceWa: 'Order on WhatsApp',
+      serviceWaLinks: [
+        'https://wa.me/201154655875?text=Hi+Ahmed%2C+I%27d+like+to+ask+about+your+service%3A+Personal+one-page+website',
+        'https://wa.me/201154655875?text=Hi+Ahmed%2C+I%27d+like+to+ask+about+your+service%3A+Landing+page+for+my+business',
+        'https://wa.me/201154655875?text=Hi+Ahmed%2C+I%27d+like+to+ask+about+your+service%3A+A+light+browser+game',
+        'https://wa.me/201154655875?text=Hi+Ahmed%2C+I%27d+like+to+ask+about+your+service%3A+Security+checkup+for+my+devices+and+network'
+      ],
+      cvArBtn: 'My CV in Arabic',
       khamsatSoon: 'Coming soon: order my services on Khamsat',
       contactEyebrow: 'CONTACT',
       contactTitle: 'Contact me',
@@ -315,7 +332,8 @@
     return '<div class="pf-page"><div class="pf-hero">' +
       '<div class="pf-hero-glow pf-glow-a"></div><div class="pf-hero-glow pf-glow-b"></div>' +
       '<div class="pf-hero-inner">' +
-      '<div class="pf-portrait"><img src="photos/about-studio.jpg" alt="' + esc(t.heroAlt) + '"></div>' +
+      '<div class="pf-portrait"><img src="photos/about-studio.webp" alt="' + esc(t.heroAlt) + '" fetchpriority="high"></div>' +
+      '<div class="pf-hero-text">' +
       '<div class="pf-name-en">AHMED MOKHTAR AWAD <span class="pf-nick-en">SAKR</span></div>' +
       '<h1 class="pf-name">' + esc(t.nameAr) + ' <span class="pf-nickwrap"><span class="pf-nick">صقر</span> <span class="pf-verified" title="' + esc(t.verifiedTitle) + '" role="img" aria-label="' + esc(t.verifiedTitle) + '">' + icon('verified') + '</span></span></h1>' +
       '<div class="pf-role"><bdi>' + esc(t.role) + '</bdi></div>' +
@@ -326,7 +344,7 @@
       '<a class="pf-btn pf-btn-ghost" href="#/contact">' + esc(t.ctaContact) + '</a>' +
       '</div>' +
       '<div class="pf-visits" title="' + esc(t.visitsTitle) + '"><img src="https://hits.sh/ahmedsakr53.github.io/hits.svg?label=%F0%9F%91%81&color=2f7fd4&style=flat" alt="' + esc(t.visitsTitle) + '" loading="lazy"></div>' +
-      '</div></div></div>';
+      '</div></div></div></div>';
   }
 
   function renderAbout(t) {
@@ -343,7 +361,7 @@
       '<div class="pf-langs">' + t.langs.map(function (l) {
         return '<div class="pf-lang"><span class="pf-lang-name">' + esc(l[0]) + '</span><span class="pf-lang-level">' + esc(l[1]) + '</span></div>';
       }).join('') + '</div>' +
-      '<div class="pf-about-photo"><img src="photos/speed-bump-vest.jpg" alt="' + esc(t.journeyPhotoAlt) + '" loading="lazy"></div>' +
+      '<div class="pf-about-photo"><img src="photos/speed-bump-vest.webp" alt="' + esc(t.journeyPhotoAlt) + '" loading="lazy"></div>' +
       '<h3 class="pf-h3 pf-map-title">' + icon('pin') + '<span class="pf-map-word">' + esc(t.journeyTitle) + '</span><span class="pf-map-sub">' + esc(t.journeySub) + '</span></h3>' +
       '<div class="pf-timeline">' + t.journey.map(function (j) {
         var done = j[2];
@@ -394,7 +412,8 @@
     var cards = t.services.map(function (s, i) {
       return '<div class="pf-card"><div class="pf-card-num">' + (i + 1) + '</div>' +
         '<div class="pf-card-name">' + esc(s.name) + '</div>' +
-        '<div class="pf-card-detail">' + esc(s.detail) + '</div></div>';
+        '<div class="pf-card-detail">' + esc(s.detail) + '</div>' +
+        '<a class="pf-btn pf-btn-primary pf-service-wa" href="' + t.serviceWaLinks[i] + '" target="_blank" rel="noopener">' + icon('whatsapp') + esc(t.serviceWa) + '</a></div>';
     }).join('');
     return '<div class="pf-page">' + pageHead(t.servicesEyebrow, t.servicesTitle) +
       '<p class="pf-para">' + esc(t.servicesIntro) + '</p>' +
@@ -415,6 +434,7 @@
       }).join('') + '</div>' +
       '<div class="pf-contact pf-contact-cv">' +
       '<a class="pf-btn pf-btn-primary" href="cv.pdf?v=2" target="_blank" rel="noopener">' + icon('doc') + esc(t.cvBtn) + '</a>' +
+      '<a class="pf-btn pf-btn-ghost" href="cv-ar.pdf" target="_blank" rel="noopener">' + icon('doc') + esc(t.cvArBtn) + '</a>' +
       '</div></div>';
   }
 
@@ -422,6 +442,32 @@
     var h = location.hash || '#/';
     if (navPaths.indexOf(h) === -1) return '#/';
     return h;
+  }
+
+  function setupTilt() {
+    var p = document.querySelector('.pf-portrait img');
+    if (!p || p.dataset.tiltBound) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+    p.dataset.tiltBound = '1';
+    var hero = p.closest('.pf-hero');
+    var tx = 0, ty = 0, rx = 0, ry = 0, raf = null;
+    function loop() {
+      rx += (tx - rx) * 0.07;
+      ry += (ty - ry) * 0.07;
+      p.style.transform = 'perspective(700px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg)';
+      if (Math.abs(tx - rx) > 0.02 || Math.abs(ty - ry) > 0.02) raf = requestAnimationFrame(loop);
+      else raf = null;
+    }
+    function kick() { if (!raf) raf = requestAnimationFrame(loop); }
+    hero.addEventListener('mousemove', function (e) {
+      var r = hero.getBoundingClientRect();
+      var x = (e.clientX - r.left) / r.width - 0.5;
+      var y = (e.clientY - r.top) / r.height - 0.5;
+      ty = x * 5; tx = -y * 5;
+      kick();
+    });
+    hero.addEventListener('mouseleave', function () { tx = 0; ty = 0; kick(); });
   }
 
   function render() {
@@ -460,6 +506,11 @@
     document.getElementById('app').innerHTML = nav + page + '<div class="pf-closing">' + esc(t.closing) + '</div>';
     if (openCert >= 0 && route === '#/certifications') showLightbox(openCert);
     setupReveal();
+    setupTilt();
+    if (renderDone && window.goatcounter && window.goatcounter.count) {
+      try { window.goatcounter.count({ path: location.hash.slice(1) || '/' }); } catch (e) {}
+    }
+    renderDone = true;
   }
 
   function setupReveal() {

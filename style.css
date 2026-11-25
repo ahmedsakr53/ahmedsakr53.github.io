@@ -62,6 +62,7 @@ body {
 @media (min-width: 768px) {
     .pf-shell { padding: 40px 36px 44px; margin-top: 40px; margin-bottom: 40px; }
 }
+
 p.pf-para {
     font-size: 15px;
     line-height: 1.95;
@@ -1004,3 +1005,31 @@ html[data-theme="dark"] .pf-map-word {
   background-clip: text;
 }
 .pf-map-sub { width: 100%; font-size: 13px; font-weight: 500; color: var(--ds-ink-2); letter-spacing: 0.3px; }
+
+
+/* service order button */
+.pf-service-wa {
+    margin-top: 12px;
+    font-size: 12px;
+    padding: 8px 14px;
+    gap: 6px;
+}
+.pf-service-wa .pf-icon { width: 14px; height: 14px; fill: currentColor; }
+
+/* hero photo parallax */
+.pf-portrait img { will-change: transform; }
+
+/* wide screens: two-column hero */
+@media (min-width: 900px) {
+    .pf-shell { max-width: 1020px; padding: 44px 48px 48px; }
+    .pf-hero { padding: 44px 40px 36px; }
+    .pf-hero-inner { flex-direction: row; direction: ltr; gap: 40px; }
+    .pf-hero-text { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+    [dir="rtl"] .pf-hero-text { align-items: flex-end; text-align: right; }
+    .pf-hero-text .pf-chips, .pf-hero-text .pf-cta { justify-content: flex-start; }
+    [dir="rtl"] .pf-hero-text .pf-chips, [dir="rtl"] .pf-hero-text .pf-cta { justify-content: flex-end; }
+    .pf-hero-text .pf-visits { justify-content: flex-start; }
+    [dir="rtl"] .pf-hero-text .pf-visits { justify-content: flex-end; }
+    .pf-portrait { order: 2; flex: 0 0 auto; margin-bottom: 0; }
+    .pf-portrait img { width: 250px; height: 330px; }
+}
