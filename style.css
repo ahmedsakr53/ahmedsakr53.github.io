@@ -1115,23 +1115,59 @@ html[data-theme="dark"] .pf-map-word {
 }
 
 
-.pf-install-hint {
+#pf-install-hint.pf-install-sheet {
     position: fixed;
-    top: 60px;
-    left: 12px;
-    text-align: start;
-    z-index: 75;
-    max-width: 300px;
-    background: rgb(14 22 38 / 0.95);
+    inset: 0;
+    z-index: 90;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    background: rgb(4 8 16 / 0.6);
+    backdrop-filter: blur(3px);
+    padding: 16px;
+    cursor: pointer;
+}
+.pf-install-card {
+    width: 100%;
+    max-width: 420px;
+    background: #0e1626;
     color: #eef2ff;
     font-family: var(--ds-font-text);
-    font-size: 12.5px;
-    line-height: 1.7;
-    padding: 12px 14px;
-    border-radius: 16px;
+    border-radius: 20px;
     border: 1px solid rgb(34 211 238 / 0.35);
-    box-shadow: 0 10px 30px rgb(0 0 0 / 0.35);
+    box-shadow: 0 18px 50px rgb(0 0 0 / 0.5);
+    padding: 18px 18px 14px;
+    cursor: default;
+    animation: pfFadeUp 0.3s ease both;
+}
+.pf-install-card-title {
+    font-size: 17px;
+    font-weight: 800;
+    color: #fbbf24;
+    margin-bottom: 10px;
+}
+.pf-install-card ol {
+    margin: 0;
+    padding-inline-start: 22px;
+    font-size: 14px;
+    line-height: 1.9;
+}
+.pf-install-card li { margin-bottom: 4px; }
+.pf-install-close {
+    margin-top: 12px;
+    width: 100%;
+    border: 0;
+    border-radius: 12px;
+    padding: 11px;
+    font-family: var(--ds-font-text);
+    font-size: 14px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #22d3ee, #5b8cff);
+    color: #081018;
     cursor: pointer;
+}
+@media (min-width: 700px) {
+    #pf-install-hint.pf-install-sheet { align-items: center; }
 }
 
 /* Big services CTA on the hero */

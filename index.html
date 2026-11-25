@@ -25,7 +25,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="أحمد صقر">
-<link rel="stylesheet" href="style.css?v=30">
+<link rel="stylesheet" href="style.css?v=31">
 <script>try{document.documentElement.dataset.theme=localStorage.getItem('pf-theme')||'light'}catch(e){}</script>
 </head>
 <body>
@@ -37,8 +37,24 @@
   var lang = 'ar';
   try { lang = localStorage.getItem('pf-lang') === 'en' ? 'en' : 'ar'; } catch(e){}
   var STR = {
-    ar: { install: 'حمّل التطبيق', update: 'تحديث جديد متاح', refresh: 'حدّث', hint: 'لتثبيت التطبيق: من قائمة المتصفح ⋮ اختار «تثبيت التطبيق»، أو من أيقونة التثبيت في شريط العنوان', hintIos: 'لتثبيت التطبيق: من زرار المشاركة في سفاري اختار «إضافة إلى الشاشة الرئيسية»' },
-    en: { install: 'Install app', update: 'Update available', refresh: 'Refresh', hint: 'To install: open the browser menu and choose "Install app", or use the install icon in the address bar', hintIos: 'To install: tap the Share button in Safari and choose "Add to Home Screen"' }
+    ar: {
+      install: 'حمّل التطبيق', update: 'تحديث جديد متاح', refresh: 'حدّث',
+      guideTitle: 'تثبيت التطبيق',
+      guideInAppTitle: 'افتح الموقع في المتصفح الأول',
+      guideInAppSteps: ['دوس على قائمة النقط التلاتة (أو زرار المشاركة) في التطبيق اللي إنت فيه دلوقتي', 'اختار «فتح في المتصفح» (Open in browser / Chrome / Safari)', 'لما الموقع يفتح في المتصفح، ارجع دوس على زرار «حمّل التطبيق»'],
+      guideAndroidSteps: ['دوس على النقط التلاتة اللي فوق في كروم', 'اختار «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية»', 'دوس «تثبيت» وهتلاقي أيقونة صقر على موبايلك'],
+      guideIosSteps: ['افتح الموقع في سفاري (مش جوه واتساب أو أي تطبيق)', 'دوس على زرار المشاركة (المربع اللي فيه سهم لفوق) تحت في الشاشة', 'انزل تحت واختار «إضافة إلى الشاشة الرئيسية» (Add to Home Screen)', 'دوس «إضافة» وهتلاقي أيقونة صقر على موبايلك'],
+      guideClose: 'تمام، فهمت'
+    },
+    en: {
+      install: 'Install app', update: 'Update available', refresh: 'Refresh',
+      guideTitle: 'Install the app',
+      guideInAppTitle: 'Open the site in your browser first',
+      guideInAppSteps: ['Tap the three-dot menu (or the share button) in the app you are using now', 'Choose "Open in browser" (Chrome or Safari)', 'Once the site opens in the browser, tap "Install app" again'],
+      guideAndroidSteps: ['Tap the three-dot menu at the top of Chrome', 'Choose "Install app" or "Add to Home screen"', 'Tap "Install" and you will find the Sakr icon on your phone'],
+      guideIosSteps: ['Open the site in Safari (not inside WhatsApp or any app)', 'Tap the Share button (the square with an arrow) at the bottom', 'Scroll down and choose "Add to Home Screen"', 'Tap "Add" and you will find the Sakr icon on your phone'],
+      guideClose: 'Got it'
+    }
   };
   function s(k){ return STR[lang][k]; }
   window.pfSetLang = function(l){
@@ -72,16 +88,32 @@
   window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferred = e; showInstall(); });
   window.addEventListener('appinstalled', function(){ deferred = null; hideInstall(); });
   window.addEventListener('load', function(){ setTimeout(function(){ showInstall(); }, 2500); });
+  function inAppBrowser(){
+    var ua = navigator.userAgent || '';
+    return /FBAN|FBAV|Instagram|WhatsApp|Telegram|Line\/|TikTok|Snapchat|Messenger/i.test(ua)
+      || (/(iPhone|iPad|iPod)/.test(ua) && !/Safari/.test(ua))
+      || (/Android/.test(ua) && /; wv\)/.test(ua));
+  }
+  function isIos(){
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  }
   function showHint(){
     if (document.getElementById('pf-install-hint')) return;
-    var h = document.createElement('div');
-    h.id = 'pf-install-hint';
-    h.className = 'pf-install-hint';
-    var ios = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    h.textContent = ios ? s('hintIos') : s('hint');
-    h.addEventListener('click', function(){ h.remove(); });
-    document.body.appendChild(h);
-    setTimeout(function(){ if (h.parentNode) h.remove(); }, 8000);
+    var wrap = document.createElement('div');
+    wrap.id = 'pf-install-hint';
+    wrap.className = 'pf-install-sheet';
+    var inApp = inAppBrowser(), ios = isIos();
+    var title = inApp ? s('guideInAppTitle') : s('guideTitle');
+    var steps = inApp ? s('guideInAppSteps') : (ios ? s('guideIosSteps') : s('guideAndroidSteps'));
+    var html = '<div class="pf-install-card" role="dialog" aria-label="' + title + '">'
+      + '<div class="pf-install-card-title">' + title + '</div>'
+      + '<ol>' + steps.map(function(st){ return '<li>' + st + '</li>'; }).join('') + '</ol>'
+      + '<button type="button" class="pf-install-close">' + s('guideClose') + '</button>'
+      + '</div>';
+    wrap.innerHTML = html;
+    wrap.addEventListener('click', function(ev){ if (ev.target === wrap) wrap.remove(); });
+    wrap.querySelector('.pf-install-close').addEventListener('click', function(){ wrap.remove(); });
+    document.body.appendChild(wrap);
   }
 
   function showUpdate(worker){
