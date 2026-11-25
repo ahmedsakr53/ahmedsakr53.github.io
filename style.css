@@ -502,6 +502,9 @@ p.pf-para {
 .pf-contact .pf-btn {
     text-align: center;
 }
+.pf-contact .pf-btn-social {
+    white-space: nowrap;
+}
 .pf-contact .pf-btn-ghost {
     color: var(--ds-teal);
     border-color: var(--ds-teal);
