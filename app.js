@@ -596,6 +596,7 @@
     if (toggle) {
       lang = lang === 'ar' ? 'en' : 'ar';
       try { localStorage.setItem('pf-lang', lang); } catch (err) {}
+      if (window.pfSetLang) window.pfSetLang(lang);
       render();
       return;
     }

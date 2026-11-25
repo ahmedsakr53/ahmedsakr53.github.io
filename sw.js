@@ -1,5 +1,6 @@
-var CACHE = 'pf-v2';
-self.addEventListener('install', function (e) { self.skipWaiting(); });
+var CACHE = 'pf-v3';
+self.addEventListener('install', function (e) {});
+self.addEventListener('message', function (e) { if (e.data === 'SKIP_WAITING') self.skipWaiting(); });
 self.addEventListener('activate', function (e) {
   e.waitUntil(caches.keys().then(function (keys) {
     return Promise.all(keys.filter(function (k) { return k !== CACHE; }).map(function (k) { return caches.delete(k); }));

@@ -25,13 +25,91 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="أحمد صقر">
-<link rel="stylesheet" href="style.css?v=25">
+<link rel="stylesheet" href="style.css?v=26">
 <script>try{document.documentElement.dataset.theme=localStorage.getItem('pf-theme')||'light'}catch(e){}</script>
 </head>
 <body>
 <main class="pf-shell" id="app"></main>
-<script src="app.js?v=26"></script>
+<script src="app.js?v=27"></script>
 <script data-goatcounter="https://ahmedsakr53.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}</script>
+<script>
+(function(){
+  var lang = 'ar';
+  try { lang = localStorage.getItem('pf-lang') === 'en' ? 'en' : 'ar'; } catch(e){}
+  var STR = {
+    ar: { install: 'حمّل التطبيق', update: 'تحديث جديد متاح', refresh: 'حدّث' },
+    en: { install: 'Install app', update: 'Update available', refresh: 'Refresh' }
+  };
+  function s(k){ return STR[lang][k]; }
+  window.pfSetLang = function(l){
+    lang = l;
+    var b = document.getElementById('pf-install');
+    if (b) b.textContent = s('install');
+    var t = document.getElementById('pf-update');
+    if (t) { t.querySelector('span').textContent = s('update'); t.querySelector('button').textContent = s('refresh'); }
+  };
+
+  var deferred = null, installBtn = null;
+  function standalone(){ return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; }
+  function showInstall(){
+    if (installBtn || standalone()) return;
+    installBtn = document.createElement('button');
+    installBtn.id = 'pf-install';
+    installBtn.className = 'pf-install-btn';
+    installBtn.type = 'button';
+    installBtn.textContent = s('install');
+    installBtn.addEventListener('click', function(){
+      if (!deferred) return;
+      deferred.prompt();
+      deferred.userChoice.finally(function(){ deferred = null; hideInstall(); });
+    });
+    document.body.appendChild(installBtn);
+  }
+  function hideInstall(){ if (installBtn) { installBtn.remove(); installBtn = null; } }
+  window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferred = e; showInstall(); });
+  window.addEventListener('appinstalled', function(){ deferred = null; hideInstall(); });
+
+  function showUpdate(worker){
+    if (document.getElementById('pf-update')) return;
+    var t = document.createElement('div');
+    t.id = 'pf-update';
+    t.className = 'pf-update-toast';
+    var span = document.createElement('span');
+    span.textContent = s('update');
+    var btn = document.createElement('button');
+    btn.className = 'pf-update-btn';
+    btn.type = 'button';
+    btn.textContent = s('refresh');
+    btn.addEventListener('click', function(){ worker.postMessage('SKIP_WAITING'); });
+    t.appendChild(span);
+    t.appendChild(btn);
+    document.body.appendChild(t);
+  }
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function(){
+      navigator.serviceWorker.register('sw.js').then(function(reg){
+        reg.update().catch(function(){});
+        setInterval(function(){ reg.update().catch(function(){}); }, 60 * 60 * 1000);
+        document.addEventListener('visibilitychange', function(){ if (!document.hidden) reg.update().catch(function(){}); });
+        if (reg.waiting && navigator.serviceWorker.controller) showUpdate(reg.waiting);
+        reg.addEventListener('updatefound', function(){
+          var w = reg.installing;
+          if (!w) return;
+          w.addEventListener('statechange', function(){
+            if (w.state === 'installed' && navigator.serviceWorker.controller) showUpdate(w);
+          });
+        });
+      }).catch(function(){});
+      var refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', function(){
+        if (refreshing) return;
+        refreshing = true;
+        location.reload();
+      });
+    });
+  }
+})();
+</script>
 </body>
 </html>
