@@ -1,4 +1,4 @@
-/* Ahmed Saqr — personal portfolio. Standalone static site, no external dependencies. */
+/* Ahmed Sakr — personal portfolio. Standalone static site, no external dependencies. */
 (function () {
   'use strict';
 
@@ -117,7 +117,7 @@
     en: {
       navAria: 'Site pages',
       nav: ['Home', 'About', 'Certifications', 'Projects', 'Contact'],
-      heroAlt: 'Ahmed Saqr in a formal navy suit on a simple studio background',
+      heroAlt: 'Ahmed Sakr in a formal navy suit on a simple studio background',
       nameAr: 'أحمد مختار عوض (صقر)',
       role: 'Junior Cybersecurity Analyst · Network Technician · Software & Games Designer',
       tagline: 'An Electrical Engineering student, Communications section, at Sohag University, building his path in cybersecurity and networking with Cisco certifications and daily hands-on practice, with a near goal of a first SOC internship.',
@@ -128,7 +128,7 @@
       aboutEyebrow: 'ABOUT',
       aboutTitle: 'Who am I?',
       aboutBio: [
-        'From Tama, Sohag Governorate, Ahmed Mokhtar Awad (Saqr) graduated from Thanaweya Amma, advanced mathematics track, with a score of 92.25%, and entered the Faculty of Engineering at Sohag University, Electrical Engineering, Communications section, knowing exactly where he was headed.',
+        'From Tama, Sohag Governorate, Ahmed Mokhtar Awad (Sakr) graduated from Thanaweya Amma, advanced mathematics track, with a score of 92.25%, and entered the Faculty of Engineering at Sohag University, Electrical Engineering, Communications section, knowing exactly where he was headed.',
         'His passion for cybersecurity and networking is not a course in a curriculum; it is a daily life: two Cisco certifications (Junior Cybersecurity Analyst and Network Technician), an Introduction to Cybersecurity certificate, a networking certificate from the Edraak platform, and continuous hands-on training on TryHackMe. He builds, tests, and learns with his own hands: from smart IoT systems to complete websites he designed and built himself.',
         'He is not waiting for his graduation certificate to begin. His path is being built right now, and the goal is clear: a SOC analyst you can rely on.'
       ],
@@ -207,7 +207,7 @@
       '<div class="pf-hero-glow pf-glow-a"></div><div class="pf-hero-glow pf-glow-b"></div>' +
       '<div class="pf-hero-inner">' +
       '<div class="pf-portrait"><img src="photos/about-studio.jpg" alt="' + esc(t.heroAlt) + '"></div>' +
-      '<div class="pf-name-en">AHMED MOKHTAR AWAD (SAQR)</div>' +
+      '<div class="pf-name-en">AHMED MOKHTAR AWAD (SAKR)</div>' +
       '<h1 class="pf-name">' + esc(t.nameAr) + '</h1>' +
       '<div class="pf-role"><bdi>' + esc(t.role) + '</bdi></div>' +
       '<p class="pf-tagline">' + esc(t.tagline) + '</p>' +
@@ -286,7 +286,7 @@
     var t = T[lang];
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-    document.title = lang === 'ar' ? 'أحمد صقر — أمن سيبراني وشبكات' : 'Ahmed Saqr — Cybersecurity & Networking';
+    document.title = lang === 'ar' ? 'أحمد صقر — أمن سيبراني وشبكات' : 'Ahmed Sakr — Cybersecurity & Networking';
     var route = currentRoute();
     var nav = '<nav class="pf-nav" aria-label="' + esc(t.navAria) + '">' +
       t.nav.map(function (label, i) {
