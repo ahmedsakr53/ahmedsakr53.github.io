@@ -73,7 +73,34 @@ p.pf-para {
     font-size: 12px;
     color: var(--ds-ink-2);
     margin-top: 36px;
+    padding-bottom: 96px;
 }
+
+/* floating corner controls: theme + language, kept out of the nav */
+.pf-fabs {
+    position: fixed;
+    inset-block-end: 16px;
+    inset-inline-end: 16px;
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+.pf-fabs .pf-lang-toggle,
+.pf-fabs .pf-theme-toggle {
+    background: rgb(255 255 255 / 0.82);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 6px 18px rgb(20 40 80 / 0.16);
+}
+html[data-theme="dark"] .pf-fabs .pf-lang-toggle,
+html[data-theme="dark"] .pf-fabs .pf-theme-toggle {
+    background: rgb(17 22 34 / 0.82);
+    box-shadow: 0 6px 18px rgb(0 0 0 / 0.4);
+}
+.pf-fabs .pf-theme-toggle { color: #0e7490; }
+html[data-theme="dark"] .pf-fabs .pf-theme-toggle { color: #9ef0fb; }
 
 /* Lightbox */
 .pf-lightbox {

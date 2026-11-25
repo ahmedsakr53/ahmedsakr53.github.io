@@ -440,6 +440,8 @@
         var active = navPaths[i] === route ? ' aria-current="page"' : '';
         return '<a href="' + navPaths[i] + '"' + active + '>' + icon(navIcons[i]) + esc(label) + '</a>';
       }).join('') +
+      '</nav>' +
+      '<div class="pf-fabs">' +
       '<button type="button" class="pf-lang-toggle" aria-label="' + esc(t.toggleLabel) + '">' +
       '<span class="pf-lang-toggle-thumb" aria-hidden="true"></span>' +
       '<span class="pf-lang-toggle-opt' + (lang === 'ar' ? ' pf-lang-toggle-active' : '') + '">ع</span>' +
@@ -447,7 +449,7 @@
       '</button>' +
       '<button type="button" class="pf-theme-toggle" aria-label="' + esc(t.themeLabel) + '" title="' + esc(t.themeLabel) + '">' +
       icon(theme === 'dark' ? 'sun' : 'moon') +
-      '</button></nav>';
+      '</button></div>';
     var page;
     if (route === '#/about') page = renderAbout(t);
     else if (route === '#/certifications') page = renderCerts(t);
