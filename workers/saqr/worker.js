@@ -347,7 +347,7 @@ export default {
         const chatId = String(body.chatId || '');
         if (/^[A-Za-z0-9-]{8,64}$/.test(chatId)) {
           const lastUser = contents[contents.length - 1].parts[0].text;
-          const key = chatId + ':' + Date.now();
+          const key = 'chat:' + chatId + ':' + Date.now();
           const val = JSON.stringify({ ts: new Date().toISOString(), user: lastUser, saqr: finalReply });
           ctx.waitUntil(env.SAQR_CHATS.put(key, val, { expirationTtl: 15552000 })); // 180 days
         }

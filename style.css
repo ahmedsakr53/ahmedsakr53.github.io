@@ -1621,3 +1621,37 @@ html[data-theme="dark"] body[data-palette="orange"] { --ds-teal: #f09a55; }
     font-size: 13px;
     line-height: 1;
 }
+
+/* ===== Saqr: SVG icons + call mode ===== */
+.pf-saqr-avatar .pf-icon { width: 22px; height: 22px; display: block; }
+.pf-saqr-mini { display: inline-grid; place-items: center; width: 22px; height: 22px; flex: none; }
+.pf-saqr-mini .pf-icon { width: 15px; height: 15px; display: block; }
+.pf-saqr-mute svg, .pf-saqr-call svg { width: 15px; height: 15px; display: block; margin: auto; }
+.pf-saqr-call {
+    border: none;
+    background: rgb(255 255 255 / 0.16);
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.85rem;
+    margin-inline-end: 6px;
+    display: grid;
+    place-items: center;
+    transition: background .2s ease;
+}
+.pf-saqr-call:hover { background: rgb(255 255 255 / 0.28); }
+.pf-saqr-call.pf-saqr-call-on { background: #e5484d; animation: pfSaqrPulse 1.6s ease-in-out infinite; }
+.pf-saqr-micbig .pf-saqr-micbig-ico { display: grid; place-items: center; }
+.pf-saqr-micbig .pf-saqr-micbig-ico svg { width: 34px; height: 34px; display: block; }
+.pf-saqr-micbig.pf-saqr-talking {
+    animation: pfSaqrTalk 1.15s ease-in-out infinite;
+    background: linear-gradient(135deg, var(--ds-teal), color-mix(in srgb, var(--ds-teal) 70%, #000));
+}
+@keyframes pfSaqrTalk {
+    0%, 100% { box-shadow: 0 0 0 0 rgb(14 138 158 / 0.5); }
+    50% { box-shadow: 0 0 0 16px rgb(14 138 158 / 0); }
+}
+.pf-saqr-stage-listening .pf-saqr-micbig-lbl,
+.pf-saqr-stage-speaking .pf-saqr-micbig-lbl { color: var(--ds-teal); font-weight: 700; }

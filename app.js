@@ -86,6 +86,7 @@
       appTitle: 'نبذة عن التطبيق',
       appIntro: 'هذا ليس مجرد موقع، بل تطبيق ويب تقدمي (PWA) صُمم ونُفذ من الصفر ليعمل كتطبيق حقيقي على الهاتف والكمبيوتر:',
       appFeatures: [
+        ['صقر، المساعد الصوتي', 'مساعد ذكي يتكلم ويرد على الزوار بالصوت، يشتغل داخل الشات ويكمّل معاهم وهما بيتصفحوا أي صفحة في الموقع.'],
         ['قابل للتثبيت', 'يُثبَّت بضغطة واحدة من زر «حمّل التطبيق»، ويفتح بأيقونة الصقر الخاصة به كتطبيق مستقل عن المتصفح.'],
         ['ثنائي اللغة', 'عربي وإنجليزي بتبديل فوري، مع دعم كامل لاتجاه الكتابة في اللغتين.'],
         ['يحدّث نفسه', 'يراقب النسخ الجديدة ويُظهر إشعار «تحديث جديد متاح»، فيصلك الجديد بضغطة «حدّث».'],
@@ -224,7 +225,7 @@
       quizDoneGood: 'عين صقر حقيقي! محدش هيعرف يضحك عليك بسهولة.',
       saqrFab: 'كلّم صقر',
       saqrTitle: 'صقر',
-      saqrSub: 'مساعد أحمد الذكي 🦅',
+      saqrSub: 'مساعد أحمد الذكي',
       saqrWelcome: 'أهلاً! أنا صقر 🦅 مساعد المهندس أحمد. اسألني عن خدماته أو مشاريعه أو أي حاجة تانية.',
       saqrPlaceholder: 'اكتب سؤالك هنا...',
       saqrSend: 'إرسال',
@@ -235,6 +236,11 @@
       saqrMute: 'كتم صوت صقر',
       saqrUnmute: 'تشغيل صوت صقر',
       saqrMic: 'اتكلم بصوتك',
+      saqrCall: 'مكالمة صوتية',
+      saqrCallEnd: 'إنهاء المكالمة',
+      saqrCallListening: 'اتكلم، صقر سامعك…',
+      saqrCallSpeaking: 'صقر بيتكلم… اتكلم في أي وقت عشان تقاطعه',
+      saqrCallThinking: 'صقر بيفكر…',
       saqrListening: 'بسمعك...',
       saqrConsentText: 'تحب نحتفظ بمحادثتك عشان نطوّر صقر؟ بنسجّل نص المحادثة بس، من غير أي بيانات عنك.',
       saqrConsentYes: 'موافق',
@@ -306,6 +312,7 @@
       appTitle: 'About the app',
       appIntro: 'This is not just a website; it is a progressive web app (PWA) designed and built from scratch to work like a real app on phone and desktop:',
       appFeatures: [
+        ['Saqr, the voice assistant', 'A smart assistant that talks and answers visitors out loud, working inside the chat and staying with them while they keep browsing any page of the site.'],
         ['Installable', 'Installs in one tap from the "Install app" button, and opens with its own falcon icon as an app independent of the browser.'],
         ['Bilingual', 'Arabic and English with instant switching, with full text-direction support in both languages.'],
         ['Self-updating', 'Watches for new versions and shows an "Update available" notice, so the latest arrives with one tap on "Refresh".'],
@@ -444,7 +451,7 @@
       quizDoneGood: 'A true falcon eye! Nobody will fool you easily.',
       saqrFab: 'Ask Saqr',
       saqrTitle: 'Saqr',
-      saqrSub: "Ahmed's AI assistant 🦅",
+      saqrSub: "Ahmed's AI assistant",
       saqrWelcome: "Hey! I'm Saqr 🦅, Eng. Ahmed's assistant. Ask me about his services, projects, or anything else.",
       saqrPlaceholder: 'Type your question...',
       saqrSend: 'Send',
@@ -455,6 +462,11 @@
       saqrMute: 'Mute Saqr voice',
       saqrUnmute: 'Unmute Saqr voice',
       saqrMic: 'Speak your question',
+      saqrCall: 'Voice call',
+      saqrCallEnd: 'End call',
+      saqrCallListening: 'Speak, Saqr is listening…',
+      saqrCallSpeaking: 'Saqr is speaking… talk anytime to interrupt',
+      saqrCallThinking: 'Saqr is thinking…',
       saqrListening: 'Listening...',
       saqrConsentText: 'Mind if we keep this chat so we can improve Saqr? Only the chat text is saved, nothing about you.',
       saqrConsentYes: 'Sure',
@@ -925,13 +937,116 @@
   var saqrRecog = null, saqrListening = false, saqrFinalBuf = '', saqrSilenceTimer = null, saqrManualStop = false;
   var SAQR_SILENCE_MS = 3000;
 
+
+  var SAQR_FEATHER = '<svg class="pf-icon pf-saqr-feather" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="9" y2="15"/></svg>';
+  var SAQR_MIC_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>';
+  var SAQR_SPK_ON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>';
+  var SAQR_SPK_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>';
+  var SAQR_PHONE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>';
+  var SAQR_PHONE_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.42 19.42 0 0 1-3.33-2.67m-2.67-3.34a19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91"/><line x1="23" y1="1" x2="1" y2="23"/></svg>';
+
+  var saqrCall = { active: false, phase: 'idle' };
+  var saqrBarge = false;
+
+  function saqrCallSetPhase(p) {
+    saqrCall.phase = p;
+    var st = document.querySelector('.pf-saqr-micstage');
+    if (st) {
+      st.classList.remove('pf-saqr-stage-listening', 'pf-saqr-stage-thinking', 'pf-saqr-stage-speaking');
+      if (saqrCall.active) st.classList.add('pf-saqr-stage-' + p);
+    }
+    var mb = document.querySelector('.pf-saqr-micbig');
+    if (mb) mb.classList.toggle('pf-saqr-talking', saqrCall.active && p === 'speaking');
+    var lbl = document.querySelector('.pf-saqr-micbig-lbl');
+    if (lbl) {
+      var tt = T[lang];
+      lbl.textContent = !saqrCall.active ? tt.saqrMic
+        : p === 'speaking' ? tt.saqrCallSpeaking
+        : p === 'thinking' ? tt.saqrCallThinking : tt.saqrCallListening;
+    }
+  }
+
+  function saqrCallListen() {
+    if (!saqrCall.active) return;
+    saqrCallSetPhase('listening');
+    saqrStartListening(T[lang]);
+  }
+
+  function saqrCallBargeListen() {
+    if (!SaqrRecog || saqrListening) return;
+    try {
+      saqrRecog = new SaqrRecog();
+      saqrRecog.lang = lang === 'ar' ? 'ar-EG' : 'en-US';
+      saqrRecog.continuous = true;
+      saqrRecog.interimResults = true;
+      saqrRecog.maxAlternatives = 1;
+      saqrListening = true;
+      saqrManualStop = false;
+      saqrFinalBuf = '';
+      saqrBarge = true;
+      saqrRecog.onresult = function (e) {
+        var i, any = '';
+        for (i = e.resultIndex; i < e.results.length; i++) any += e.results[i][0].transcript;
+        if (saqrBarge && any.trim()) {
+          saqrBarge = false;
+          saqrCallSetPhase('listening');
+          try { window.speechSynthesis.cancel(); } catch (err) {}
+          var mb = document.querySelector('.pf-saqr-micbig'); if (mb) mb.classList.add('pf-saqr-live');
+          var inp0 = document.getElementById('pf-saqr-input'); if (inp0) inp0.placeholder = T[lang].saqrListening;
+        }
+        if (!saqrBarge) {
+          var interim = '';
+          for (i = e.resultIndex; i < e.results.length; i++) {
+            if (e.results[i].isFinal) saqrFinalBuf += e.results[i][0].transcript;
+            else interim += e.results[i][0].transcript;
+          }
+          var inp2 = document.getElementById('pf-saqr-input');
+          if (inp2) inp2.value = (saqrFinalBuf + interim).trim();
+          saqrArmSilence();
+        }
+      };
+      saqrRecog.onend = function () {
+        if (saqrListening && !saqrManualStop) { try { saqrRecog.start(); return; } catch (e) {}
+        }
+        saqrListening = false;
+        saqrBarge = false;
+        clearTimeout(saqrSilenceTimer);
+        var mb2 = document.querySelector('.pf-saqr-micbig'); if (mb2) mb2.classList.remove('pf-saqr-live');
+      };
+      saqrRecog.onerror = function (ev) {
+        if (ev && (ev.error === 'not-allowed' || ev.error === 'service-not-allowed')) { saqrBarge = false; saqrStopListening(false); saqrEndCall(); }
+      };
+      saqrRecog.start();
+    } catch (e) { saqrListening = false; saqrBarge = false; }
+  }
+
+  function saqrStartCall() {
+    if (!SaqrRecog || !('speechSynthesis' in window)) return;
+    saqrCall.active = true;
+    if (saqrVoice.muted) {
+      saqrVoice.muted = false;
+      try { localStorage.setItem('pf-saqr-muted', '0'); } catch (e) {}
+    }
+    saqrEnsure(T[lang]);
+    saqrCallListen();
+  }
+
+  function saqrEndCall() {
+    saqrCall.active = false;
+    saqrBarge = false;
+    saqrCall.phase = 'idle';
+    saqrStopListening(false);
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    saqrEnsure(T[lang]);
+  }
+
   function saqrSetSpeaking(on) {
     var fab = document.querySelector('.pf-saqr-fab');
     if (fab) fab.classList.toggle('pf-saqr-speaking', !!on);
   }
 
-  function saqrSpeak(text, lg) {
-    if (saqrVoice.muted || !('speechSynthesis' in window)) return;
+  function saqrSpeak(text, lg, ondone) {
+    if (saqrVoice.muted || !('speechSynthesis' in window)) { if (ondone) ondone(); return; }
     try {
       window.speechSynthesis.cancel();
       var u = new SpeechSynthesisUtterance(text.replace(/🦅/g, ''));
@@ -942,8 +1057,8 @@
       if (v) u.voice = v;
       u.rate = 1;
       u.onstart = function () { saqrSetSpeaking(true); };
-      u.onend = function () { saqrSetSpeaking(false); };
-      u.onerror = function () { saqrSetSpeaking(false); };
+      u.onend = function () { saqrSetSpeaking(false); if (ondone) ondone(); };
+      u.onerror = function () { saqrSetSpeaking(false); if (ondone) ondone(); };
       window.speechSynthesis.speak(u);
     } catch (e) {}
   }
@@ -1021,16 +1136,17 @@
         '<span class="pf-saqr-waves" aria-hidden="true"><i></i><i></i><i></i></span></button>' +
       '<section class="pf-saqr-panel' + (saqrState.open ? ' pf-saqr-open' : '') + '" role="dialog" aria-label="' + esc(t.saqrTitle) + '">' +
         '<header class="pf-saqr-head">' +
-          '<div class="pf-saqr-id"><span class="pf-saqr-avatar">🦅</span>' +
+          '<div class="pf-saqr-id"><span class="pf-saqr-avatar">' + SAQR_FEATHER + '</span>' +
           '<div><div class="pf-saqr-name">' + esc(t.saqrTitle) + '</div>' +
           '<div class="pf-saqr-sub">' + esc(t.saqrSub) + '</div></div></div>' +
-          '<button type="button" class="pf-saqr-mute" aria-label="' + esc(saqrVoice.muted ? t.saqrUnmute : t.saqrMute) + '" title="' + esc(saqrVoice.muted ? t.saqrUnmute : t.saqrMute) + '">' + (saqrVoice.muted ? '🔇' : '🔊') + '</button>' +
+          (SaqrRecog && ('speechSynthesis' in window) ? '<button type="button" class="pf-saqr-call' + (saqrCall.active ? ' pf-saqr-call-on' : '') + '" aria-label="' + esc(saqrCall.active ? t.saqrCallEnd : t.saqrCall) + '" title="' + esc(saqrCall.active ? t.saqrCallEnd : t.saqrCall) + '">' + (saqrCall.active ? SAQR_PHONE_OFF : SAQR_PHONE) + '</button>' : '') +
+          '<button type="button" class="pf-saqr-mute" aria-label="' + esc(saqrVoice.muted ? t.saqrUnmute : t.saqrMute) + '" title="' + esc(saqrVoice.muted ? t.saqrUnmute : t.saqrMute) + '">' + (saqrVoice.muted ? SAQR_SPK_OFF : SAQR_SPK_ON) + '</button>' +
         '<button type="button" class="pf-saqr-close" aria-label="' + esc(t.saqrClose) + '">✕</button>' +
         '</header>' +
         '<div class="pf-saqr-msgs" id="pf-saqr-msgs"></div>' +
-        (SaqrRecog ? '<div class="pf-saqr-micstage">' +
-            '<button type="button" class="pf-saqr-micbig" aria-label="' + esc(t.saqrMic) + '" title="' + esc(t.saqrMic) + '"><span class="pf-saqr-micbig-ico">🎙️</span></button>' +
-            '<div class="pf-saqr-micbig-lbl">' + esc(t.saqrMic) + '</div></div>' : '') +
+        (SaqrRecog ? '<div class="pf-saqr-micstage' + (saqrCall.active ? ' pf-saqr-stage-' + saqrCall.phase : '') + '">' +
+            '<button type="button" class="pf-saqr-micbig' + (saqrCall.active && saqrCall.phase === 'speaking' ? ' pf-saqr-talking' : '') + '" aria-label="' + esc(t.saqrMic) + '" title="' + esc(t.saqrMic) + '"><span class="pf-saqr-micbig-ico">' + SAQR_MIC_SVG + '</span></button>' +
+            '<div class="pf-saqr-micbig-lbl">' + esc(saqrCall.active ? (saqrCall.phase === 'speaking' ? t.saqrCallSpeaking : saqrCall.phase === 'thinking' ? t.saqrCallThinking : t.saqrCallListening) : t.saqrMic) + '</div></div>' : '') +
         '<form class="pf-saqr-form" id="pf-saqr-form">' +
           '<input type="text" class="pf-saqr-input" id="pf-saqr-input" placeholder="' + esc(t.saqrPlaceholder) + '" autocomplete="off" maxlength="500">' +
           '<button type="submit" class="pf-saqr-send" aria-label="' + esc(t.saqrSend) + '">' + icon('send') + '</button>' +
@@ -1046,7 +1162,7 @@
           if (saqrState.open) {
             saqrSpeak(T[lang].saqrGreeting, lang);
             var inp = document.getElementById('pf-saqr-input'); if (inp) inp.focus();
-          } else if ('speechSynthesis' in window) { window.speechSynthesis.cancel(); }
+          } else if (!saqrCall.active && 'speechSynthesis' in window) { window.speechSynthesis.cancel(); }
         } else if (e.target.closest('.pf-saqr-consent-yes')) {
           saqrConsent = '1';
           try { localStorage.setItem('pf-saqr-consent', '1'); } catch (err) {}
@@ -1057,6 +1173,8 @@
           try { localStorage.setItem('pf-saqr-consent', '0'); } catch (err) {}
           saqrState.msgs.push({ role: 'assistant', content: T[lang].saqrConsentThanks });
           saqrEnsure(T[lang]);
+        } else if (e.target.closest('.pf-saqr-call')) {
+          if (saqrCall.active) saqrEndCall(); else saqrStartCall();
         } else if (e.target.closest('.pf-saqr-mute')) {
           saqrVoice.muted = !saqrVoice.muted;
           try { localStorage.setItem('pf-saqr-muted', saqrVoice.muted ? '1' : '0'); } catch (err) {}
@@ -1065,7 +1183,7 @@
         } else if (e.target.closest('.pf-saqr-micbig')) {
           saqrStartListening(T[lang]);
         } else if (e.target.closest('.pf-saqr-close')) {
-          saqrStopListening(false);
+          if (!saqrCall.active) { saqrStopListening(false); if ('speechSynthesis' in window) window.speechSynthesis.cancel(); }
           saqrState.open = false;
           saqrEnsure(T[lang]);
         }
@@ -1082,17 +1200,17 @@
   function paintSaqrMsgs(t) {
     var box = document.getElementById('pf-saqr-msgs');
     if (!box) return;
-    var html = '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">🦅</span><div class="pf-saqr-bubble">' + esc(t.saqrWelcome) + '</div></div>';
+    var html = '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">' + SAQR_FEATHER + '</span><div class="pf-saqr-bubble">' + esc(t.saqrWelcome) + '</div></div>';
     if (saqrConsent === null) {
-      html += '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">🦅</span><div class="pf-saqr-bubble pf-saqr-consent">' + esc(t.saqrConsentText) +
+      html += '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">' + SAQR_FEATHER + '</span><div class="pf-saqr-bubble pf-saqr-consent">' + esc(t.saqrConsentText) +
         '<div class="pf-saqr-consent-btns"><button type="button" class="pf-saqr-consent-yes">' + esc(t.saqrConsentYes) + '</button>' +
         '<button type="button" class="pf-saqr-consent-no">' + esc(t.saqrConsentNo) + '</button></div></div></div>';
     }
     saqrState.msgs.forEach(function (m) {
       if (m.role === 'user') html += '<div class="pf-saqr-msg pf-saqr-me"><div class="pf-saqr-bubble">' + esc(m.content) + '</div></div>';
-      else html += '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">🦅</span><div class="pf-saqr-bubble">' + esc(m.content) + '</div></div>';
+      else html += '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">' + SAQR_FEATHER + '</span><div class="pf-saqr-bubble">' + esc(m.content) + '</div></div>';
     });
-    if (saqrState.sending) html += '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">🦅</span><div class="pf-saqr-bubble pf-saqr-typing">' + esc(t.saqrTyping) + '</div></div>';
+    if (saqrState.sending) html += '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">' + SAQR_FEATHER + '</span><div class="pf-saqr-bubble pf-saqr-typing">' + esc(t.saqrTyping) + '</div></div>';
     box.innerHTML = html;
     box.scrollTop = box.scrollHeight;
   }
@@ -1110,6 +1228,7 @@
       return;
     }
     saqrState.sending = true;
+    if (saqrCall.active) saqrCallSetPhase('thinking');
     paintSaqrMsgs(t);
     var history = saqrState.msgs.slice(-12).map(function (m) {
       return { role: m.role === 'user' ? 'user' : 'model', content: m.content };
@@ -1124,7 +1243,15 @@
     }).then(function (data) {
       var reply = (data && data.reply) ? String(data.reply) : t.saqrError;
       saqrState.msgs.push({ role: 'assistant', content: reply });
-      saqrSpeak(reply, lang);
+      if (saqrCall.active) {
+        saqrCallSetPhase('speaking');
+        saqrSpeak(reply, lang, function () {
+          if (saqrCall.active && saqrCall.phase === 'speaking') saqrCallListen();
+        });
+        saqrCallBargeListen();
+      } else {
+        saqrSpeak(reply, lang);
+      }
     }).catch(function () {
       saqrState.msgs.push({ role: 'assistant', content: t.saqrError });
     }).finally(function () {
