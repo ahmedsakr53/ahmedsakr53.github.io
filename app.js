@@ -151,7 +151,8 @@
       services: [
         { name: 'موقع شخصي أو صفحة تعريفية', detail: 'صفحة واحدة أنيقة وسريعة، مصممة للموبايل أولاً — تماماً مثل هذا الموقع.' },
         { name: 'صفحة هبوط لنشاطك التجاري', detail: 'صفحة تعرّف بمنتجك أو خدمتك وتجلب لك العملاء، مع أزرار تواصل جاهزة.' },
-        { name: 'لعبة متصفح خفيفة', detail: 'لعبة جافاسكريبت كاملة تعمل من المتصفح على الموبايل والكمبيوتر.' }
+        { name: 'لعبة متصفح خفيفة', detail: 'لعبة جافاسكريبت كاملة تعمل من المتصفح على الموبايل والكمبيوتر.' },
+        { name: 'تأمين وفحص أجهزتك وشبكتك', detail: 'مراجعة أساسية لإعدادات الأمان لجهازك أو شبكتك الصغيرة، مع خطوات عملية للحماية بمعايير Cisco.' }
       ],
       khamsatSoon: 'قريباً: اطلب خدماتي عبر منصة خمسات',
       contactEyebrow: 'CONTACT',
@@ -262,7 +263,8 @@
       services: [
         { name: 'Personal one-page website', detail: 'A clean, fast, mobile-first page — just like this very site.' },
         { name: 'Landing page for your business', detail: 'A page that presents your product or service and brings you customers, with ready contact buttons.' },
-        { name: 'A light browser game', detail: 'A complete JavaScript game that runs in the browser on mobile and desktop.' }
+        { name: 'A light browser game', detail: 'A complete JavaScript game that runs in the browser on mobile and desktop.' },
+        { name: 'Security checkup for your devices and network', detail: 'A basic review of the security settings of your device or small network, with practical hardening steps following Cisco standards.' }
       ],
       khamsatSoon: 'Coming soon: order my services on Khamsat',
       contactEyebrow: 'CONTACT',
