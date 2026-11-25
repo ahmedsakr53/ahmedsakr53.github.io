@@ -53,19 +53,20 @@
     chip: 'M15 9H9v6h6V9zm-2 4h-2v-2h2v2zm8-2V9h-3V6c0-1.1-.9-2-2-2h-3V1h-2v3h-4V1H9v3H6C4.9 4 4 4.9 4 6v3H1v2h3v2H1v2h3v3c0 1.1.9 2 2 2h3v3h2v-3h4v3h2v-3h3c1.1 0 2-.9 2-2v-3h3v-2h-3v-2h3zm-4 8H7V7h10v10z',
     store: 'M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z',
     navApp: 'M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z',
+    navShield: 'M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z',
     pin: 'M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13c0-3.37-3.13-6.5-7-6.5zm0 8.75a2.25 2.25 0 1 1 0-4.5 2.25 2.25 0 0 1 0 4.5z'
   };
   var socialIcons = ['facebook', 'telegram', 'whatsapp', 'instagram', 'github', 'tiktok', 'x', 'imo'];
   function icon(name) {
     return '<svg class="pf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="' + ICON_PATHS[name] + '"/></svg>';
   }
-  var navPaths = ['#/', '#/app', '#/about', '#/certifications', '#/projects', '#/services', '#/contact'];
-  var navIcons = ['home', 'navApp', 'navUser', 'navCert', 'navCode', 'navGrid', 'mail'];
+  var navPaths = ['#/', '#/app', '#/about', '#/certifications', '#/projects', '#/services', '#/checkup', '#/contact'];
+  var navIcons = ['home', 'navApp', 'navUser', 'navCert', 'navCode', 'navGrid', 'navShield', 'mail'];
 
   var T = {
     ar: {
       navAria: 'صفحات الموقع',
-      nav: ['الرئيسية', 'التطبيق', 'نبذة عني', 'الشهادات', 'المشاريع', 'خدماتي', 'التواصل'],
+      nav: ['الرئيسية', 'التطبيق', 'نبذة عني', 'الشهادات', 'المشاريع', 'خدماتي', 'اطمّن', 'التواصل'],
       heroAlt: 'أحمد صقر ببدلة كحلية رسمية على خلفية استوديو بسيطة',
       verifiedTitle: 'الموقع الرسمي لأحمد مختار صقر',
       nameAr: 'أحمد مختار عوض',
@@ -174,10 +175,103 @@
         { name: 'منصة تجارية', detail: 'تصميم وتنفيذ منصة تجارية لصالح عميل خاص — تفاصيل المشروع محفوظة التزاماً بسرية العمل مع العملاء.' },
         { name: 'اجري يا صقر!', detail: 'لعبة جري لا نهائية برسوم كرتونية عالية الجودة وتجربة موبايل كاملة — في مراحلها الأخيرة، قريباً.', img: 'photos/game-cover.webp', imgAlt: 'الغلاف الرسمي للعبة اجري يا صقر: العريس يجري ووالد العروسة والعروسة وراءه في شوارع مصرية' }
       ],
+      checkupEyebrow: 'CHECK YOURSELF',
+      checkupTitle: 'اطمّن على نفسك',
+      checkupIntro: 'ثلاث أدوات سريعة تقيس مستوى حمايتك على الإنترنت. كل شيء يعمل على جهازك أنت، ولا يُرسَل أو يُحفظ أي شيء تكتبه هنا.',
+      checkupBannerT: 'اطمّن على نفسك',
+      checkupBannerS: 'فحص أمني مجاني وسريع: قوة كلمة السر، عاداتك، وعينك على الاحتيال — كل شيء على جهازك، لا يُرسَل أي شيء.',
+      passTitle: 'اختبر قوة كلمة السر',
+      passNote: 'اكتب كلمة سر تجريبية مشابهة لأسلوبك، وليست الحقيقية. لا تُحفظ ولا تغادر جهازك.',
+      passPlaceholder: 'اكتب كلمة السر هنا',
+      passLevels: ['ضعيفة جداً', 'ضعيفة', 'متوسطة', 'قوية', 'قوية جداً'],
+      passTipsEmpty: 'ابدأ الكتابة وستظهر لك النصائح فوراً.',
+      passTipLen: 'اجعلها 12 حرفاً على الأقل',
+      passTipUpper: 'أضف حروفاً كبيرة وصغيرة',
+      passTipDigit: 'أضف أرقاماً',
+      passTipSymbol: 'أضف رموزاً مثل ! @ # $',
+      passTipCommon: 'ابتعد عن الكلمات الشائعة والأرقام المتسلسلة',
+      passTipGood: 'ممتازة! استخدم مدير كلمات مرور لتخزينها بأمان.',
+      chkTitle: 'مراجعة عاداتك',
+      chkNote: 'جاوب بصراحة، النتيجة لك أنت بس.',
+      chkYes: 'أيوه',
+      chkNo: 'لأ',
+      chkItems: [
+        'التحقق بخطوتين (2FA) مفعّل على إيميلك وحساباتك المهمة',
+        'نظام جهازك ومتصفحك محدّثان لآخر إصدار',
+        'عندك نسخة احتياطية من ملفاتك المهمة',
+        'كل حساب له كلمة سر مختلفة',
+        'شاشة قفل برقم سري أو بصمة على موبايلك وكمبيوترك',
+        'تراجع عنوان أي رابط قبل الضغط عليه'
+      ],
+      chkScoreBad: 'محتاج تظبط الأساسيات — ابدأ بالتحقق بخطوتين وكلمة سر مختلفة لكل حساب.',
+      chkScoreMid: 'كويس، بس لسه فيه ثغرات. كمّل النواقص دي وانت في أمان أكبر.',
+      chkScoreGood: 'ممتاز! عاداتك أقوى من أغلب الناس. حافظ عليها.',
+      quizTitle: 'عينك على الاحتيال',
+      quizNote: 'كل موقف من دول حقيقي بيحصل كل يوم. اختار: آمن ولا احتيال؟',
+      quizSafe: 'آمن',
+      quizPhish: 'احتيال',
+      quizCorrect: 'صح!',
+      quizWrong: 'غلط، دي كانت ',
+      quizItems: [
+        { q: 'رسالة واتساب من رقم مش معروف: «مبروووك كسبت آيفون! ابعت بيانات كارتك البنكي عشان تستلم الجايزة»', phish: true, why: 'جايزة مجهتش ليك + طلب بيانات بنكية = احتيال مية المية.' },
+        { q: 'إيميل شكله من البنك: «تم رصد تسجيل دخول جديد. لو مش حضرتك، سجّل دخولك من التطبيق الرسمي للبنك» — من غير روابط ولا طلب بيانات', phish: false, why: 'تنبيه حقيقي بيوجهك للتطبيق الرسمي ومش بيطلب بياناتك.' },
+        { q: 'رسالة: «حسابك هيتقفل خلال 24 ساعة! دوس على اللينك فوراً واكتب باسوردك عشان تثبت هويتك»', phish: true, why: 'الاستعجال والتهديد بالقفل وطلب الباسورد أشهر علامات الاحتيال.' },
+        { q: 'صاحبك بعتلك لينك غريب من غير أي كلام، وحسابه اتهكر قبل كده', phish: true, why: 'حتى لو من حد تعرفه: اسأله الأول قبل ما تدوس. حسابه ممكن يكون متسرق.' }
+      ],
+      quizDoneBad: 'الاحتيال غلبك المرة دي، بس دلوقتي عرفت العلامات. راجع الإجابات فوق.',
+      quizDoneMid: 'عينك بدأت تتفتح. راجع اللي غلطت فيه وخليك شكاك أكتر.',
+      quizDoneGood: 'عين صقر حقيقي! محدش هيعرف يضحك عليك بسهولة.',
+      checkupEyebrow: 'CHECK YOURSELF',
+      checkupTitle: 'Check yourself',
+      checkupIntro: 'Three quick tools that measure how protected you are online. Everything runs on your own device, and nothing you type is sent or saved anywhere.',
+      checkupBannerT: 'Check yourself',
+      checkupBannerS: 'A free quick security checkup: password strength, your habits, and your phishing radar. All on your device, nothing is sent.',
+      passTitle: 'Test your password strength',
+      passNote: 'Type a sample password similar to your style, not your real one. It is never saved or sent.',
+      passPlaceholder: 'Type a password here',
+      passLevels: ['Very weak', 'Weak', 'Medium', 'Strong', 'Very strong'],
+      passTipsEmpty: 'Start typing and tips will appear instantly.',
+      passTipLen: 'Make it at least 12 characters',
+      passTipUpper: 'Mix upper and lower case letters',
+      passTipDigit: 'Add numbers',
+      passTipSymbol: 'Add symbols like ! @ # $',
+      passTipCommon: 'Avoid common words and sequences',
+      passTipGood: 'Excellent! Store it safely with a password manager.',
+      chkTitle: 'Review your habits',
+      chkNote: 'Answer honestly, the result is for you only.',
+      chkYes: 'Yes',
+      chkNo: 'No',
+      chkItems: [
+        'Two-factor authentication (2FA) is on for your email and important accounts',
+        'Your device OS and browser are updated to the latest version',
+        'You have a backup of your important files',
+        'Every account has a different password',
+        'Your phone and computer have a lock screen PIN or fingerprint',
+        'You check the address of any link before tapping it'
+      ],
+      chkScoreBad: 'You need to fix the basics, start with 2FA and a different password for every account.',
+      chkScoreMid: 'Good, but there are still gaps. Close them and you will be much safer.',
+      chkScoreGood: 'Excellent! Your habits are stronger than most people. Keep them up.',
+      quizTitle: 'Your phishing radar',
+      quizNote: 'Each of these situations really happens every day. Choose: safe or phishing?',
+      quizSafe: 'Safe',
+      quizPhish: 'Phishing',
+      quizCorrect: 'Correct!',
+      quizWrong: 'Nope, that was ',
+      quizItems: [
+        { q: 'A WhatsApp message from an unknown number: "CONGRATS you won an iPhone! Send your bank card details to receive your prize"', phish: true, why: 'A prize you never entered plus a request for bank details equals certain phishing.' },
+        { q: 'An email that looks like your bank: "A new sign-in was detected. If this was not you, sign in from the bank\'s official app" - no links, no data requests', phish: false, why: 'A real alert that points you to the official app and asks for nothing.' },
+        { q: 'A message: "Your account will be locked within 24 hours! Tap this link NOW and enter your password to verify your identity"', phish: true, why: 'Urgency, threats, and asking for your password are the classic phishing signs.' },
+        { q: 'Your friend sends you a strange link with no message, and his account was hacked before', phish: true, why: 'Even from someone you know: ask him first before tapping. His account may be stolen.' }
+      ],
+      quizDoneBad: 'Phishing got you this time, but now you know the signs. Review the answers above.',
+      quizDoneMid: 'Your radar is waking up. Review what you missed and stay skeptical.',
+      quizDoneGood: 'A true falcon eye! Nobody will fool you easily.',
       servicesEyebrow: 'SERVICES',
       servicesTitle: 'خدماتي',
       servicesIntro: 'خدمات أقدمها بنفس الجودة التي تراها في هذا الموقع:',
       services: [
+        { name: 'اطمّن على نفسك — فحص أمني شخصي', detail: 'فحص مجاني داخل التطبيق: اختبر قوة كلمة سرك، راجع عادات حمايتك، وجرّب عينك على رسائل الاحتيال. كل شيء يعمل على جهازك ولا يُرسَل أي شيء.', free: true },
         { name: 'موقع شخصي أو صفحة تعريفية', detail: 'صفحة واحدة أنيقة وسريعة، مصممة للموبايل أولاً — تماماً مثل هذا الموقع.' },
         { name: 'صفحة هبوط لنشاطك التجاري', detail: 'صفحة تعرّف بمنتجك أو خدمتك وتجلب لك العملاء، مع أزرار تواصل جاهزة.' },
         { name: 'لعبة متصفح خفيفة', detail: 'لعبة جافاسكريبت كاملة تعمل من المتصفح على الموبايل والكمبيوتر.' },
@@ -186,8 +280,11 @@
         { name: 'إنشاء متجر إلكتروني', detail: 'متجر كامل بسلة شراء وبوابة دفع وإدارة منتجات، جاهز يبيع من أول يوم.' },
         { name: 'شات بوت للبيزنس', detail: 'بوت واتساب أو تليجرام يرد على عملائك تلقائياً، يستقبل الطلبات ويجاوب على الأسئلة الشائعة.' },
         { name: 'تسريع وتحسين المواقع', detail: 'تشخيص شامل لموقعك البطيء ورفع سرعته ونتائجه في محركات البحث.' },
-        { name: 'دعم فني وصيانة عن بعد', detail: 'حل مشاكل جهازك وبرامجك عن بعد، وصيانة دورية تخليك مطمئن.' }
+        { name: 'دعم فني وصيانة عن بعد', detail: 'حل مشاكل جهازك وبرامجك عن بعد، وصيانة دورية تخليك مطمئن.' },
+        { name: 'إدارة حماية الأجهزة والشبكات للشركات الصغيرة', detail: 'اشتراك شهري: تثبيت وإدارة حماية أعمال موثوقة (مثل Bitdefender أو Malwarebytes للأعمال) على أجهزة شركتك، ومتابعة التنبيهات والتقارير أولاً بأول، مع دعم مستمر.' }
       ],
+      serviceFree: 'مجاني',
+      serviceFreeCta: 'ابدأ الفحص',
       serviceWa: 'اطلب الخدمة',
       serviceWaLinks: [
         'https://wa.me/201154655875?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B+%D8%A3%D8%AD%D9%85%D8%AF%D8%8C+%D8%B9%D8%A7%D9%88%D8%B2+%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1+%D8%B9%D9%86+%D8%AE%D8%AF%D9%85%D8%A9%3A+%D9%85%D9%88%D9%82%D8%B9+%D8%B4%D8%AE%D8%B5%D9%8A+%D8%A3%D9%88+%D8%B5%D9%81%D8%AD%D8%A9+%D8%AA%D8%B9%D8%B1%D9%8A%D9%81%D9%8A%D8%A9',
@@ -199,7 +296,8 @@
         'https://wa.me/201154655875?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B+%D8%A3%D8%AD%D9%85%D8%AF%D8%8C+%D8%B9%D8%A7%D9%88%D8%B2+%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1+%D8%B9%D9%86+%D8%AE%D8%AF%D9%85%D8%A9%3A+%D8%A5%D9%86%D8%B4%D8%A7%D8%A1+%D9%85%D8%AA%D8%AC%D8%B1+%D8%A5%D9%84%D9%83%D8%AA%D8%B1%D9%88%D9%86%D9%8A',
         'https://wa.me/201154655875?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B+%D8%A3%D8%AD%D9%85%D8%AF%D8%8C+%D8%B9%D8%A7%D9%88%D8%B2+%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1+%D8%B9%D9%86+%D8%AE%D8%AF%D9%85%D8%A9%3A+%D8%B4%D8%A7%D8%AA+%D8%A8%D9%88%D8%AA+%D9%84%D9%84%D8%A8%D9%8A%D8%B2%D9%86%D8%B3',
         'https://wa.me/201154655875?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B+%D8%A3%D8%AD%D9%85%D8%AF%D8%8C+%D8%B9%D8%A7%D9%88%D8%B2+%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1+%D8%B9%D9%86+%D8%AE%D8%AF%D9%85%D8%A9%3A+%D8%AA%D8%B3%D8%B1%D9%8A%D8%B9+%D9%88%D8%AA%D8%AD%D8%B3%D9%8A%D9%86+%D8%A7%D9%84%D9%85%D9%88%D8%A7%D9%82%D8%B9',
-        'https://wa.me/201154655875?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B+%D8%A3%D8%AD%D9%85%D8%AF%D8%8C+%D8%B9%D8%A7%D9%88%D8%B2+%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1+%D8%B9%D9%86+%D8%AE%D8%AF%D9%85%D8%A9%3A+%D8%AF%D8%B9%D9%85+%D9%81%D9%86%D9%8A+%D9%88%D8%B5%D9%8A%D8%A7%D9%86%D8%A9+%D8%B9%D9%86+%D8%A8%D8%B9%D8%AF'
+        'https://wa.me/201154655875?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B+%D8%A3%D8%AD%D9%85%D8%AF%D8%8C+%D8%B9%D8%A7%D9%88%D8%B2+%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1+%D8%B9%D9%86+%D8%AE%D8%AF%D9%85%D8%A9%3A+%D8%AF%D8%B9%D9%85+%D9%81%D9%86%D9%8A+%D9%88%D8%B5%D9%8A%D8%A7%D9%86%D8%A9+%D8%B9%D9%86+%D8%A8%D8%B9%D8%AF',
+        'https://wa.me/201154655875?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B+%D8%A3%D8%AD%D9%85%D8%AF%D8%8C+%D8%B9%D8%A7%D9%88%D8%B2+%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1+%D8%B9%D9%86+%D8%AE%D8%AF%D9%85%D8%A9%3A+%D8%A5%D8%AF%D8%A7%D8%B1%D8%A9+%D8%AD%D9%85%D8%A7%D9%8A%D8%A9+%D8%A7%D9%84%D8%A3%D8%AC%D9%87%D8%B2%D8%A9+%D9%88%D8%A7%D9%84%D8%B4%D8%A8%D9%83%D8%A7%D8%AA+%D9%84%D9%84%D8%B4%D8%B1%D9%83%D8%A7%D8%AA+%D8%A7%D9%84%D8%B5%D8%BA%D9%8A%D8%B1%D8%A9'
       ],
       cvArBtn: 'السيرة الذاتية بالعربية',
       khamsatSoon: 'قريباً: اطلب خدماتي عبر منصة خمسات',
@@ -215,7 +313,7 @@
     },
     en: {
       navAria: 'Site pages',
-      nav: ['Home', 'The App', 'About', 'Certifications', 'Projects', 'Services', 'Contact'],
+      nav: ['Home', 'The App', 'About', 'Certifications', 'Projects', 'Services', 'Checkup', 'Contact'],
       heroAlt: 'Ahmed Sakr in a formal navy suit on a simple studio background',
       verifiedTitle: "Ahmed Mokhtar Sakr's official website",
       nameAr: 'أحمد مختار عوض',
@@ -328,6 +426,7 @@
       servicesTitle: 'My services',
       servicesIntro: 'What I can build for you, with the same quality you see on this site:',
       services: [
+        { name: 'Check yourself - personal security checkup', detail: 'A free in-app checkup: test your password strength, review your security habits, and try your phishing radar. Everything runs on your device, nothing is sent.', free: true },
         { name: 'Personal one-page website', detail: 'A clean, fast, mobile-first page — just like this very site.' },
         { name: 'Landing page for your business', detail: 'A page that presents your product or service and brings you customers, with ready contact buttons.' },
         { name: 'A light browser game', detail: 'A complete JavaScript game that runs in the browser on mobile and desktop.' },
@@ -336,8 +435,11 @@
         { name: 'Online store', detail: 'A complete store with cart, payment gateway and product management, ready to sell from day one.' },
         { name: 'Business chatbot', detail: 'A WhatsApp or Telegram bot that replies to your customers automatically, takes orders and answers common questions.' },
         { name: 'Website speed optimization', detail: 'A full diagnosis of your slow website, boosting its speed and search engine scores.' },
-        { name: 'Remote tech support and maintenance', detail: 'Fixing your device and software issues remotely, with regular maintenance for peace of mind.' }
+        { name: 'Remote tech support and maintenance', detail: 'Fixing your device and software issues remotely, with regular maintenance for peace of mind.' },
+        { name: 'Managed security for small businesses', detail: 'A monthly subscription: I set up and manage trusted business-grade protection (like Bitdefender or Malwarebytes for business) on your company devices, watch alerts and reports, and stay on call for support.' }
       ],
+      serviceFree: 'FREE',
+      serviceFreeCta: 'Start the checkup',
       serviceWa: 'Order on WhatsApp',
       serviceWaLinks: [
         'https://wa.me/201154655875?text=Hi+Ahmed%2C+I%27d+like+to+ask+about+your+service%3A+Personal+one-page+website',
@@ -349,7 +451,8 @@
         'https://wa.me/201154655875?text=Hi+Ahmed%2C+I%27d+like+to+ask+about+your+service%3A+Online+store',
         'https://wa.me/201154655875?text=Hi+Ahmed%2C+I%27d+like+to+ask+about+your+service%3A+Business+chatbot',
         'https://wa.me/201154655875?text=Hi+Ahmed%2C+I%27d+like+to+ask+about+your+service%3A+Website+speed+optimization',
-        'https://wa.me/201154655875?text=Hi+Ahmed%2C+I%27d+like+to+ask+about+your+service%3A+Remote+tech+support+and+maintenance'
+        'https://wa.me/201154655875?text=Hi+Ahmed%2C+I%27d+like+to+ask+about+your+service%3A+Remote+tech+support+and+maintenance',
+        'https://wa.me/201154655875?text=Hi+Ahmed%2C+I%27d+like+to+ask+about+your+service%3A+Managed+security+for+small+business+devices+and+networks'
       ],
       cvArBtn: 'My CV in Arabic',
       khamsatSoon: 'Coming soon: order my services on Khamsat',
@@ -402,7 +505,8 @@
       '<a class="pf-btn pf-btn-ghost" href="#/contact">' + esc(t.ctaContact) + '</a>' +
       '</div>' +
       '<div class="pf-visits" title="' + esc(t.visitsTitle) + '"><img src="https://hits.sh/ahmedsakr53.github.io/hits.svg?label=%F0%9F%91%81&color=2f7fd4&style=flat" alt="' + esc(t.visitsTitle) + '" loading="lazy"></div>' +
-      '</div></div></div></div>';
+      '</div></div></div>' +
+      '<a class="pf-checkup-banner" href="#/checkup">' + icon('navShield') + '<span><b>' + esc(t.checkupBannerT) + '</b><small>' + esc(t.checkupBannerS) + '</small></span></a></div>';
   }
 
   function renderApp(t) {
@@ -478,16 +582,150 @@
   }
 
   function renderServices(t) {
+    var waIdx = 0;
     var cards = t.services.map(function (s, i) {
-      return '<div class="pf-card"><div class="pf-card-num">' + (i + 1) + '</div>' +
+      var btn;
+      if (s.free) {
+        btn = '<a class="pf-btn pf-btn-services pf-service-free" href="#/checkup">' + icon('navShield') + esc(t.serviceFreeCta) + '</a>';
+      } else {
+        btn = '<a class="pf-btn pf-btn-primary pf-service-wa" href="' + t.serviceWaLinks[waIdx++] + '" target="_blank" rel="noopener">' + icon('whatsapp') + esc(t.serviceWa) + '</a>';
+      }
+      return '<div class="pf-card' + (s.free ? ' pf-card-free' : '') + '"><div class="pf-card-num">' + (i + 1) + '</div>' +
+        (s.free ? '<span class="pf-free-badge">' + esc(t.serviceFree) + '</span>' : '') +
         '<div class="pf-card-name">' + esc(s.name) + '</div>' +
-        '<div class="pf-card-detail">' + esc(s.detail) + '</div>' +
-        '<a class="pf-btn pf-btn-primary pf-service-wa" href="' + t.serviceWaLinks[i] + '" target="_blank" rel="noopener">' + icon('whatsapp') + esc(t.serviceWa) + '</a></div>';
+        '<div class="pf-card-detail">' + esc(s.detail) + '</div>' + btn + '</div>';
     }).join('');
     return '<div class="pf-page">' + pageHead(t.servicesEyebrow, t.servicesTitle) +
       '<p class="pf-para">' + esc(t.servicesIntro) + '</p>' +
       '<div class="pf-grid">' + cards + '</div>' +
       '<div class="pf-contact"><span class="pf-btn pf-btn-ghost pf-btn-soon">' + icon('store') + esc(t.khamsatSoon) + '</span></div></div>';
+  }
+
+  function renderCheckup(t) {
+    var chk = t.chkItems.map(function (q, i) {
+      return '<div class="pf-card pf-chk-item" data-chk="' + i + '">' +
+        '<div class="pf-chk-q">' + esc(q) + '</div>' +
+        '<div class="pf-chk-btns"><button type="button" class="pf-chk-btn" data-val="1">' + esc(t.chkYes) + '</button>' +
+        '<button type="button" class="pf-chk-btn" data-val="0">' + esc(t.chkNo) + '</button></div></div>';
+    }).join('');
+    var quiz = t.quizItems.map(function (item, i) {
+      return '<div class="pf-card pf-quiz-item" data-quiz="' + i + '">' +
+        '<div class="pf-chk-q">' + esc(item.q) + '</div>' +
+        '<div class="pf-chk-btns"><button type="button" class="pf-chk-btn pf-quiz-safe" data-ans="0">' + esc(t.quizSafe) + '</button>' +
+        '<button type="button" class="pf-chk-btn pf-quiz-phish" data-ans="1">' + esc(t.quizPhish) + '</button></div>' +
+        '<div class="pf-quiz-why" hidden></div></div>';
+    }).join('');
+    return '<div class="pf-page">' + pageHead(t.checkupEyebrow, t.checkupTitle) +
+      '<p class="pf-para">' + esc(t.checkupIntro) + '</p>' +
+      '<h3 class="pf-h3">' + esc(t.passTitle) + '</h3>' +
+      '<div class="pf-card pf-pass-card">' +
+      '<div class="pf-card-detail">' + esc(t.passNote) + '</div>' +
+      '<input type="password" class="pf-pass-input" id="pf-pass" placeholder="' + esc(t.passPlaceholder) + '" autocomplete="off">' +
+      '<div class="pf-pass-meter"><div class="pf-pass-fill" id="pf-pass-fill"></div></div>' +
+      '<div class="pf-pass-label" id="pf-pass-label"></div>' +
+      '<div class="pf-pass-tips" id="pf-pass-tips">' + esc(t.passTipsEmpty) + '</div></div>' +
+      '<h3 class="pf-h3">' + esc(t.chkTitle) + '</h3>' +
+      '<p class="pf-para">' + esc(t.chkNote) + '</p>' +
+      '<div class="pf-grid">' + chk + '</div>' +
+      '<div class="pf-score" id="pf-chk-score" hidden></div>' +
+      '<h3 class="pf-h3">' + esc(t.quizTitle) + '</h3>' +
+      '<p class="pf-para">' + esc(t.quizNote) + '</p>' +
+      '<div class="pf-grid">' + quiz + '</div>' +
+      '<div class="pf-score" id="pf-quiz-score" hidden></div></div>';
+  }
+
+  function passScore(p) {
+    if (!p) return -1;
+    var score = 0;
+    if (p.length >= 8) score++;
+    if (p.length >= 12) score++;
+    if (/[a-z\u0621-\u064a]/.test(p) && /[A-Z\u00c0-\u00de]/.test(p)) score++;
+    if (/[A-Z]/.test(p) && /[a-z]/.test(p)) score = score; // covered above
+    if (/[0-9]/.test(p)) score++;
+    if (/[^a-zA-Z0-9\u0621-\u064a]/.test(p)) score++;
+    if (/^(password|123456|qwerty|letmein|admin|111111|abc123)/i.test(p)) score = 0;
+    if (score > 4) score = 4;
+    return score;
+  }
+
+  function wireCheckup(t) {
+    var pass = document.getElementById('pf-pass');
+    if (pass) {
+      pass.addEventListener('input', function () {
+        var p = pass.value, sc = passScore(p);
+        var fill = document.getElementById('pf-pass-fill');
+        var label = document.getElementById('pf-pass-label');
+        var tips = document.getElementById('pf-pass-tips');
+        if (!p) {
+          fill.style.width = '0%'; label.textContent = ''; tips.textContent = t.passTipsEmpty;
+          fill.className = 'pf-pass-fill';
+          return;
+        }
+        var pct = [15, 35, 55, 80, 100][sc];
+        fill.style.width = pct + '%';
+        fill.className = 'pf-pass-fill pf-pass-' + sc;
+        label.textContent = t.passLevels[sc];
+        var tipsArr = [];
+        if (p.length < 12) tipsArr.push(t.passTipLen);
+        if (!(/[A-Z]/.test(p) && /[a-z]/.test(p))) tipsArr.push(t.passTipUpper);
+        if (!/[0-9]/.test(p)) tipsArr.push(t.passTipDigit);
+        if (!/[^a-zA-Z0-9\u0621-\u064a]/.test(p)) tipsArr.push(t.passTipSymbol);
+        if (/^(password|123456|qwerty|letmein|admin|111111|abc123)/i.test(p)) tipsArr.push(t.passTipCommon);
+        if (sc >= 3 && tipsArr.length === 0) tipsArr.push(t.passTipGood);
+        tips.innerHTML = tipsArr.map(function (tp) { return '<div class="pf-pass-tip">' + esc(tp) + '</div>'; }).join('');
+      });
+    }
+
+    var chkAnswers = {};
+    document.querySelectorAll('.pf-chk-item').forEach(function (card) {
+      var idx = +card.dataset.chk;
+      card.querySelectorAll('.pf-chk-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          chkAnswers[idx] = +btn.dataset.val;
+          card.querySelectorAll('.pf-chk-btn').forEach(function (b) { b.classList.remove('pf-chk-on-yes', 'pf-chk-on-no'); });
+          btn.classList.add(+btn.dataset.val === 1 ? 'pf-chk-on-yes' : 'pf-chk-on-no');
+          var total = t.chkItems.length;
+          var answered = Object.keys(chkAnswers).length;
+          var scoreBox = document.getElementById('pf-chk-score');
+          if (answered === total) {
+            var sum = 0; for (var k in chkAnswers) sum += chkAnswers[k];
+            var msg = sum <= 2 ? t.chkScoreBad : (sum <= 4 ? t.chkScoreMid : t.chkScoreGood);
+            scoreBox.hidden = false;
+            scoreBox.className = 'pf-score ' + (sum <= 2 ? 'pf-score-bad' : (sum <= 4 ? 'pf-score-mid' : 'pf-score-good'));
+            scoreBox.textContent = sum + ' / ' + total + ' — ' + msg;
+          }
+        });
+      });
+    });
+
+    var quizAnswers = {};
+    document.querySelectorAll('.pf-quiz-item').forEach(function (card) {
+      var idx = +card.dataset.quiz;
+      var item = t.quizItems[idx];
+      card.querySelectorAll('.pf-chk-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          if (quizAnswers[idx] !== undefined) return;
+          var ans = +btn.dataset.ans;
+          var correct = (ans === 1) === item.phish;
+          quizAnswers[idx] = correct ? 1 : 0;
+          card.classList.add(correct ? 'pf-quiz-right' : 'pf-quiz-wrong');
+          card.querySelectorAll('.pf-chk-btn').forEach(function (b) { b.disabled = true; });
+          btn.classList.add(correct ? 'pf-chk-on-yes' : 'pf-chk-on-no');
+          var why = card.querySelector('.pf-quiz-why');
+          why.hidden = false;
+          why.textContent = (correct ? t.quizCorrect + ' ' : t.quizWrong + (item.phish ? t.quizPhish : t.quizSafe) + '. ') + item.why;
+          var total = t.quizItems.length;
+          if (Object.keys(quizAnswers).length === total) {
+            var sum = 0; for (var k in quizAnswers) sum += quizAnswers[k];
+            var msg = sum <= 1 ? t.quizDoneBad : (sum <= 2 ? t.quizDoneMid : t.quizDoneGood);
+            var scoreBox = document.getElementById('pf-quiz-score');
+            scoreBox.hidden = false;
+            scoreBox.className = 'pf-score ' + (sum <= 1 ? 'pf-score-bad' : (sum <= 2 ? 'pf-score-mid' : 'pf-score-good'));
+            scoreBox.textContent = sum + ' / ' + total + ' — ' + msg;
+          }
+        });
+      });
+    });
   }
 
   function renderContact(t) {
@@ -571,12 +809,14 @@
     else if (route === '#/certifications') page = renderCerts(t);
     else if (route === '#/projects') page = renderProjects(t);
     else if (route === '#/services') page = renderServices(t);
+    else if (route === '#/checkup') page = renderCheckup(t);
     else if (route === '#/contact') page = renderContact(t);
     else page = renderHome(t);
     document.getElementById('app').innerHTML = nav + page + '<div class="pf-closing">' + esc(t.closing) + '</div>';
     if (openCert >= 0 && route === '#/certifications') showLightbox(openCert);
     setupReveal();
     setupTilt();
+    if (route === '#/checkup') wireCheckup(t);
     if (renderDone && window.goatcounter && window.goatcounter.count) {
       try { window.goatcounter.count({ path: location.hash.slice(1) || '/' }); } catch (e) {}
     }
