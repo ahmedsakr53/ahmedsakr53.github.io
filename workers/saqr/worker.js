@@ -573,7 +573,7 @@ async function handleAdminApi(request, env, ctx, url) {
 
     let parsed = null;
     try {
-      const out = await callGemini(env, sys, contents, { temperature: 0.6, maxOutputTokens: 900 }, env.OWNER_MODEL || 'gemini-3.5-flash');
+      const out = await callGemini(env, sys, contents, { temperature: 0.6, maxOutputTokens: 4000, responseMimeType: 'application/json' }, env.OWNER_MODEL || 'gemini-3.5-flash');
       const m = out.match(/\{[\s\S]*\}/);
       parsed = m ? JSON.parse(m[0]) : null;
     } catch (e) { parsed = null; }
@@ -618,7 +618,7 @@ async function handleAdminApi(request, env, ctx, url) {
       'الشاتات:\n' + dump;
     let suggestions = [];
     try {
-      const out = await callGemini(env, sys, [{ role: 'user', parts: [{ text: 'حلّل واقترح' }] }], { temperature: 0.4, maxOutputTokens: 700 }, env.OWNER_MODEL || 'gemini-3.5-flash');
+      const out = await callGemini(env, sys, [{ role: 'user', parts: [{ text: 'حلّل واقترح' }] }], { temperature: 0.4, maxOutputTokens: 3000, responseMimeType: 'application/json' }, env.OWNER_MODEL || 'gemini-3.5-flash');
       const m = out.match(/\{[\s\S]*\}/);
       const parsed = m ? JSON.parse(m[0]) : null;
       if (parsed && Array.isArray(parsed.suggestions)) {
