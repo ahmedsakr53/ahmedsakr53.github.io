@@ -52,19 +52,20 @@
     python: 'M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z',
     chip: 'M15 9H9v6h6V9zm-2 4h-2v-2h2v2zm8-2V9h-3V6c0-1.1-.9-2-2-2h-3V1h-2v3h-4V1H9v3H6C4.9 4 4 4.9 4 6v3H1v2h3v2H1v2h3v3c0 1.1.9 2 2 2h3v3h2v-3h4v3h2v-3h3c1.1 0 2-.9 2-2v-3h3v-2h-3v-2h3zm-4 8H7V7h10v10z',
     store: 'M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z',
+    navApp: 'M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z',
     pin: 'M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13c0-3.37-3.13-6.5-7-6.5zm0 8.75a2.25 2.25 0 1 1 0-4.5 2.25 2.25 0 0 1 0 4.5z'
   };
   var socialIcons = ['facebook', 'telegram', 'whatsapp', 'instagram', 'github', 'tiktok', 'x', 'imo'];
   function icon(name) {
     return '<svg class="pf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="' + ICON_PATHS[name] + '"/></svg>';
   }
-  var navPaths = ['#/', '#/about', '#/certifications', '#/projects', '#/services', '#/contact'];
-  var navIcons = ['home', 'navUser', 'navCert', 'navCode', 'navGrid', 'mail'];
+  var navPaths = ['#/', '#/app', '#/about', '#/certifications', '#/projects', '#/services', '#/contact'];
+  var navIcons = ['home', 'navApp', 'navUser', 'navCert', 'navCode', 'navGrid', 'mail'];
 
   var T = {
     ar: {
       navAria: 'صفحات الموقع',
-      nav: ['الرئيسية', 'نبذة عني', 'الشهادات', 'المشاريع', 'خدماتي', 'التواصل'],
+      nav: ['الرئيسية', 'التطبيق', 'نبذة عني', 'الشهادات', 'المشاريع', 'خدماتي', 'التواصل'],
       heroAlt: 'أحمد صقر ببدلة كحلية رسمية على خلفية استوديو بسيطة',
       verifiedTitle: 'الموقع الرسمي لأحمد مختار صقر',
       nameAr: 'أحمد مختار عوض',
@@ -75,6 +76,19 @@
       ctaProjects: 'استعرض مشاريعي',
       ctaContact: 'تواصل معي',
       aboutEyebrow: 'ABOUT',
+      appEyebrow: 'THE APP',
+      appTitle: 'نبذة عن التطبيق',
+      appIntro: 'هذا ليس مجرد موقع، بل تطبيق ويب تقدمي (PWA) صُمم ونُفذ من الصفر ليعمل كتطبيق حقيقي على الهاتف والكمبيوتر:',
+      appFeatures: [
+        ['قابل للتثبيت', 'يُثبَّت بضغطة واحدة من زر «حمّل التطبيق»، ويفتح بأيقونة الصقر الخاصة به كتطبيق مستقل عن المتصفح.'],
+        ['ثنائي اللغة', 'عربي وإنجليزي بتبديل فوري، مع دعم كامل لاتجاه الكتابة في اللغتين.'],
+        ['يحدّث نفسه', 'يراقب النسخ الجديدة ويُظهر إشعار «تحديث جديد متاح»، فيصلك الجديد بضغطة «حدّث».'],
+        ['سريع وخفيف', 'صور مضغوطة بصيغة WebP وخطوط مستضافة محليًا، فيفتح في لحظة حتى مع اتصال ضعيف.'],
+        ['ليلي ونهاري', 'وضع داكن وفاتح بألوان مريحة للعين، ويتذكر اختيارك في كل زيارة.'],
+        ['تنقل كالتطبيقات', 'شريط تنقل ثابت أسفل الشاشة، وحركة ناعمة لصورة الغلاف تتبع الماوس على الكمبيوتر.'],
+        ['إحصاءات شفافة', 'عداد زيارات حقيقي مفتوح للجميع، بلا إعلانات ولا تتبع تجاري.'],
+        ['تواصل مباشر', 'زر واتساب برسالة جاهزة لكل خدمة، وسيرة ذاتية باللغتين بضغطة واحدة.']
+      ],
       aboutTitle: 'من هو؟',
       aboutBio: [
         'من طما، محافظة سوهاج، تخرج أحمد مختار عوض (صقر) في الثانوية العامة شعبة علمي رياضة بمجموع 92.25%، والتحق بكلية الهندسة جامعة سوهاج، هندسة كهرباء قسم اتصالات، وهو يعرف تمامًا إلى أين يتجه.',
@@ -113,7 +127,7 @@
       ],
       journeyPhotoAlt: 'أحمد بسترة أمان ممسكاً النموذج الأولي للمطب الصناعي الذكي في معرض مشاريع',
       journeyTitle: 'My Map',
-      journeySub: 'خارطة رحلتي خطوة بخطوة',
+      journeySub: 'خارطة رحلته خطوة بخطوة',
       journeyDone: 'تم بنجاح',
       journeyNext: 'الهدف القادم',
       journey: [
@@ -197,7 +211,7 @@
     },
     en: {
       navAria: 'Site pages',
-      nav: ['Home', 'About', 'Certifications', 'Projects', 'Services', 'Contact'],
+      nav: ['Home', 'The App', 'About', 'Certifications', 'Projects', 'Services', 'Contact'],
       heroAlt: 'Ahmed Sakr in a formal navy suit on a simple studio background',
       verifiedTitle: "Ahmed Mokhtar Sakr's official website",
       nameAr: 'أحمد مختار عوض',
@@ -208,6 +222,19 @@
       ctaProjects: 'See my projects',
       ctaContact: 'Contact me',
       aboutEyebrow: 'ABOUT',
+      appEyebrow: 'THE APP',
+      appTitle: 'About the app',
+      appIntro: 'This is not just a website; it is a progressive web app (PWA) designed and built from scratch to work like a real app on phone and desktop:',
+      appFeatures: [
+        ['Installable', 'Installs in one tap from the "Install app" button, and opens with its own falcon icon as an app independent of the browser.'],
+        ['Bilingual', 'Arabic and English with instant switching, with full text-direction support in both languages.'],
+        ['Self-updating', 'Watches for new versions and shows an "Update available" notice, so the latest arrives with one tap on "Refresh".'],
+        ['Fast and light', 'WebP-compressed images and locally hosted fonts, so it opens in a blink even on a weak connection.'],
+        ['Dark and light', 'Dark and light modes with eye-friendly colors, and it remembers your choice on every visit.'],
+        ['App-like navigation', 'A fixed navigation bar at the bottom of the screen, and a soft hero-photo motion that follows the mouse on desktop.'],
+        ['Transparent stats', 'A real visitor counter open to everyone, with no ads and no commercial tracking.'],
+        ['Direct contact', 'A WhatsApp button with a ready message for every service, and a CV in both languages one tap away.']
+      ],
       aboutTitle: 'Who is he?',
       aboutBio: [
         'From Tima, Sohag Governorate, Ahmed Mokhtar Awad (Sakr) graduated from Thanaweya Amma, advanced mathematics track, with a score of 92.25%, and entered the Faculty of Engineering at Sohag University, Electrical Engineering, Communications section, knowing exactly where he was headed.',
@@ -369,6 +396,17 @@
       '</div></div></div></div>';
   }
 
+  function renderApp(t) {
+    var cards = t.appFeatures.map(function (f, i) {
+      return '<div class="pf-card"><div class="pf-card-num">' + (i + 1) + '</div>' +
+        '<div class="pf-card-name">' + esc(f[0]) + '</div>' +
+        '<div class="pf-card-detail">' + esc(f[1]) + '</div></div>';
+    }).join('');
+    return '<div class="pf-page">' + pageHead(t.appEyebrow, t.appTitle) +
+      '<p class="pf-para">' + esc(t.appIntro) + '</p>' +
+      '<div class="pf-grid">' + cards + '</div></div>';
+  }
+
   function renderAbout(t) {
     return '<div class="pf-page">' + pageHead(t.aboutEyebrow, t.aboutTitle) +
       t.aboutBio.map(function (p) { return '<p class="pf-para">' + esc(p) + '</p>'; }).join('') +
@@ -519,7 +557,8 @@
       icon(theme === 'dark' ? 'sun' : 'moon') +
       '</button></div>';
     var page;
-    if (route === '#/about') page = renderAbout(t);
+    if (route === '#/app') page = renderApp(t);
+    else if (route === '#/about') page = renderAbout(t);
     else if (route === '#/certifications') page = renderCerts(t);
     else if (route === '#/projects') page = renderProjects(t);
     else if (route === '#/services') page = renderServices(t);
