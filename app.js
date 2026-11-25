@@ -82,7 +82,9 @@
       projectsEyebrow: 'PROJECTS',
       projectsTitle: 'مشاريع نفذتها بنفسي',
       projects: [
-        { name: 'المطب الصناعي الذكي', detail: 'مشروع إنترنت أشياء باستخدام Arduino: مطب صناعي ذكي يستشعر الحركة ويتفاعل معها.' }
+        { name: 'المطب الصناعي الذكي', detail: 'مشروع إنترنت أشياء باستخدام Arduino: مطب صناعي ذكي يستشعر الحركة ويتفاعل معها.' },
+        { name: 'منصة تجارية', detail: 'تصميم وتنفيذ منصة تجارية لصالح عميل خاص — تفاصيل المشروع محفوظة التزاماً بسرية العمل مع العملاء.' },
+        { name: 'لعبة متحركة عالية الجودة', detail: 'لعبة جري لا نهائية برسوم كرتونية عالية الجودة وتجربة موبايل كاملة — في مراحلها الأخيرة، قريباً.' }
       ],
       contactEyebrow: 'CONTACT',
       contactTitle: 'تواصل معي',
@@ -151,7 +153,9 @@
       projectsEyebrow: 'PROJECTS',
       projectsTitle: 'Things I built myself',
       projects: [
-        { name: 'The Smart Speed Bump', detail: 'An Arduino IoT project: a smart speed bump that senses motion and reacts.' }
+        { name: 'The Smart Speed Bump', detail: 'An Arduino IoT project: a smart speed bump that senses motion and reacts.' },
+        { name: 'Commercial Platform', detail: 'Design and delivery of a commercial platform for a private client — project details kept confidential under client privacy.' },
+        { name: 'High-Quality Animated Game', detail: 'An endless-runner mobile game with high-quality cartoon art and a full gameplay experience — in final stages, coming soon.' }
       ],
       contactEyebrow: 'CONTACT',
       contactTitle: 'Contact me',
