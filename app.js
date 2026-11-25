@@ -164,7 +164,11 @@
         { name: 'صفحة هبوط لنشاطك التجاري', detail: 'صفحة تعرّف بمنتجك أو خدمتك وتجلب لك العملاء، مع أزرار تواصل جاهزة.' },
         { name: 'لعبة متصفح خفيفة', detail: 'لعبة جافاسكريبت كاملة تعمل من المتصفح على الموبايل والكمبيوتر.' },
         { name: 'تأمين وفحص أجهزتك وشبكتك', detail: 'مراجعة أساسية لإعدادات الأمان لجهازك أو شبكتك الصغيرة، مع خطوات عملية للحماية بمعايير Cisco.' },
-        { name: 'إنشاء منصة تعليمية', detail: 'منصة كورسات كاملة: فيديوهات واختبارات ولوحة تحكم للطلاب، جاهزة تستقبل مشتركين من أول يوم.' }
+        { name: 'إنشاء منصة تعليمية', detail: 'منصة كورسات كاملة: فيديوهات واختبارات ولوحة تحكم للطلاب، جاهزة تستقبل مشتركين من أول يوم.' },
+        { name: 'إنشاء متجر إلكتروني', detail: 'متجر كامل بسلة شراء وبوابة دفع وإدارة منتجات، جاهز يبيع من أول يوم.' },
+        { name: 'شات بوت للبيزنس', detail: 'بوت واتساب أو تليجرام يرد على عملائك تلقائياً، يستقبل الطلبات ويجاوب على الأسئلة الشائعة.' },
+        { name: 'تسريع وتحسين المواقع', detail: 'تشخيص شامل لموقعك البطيء ورفع سرعته ونتائجه في محركات البحث.' },
+        { name: 'دعم فني وصيانة عن بعد', detail: 'حل مشاكل جهازك وبرامجك عن بعد، وصيانة دورية تخليك مطمئن.' }
       ],
       serviceWa: 'اطلب الخدمة',
       serviceWaLinks: [
@@ -173,7 +177,11 @@
         'https://wa.me/201154655875?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B+%D8%A3%D8%AD%D9%85%D8%AF%D8%8C+%D8%B9%D8%A7%D9%88%D8%B2+%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1+%D8%B9%D9%86+%D8%AE%D8%AF%D9%85%D8%A9%3A+%D9%84%D8%B9%D8%A8%D8%A9+%D9%85%D8%AA%D8%B5%D9%81%D8%AD+%D8%AE%D9%81%D9%8A%D9%81%D8%A9',
         'https://wa.me/201154655875?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B+%D8%A3%D8%AD%D9%85%D8%AF%D8%8C+%D8%B9%D8%A7%D9%88%D8%B2+%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1+%D8%B9%D9%86+%D8%AE%D8%AF%D9%85%D8%A9%3A+%D8%AA%D8%A3%D9%85%D9%8A%D9%86+%D9%88%D9%81%D8%AD%D8%B5+%D8%A3%D8%AC%D9%87%D8%B2%D8%AA%D9%8A+%D9%88%D8%B4%D8%A8%D9%83%D8%AA%D9%8A'
   ,
-        'https://wa.me/201154655875?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B+%D8%A3%D8%AD%D9%85%D8%AF%D8%8C+%D8%B9%D8%A7%D9%88%D8%B2+%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1+%D8%B9%D9%86+%D8%AE%D8%AF%D9%85%D8%A9%3A+%D8%A5%D9%86%D8%B4%D8%A7%D8%A1+%D9%85%D9%86%D8%B5%D8%A9+%D8%AA%D8%B9%D9%84%D9%8A%D9%85%D9%8A%D8%A9'
+        'https://wa.me/201154655875?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B+%D8%A3%D8%AD%D9%85%D8%AF%D8%8C+%D8%B9%D8%A7%D9%88%D8%B2+%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1+%D8%B9%D9%86+%D8%AE%D8%AF%D9%85%D8%A9%3A+%D8%A5%D9%86%D8%B4%D8%A7%D8%A1+%D9%85%D9%86%D8%B5%D8%A9+%D8%AA%D8%B9%D9%84%D9%8A%D9%85%D9%8A%D8%A9',
+        'https://wa.me/201154655875?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B+%D8%A3%D8%AD%D9%85%D8%AF%D8%8C+%D8%B9%D8%A7%D9%88%D8%B2+%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1+%D8%B9%D9%86+%D8%AE%D8%AF%D9%85%D8%A9%3A+%D8%A5%D9%86%D8%B4%D8%A7%D8%A1+%D9%85%D8%AA%D8%AC%D8%B1+%D8%A5%D9%84%D9%83%D8%AA%D8%B1%D9%88%D9%86%D9%8A',
+        'https://wa.me/201154655875?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B+%D8%A3%D8%AD%D9%85%D8%AF%D8%8C+%D8%B9%D8%A7%D9%88%D8%B2+%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1+%D8%B9%D9%86+%D8%AE%D8%AF%D9%85%D8%A9%3A+%D8%B4%D8%A7%D8%AA+%D8%A8%D9%88%D8%AA+%D9%84%D9%84%D8%A8%D9%8A%D8%B2%D9%86%D8%B3',
+        'https://wa.me/201154655875?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B+%D8%A3%D8%AD%D9%85%D8%AF%D8%8C+%D8%B9%D8%A7%D9%88%D8%B2+%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1+%D8%B9%D9%86+%D8%AE%D8%AF%D9%85%D8%A9%3A+%D8%AA%D8%B3%D8%B1%D9%8A%D8%B9+%D9%88%D8%AA%D8%AD%D8%B3%D9%8A%D9%86+%D8%A7%D9%84%D9%85%D9%88%D8%A7%D9%82%D8%B9',
+        'https://wa.me/201154655875?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B+%D8%A3%D8%AD%D9%85%D8%AF%D8%8C+%D8%B9%D8%A7%D9%88%D8%B2+%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1+%D8%B9%D9%86+%D8%AE%D8%AF%D9%85%D8%A9%3A+%D8%AF%D8%B9%D9%85+%D9%81%D9%86%D9%8A+%D9%88%D8%B5%D9%8A%D8%A7%D9%86%D8%A9+%D8%B9%D9%86+%D8%A8%D8%B9%D8%AF'
       ],
       cvArBtn: 'السيرة الذاتية بالعربية',
       khamsatSoon: 'قريباً: اطلب خدماتي عبر منصة خمسات',
@@ -289,7 +297,11 @@
         { name: 'Landing page for your business', detail: 'A page that presents your product or service and brings you customers, with ready contact buttons.' },
         { name: 'A light browser game', detail: 'A complete JavaScript game that runs in the browser on mobile and desktop.' },
         { name: 'Security checkup for your devices and network', detail: 'A basic review of the security settings of your device or small network, with practical hardening steps following Cisco standards.' },
-        { name: 'Educational platform', detail: 'A complete course platform with videos, quizzes and a student dashboard, ready to take subscribers from day one.' }
+        { name: 'Educational platform', detail: 'A complete course platform with videos, quizzes and a student dashboard, ready to take subscribers from day one.' },
+        { name: 'Online store', detail: 'A complete store with cart, payment gateway and product management, ready to sell from day one.' },
+        { name: 'Business chatbot', detail: 'A WhatsApp or Telegram bot that replies to your customers automatically, takes orders and answers common questions.' },
+        { name: 'Website speed optimization', detail: 'A full diagnosis of your slow website, boosting its speed and search engine scores.' },
+        { name: 'Remote tech support and maintenance', detail: 'Fixing your device and software issues remotely, with regular maintenance for peace of mind.' }
       ],
       serviceWa: 'Order on WhatsApp',
       serviceWaLinks: [
@@ -298,7 +310,11 @@
         'https://wa.me/201154655875?text=Hi+Ahmed%2C+I%27d+like+to+ask+about+your+service%3A+A+light+browser+game',
         'https://wa.me/201154655875?text=Hi+Ahmed%2C+I%27d+like+to+ask+about+your+service%3A+Security+checkup+for+my+devices+and+network'
   ,
-        'https://wa.me/201154655875?text=Hi+Ahmed%2C+I%27d+like+to+ask+about+your+service%3A+Educational+platform'
+        'https://wa.me/201154655875?text=Hi+Ahmed%2C+I%27d+like+to+ask+about+your+service%3A+Educational+platform',
+        'https://wa.me/201154655875?text=Hi+Ahmed%2C+I%27d+like+to+ask+about+your+service%3A+Online+store',
+        'https://wa.me/201154655875?text=Hi+Ahmed%2C+I%27d+like+to+ask+about+your+service%3A+Business+chatbot',
+        'https://wa.me/201154655875?text=Hi+Ahmed%2C+I%27d+like+to+ask+about+your+service%3A+Website+speed+optimization',
+        'https://wa.me/201154655875?text=Hi+Ahmed%2C+I%27d+like+to+ask+about+your+service%3A+Remote+tech+support+and+maintenance'
       ],
       cvArBtn: 'My CV in Arabic',
       khamsatSoon: 'Coming soon: order my services on Khamsat',
