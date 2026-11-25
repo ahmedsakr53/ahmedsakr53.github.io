@@ -71,7 +71,8 @@
       nameAr: 'أحمد مختار عوض',
       engPrefix: 'المهندس',
       role: 'Junior Cybersecurity Analyst · Network Technician · Software & Games Designer',
-      tagline: 'طالب هندسة كهرباء قسم اتصالات — جامعة سوهاج، يشق طريقه في الأمن السيبراني والشبكات بشهادات Cisco وتدريب عملي يومي، وهدفه القريب أول تدريب SOC.',
+      purposeTitle: 'هدف التطبيق',
+      tagline: 'أن يكون الواجهة الرسمية للمهندس أحمد مختار صقر: مكان واحد يعرض خدماته ومشاريعه وشهاداته، وتصل منه إليه مباشرة لتطلب خدمتك بضغطة واحدة.',
       visitsTitle: 'عدد زيارات الموقع',
       chips: ['طما، سوهاج، مصر', 'هندسة كهرباء قسم اتصالات — دفعة ٢٠٢٨', 'الهدف: تدريب SOC'],
       ctaProjects: 'استعرض مشاريعي',
@@ -220,7 +221,8 @@
       nameAr: 'أحمد مختار عوض',
       engPrefix: 'Eng.',
       role: 'Junior Cybersecurity Analyst · Network Technician · Software & Games Designer',
-      tagline: 'An Electrical Engineering student, Communications section, at Sohag University, building his path in cybersecurity and networking with Cisco certifications and daily hands-on practice, with a near goal of a first SOC internship.',
+      purposeTitle: 'Purpose of the app',
+      tagline: 'To be the official home of Eng. Ahmed Mokhtar Sakr: one place for his services, projects and certifications, with a direct line to reach him and order your service in one tap.',
       visitsTitle: 'Site visit count',
       chips: ['Tima, Sohag, Egypt', 'EE, Communications — Class of 2028', 'Goal: SOC internship'],
       ctaProjects: 'See my projects',
@@ -392,7 +394,7 @@
       '<div class="pf-name-en">ENG. AHMED MOKHTAR AWAD <span class="pf-nick-en">SAKR</span></div>' +
       '<h1 class="pf-name"><span class="pf-eng">' + esc(t.engPrefix) + '</span> ' + esc(t.nameAr) + ' <span class="pf-nickwrap"><span class="pf-nick">صقر</span> <span class="pf-verified" title="' + esc(t.verifiedTitle) + '" role="img" aria-label="' + esc(t.verifiedTitle) + '">' + icon('verified') + '</span></span></h1>' +
       '<div class="pf-role"><bdi>' + esc(t.role) + '</bdi></div>' +
-      '<p class="pf-tagline">' + esc(t.tagline) + '</p>' +
+      '<div class="pf-purpose-label">' + esc(t.purposeTitle) + '</div><p class="pf-tagline">' + esc(t.tagline) + '</p>' +
       '<div class="pf-chips">' + t.chips.map(function (c) { return '<span class="pf-chip">' + esc(c) + '</span>'; }).join('') + '</div>' +
       '<div class="pf-cta">' +
       '<a class="pf-btn pf-btn-services" href="#/services">' + icon('navGrid') + '<span>' + esc(t.ctaServices) + '<small>' + esc(t.ctaServicesSub) + '</small></span></a>' +
