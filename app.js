@@ -510,6 +510,46 @@
   // Saqr AI chat backend (Cloudflare Worker). Empty = not deployed yet.
   var SAQR_WORKER_URL = 'https://saqr-ahmed.ahmedsakr5326.workers.dev/chat';
 
+  // Live site config from the admin dashboard (served by the worker from KV).
+  function pfShowBanner(text) {
+    if (document.getElementById('pf-banner')) return;
+    var bar = document.createElement('div');
+    bar.id = 'pf-banner';
+    bar.setAttribute('role', 'status');
+    bar.innerHTML = '<span class="pf-banner-txt">' + esc(text) + '</span><button type="button" class="pf-banner-x" aria-label="إغلاق">\u00d7</button>';
+    bar.querySelector('.pf-banner-x').addEventListener('click', function () { bar.remove(); });
+    document.body.insertBefore(bar, document.body.firstChild);
+  }
+  fetch(SAQR_WORKER_URL.replace(/\/chat$/, '/chat/status'))
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (cfg) {
+      if (!cfg || typeof cfg !== 'object') return;
+      try {
+        if (cfg.saqr === false) document.body.classList.add('pf-hide-saqr');
+        if (cfg.checkup === false) document.body.classList.add('pf-hide-checkup');
+        if (cfg.banner) pfShowBanner(String(cfg.banner));
+        if (cfg.palette && cfg.palette !== 'teal') document.body.setAttribute('data-palette', String(cfg.palette));
+        if (cfg.appearance === 'dark' || cfg.appearance === 'light') {
+          var storedTheme = null;
+          try { storedTheme = localStorage.getItem('pf-theme'); } catch (e) {}
+          if (!storedTheme && !themeParam) { theme = cfg.appearance; document.documentElement.setAttribute('data-theme', theme); }
+        }
+        var changed = false;
+        if (cfg.name_ar && T.ar) { T.ar.nameAr = String(cfg.name_ar); changed = true; }
+        if (cfg.name_en && T.en) { T.en.nameAr = String(cfg.name_en); changed = true; }
+        if (cfg.saqr_name) {
+          var sn = String(cfg.saqr_name);
+          ['saqrFab', 'saqrTitle', 'saqrGreeting'].forEach(function (k) {
+            if (T.ar && T.ar[k]) T.ar[k] = T.ar[k].split('صقر').join(sn);
+            if (T.en && T.en[k]) T.en[k] = T.en[k].split('Saqr').join(sn);
+          });
+          changed = true;
+        }
+        if (changed) render();
+      } catch (e) { /* config apply failed: site keeps defaults */ }
+    })
+    .catch(function () { /* offline or blocked: site keeps defaults */ });
+
   var lang = 'ar';
   try { lang = localStorage.getItem('pf-lang') === 'en' ? 'en' : 'ar'; } catch (e) {}
   var theme = 'light';

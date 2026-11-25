@@ -1581,3 +1581,43 @@ html[data-theme="dark"] .pf-saqr-micbig {
     background: linear-gradient(135deg, #189ab4, #1c6f9e);
     box-shadow: 0 12px 32px rgb(0 0 0 / 0.55);
 }
+
+/* ===== Admin dashboard live config ===== */
+body.pf-hide-saqr #pf-saqr { display: none !important; }
+body.pf-hide-checkup a[href="#/checkup"] { display: none !important; }
+body[data-palette="navy"] { --ds-teal: #2f5fb3; }
+body[data-palette="green"] { --ds-teal: #1f9d63; }
+body[data-palette="purple"] { --ds-teal: #7c4dbf; }
+body[data-palette="orange"] { --ds-teal: #e07b2a; }
+html[data-theme="dark"] body[data-palette="navy"] { --ds-teal: #6f97dd; }
+html[data-theme="dark"] body[data-palette="green"] { --ds-teal: #4cc98b; }
+html[data-theme="dark"] body[data-palette="purple"] { --ds-teal: #a586e0; }
+html[data-theme="dark"] body[data-palette="orange"] { --ds-teal: #f09a55; }
+#pf-banner {
+    position: sticky;
+    top: 0;
+    z-index: 300;
+    background: var(--ds-teal);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 9px 14px;
+    font-size: 13.5px;
+    font-weight: 600;
+    text-align: center;
+}
+#pf-banner .pf-banner-txt { flex: 1; min-width: 0; }
+#pf-banner .pf-banner-x {
+    flex: none;
+    background: rgba(255, 255, 255, .2);
+    color: #fff;
+    border: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 1;
+}
