@@ -1106,7 +1106,12 @@
 
   function saqrArmSilence() {
     clearTimeout(saqrSilenceTimer);
-    saqrSilenceTimer = setTimeout(function () { saqrStopListening(true); }, SAQR_SILENCE_MS);
+    saqrSilenceTimer = setTimeout(function () {
+      var inp = document.getElementById('pf-saqr-input');
+      if (inp && inp.value.trim()) { saqrStopListening(true); return; }
+      if (saqrCall.active) { saqrArmSilence(); return; } // quiet moment in a call: keep listening, like a real phone call
+      saqrStopListening(false);
+    }, SAQR_SILENCE_MS);
   }
 
   function saqrStopListening(send) {
