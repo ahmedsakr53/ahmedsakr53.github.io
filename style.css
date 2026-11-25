@@ -854,3 +854,22 @@ html[data-theme="dark"] .pf-timeline-card { background: #1b2130; border-color: #
 }
 .pf-card-media-imgs img { object-position: center 22%; }
 .pf-no-anim .pf-reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+
+/* chic My Map title */
+.pf-map-title { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.pf-map-title .pf-icon { width: 20px; height: 20px; fill: var(--ds-teal); align-self: center; }
+.pf-map-word {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  background: linear-gradient(90deg, #0e8a9e, #5b8cff, #a855f7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+html[data-theme="dark"] .pf-map-word {
+  background: linear-gradient(90deg, #45c8dd, #7ea6ff, #c084fc);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.pf-map-sub { width: 100%; font-size: 13px; font-weight: 500; color: var(--ds-ink-2); letter-spacing: 0.3px; }
