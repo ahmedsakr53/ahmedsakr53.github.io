@@ -27,6 +27,7 @@
   var renderDone = false;
   var ICON_PATHS = {
     mail: 'M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z',
+    send: 'M2.01 21L23 12 2.01 3 2 10l15 2-15 2z',
     linkedin: 'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z',
     facebook: 'M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z',
     telegram: 'M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z',
@@ -221,6 +222,21 @@
       quizDoneBad: 'الاحتيال غلبك المرة دي، بس دلوقتي عرفت العلامات. راجع الإجابات فوق.',
       quizDoneMid: 'عينك بدأت تتفتح. راجع اللي غلطت فيه وخليك شكاك أكتر.',
       quizDoneGood: 'عين صقر حقيقي! محدش هيعرف يضحك عليك بسهولة.',
+      saqrFab: 'كلّم صقر',
+      saqrTitle: 'صقر',
+      saqrSub: 'مساعد أحمد الذكي 🦅',
+      saqrWelcome: 'أهلاً! أنا صقر 🦅 مساعد المهندس أحمد. اسألني عن خدماته أو مشاريعه أو أي حاجة تانية.',
+      saqrPlaceholder: 'اكتب سؤالك هنا...',
+      saqrSend: 'إرسال',
+      saqrClose: 'قفل الشات',
+      saqrTyping: 'صقر بيكتب...',
+      saqrError: 'حصلت مشكلة في الاتصال. جرّب تاني بعد شوية.',
+      saqrSoon: 'صقر لسه بيتجهّز. ارجع بعد شوية وهتلاقيني هنا.',
+      saqrMute: 'كتم صوت صقر',
+      saqrUnmute: 'تشغيل صوت صقر',
+      saqrMic: 'اتكلم بصوتك',
+      saqrListening: 'بسمعك...',
+      saqrGreeting: 'أهلا بيك! أنا صقر، اسألني أي حاجة.',
       servicesEyebrow: 'SERVICES',
       servicesTitle: 'خدماتي',
       servicesIntro: 'خدمات أقدمها بنفس الجودة التي تراها في هذا الموقع:',
@@ -422,6 +438,21 @@
       quizDoneBad: 'Phishing got you this time, but now you know the signs. Review the answers above.',
       quizDoneMid: 'Your radar is waking up. Review what you missed and stay skeptical.',
       quizDoneGood: 'A true falcon eye! Nobody will fool you easily.',
+      saqrFab: 'Ask Saqr',
+      saqrTitle: 'Saqr',
+      saqrSub: "Ahmed's AI assistant 🦅",
+      saqrWelcome: "Hey! I'm Saqr 🦅, Eng. Ahmed's assistant. Ask me about his services, projects, or anything else.",
+      saqrPlaceholder: 'Type your question...',
+      saqrSend: 'Send',
+      saqrClose: 'Close chat',
+      saqrTyping: 'Saqr is typing...',
+      saqrError: 'Connection problem. Try again in a moment.',
+      saqrSoon: 'Saqr is still getting ready. Check back soon.',
+      saqrMute: 'Mute Saqr voice',
+      saqrUnmute: 'Unmute Saqr voice',
+      saqrMic: 'Speak your question',
+      saqrListening: 'Listening...',
+      saqrGreeting: "Hey there! I'm Saqr, ask me anything.",
       servicesEyebrow: 'SERVICES',
       servicesTitle: 'My services',
       servicesIntro: 'What I can build for you, with the same quality you see on this site:',
@@ -467,6 +498,9 @@
       themeLabel: 'Dark mode'
     }
   };
+
+  // Saqr AI chat backend (Cloudflare Worker). Empty = not deployed yet.
+  var SAQR_WORKER_URL = 'https://saqr-ahmed.workers.dev/chat';
 
   var lang = 'ar';
   try { lang = localStorage.getItem('pf-lang') === 'en' ? 'en' : 'ar'; } catch (e) {}
@@ -813,6 +847,7 @@
     else if (route === '#/contact') page = renderContact(t);
     else page = renderHome(t);
     document.getElementById('app').innerHTML = nav + page + '<div class="pf-closing">' + esc(t.closing) + '</div>';
+    saqrEnsure(t);
     if (openCert >= 0 && route === '#/certifications') showLightbox(openCert);
     setupReveal();
     setupTilt();
@@ -821,6 +856,168 @@
       try { window.goatcounter.count({ path: location.hash.slice(1) || '/' }); } catch (e) {}
     }
     renderDone = true;
+  }
+
+
+  /* ===== Saqr AI chat widget (lives outside #app so state survives route changes) ===== */
+  var saqrState = { open: false, sending: false, msgs: [] };
+  var saqrWired = false;
+
+
+  var saqrVoice = { muted: false };
+  try { saqrVoice.muted = localStorage.getItem('pf-saqr-muted') === '1'; } catch (e) {}
+  var SaqrRecog = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+  var saqrRecog = null, saqrListening = false;
+
+  function saqrSpeak(text, lg) {
+    if (saqrVoice.muted || !('speechSynthesis' in window)) return;
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text.replace(/🦅/g, ''));
+      u.lang = lg === 'ar' ? 'ar-EG' : 'en-US';
+      var voices = window.speechSynthesis.getVoices();
+      var pref = lg === 'ar' ? 'ar' : 'en';
+      var v = voices.find(function (x) { return x.lang && x.lang.toLowerCase().indexOf(pref) === 0; });
+      if (v) u.voice = v;
+      u.rate = 1;
+      window.speechSynthesis.speak(u);
+    } catch (e) {}
+  }
+
+  function saqrStartListening(t) {
+    if (!SaqrRecog || saqrListening) return;
+    try {
+      saqrRecog = new SaqrRecog();
+      saqrRecog.lang = lang === 'ar' ? 'ar-EG' : 'en-US';
+      saqrRecog.interimResults = false;
+      saqrRecog.maxAlternatives = 1;
+      saqrListening = true;
+      var inp = document.getElementById('pf-saqr-input');
+      if (inp) inp.placeholder = t.saqrListening;
+      var mb = document.querySelector('.pf-saqr-micbig'); if (mb) mb.classList.add('pf-saqr-live');
+      saqrRecog.onresult = function (e) {
+        var txt = e.results && e.results[0] && e.results[0][0] ? e.results[0][0].transcript : '';
+        if (inp && txt) { inp.value = txt; saqrSend(); }
+      };
+      saqrRecog.onend = function () {
+        saqrListening = false;
+        var mb2 = document.querySelector('.pf-saqr-micbig'); if (mb2) mb2.classList.remove('pf-saqr-live');
+        var inp2 = document.getElementById('pf-saqr-input');
+        if (inp2) inp2.placeholder = T[lang].saqrPlaceholder;
+      };
+      saqrRecog.onerror = saqrRecog.onend;
+      saqrRecog.start();
+    } catch (e) { saqrListening = false; }
+  }
+
+  function saqrEnsure(t) {
+    var root = document.getElementById('pf-saqr');
+    if (!root) {
+      root = document.createElement('div');
+      root.id = 'pf-saqr';
+      document.body.appendChild(root);
+    }
+    root.innerHTML =
+      '<button type="button" class="pf-saqr-fab" aria-label="' + esc(t.saqrFab) + '" title="' + esc(t.saqrFab) + '">' +
+        '<span class="pf-saqr-fab-ico">🦅</span><span class="pf-saqr-fab-txt">' + esc(t.saqrFab) + '</span></button>' +
+      '<section class="pf-saqr-panel' + (saqrState.open ? ' pf-saqr-open' : '') + '" role="dialog" aria-label="' + esc(t.saqrTitle) + '">' +
+        '<header class="pf-saqr-head">' +
+          '<div class="pf-saqr-id"><span class="pf-saqr-avatar">🦅</span>' +
+          '<div><div class="pf-saqr-name">' + esc(t.saqrTitle) + '</div>' +
+          '<div class="pf-saqr-sub">' + esc(t.saqrSub) + '</div></div></div>' +
+          '<button type="button" class="pf-saqr-mute" aria-label="' + esc(saqrVoice.muted ? t.saqrUnmute : t.saqrMute) + '" title="' + esc(saqrVoice.muted ? t.saqrUnmute : t.saqrMute) + '">' + (saqrVoice.muted ? '🔇' : '🔊') + '</button>' +
+        '<button type="button" class="pf-saqr-close" aria-label="' + esc(t.saqrClose) + '">✕</button>' +
+        '</header>' +
+        '<div class="pf-saqr-msgs" id="pf-saqr-msgs"></div>' +
+        (SaqrRecog ? '<div class="pf-saqr-micstage">' +
+            '<button type="button" class="pf-saqr-micbig" aria-label="' + esc(t.saqrMic) + '" title="' + esc(t.saqrMic) + '"><span class="pf-saqr-micbig-ico">🎙️</span></button>' +
+            '<div class="pf-saqr-micbig-lbl">' + esc(t.saqrMic) + '</div></div>' : '') +
+        '<form class="pf-saqr-form" id="pf-saqr-form">' +
+          '<input type="text" class="pf-saqr-input" id="pf-saqr-input" placeholder="' + esc(t.saqrPlaceholder) + '" autocomplete="off" maxlength="500">' +
+          '<button type="submit" class="pf-saqr-send" aria-label="' + esc(t.saqrSend) + '">' + icon('send') + '</button>' +
+        '</form>' +
+      '</section>';
+    paintSaqrMsgs(t);
+    if (!saqrWired) {
+      saqrWired = true;
+      root.addEventListener('click', function (e) {
+        if (e.target.closest('.pf-saqr-fab')) {
+          saqrState.open = !saqrState.open;
+          saqrEnsure(T[lang]);
+          if (saqrState.open) {
+            saqrSpeak(T[lang].saqrGreeting, lang);
+            var inp = document.getElementById('pf-saqr-input'); if (inp) inp.focus();
+          } else if ('speechSynthesis' in window) { window.speechSynthesis.cancel(); }
+        } else if (e.target.closest('.pf-saqr-mute')) {
+          saqrVoice.muted = !saqrVoice.muted;
+          try { localStorage.setItem('pf-saqr-muted', saqrVoice.muted ? '1' : '0'); } catch (err) {}
+          if (saqrVoice.muted && 'speechSynthesis' in window) window.speechSynthesis.cancel();
+          saqrEnsure(T[lang]);
+        } else if (e.target.closest('.pf-saqr-micbig')) {
+          saqrStartListening(T[lang]);
+        } else if (e.target.closest('.pf-saqr-close')) {
+          saqrState.open = false;
+          saqrEnsure(T[lang]);
+        }
+      });
+      root.addEventListener('submit', function (e) {
+        if (e.target.id === 'pf-saqr-form') { e.preventDefault(); saqrSend(); }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && saqrState.open) { saqrState.open = false; saqrEnsure(T[lang]); }
+      });
+    }
+  }
+
+  function paintSaqrMsgs(t) {
+    var box = document.getElementById('pf-saqr-msgs');
+    if (!box) return;
+    var html = '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">🦅</span><div class="pf-saqr-bubble">' + esc(t.saqrWelcome) + '</div></div>';
+    saqrState.msgs.forEach(function (m) {
+      if (m.role === 'user') html += '<div class="pf-saqr-msg pf-saqr-me"><div class="pf-saqr-bubble">' + esc(m.content) + '</div></div>';
+      else html += '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">🦅</span><div class="pf-saqr-bubble">' + esc(m.content) + '</div></div>';
+    });
+    if (saqrState.sending) html += '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">🦅</span><div class="pf-saqr-bubble pf-saqr-typing">' + esc(t.saqrTyping) + '</div></div>';
+    box.innerHTML = html;
+    box.scrollTop = box.scrollHeight;
+  }
+
+  function saqrSend() {
+    var t = T[lang];
+    var inp = document.getElementById('pf-saqr-input');
+    var text = (inp.value || '').trim();
+    if (!text || saqrState.sending) return;
+    inp.value = '';
+    saqrState.msgs.push({ role: 'user', content: text });
+    if (!SAQR_WORKER_URL) {
+      saqrState.msgs.push({ role: 'assistant', content: t.saqrSoon });
+      paintSaqrMsgs(t);
+      return;
+    }
+    saqrState.sending = true;
+    paintSaqrMsgs(t);
+    var history = saqrState.msgs.slice(-12).map(function (m) {
+      return { role: m.role === 'user' ? 'user' : 'model', content: m.content };
+    });
+    fetch(SAQR_WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ lang: lang, messages: history })
+    }).then(function (r) {
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.json();
+    }).then(function (data) {
+      var reply = (data && data.reply) ? String(data.reply) : t.saqrError;
+      saqrState.msgs.push({ role: 'assistant', content: reply });
+      saqrSpeak(reply, lang);
+    }).catch(function () {
+      saqrState.msgs.push({ role: 'assistant', content: t.saqrError });
+    }).finally(function () {
+      saqrState.sending = false;
+      paintSaqrMsgs(T[lang]);
+      var box = document.getElementById('pf-saqr-msgs');
+      if (box) box.scrollTop = box.scrollHeight;
+    });
   }
 
   function setupReveal() {

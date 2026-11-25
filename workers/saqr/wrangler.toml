@@ -1,0 +1,7 @@
+name = "saqr-ahmed"
+main = "worker.js"
+compatibility_date = "2026-11-25"
+
+[vars]
+# MODEL = "gemini-2.5-flash"   # optional override
+# Secret (never commit): wrangler secret put GEMINI_API_KEY
