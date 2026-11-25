@@ -500,7 +500,7 @@
   };
 
   // Saqr AI chat backend (Cloudflare Worker). Empty = not deployed yet.
-  var SAQR_WORKER_URL = 'https://saqr-ahmed.workers.dev/chat';
+  var SAQR_WORKER_URL = 'https://saqr-ahmed.ahmedsakr5326.workers.dev/chat';
 
   var lang = 'ar';
   try { lang = localStorage.getItem('pf-lang') === 'en' ? 'en' : 'ar'; } catch (e) {}

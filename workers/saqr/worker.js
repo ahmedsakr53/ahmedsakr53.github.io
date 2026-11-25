@@ -110,7 +110,7 @@ export default {
       return Response.json({ reply: 'اسألني أي حاجة 🦅' }, { status: 400, headers: corsHeaders(origin) });
     }
 
-    const model = env.MODEL || 'gemini-2.5-flash';
+    const model = env.MODEL || 'gemini-3.5-flash-lite';
     const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 
     let gem;
