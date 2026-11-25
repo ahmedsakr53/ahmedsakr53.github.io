@@ -149,6 +149,12 @@ p.pf-para {
     font-weight: 700;
     font-display: swap;
 }
+@font-face {
+    font-family: 'Cairo';
+    src: url('./fonts/cairo-ar-700.woff2') format('woff2');
+    font-weight: 700;
+    font-display: swap;
+}
 
 :root {
     --ds-font-text: 'Space Grotesk', 'IBM Plex Sans Arabic', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -327,9 +333,9 @@ p.pf-para {
 }
 .pf-name {
     animation: pfFadeUp 0.55s ease 0.3s both;
-    font-family: var(--ds-font-display);
+    font-family: 'Space Grotesk', 'Cairo', 'IBM Plex Sans Arabic', system-ui, sans-serif;
     font-weight: 700;
-    font-size: 30px;
+    font-size: 27px;
     line-height: 1.25;
     letter-spacing: -0.02em;
     margin: 0 0 10px;
