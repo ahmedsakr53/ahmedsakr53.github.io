@@ -426,7 +426,7 @@
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.dataset.theme = theme;
-    document.title = lang === 'ar' ? 'أحمد صقر — أمن سيبراني وشبكات' : 'Ahmed Sakr — Cybersecurity & Networking';
+    document.title = lang === 'ar' ? 'أحمد مختار صقر' : 'Ahmed Mokhtar Sakr';
     var route = currentRoute();
     var nav = '<nav class="pf-nav" aria-label="' + esc(t.navAria) + '">' +
       t.nav.map(function (label, i) {
