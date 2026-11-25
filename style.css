@@ -293,7 +293,10 @@ p.pf-para {
 
 /* Buttons */
 .pf-btn {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
     font-family: var(--ds-font-text);
     font-weight: 600;
     font-size: 14px;
@@ -306,6 +309,13 @@ p.pf-para {
 .pf-btn:hover {
     transform: translateY(-2px);
 }
+.pf-btn .pf-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    fill: currentColor;
+}
+
 .pf-btn-primary {
     background: linear-gradient(135deg, #22d3ee, #5b8cff);
     color: #081018;
