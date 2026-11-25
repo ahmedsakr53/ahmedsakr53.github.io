@@ -163,7 +163,8 @@
         { name: 'موقع شخصي أو صفحة تعريفية', detail: 'صفحة واحدة أنيقة وسريعة، مصممة للموبايل أولاً — تماماً مثل هذا الموقع.' },
         { name: 'صفحة هبوط لنشاطك التجاري', detail: 'صفحة تعرّف بمنتجك أو خدمتك وتجلب لك العملاء، مع أزرار تواصل جاهزة.' },
         { name: 'لعبة متصفح خفيفة', detail: 'لعبة جافاسكريبت كاملة تعمل من المتصفح على الموبايل والكمبيوتر.' },
-        { name: 'تأمين وفحص أجهزتك وشبكتك', detail: 'مراجعة أساسية لإعدادات الأمان لجهازك أو شبكتك الصغيرة، مع خطوات عملية للحماية بمعايير Cisco.' }
+        { name: 'تأمين وفحص أجهزتك وشبكتك', detail: 'مراجعة أساسية لإعدادات الأمان لجهازك أو شبكتك الصغيرة، مع خطوات عملية للحماية بمعايير Cisco.' },
+        { name: 'إنشاء منصة تعليمية', detail: 'منصة كورسات كاملة: فيديوهات واختبارات ولوحة تحكم للطلاب، جاهزة تستقبل مشتركين من أول يوم.' }
       ],
       serviceWa: 'اطلب الخدمة',
       serviceWaLinks: [
@@ -171,6 +172,8 @@
         'https://wa.me/201154655875?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B+%D8%A3%D8%AD%D9%85%D8%AF%D8%8C+%D8%B9%D8%A7%D9%88%D8%B2+%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1+%D8%B9%D9%86+%D8%AE%D8%AF%D9%85%D8%A9%3A+%D8%B5%D9%81%D8%AD%D8%A9+%D9%87%D8%A8%D9%88%D8%B7+%D9%84%D9%86%D8%B4%D8%A7%D8%B7%D9%8A+%D8%A7%D9%84%D8%AA%D8%AC%D8%A7%D8%B1%D9%8A',
         'https://wa.me/201154655875?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B+%D8%A3%D8%AD%D9%85%D8%AF%D8%8C+%D8%B9%D8%A7%D9%88%D8%B2+%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1+%D8%B9%D9%86+%D8%AE%D8%AF%D9%85%D8%A9%3A+%D9%84%D8%B9%D8%A8%D8%A9+%D9%85%D8%AA%D8%B5%D9%81%D8%AD+%D8%AE%D9%81%D9%8A%D9%81%D8%A9',
         'https://wa.me/201154655875?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B+%D8%A3%D8%AD%D9%85%D8%AF%D8%8C+%D8%B9%D8%A7%D9%88%D8%B2+%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1+%D8%B9%D9%86+%D8%AE%D8%AF%D9%85%D8%A9%3A+%D8%AA%D8%A3%D9%85%D9%8A%D9%86+%D9%88%D9%81%D8%AD%D8%B5+%D8%A3%D8%AC%D9%87%D8%B2%D8%AA%D9%8A+%D9%88%D8%B4%D8%A8%D9%83%D8%AA%D9%8A'
+  ,
+        'https://wa.me/201154655875?text=%D8%A3%D9%87%D9%84%D8%A7%D9%8B+%D8%A3%D8%AD%D9%85%D8%AF%D8%8C+%D8%B9%D8%A7%D9%88%D8%B2+%D8%A3%D8%B3%D8%AA%D9%81%D8%B3%D8%B1+%D8%B9%D9%86+%D8%AE%D8%AF%D9%85%D8%A9%3A+%D8%A5%D9%86%D8%B4%D8%A7%D8%A1+%D9%85%D9%86%D8%B5%D8%A9+%D8%AA%D8%B9%D9%84%D9%8A%D9%85%D9%8A%D8%A9'
       ],
       cvArBtn: 'السيرة الذاتية بالعربية',
       khamsatSoon: 'قريباً: اطلب خدماتي عبر منصة خمسات',
@@ -285,7 +288,8 @@
         { name: 'Personal one-page website', detail: 'A clean, fast, mobile-first page — just like this very site.' },
         { name: 'Landing page for your business', detail: 'A page that presents your product or service and brings you customers, with ready contact buttons.' },
         { name: 'A light browser game', detail: 'A complete JavaScript game that runs in the browser on mobile and desktop.' },
-        { name: 'Security checkup for your devices and network', detail: 'A basic review of the security settings of your device or small network, with practical hardening steps following Cisco standards.' }
+        { name: 'Security checkup for your devices and network', detail: 'A basic review of the security settings of your device or small network, with practical hardening steps following Cisco standards.' },
+        { name: 'Educational platform', detail: 'A complete course platform with videos, quizzes and a student dashboard, ready to take subscribers from day one.' }
       ],
       serviceWa: 'Order on WhatsApp',
       serviceWaLinks: [
@@ -293,6 +297,8 @@
         'https://wa.me/201154655875?text=Hi+Ahmed%2C+I%27d+like+to+ask+about+your+service%3A+Landing+page+for+my+business',
         'https://wa.me/201154655875?text=Hi+Ahmed%2C+I%27d+like+to+ask+about+your+service%3A+A+light+browser+game',
         'https://wa.me/201154655875?text=Hi+Ahmed%2C+I%27d+like+to+ask+about+your+service%3A+Security+checkup+for+my+devices+and+network'
+  ,
+        'https://wa.me/201154655875?text=Hi+Ahmed%2C+I%27d+like+to+ask+about+your+service%3A+Educational+platform'
       ],
       cvArBtn: 'My CV in Arabic',
       khamsatSoon: 'Coming soon: order my services on Khamsat',
