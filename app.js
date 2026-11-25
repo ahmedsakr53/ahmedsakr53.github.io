@@ -101,15 +101,24 @@
         { n: 'Arduino', i: 'chip' },
         { n: 'GitHub Pages', i: 'github' }
       ],
-      journeyTitle: 'رحلتي',
+      journeyPhotoAlt: 'أحمد بسترة أمان ممسكاً النموذج الأولي للمطب الصناعي الذكي في معرض مشاريع',
+      journeyTitle: 'خارطة طريقي',
+      journeyDone: 'تم بنجاح',
+      journeyNext: 'الهدف القادم',
       journey: [
-        ['التفوق في الثانوية', '92.25% في الثانوية العامة شعبة علمي رياضة، من طما بسوهاج.'],
-        ['كلية الهندسة', 'التحقت بكلية الهندسة جامعة سوهاج، هندسة كهرباء قسم اتصالات، وأنا عارف طريقي كويس.'],
-        ['أول مشروع حقيقي', 'المطب الصناعي الذكي بـ Arduino: نموذج شغال صنعته بيدي، من الفكرة للتنفيذ.'],
-        ['عالم الويب', 'اتعلمت HTML وCSS وJavaScript وبنيت موقعي بنفسي ونشرته على GitHub Pages.'],
-        ['الأمن السيبراني', 'شهادات Cisco ومسار TryHackMe وتدريب عملي يومي مستمر.'],
-        ['تطوير الألعاب', '«اجري يا صقر!» — لعبة جري كاملة بالجافاسكريبت برسوم كرتونية.'],
-        ['الهدف القادم', 'أول تدريب SOC إن شاء الله.']
+        ['الثانوية العامة 92.25%', 'شعبة علمي رياضة — طما، سوهاج.', true],
+        ['هندسة سوهاج — كهرباء اتصالات', 'الفرقة التالتة، دفعة ٢٠٢٨.', true],
+        ['المطب الصناعي الذكي', 'مشروع Arduino شغال، نفذته وعرضته بنفسي.', true],
+        ['تعلم تطوير الويب', 'HTML وCSS وJavaScript وTailwind.', true],
+        ['موقعي الشخصي', 'صممته ونفذته ونشرته بنفسي على GitHub Pages.', true],
+        ['شهادات Cisco وإدراك', 'Network Technician + Junior Cybersecurity Analyst + Introduction to Cybersecurity + شبكات إدراك.', true],
+        ['TryHackMe', 'تدريب عملي يومي مستمر على منصة TryHackMe.', true],
+        ['لعبة «اجري يا صقر!»', 'لعبة جري كاملة بالجافاسكريبت برسوم كرتونية.', true],
+        ['العمل الحر على خمسات', 'انطلاقة استقبال طلبات العملاء.', true],
+        ['CCNA', 'أشهر شهادة شبكات من Cisco — الهدف الكبير القادم.', false],
+        ['الجدران النارية وأمن الشبكات', 'تخصص أعمق في حماية الشبكات.', false],
+        ['أول تدريب SOC', 'دخول غرفة عمليات الأمن الحقيقية.', false],
+        ['التخرج والاحتراف', 'بكالوريوس هندسة الاتصالات، ثم مسار احترافي في الأمن السيبراني.', false]
       ],
       langsTitle: 'اللغات',
       langs: [
@@ -132,7 +141,7 @@
       projectsEyebrow: 'PROJECTS',
       projectsTitle: 'مشاريع نفذتها بنفسي',
       projects: [
-        { name: 'المطب الصناعي الذكي', detail: 'مشروع إنترنت أشياء باستخدام Arduino: مطب صناعي ذكي يستشعر الحركة ويتفاعل معها.', imgs: ['photos/speed-bump.jpg', 'photos/speed-bump-vest.jpg'], imgAlts: ['أحمد مع النموذج الأولي للمطب الصناعي الذكي أمام كلية الهندسة بجامعة سوهاج', 'أحمد بسترة أمان ممسكاً النموذج الأولي للمطب الصناعي الذكي في معرض مشاريع'] },
+        { name: 'المطب الصناعي الذكي', detail: 'مشروع إنترنت أشياء باستخدام Arduino: مطب صناعي ذكي يستشعر الحركة ويتفاعل معها.', img: 'photos/speed-bump.jpg', imgAlt: 'أحمد مع النموذج الأولي للمطب الصناعي الذكي أمام كلية الهندسة بجامعة سوهاج' },
         { name: 'منصة تجارية', detail: 'تصميم وتنفيذ منصة تجارية لصالح عميل خاص — تفاصيل المشروع محفوظة التزاماً بسرية العمل مع العملاء.' },
         { name: 'اجري يا صقر!', detail: 'لعبة جري لا نهائية برسوم كرتونية عالية الجودة وتجربة موبايل كاملة — في مراحلها الأخيرة، قريباً.', img: 'photos/game-cover.jpg', imgAlt: 'الغلاف الرسمي للعبة اجري يا صقر: العريس يجري ووالد العروسة والعروسة وراءه في شوارع مصرية' }
       ],
@@ -203,15 +212,24 @@
         { n: 'Arduino', i: 'chip' },
         { n: 'GitHub Pages', i: 'github' }
       ],
-      journeyTitle: 'My journey',
+      journeyPhotoAlt: 'Ahmed in a safety vest holding the Smart Speed Bump prototype at a projects exhibition',
+      journeyTitle: 'My roadmap',
+      journeyDone: 'Done',
+      journeyNext: 'Up next',
       journey: [
-        ['Excelling at school', '92.25% in Thanaweya Amma, advanced mathematics track, from Tama, Sohag.'],
-        ['Faculty of Engineering', 'Joined the Faculty of Engineering at Sohag University, Electrical Engineering, Communications — knowing exactly where I was headed.'],
-        ['First real project', 'The Smart Speed Bump with Arduino: a working prototype I built with my own hands, from idea to build.'],
-        ['The web world', 'Learned HTML, CSS and JavaScript, and built and published this site myself on GitHub Pages.'],
-        ['Cybersecurity', 'Cisco certificates, the TryHackMe path, and continuous daily hands-on practice.'],
-        ['Game development', '"Run, Sakr!" — a complete JavaScript endless-runner with cartoon art.'],
-        ['Next goal', 'A first SOC internship, God willing.']
+        ['Thanaweya Amma, 92.25%', 'Advanced mathematics track — Tama, Sohag.', true],
+        ['Sohag Engineering, EE Communications', 'Third year, class of 2028.', true],
+        ['The Smart Speed Bump', 'A working Arduino project I built and presented myself.', true],
+        ['Learning web development', 'HTML, CSS, JavaScript and Tailwind.', true],
+        ['My personal website', 'Designed, built and published it myself on GitHub Pages.', true],
+        ['Cisco and Edraak certificates', 'Network Technician + Junior Cybersecurity Analyst + Introduction to Cybersecurity + Edraak Networking.', true],
+        ['TryHackMe', 'Continuous daily hands-on practice on TryHackMe.', true],
+        ['"Run, Sakr!" game', 'A complete JavaScript endless-runner with cartoon art.', true],
+        ['Freelancing on Khamsat', 'Starting to take client orders.', true],
+        ['CCNA', 'Cisco\'s flagship networking certificate — the next big goal.', false],
+        ['Firewalls and network security', 'A deeper specialization in protecting networks.', false],
+        ['First SOC internship', 'Entering a real security operations room.', false],
+        ['Graduation and going pro', 'A Communications Engineering degree, then a professional cybersecurity career.', false]
       ],
       langsTitle: 'Languages',
       langs: [
@@ -234,7 +252,7 @@
       projectsEyebrow: 'PROJECTS',
       projectsTitle: 'Things I built myself',
       projects: [
-        { name: 'The Smart Speed Bump', detail: 'An Arduino IoT project: a smart speed bump that senses motion and reacts.', imgs: ['photos/speed-bump.jpg', 'photos/speed-bump-vest.jpg'], imgAlts: ['Ahmed holding the Smart Speed Bump prototype at the Faculty of Engineering, Sohag University', 'Ahmed in a safety vest holding the Smart Speed Bump prototype at a projects exhibition'] },
+        { name: 'The Smart Speed Bump', detail: 'An Arduino IoT project: a smart speed bump that senses motion and reacts.', img: 'photos/speed-bump.jpg', imgAlt: 'Ahmed holding the Smart Speed Bump prototype at the Faculty of Engineering, Sohag University' },
         { name: 'Commercial Platform', detail: 'Design and delivery of a commercial platform for a private client — project details kept confidential under client privacy.' },
         { name: 'Run, Sakr! (اجري يا صقر)', detail: 'An endless-runner mobile game with high-quality cartoon art and a full gameplay experience — in final stages, coming soon.', img: 'photos/game-cover.jpg', imgAlt: 'Official cover art of Run Sakr: the groom sprinting away from the bride and her father through Egyptian streets' }
       ],
@@ -267,6 +285,7 @@
   if (langParam) lang = langParam;
   var themeParam = (location.search.match(/[?&]theme=(light|dark)/) || [])[1];
   if (themeParam) theme = themeParam;
+  if (/[?&]anim=off/.test(location.search)) document.documentElement.classList.add('pf-no-anim');
   var openCert = -1;
 
   function esc(s) {
@@ -310,11 +329,16 @@
       '<div class="pf-langs">' + t.langs.map(function (l) {
         return '<div class="pf-lang"><span class="pf-lang-name">' + esc(l[0]) + '</span><span class="pf-lang-level">' + esc(l[1]) + '</span></div>';
       }).join('') + '</div>' +
+      '<div class="pf-about-photo"><img src="photos/speed-bump-vest.jpg" alt="' + esc(t.journeyPhotoAlt) + '" loading="lazy"></div>' +
       '<h3 class="pf-h3">' + esc(t.journeyTitle) + '</h3>' +
       '<div class="pf-timeline">' + t.journey.map(function (j) {
-        return '<div class="pf-timeline-item"><div class="pf-timeline-dot"></div>' +
+        var done = j[2];
+        return '<div class="pf-timeline-item ' + (done ? 'pf-tl-done' : 'pf-tl-next') + '">' +
+          '<div class="pf-timeline-dot">' + (done ? '&#10003;' : '') + '</div>' +
+          '<div class="pf-timeline-card">' +
+          '<div class="pf-timeline-state">' + esc(done ? t.journeyDone : t.journeyNext) + '</div>' +
           '<div class="pf-timeline-name">' + esc(j[0]) + '</div>' +
-          '<div class="pf-timeline-detail">' + esc(j[1]) + '</div></div>';
+          '<div class="pf-timeline-detail">' + esc(j[1]) + '</div></div></div>';
       }).join('') + '</div></div>';
   }
 
