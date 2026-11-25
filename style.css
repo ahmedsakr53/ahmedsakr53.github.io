@@ -203,6 +203,17 @@ p.pf-para {
     color: #081018;
     border-color: transparent;
 }
+.pf-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+.pf-nav a .pf-icon {
+    width: 13px;
+    height: 13px;
+    fill: currentColor;
+    flex: 0 0 auto;
+}
 .pf-nav a.pf-nav-home {
     display: inline-flex;
     align-items: center;
