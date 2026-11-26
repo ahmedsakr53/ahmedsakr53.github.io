@@ -1683,3 +1683,18 @@ html[data-theme="dark"] body[data-palette="orange"] { --ds-teal: #f09a55; }
 .pf-link-reasons { margin: 8px 0 0; padding-inline-start: 20px; line-height: 1.8; }
 .pf-link-note { margin-top: 10px; font-size: 12.5px; opacity: .85; line-height: 1.7; }
 #pf-link-result { text-align: start; }
+
+/* live visitor map */
+.pf-live { margin-top: 18px; padding: 16px; border-radius: 18px; border: 1px solid rgb(34 211 238 / 0.3); background: rgb(8 14 28 / 0.55); color: #eef2ff; }
+.pf-live-head { display: flex; align-items: center; gap: 10px; font-size: 15px; margin-bottom: 10px; }
+.pf-live-pulse { width: 10px; height: 10px; border-radius: 50%; background: #34d399; box-shadow: 0 0 0 0 rgb(52 211 153 / .6); animation: pfLivePulse 2s infinite; }
+@keyframes pfLivePulse { 70% { box-shadow: 0 0 0 9px rgb(52 211 153 / 0); } 100% { box-shadow: 0 0 0 0 rgb(52 211 153 / 0); } }
+.pf-live-map { position: relative; width: 100%; aspect-ratio: 720 / 280; direction: ltr; }
+.pf-live-map canvas { width: 100%; height: 100%; display: block; }
+.pf-live-dot { position: absolute; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; background: #22d3ee; box-shadow: 0 0 10px 3px rgb(34 211 238 / .75); animation: pfDotGlow 2.4s ease-in-out infinite; }
+@keyframes pfDotGlow { 50% { opacity: .45; transform: scale(1.5); } }
+.pf-live-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.pf-live-chip { font-size: 12.5px; padding: 4px 10px; border-radius: 99px; background: rgb(255 255 255 / .08); }
+.pf-live-chip b { color: #22d3ee; }
+.pf-live-note { margin-top: 8px; font-size: 11.5px; opacity: .7; }
+@media (prefers-reduced-motion: reduce) { .pf-live-dot, .pf-live-pulse { animation: none; } }

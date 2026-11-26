@@ -179,7 +179,7 @@
       ],
       checkupEyebrow: 'CHECK YOURSELF',
       checkupTitle: 'اطمّن على نفسك',
-      checkupIntro: 'ثلاث أدوات سريعة تقيس مستوى حمايتك على الإنترنت. كل شيء يعمل على جهازك أنت، ولا يُرسَل أو يُحفظ أي شيء تكتبه هنا.',
+      checkupIntro: 'أربع أدوات سريعة تقيس مستوى حمايتك على الإنترنت. كل شيء يعمل على جهازك أنت، ولا يُرسَل أو يُحفظ أي شيء تكتبه هنا.',
       checkupBannerT: 'اطمّن على نفسك',
       checkupBannerS: 'فحص أمني مجاني وسريع: قوة كلمة السر، عاداتك، وعينك على الاحتيال — كل شيء على جهازك، لا يُرسَل أي شيء.',
       passTitle: 'اختبر قوة كلمة السر',
@@ -409,7 +409,7 @@
       ],
       checkupEyebrow: 'CHECK YOURSELF',
       checkupTitle: 'Check yourself',
-      checkupIntro: 'Three quick tools that measure how protected you are online. Everything runs on your own device, and nothing you type is sent or saved anywhere.',
+      checkupIntro: 'Four quick tools that measure how protected you are online. Everything runs on your own device, and nothing you type is sent or saved anywhere.',
       checkupBannerT: 'Check yourself',
       checkupBannerS: 'A free quick security checkup: password strength, your habits, and your phishing radar. All on your device, nothing is sent.',
       passTitle: 'Test your password strength',
@@ -608,7 +608,7 @@
       '</div>' +
       '<div class="pf-visits" title="' + esc(t.visitsTitle) + '"><img src="https://hits.sh/ahmedsakr53.github.io/hits.svg?label=%F0%9F%91%81&color=2f7fd4&style=flat" alt="' + esc(t.visitsTitle) + '" loading="lazy"></div>' +
       '</div></div></div>' +
-      '<a class="pf-checkup-banner" href="#/checkup">' + icon('navShield') + '<span><b>' + esc(t.checkupBannerT) + '</b><small>' + esc(t.checkupBannerS) + '</small></span></a></div>';
+      '<a class="pf-checkup-banner" href="#/checkup">' + icon('navShield') + '<span><b>' + esc(t.checkupBannerT) + '</b><small>' + esc(t.checkupBannerS) + '</small></span></a>' + livePlaceholder() + '</div>';
   }
 
   function renderApp(t) {
@@ -847,6 +847,64 @@
     inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); run(); } });
   }
 
+
+  /* ===== Live visitor map: anonymous, country/city-level dots from the worker's presence data ===== */
+  var PF_MAP = { cols: 144, rows: 56, top: 84, bot: -58, step: 2.5, data: "AAAAAAH+A/8AAAAAAAAAAAAAAAAAAHn3//+AAeAQAAcAAAAAAAAAEEOf//8AAsAAAAAAAAAAAAAAfN8Af/8AAAABgB/4AfAAAAAD5a8AP/4AAAAECP//8IAAAfgAHmf4P/gAAHAAG/////8Ag///1v5cH+AAA/8v+///////J/////h6HwHAB7z/////////A////+AIDgAAHv//////////B/v//8BwAgAAPl////////xgAGA//+B+AAAABj///////wGAAAAf//5/AAACEH///////AOAAAAP//5/wAALv////////4IAAAAH///9AAACf////////0AAAAAD///84AAB/////////wAAAAAD////AAAB//fn/////gAAAAAD///wAAAPjeBn////+MAAAAAD///AAAAPEt/3////YIAAAAAB//+AAAAPBF/z////MQAAAAAA///AAAAD8Gf/////FwAAAAAAf/8AAAAP+IP/////CAAAAAAAH/IAAAAP////////gAAAAAAAL4EAAAAf//v3////AAAAAAAAF4AAAAA///363///AAAAAAAAA4MAAAB///z/D/f8AAAAAAAAA4hAAAB///7+B+fgAAAAAAAAAfgAAAA///58B4PggAAAAAAAAB4AAAB///94AwHwgAAAAAAAAAYAAAB////AAwHwwAAAAAAAAAI/AAA////wAwEgQAAAAAAAAAF/AAAf///wAIAAYAAAAAAAAAB/4AAPP//gAAKDAAAAAAAAAAB/8AAAD//gAAEGAAAAAAAAAAD/8AAAD/+AAACOAAAAAAAAAAD//AAAD/8AAADOhQAAAAAAAAH//4AAB/8AAABAAcAAAAAAAAD//8AAB/8AAAAYAeAAAAAAAAB//8AAB/8AAAAAQBAAAAAAAAB//4AAB/8AAAAADgAAAAAAAAA//wAAB/8QAAAALEAAAAAAAAAf/wAAB/4wAAAAf8AAAAAAAAAP/wAAB/wwAAAA/+AAAAAAAAAP/gAAA/xgAAAD//AAAAAAAAAP+AAAA/wgAAAH//gAAAAAAAAP+AAAA/gAAAAD//gAAAAAAAAf8AAAAfAAAAAD//gAAAAAAAAf4AAAAfAAAAADx/gAAAAAAAAfwAAAAAAAAAACAfAAAAAAAAAfgAAAAAAAAAAAAPAAAAAAAAAeAAAAAAAAAAAAAAACAAAAAAA+AAAAAAAAAAAAACAEAAAAAAA8AAAAAAAAAAAAAAAQAAAAAAA8AAAAAAAAAAAAAAAAAAAAAAA4AAAAAAAAEAAAAAAAAAAAAAA4AAAAAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAAA" };
+  var pfLiveTimer = 0;
+  function livePlaceholder() {
+    var ar = lang === 'ar';
+    return '<div class="pf-live" id="pf-live"><div class="pf-live-head"><span class="pf-live-pulse"></span><b id="pf-live-count">' + esc(ar ? 'الزوار دلوقتي' : 'Live visitors') + '</b></div>' +
+      '<div class="pf-live-map" id="pf-live-map"><canvas id="pf-live-canvas" width="720" height="280" aria-hidden="true"></canvas><div id="pf-live-dots"></div></div>' +
+      '<div class="pf-live-list" id="pf-live-list"></div>' +
+      '<div class="pf-live-note">' + esc(ar ? 'نقط تقريبية على مستوى المدينة، من غير أي بيانات شخصية أو عناوين IP.' : 'Approximate city-level dots only. No personal data and no IP addresses are shown.') + '</div></div>';
+  }
+  function drawLandMap(cv) {
+    var raw = atob(PF_MAP.data), bits = [];
+    for (var i = 0; i < raw.length; i++) { var b = raw.charCodeAt(i); for (var k = 7; k >= 0; k--) bits.push((b >> k) & 1); }
+    var ctx = cv.getContext('2d'), W = cv.width, H = cv.height;
+    var cw = W / PF_MAP.cols, ch = H / PF_MAP.rows, r = Math.min(cw, ch) * 0.34;
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = 'rgba(120,150,190,0.55)';
+    for (var row = 0; row < PF_MAP.rows; row++) for (var c = 0; c < PF_MAP.cols; c++) {
+      if (bits[row * PF_MAP.cols + c]) { ctx.beginPath(); ctx.arc((c + 0.5) * cw, (row + 0.5) * ch, r, 0, 6.2832); ctx.fill(); }
+    }
+  }
+  function wireLive() {
+    var box = document.getElementById('pf-live');
+    if (!box || !SAQR_WORKER_URL) return;
+    clearInterval(pfLiveTimer);
+    var ar = lang === 'ar';
+    var cv = document.getElementById('pf-live-canvas');
+    try { drawLandMap(cv); } catch (e) {}
+    var names = null;
+    try { names = new Intl.DisplayNames([lang], { type: 'region' }); } catch (e) {}
+    function flag(cc) { return String.fromCodePoint.apply(null, cc.split('').map(function (ch) { return 127397 + ch.charCodeAt(0); })); }
+    function load() {
+      if (document.hidden || !document.getElementById('pf-live')) return;
+      fetch(SAQR_WORKER_URL.replace(/\/chat$/, '/live')).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+        if (!d || !d.ok || !document.getElementById('pf-live')) return;
+        var cc = Object.keys(d.countries || {});
+        var cnt = document.getElementById('pf-live-count');
+        cnt.textContent = d.online > 0
+          ? (ar ? 'دلوقتي ' + d.online + (d.online === 1 ? ' زائر' : ' زوار') + (cc.length ? ' من ' + cc.length + (cc.length === 1 ? ' دولة' : ' دول') : '')
+                : 'Now ' + d.online + (d.online === 1 ? ' visitor' : ' visitors') + (cc.length ? ' from ' + cc.length + (cc.length === 1 ? ' country' : ' countries') : ''))
+          : (ar ? 'مفيش زوار أونلاين دلوقتي' : 'No visitors online right now');
+        var dots = document.getElementById('pf-live-dots');
+        dots.innerHTML = (d.dots || []).map(function (p) {
+          var x = (p.lo + 180) / 360 * 100, y = (PF_MAP.top - p.la) / (PF_MAP.top - PF_MAP.bot) * 100;
+          if (y < 0 || y > 100) return '';
+          return '<i class="pf-live-dot" style="left:' + x.toFixed(2) + '%;top:' + y.toFixed(2) + '%" title="' + esc((p.city ? p.city + ' ' : '') + (p.c && names ? names.of(p.c) : '')) + '"></i>';
+        }).join('');
+        document.getElementById('pf-live-list').innerHTML = cc.sort(function (a, b) { return d.countries[b] - d.countries[a]; }).map(function (c) {
+          var nm = c; try { if (names) nm = names.of(c) || c; } catch (e) {}
+          return '<span class="pf-live-chip">' + flag(c) + ' ' + esc(nm) + ' <b>' + d.countries[c] + '</b></span>';
+        }).join('');
+      }).catch(function () {});
+    }
+    load();
+    pfLiveTimer = setInterval(load, 30000);
+  }
+
   function wireCheckup(t) {
     wireLinkCheck(t);
     var pass = document.getElementById('pf-pass');
@@ -1018,6 +1076,7 @@
     setupReveal();
     setupTilt();
     if (route === '#/checkup') wireCheckup(t);
+    if (route === '#/') wireLive(); else clearInterval(pfLiveTimer);
     if (renderDone && window.goatcounter && window.goatcounter.count) {
       try { window.goatcounter.count({ path: location.hash.slice(1) || '/' }); } catch (e) {}
     }

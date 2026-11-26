@@ -938,6 +938,27 @@ export default {
       return new Response(null, { status: 204, headers: corsHeaders(origin) });
     }
     if (url.pathname === '/chat/status') return handleStatus(env, origin);
+    if (url.pathname === '/live' && request.method === 'GET') {
+      const nowMs = Date.now();
+      if (!globalThis.__liveCache || nowMs - globalThis.__liveCache.t > 20000) {
+        const pres = await env.SAQR_CHATS.list({ prefix: 'presence:', limit: 200 });
+        const pv = await Promise.all(pres.keys.map((k) => env.SAQR_CHATS.get(k.name, 'json')));
+        const act = pv.filter((v) => v && (nowMs - (v.ts || 0)) < 150000);
+        const countries = {};
+        const dots = {};
+        act.forEach((v) => {
+          if (v.c && /^[A-Z]{2}$/.test(v.c)) countries[v.c] = (countries[v.c] || 0) + 1;
+          if (Number.isFinite(v.la) && Number.isFinite(v.lo)) {
+            const la = Math.round(v.la * 10) / 10, lo = Math.round(v.lo * 10) / 10;
+            const key = la + ',' + lo;
+            if (!dots[key]) dots[key] = { la, lo, n: 0, city: v.city || '', c: v.c || '' };
+            dots[key].n++;
+          }
+        });
+        globalThis.__liveCache = { t: nowMs, body: { ok: true, online: act.length, countries, dots: Object.values(dots).slice(0, 80) } };
+      }
+      return Response.json(globalThis.__liveCache.body, { headers: { ...corsHeaders(origin), 'cache-control': 'public, max-age=15' } });
+    }
     if (url.pathname === '/ping' && request.method === 'POST') {
       let pb = {};
       try { pb = await request.json(); } catch { pb = {}; }
@@ -946,7 +967,7 @@ export default {
         return Response.json({ ok: false }, { status: 400, headers: corsHeaders(origin) });
       }
       const page = String(pb.page || '/').slice(0, 60);
-      const puts = [env.SAQR_CHATS.put('presence:' + vid, JSON.stringify({ ts: Date.now(), page }), { expirationTtl: 180 })];
+      const puts = [env.SAQR_CHATS.put('presence:' + vid, JSON.stringify({ ts: Date.now(), page, c: String((request.cf && request.cf.country) || '').slice(0, 2).toUpperCase(), city: String((request.cf && request.cf.city) || '').slice(0, 40), la: Number((request.cf && request.cf.latitude) || NaN), lo: Number((request.cf && request.cf.longitude) || NaN) }), { expirationTtl: 180 })];
       if (pb.type === 'view') puts.push(bumpStats(env, cairoDay(), 'pv', vid, page));
       ctx.waitUntil(Promise.all(puts));
       return Response.json({ ok: true }, { headers: corsHeaders(origin) });
