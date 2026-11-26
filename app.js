@@ -1043,6 +1043,15 @@
     hero.addEventListener('mouseleave', function () { tx = 0; ty = 0; kick(); });
   }
 
+  function wireNavSheet() {
+    var btn = document.getElementById('pf-more-btn'), sheet = document.getElementById('pf-sheet');
+    if (!btn || !sheet) return;
+    function setOpen(o) { sheet.hidden = !o; btn.setAttribute('aria-expanded', o ? 'true' : 'false'); document.body.classList.toggle('pf-sheet-open', o); }
+    btn.addEventListener('click', function () { setOpen(sheet.hidden); });
+    sheet.addEventListener('click', function (e) { if (e.target.closest('[data-close]') || e.target.closest('a')) setOpen(false); });
+    document.addEventListener('keydown', function esc2(e) { if (!document.getElementById('pf-sheet')) { document.removeEventListener('keydown', esc2); return; } if (e.key === 'Escape') setOpen(false); });
+  }
+
   function render() {
     var t = T[lang];
     document.documentElement.lang = lang;
@@ -1050,16 +1059,30 @@
     document.documentElement.dataset.theme = theme;
     document.title = lang === 'ar' ? 'أحمد مختار صقر' : 'Ahmed Mokhtar Sakr';
     var route = currentRoute();
+    var ar0 = lang === 'ar';
+    var mainIdx = [0, 5, 6];
+    var moreItems = [
+      { href: navPaths[1], icon: navIcons[1], label: t.nav[1] },
+      { href: navPaths[2], icon: navIcons[2], label: t.nav[2] },
+      { href: navPaths[3], icon: navIcons[3], label: t.nav[3] },
+      { href: navPaths[4], icon: navIcons[4], label: t.nav[4] },
+      { href: '#/checkup', icon: 'navShield', label: t.checkupTitle },
+      { href: '#/map', icon: 'navGlobe', label: ar0 ? 'خريطة الزوار' : 'Visitor map' }
+    ];
+    var moreActive = moreItems.some(function (m) { return m.href === route; });
+    var moreLabel = ar0 ? 'المزيد' : 'More';
     var nav = '<nav class="pf-nav" aria-label="' + esc(t.navAria) + '">' +
-      t.nav.map(function (label, i) {
-        if (i === 0) {
-          if (route === '#/') return '';
-          return '<a href="' + navPaths[i] + '" class="pf-nav-home" aria-label="' + esc(label) + '" title="' + esc(label) + '">' + icon('home') + '</a>';
-        }
+      mainIdx.map(function (i) {
         var active = navPaths[i] === route ? ' aria-current="page"' : '';
-        return '<a href="' + navPaths[i] + '"' + active + '>' + icon(navIcons[i]) + esc(label) + '</a>';
+        return '<a href="' + navPaths[i] + '"' + active + '>' + icon(navIcons[i]) + esc(t.nav[i]) + '</a>';
       }).join('') +
+      '<button type="button" class="pf-nav-more' + (moreActive ? ' pf-nav-more-on' : '') + '" id="pf-more-btn" aria-haspopup="dialog" aria-expanded="false">' + icon('navGrid') + esc(moreLabel) + '</button>' +
       '</nav>' +
+      '<div class="pf-sheet" id="pf-sheet" hidden><div class="pf-sheet-back" data-close="1"></div>' +
+      '<div class="pf-sheet-panel" role="dialog" aria-label="' + esc(moreLabel) + '"><div class="pf-sheet-grip"></div>' +
+      '<div class="pf-sheet-grid">' + moreItems.map(function (m) {
+        return '<a href="' + m.href + '"' + (m.href === route ? ' aria-current="page"' : '') + '>' + icon(m.icon) + '<span>' + esc(m.label) + '</span></a>';
+      }).join('') + '</div></div></div>' +
       '<div class="pf-fabs">' +
       '<button type="button" class="pf-lang-toggle" aria-label="' + esc(t.toggleLabel) + '">' +
       '<span class="pf-lang-toggle-thumb" aria-hidden="true"></span>' +
@@ -1084,6 +1107,7 @@
     if (openCert >= 0 && route === '#/certifications') showLightbox(openCert);
     setupReveal();
     setupTilt();
+    wireNavSheet();
     if (route === '#/checkup') wireCheckup(t);
     if (route === '#/map') wireLive(); else clearInterval(pfLiveTimer);
     if (renderDone && window.goatcounter && window.goatcounter.count) {
