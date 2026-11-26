@@ -57,6 +57,7 @@
     navCap: 'M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z',
     fun: 'M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z',
     navPad: 'M6 8a5 5 0 00-5 5v2a3 3 0 005.2 2l1.6-2h8.4l1.6 2A3 3 0 0023 15v-2a5 5 0 00-5-5H6zm1 2h1.5v1.5H10V13H8.5v1.5H7V13H5.5v-1.5H7V10zm9 .8a1 1 0 110 2 1 1 0 010-2zm2.5 2.2a1 1 0 110 2 1 1 0 010-2z',
+    navLaugh: 'M12 2a10 10 0 1 1 0 20a10 10 0 1 1 0-20zM8.5 8.2a1.4 1.4 0 1 0 0 2.8a1.4 1.4 0 1 0 0-2.8zM15.5 8.2a1.4 1.4 0 1 0 0 2.8a1.4 1.4 0 1 0 0-2.8zM6.6 13.2a5.4 5.4 0 0 0 10.8 0z',
     navGlobe: 'M12 2a10 10 0 100 20 10 10 0 000-20zm0 2c1.7 2 2.7 4.6 2.9 7H9.1C9.3 8.6 10.3 6 12 4zM4.3 11a8 8 0 013.9-6.1C7.3 6.5 6.7 8.6 6.6 11H4.3zm0 2h2.3c.1 2.4.7 4.5 1.6 6.1A8 8 0 014.3 13zM12 20c-1.7-2-2.7-4.6-2.9-7h5.8c-.2 2.4-1.2 5-2.9 7zm3.8-.9c.9-1.6 1.5-3.7 1.6-6.1h2.3a8 8 0 01-3.9 6.1zM17.4 11c-.1-2.4-.7-4.5-1.6-6.1A8 8 0 0119.7 11h-2.3z',
     navShield: 'M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z',
     pin: 'M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13c0-3.37-3.13-6.5-7-6.5zm0 8.75a2.25 2.25 0 1 1 0-4.5 2.25 2.25 0 0 1 0 4.5z'
@@ -1163,7 +1164,7 @@
   }
   function renderFun() {
     var ar = lang === 'ar', mst = gamesCfg && gamesCfg.memes && gamesCfg.memes.state;
-    var memes = mst === 'hidden' ? '' : '<a class="pf-fun-half pf-fun-memes' + (mst === 'soon' ? ' soon' : '') + '" href="' + (mst === 'soon' ? '#/fun' : '#/memes') + '">' + icon('doc') + '<b>' + (ar ? 'قوالب ميم' : 'Meme templates') + '</b>' +
+    var memes = mst === 'hidden' ? '' : '<a class="pf-fun-half pf-fun-memes' + (mst === 'soon' ? ' soon' : '') + '" href="' + (mst === 'soon' ? '#/fun' : '#/memes') + '">' + icon('navLaugh') + '<b>' + (ar ? 'قوالب ميم' : 'Meme templates') + '</b>' +
       '<span class="pf-fun-item">' + (ar ? 'ميمز' : 'Memes') + '<i>' + (mst === 'soon' ? (ar ? 'قريباً' : 'Soon') : (ar ? 'افتح' : 'Open')) + '</i></span>' +
       '<small>' + (ar ? 'اختار قالب واكتب كلامك وشارك.' : 'Pick a template, write and share.') + '</small></a>';
     return '<div class="pf-page pf-fun-page">' + pageHead('FUN', ar ? 'الألعاب والترفيه' : 'Games & fun') +
