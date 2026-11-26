@@ -416,6 +416,48 @@ async function handleAdminLogin(request, env, ctx) {
   });
 }
 
+
+// ---- Image questions: photo in, answer out. Nothing is stored or logged. ----
+const imgBuckets = new Map();
+function imgRateLimited(ip) {
+  const now = Date.now();
+  const b = imgBuckets.get(ip) || { count: 0, start: now };
+  if (now - b.start > 10 * 60 * 1000) { b.count = 0; b.start = now; }
+  b.count++;
+  imgBuckets.set(ip, b);
+  if (imgBuckets.size > 3000) imgBuckets.clear();
+  return b.count > 5;
+}
+async function handleChatImage(request, env, origin) {
+  const H = corsHeaders(origin);
+  const ar = (t) => Response.json({ reply: t }, { status: 200, headers: H });
+  const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+  if (imgRateLimited(ip)) return Response.json({ reply: 'بعتّ صور كتير في وقت قصير. استنى شوية وجرب تاني 🦅' }, { status: 429, headers: H });
+  let body;
+  try {
+    const len = +(request.headers.get('content-length') || 0);
+    if (len > 900000) return Response.json({ reply: 'الصورة كبيرة قوي. جرب صورة أصغر 🦅' }, { status: 413, headers: H });
+    body = await request.json();
+  } catch { return Response.json({ reply: 'مقدرتش أفهم الطلب.' }, { status: 400, headers: H }); }
+  const mime = String(body.mime || '');
+  const data = String(body.image || '');
+  if (!/^image\/(jpeg|png|webp)$/.test(mime) || !/^[A-Za-z0-9+/=]+$/.test(data) || data.length < 100) {
+    return Response.json({ reply: 'الصورة دي مش مدعومة. ابعت JPG أو PNG 🦅' }, { status: 400, headers: H });
+  }
+  if (data.length > 700000) return Response.json({ reply: 'الصورة كبيرة قوي. جرب صورة أصغر 🦅' }, { status: 413, headers: H });
+  try { if ((await env.SAQR_CHATS.get('cfg:saqr')) === '0') return ar('صقر واخد بريك صغير دلوقتي، ارجع بعد شوية 🦅'); } catch {}
+  const en = body.lang === 'en';
+  const q = typeof body.text === 'string' ? body.text.slice(0, 500).trim() : '';
+  const sys = SYSTEM_PROMPT + '\n\nقاعدة الصور: المستخدم بعتلك صورة (غالباً سؤال أو واجب أو ورقة). اقرا أي نص في الصورة بدقة، وجاوب على اللي فيها خطوة بخطوة بشكل واضح ومختصر. لو سؤال حل، اشرح ببساطة. لو الصورة مش واضحة، قول كده واطلب صورة أوضح. لو الصورة فيها بيانات حساسة (بطاقة، باسورد، بطاقة هوية) نبّهه بلطف إنه ميبعتهاش. ماتحفظش ولا تكرر بيانات شخصية. ' + (en ? 'Reply in English.' : 'ردّك بعامية مصرية.');
+  const parts = [{ inlineData: { mimeType: mime, data } }, { text: q || (en ? 'Read this image and answer what it asks.' : 'اقرا الصورة دي وجاوب على اللي فيها.') }];
+  try {
+    const text = await callGemini(env, sys, [{ role: 'user', parts }], { temperature: 0.4, maxOutputTokens: 900 }, env.OWNER_MODEL || 'gemini-3.5-flash');
+    return ar(text || 'معرفتش أقرا الصورة. جرب صورة أوضح 🦅');
+  } catch (e) {
+    return Response.json({ reply: 'مقدرتش أشوف الصورة دلوقتي. جرب بعد شوية 🦅' }, { status: 502, headers: H });
+  }
+}
+
 // ---- Saqr brain: shared Gemini helper, owner rules, activity log ----
 
 async function callGemini(env, systemText, contents, genCfg, modelOverride) {
@@ -1348,6 +1390,7 @@ export default {
       return new Response(null, { status: 303, headers: [['location', '/admin'], ['set-cookie', 'saqr_admin=; Path=/admin; HttpOnly; Secure; Max-Age=0'], ['set-cookie', 'saqr_admin_pin=; Path=/admin; HttpOnly; Secure; Max-Age=0']] });
     }
     if (url.pathname.indexOf('/admin/api/') === 0) return handleAdminApi(request, env, ctx, url);
+    if (url.pathname === '/chat-image' && request.method === 'POST') return handleChatImage(request, env, origin);
     if (url.pathname !== '/chat' || request.method !== 'POST') {
       return new Response('Not found', { status: 404, headers: corsHeaders(origin) });
     }

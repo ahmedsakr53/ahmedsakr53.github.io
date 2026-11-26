@@ -1915,3 +1915,10 @@ html[data-theme="dark"] .pf-acad-back { background: #3a2a10; color: #fcd34d; }
 .pf-saqr-head .pf-saqr-close:hover { background: rgb(229 72 77 / .85); border-color: rgb(255 138 142 / .6); }
 .pf-saqr-head { gap: 6px; }
 .pf-saqr-head .pf-saqr-id { flex: 1; min-width: 0; }
+
+/* Saqr chat: photo button + thumbnails */
+.pf-saqr-attach { flex: none; width: 42px; height: 42px; padding: 0; display: grid; place-items: center; border-radius: 50%; border: 1.5px solid var(--ds-hairline, #e8e4de); background: transparent; color: #0e8a9e; cursor: pointer; transition: background .15s ease, transform .12s ease; }
+.pf-saqr-attach svg { width: 20px; height: 20px; display: block; }
+.pf-saqr-attach:hover { background: rgb(14 138 158 / .1); }
+.pf-saqr-attach:active { transform: scale(.92); }
+.pf-saqr-pic { display: block; max-width: 190px; max-height: 190px; border-radius: 12px; margin-bottom: 6px; object-fit: cover; }

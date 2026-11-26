@@ -1502,6 +1502,7 @@
         (t.saqrChips ? '<div class="pf-saqr-chips" style="display:flex;gap:6px;flex-wrap:wrap;padding:10px 12px 0">' + t.saqrChips.map(function (c) { return '<button type="button" class="pf-saqr-chip" style="border:1.5px solid #d8d4cd;background:#fff;border-radius:99px;padding:6px 12px;font-size:12.5px;font-family:inherit;cursor:pointer;color:#5c6472">' + esc(c) + '</button>'; }).join('') + '</div>' : '') +
         '<form class="pf-saqr-form" id="pf-saqr-form">' +
           '<textarea class="pf-saqr-input" id="pf-saqr-input" rows="2" placeholder="' + esc(t.saqrPlaceholder) + '" autocomplete="off" maxlength="500"></textarea>' +
+          '<button type="button" class="pf-saqr-attach" aria-label="' + esc(lang === 'ar' ? 'ابعت صورة' : 'Send a photo') + '" title="' + esc(lang === 'ar' ? 'ابعت صورة (سؤال أو واجب)' : 'Send a photo (a question or homework)') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="12" cy="12" r="3.2"/><path d="M8 5l1.2-2h5.6L16 5"/></svg></button><input type="file" class="pf-saqr-file" accept="image/*" hidden>' +
           (SaqrRecog ? '<button type="button" class="pf-saqr-micbig pf-saqr-micsm' + (saqrListening ? ' pf-saqr-live' : '') + '" aria-label="' + esc(t.saqrMic) + '" title="' + esc(t.saqrMic) + '"><span class="pf-saqr-micbig-ico">' + SAQR_MIC_SVG + '</span></button>' : '') +
           '<button type="submit" class="pf-saqr-send" aria-label="' + esc(t.saqrSend) + '">' + icon('send') + '</button>' +
         '</form>' +
@@ -1552,6 +1553,8 @@
             }
             saqrSpeak(mm.content, lang);
           }
+        } else if (e.target.closest('.pf-saqr-attach')) {
+          var fi = root.querySelector('.pf-saqr-file'); if (fi && !saqrState.sending) { fi.value = ''; fi.click(); }
         } else if (e.target.closest('.pf-saqr-fs')) {
           saqrState.full = !saqrState.full;
           saqrEnsure(T[lang]);
@@ -1571,6 +1574,9 @@
       });
       root.addEventListener('keydown', function (e) {
         if (e.target && e.target.id === 'pf-saqr-input' && e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); saqrSend(); }
+      });
+      root.addEventListener('change', function (e) {
+        if (e.target && e.target.classList && e.target.classList.contains('pf-saqr-file') && e.target.files && e.target.files[0]) saqrSendImage(e.target.files[0]);
       });
       root.addEventListener('submit', function (e) {
         if (e.target.id === 'pf-saqr-form') { e.preventDefault(); saqrSend(); }
@@ -1616,7 +1622,7 @@
         '<div class="pf-saqr-consent-btns"><button type="button" class="pf-saqr-voice-ok">' + esc(t.saqrVoiceNoticeOk) + '</button></div></div></div>';
     }
     saqrState.msgs.forEach(function (m, mi) {
-      if (m.role === 'user') html += '<div class="pf-saqr-msg pf-saqr-me"><div class="pf-saqr-bubble">' + esc(m.content) + '</div></div>';
+      if (m.role === 'user') html += '<div class="pf-saqr-msg pf-saqr-me"><div class="pf-saqr-bubble">' + (m.img ? '<img class="pf-saqr-pic" alt="" src="' + m.img + '">' : '') + (m.content ? esc(m.content) : '') + '</div></div>';
       else html += '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">' + SAQR_FEATHER + '</span><div class="pf-saqr-bubble">' + esc(m.content) +
         '<button type="button" class="pf-saqr-replay" data-mi="' + mi + '" aria-label="' + esc(t.saqrReplay) + '" title="' + esc(t.saqrReplay) + '">' + SAQR_SPK_ON + '<span>' + esc(t.saqrReplay) + '</span></button>' +
         saqrProjectCards(m.content, t) + '</div></div>';
@@ -1624,6 +1630,51 @@
     if (saqrState.sending) html += '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">' + SAQR_FEATHER + '</span><div class="pf-saqr-bubble pf-saqr-typing">' + esc(t.saqrTyping) + '</div></div>';
     box.innerHTML = html;
     box.scrollTop = box.scrollHeight;
+  }
+
+  function saqrCompress(file, cb) {
+    var fail = function () { cb(null); };
+    var draw = function (src, w, h) {
+      var k = Math.min(1, 1280 / Math.max(w, h)), cw = Math.max(1, Math.round(w * k)), ch = Math.max(1, Math.round(h * k));
+      var cv = document.createElement('canvas'); cv.width = cw; cv.height = ch;
+      var cx = cv.getContext('2d'); cx.fillStyle = '#fff'; cx.fillRect(0, 0, cw, ch); cx.drawImage(src, 0, 0, cw, ch);
+      var q = 0.82, url = cv.toDataURL('image/jpeg', q);
+      while (url.length > 600000 && q > 0.4) { q -= 0.1; url = cv.toDataURL('image/jpeg', q); }
+      if (url.length > 640000) { cv.width = Math.round(cw * 0.7); cv.height = Math.round(ch * 0.7); cv.getContext('2d').drawImage(src, 0, 0, cv.width, cv.height); url = cv.toDataURL('image/jpeg', 0.7); }
+      cb(url.length <= 680000 ? url : null);
+    };
+    var u = URL.createObjectURL(file), im = new Image();
+    im.onload = function () { try { draw(im, im.naturalWidth, im.naturalHeight); } catch (e) { fail(); } URL.revokeObjectURL(u); };
+    im.onerror = function () { URL.revokeObjectURL(u); fail(); };
+    im.src = u;
+  }
+
+  function saqrSendImage(file) {
+    var t = T[lang];
+    if (saqrState.sending) return;
+    var say = function (m) { saqrState.msgs.push({ role: 'assistant', content: m }); paintSaqrMsgs(t); };
+    if (!/^image\//.test(file.type) || file.size > 25 * 1024 * 1024) { say(lang === 'ar' ? 'ابعت صورة JPG أو PNG بس، وأصغر من ٢٥ ميجا 🦅' : 'Please send a JPG or PNG under 25 MB.'); return; }
+    saqrCompress(file, function (dataUrl) {
+      if (!dataUrl) { say(lang === 'ar' ? 'مقدرتش أجهّز الصورة دي. جرب صورة تانية 🦅' : "I couldn't process that photo. Try another one."); return; }
+      var inp = document.getElementById('pf-saqr-input');
+      var q = inp ? (inp.value || '').trim() : '';
+      if (inp) inp.value = '';
+      saqrState.msgs.push({ role: 'user', content: q, img: dataUrl });
+      saqrState.sending = true;
+      paintSaqrMsgs(t);
+      fetch(SAQR_WORKER_URL.replace(/\/chat$/, '/chat-image'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lang: lang, text: q, mime: 'image/jpeg', image: dataUrl.split(',')[1] })
+      }).then(function (r) { return r.json().catch(function () { return {}; }); }).then(function (d) {
+        saqrState.msgs.push({ role: 'assistant', content: (d && d.reply) ? String(d.reply) : t.saqrError });
+      }).catch(function () {
+        saqrState.msgs.push({ role: 'assistant', content: t.saqrError });
+      }).finally(function () {
+        saqrState.sending = false;
+        paintSaqrMsgs(t);
+      });
+    });
   }
 
   function saqrSend() {
@@ -1641,7 +1692,7 @@
     saqrState.sending = true;
     if (saqrCall.active) saqrCallSetPhase('thinking');
     paintSaqrMsgs(t);
-    var history = saqrState.msgs.slice(-12).map(function (m) {
+    var history = saqrState.msgs.slice(-12).filter(function (m) { return m.content; }).map(function (m) {
       return { role: m.role === 'user' ? 'user' : 'model', content: m.content };
     });
     fetch(SAQR_WORKER_URL, {
