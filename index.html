@@ -121,7 +121,7 @@
     document.body.appendChild(wrap);
   }
 
-  var BUILD = '2026-11-26-4';
+  var BUILD = '2026-11-26-5';
   function checkBuild(){
     fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
       if (j && j.v && j.v !== BUILD) showUpdate(null);
