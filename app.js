@@ -76,7 +76,7 @@
       engPrefix: 'المهندس',
       role: 'Junior Cybersecurity Analyst · Network Technician · Software & Games Designer',
       purposeTitle: 'هدف التطبيق',
-      tagline: 'أن يكون الواجهة الرسمية للمهندس أحمد مختار صقر: مكان واحد يعرض خدماته ومشاريعه وشهاداته، وتصل منه إليه مباشرة لتطلب خدمتك بضغطة واحدة، ويطمّن فيه أي زائر على أمانه الرقمي بفحص شخصي مجاني يعمل بالكامل على جهازه، ويتعلّم من أكاديمية كورسات مجانية في الأمن السيبراني والبرمجة والشبكات بشهادة إتمام.',
+      tagline: 'أن يكون الواجهة الرسمية للمهندس أحمد مختار صقر: مكان واحد يعرض خدماته ومشاريعه وشهاداته، وتصل منه إليه مباشرة لتطلب خدمتك بضغطة واحدة، ويطمّن فيه أي زائر على أمانه الرقمي بفحص شخصي مجاني يعمل بالكامل على جهازه، ويتعلّم من «صقر أكاديمي»: كورسات مجانية في الأمن السيبراني والبرمجة والشبكات بشهادة إتمام.',
       visitsTitle: 'عدد زيارات الموقع',
       chips: ['طما، سوهاج، مصر', 'طالب هندسة كهرباء قسم اتصالات', 'الهدف: تدريب SOC'],
       ctaProjects: 'استعرض مشاريعي',
@@ -258,7 +258,7 @@
       servicesIntro: 'خدمات أقدمها بنفس الجودة التي تراها في هذا الموقع:',
       services: [
         { name: 'اطمّن على نفسك — فحص أمني شخصي', detail: 'فحص مجاني داخل التطبيق: اختبر قوة كلمة سرك، راجع عادات حمايتك، وجرّب عينك على رسائل الاحتيال. كل شيء يعمل على جهازك ولا يُرسَل أي شيء.', free: true },
-        { name: 'الأكاديمية — كورسات مجانية بشهادة', detail: 'ثلاث مسارات مجانية: أمن سيبراني وبرمجة وشبكات، كل مسار ١٠ حلقات بالصوت والصورة، وفي آخره اختبار وشهادة إتمام.', free: true, href: '#/academy', cta: 'ادخل الأكاديمية', ico: 'navCap' },
+        { name: 'صقر أكاديمي — كورسات مجانية بشهادة', detail: 'ثلاث مسارات مجانية: أمن سيبراني وبرمجة وشبكات، كل مسار ١٠ حلقات بالصوت والصورة، وفي آخره اختبار وشهادة إتمام.', free: true, href: '#/academy', cta: 'ادخل صقر أكاديمي', ico: 'navCap' },
         { name: 'موقع شخصي أو صفحة تعريفية', detail: 'صفحة واحدة أنيقة وسريعة، مصممة للموبايل أولاً — تماماً مثل هذا الموقع.' },
         { name: 'صفحة هبوط لنشاطك التجاري', detail: 'صفحة تعرّف بمنتجك أو خدمتك وتجلب لك العملاء، مع أزرار تواصل جاهزة.' },
         { name: 'لعبة متصفح خفيفة', detail: 'لعبة جافاسكريبت كاملة تعمل من المتصفح على الموبايل والكمبيوتر.' },
@@ -307,7 +307,7 @@
       engPrefix: 'Eng.',
       role: 'Junior Cybersecurity Analyst · Network Technician · Software & Games Designer',
       purposeTitle: 'Purpose of the app',
-      tagline: 'To be the official home of Eng. Ahmed Mokhtar Sakr: one place for his services, projects and certifications, with a direct line to reach him and order your service in one tap, and where any visitor can check their own digital safety with a free personal checkup that runs entirely on their device, plus a free Academy with courses in cybersecurity, programming and networking, each ending with a completion certificate.',
+      tagline: 'To be the official home of Eng. Ahmed Mokhtar Sakr: one place for his services, projects and certifications, with a direct line to reach him and order your service in one tap, and where any visitor can check their own digital safety with a free personal checkup that runs entirely on their device, plus a free Sakr Academy with courses in cybersecurity, programming and networking, each ending with a completion certificate.',
       visitsTitle: 'Site visit count',
       chips: ['Tima, Sohag, Egypt', 'Electrical Engineering, Communications student', 'Goal: SOC internship'],
       ctaProjects: 'See my projects',
@@ -489,7 +489,7 @@
       servicesIntro: 'What I can build for you, with the same quality you see on this site:',
       services: [
         { name: 'Check yourself - personal security checkup', detail: 'A free in-app checkup: test your password strength, review your security habits, and try your phishing radar. Everything runs on your device, nothing is sent.', free: true },
-        { name: 'Academy - free courses with certificates', detail: 'Three free tracks: cybersecurity, programming and networking. Each has 10 video episodes, a final exam and a completion certificate.', free: true, href: '#/academy', cta: 'Open the Academy', ico: 'navCap' },
+        { name: 'Sakr Academy - free courses with certificates', detail: 'Three free tracks: cybersecurity, programming and networking. Each has 10 video episodes, a final exam and a completion certificate.', free: true, href: '#/academy', cta: 'Open Sakr Academy', ico: 'navCap' },
         { name: 'Personal one-page website', detail: 'A clean, fast, mobile-first page — just like this very site.' },
         { name: 'Landing page for your business', detail: 'A page that presents your product or service and brings you customers, with ready contact buttons.' },
         { name: 'A light browser game', detail: 'A complete JavaScript game that runs in the browser on mobile and desktop.' },
@@ -1077,7 +1077,7 @@
     ]).then(function (c) { if (c) acadCfg = c; return c; });
     var jsP = window.pfAcademy ? Promise.resolve() : new Promise(function (res) {
       var sc = document.createElement('script');
-      sc.src = 'academy.js?v=2';
+      sc.src = 'academy.js?v=3';
       sc.onload = res; sc.onerror = res;
       document.head.appendChild(sc);
     });
@@ -1118,7 +1118,7 @@
       }).join('') + '</div></div></div>' +
       '<div class="pf-switch" role="navigation">' +
       '<a class="pf-sw-site' + (isAcad ? '' : ' pf-sw-on') + '" href="#/">' + icon('navGlobe') + esc(ar0 ? 'الموقع' : 'Site') + '</a>' +
-      '<a class="pf-sw-acad' + (isAcad ? ' pf-sw-on' : '') + '" href="#/academy">' + icon('navCap') + esc(ar0 ? 'الأكاديمية' : 'Academy') + '</a></div>' +
+      '<a class="pf-sw-acad' + (isAcad ? ' pf-sw-on' : '') + '" href="#/academy">' + icon('navCap') + esc(ar0 ? 'صقر أكاديمي' : 'Sakr Academy') + '</a></div>' +
       '<div class="pf-fabs">' +
       '<button type="button" class="pf-lang-toggle" aria-label="' + esc(t.toggleLabel) + '">' +
       '<span class="pf-lang-toggle-thumb" aria-hidden="true"></span>' +

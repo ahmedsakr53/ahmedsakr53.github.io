@@ -61,7 +61,7 @@
     if (tr && !visible(tr)) tr = null;
     if (!tr) {
       var list = TRACKS.filter(visible);
-      return h.pageHead('ACADEMY', ar ? 'الأكاديمية' : 'Academy') +
+      return h.pageHead('ACADEMY', ar ? 'صقر أكاديمي' : 'Sakr Academy') +
         '<p class="pf-para">' + esc(ar ? 'ثلاث مسارات مجانية، كل مسار ١٠ حلقات قصيرة بالصوت والصورة، وفي آخره اختبار وشهادة إتمام. نبدأ بمسار الأمن السيبراني، والباقي قريباً.' : 'Three free tracks, each with 10 short video episodes, a final exam and a completion certificate. We start with the cybersecurity track, the rest are coming soon.') + '</p>' +
         '<div class="pf-acad-grid">' + list.map(function (t) {
           var c = liveList(t).length;
