@@ -1924,3 +1924,24 @@ html[data-theme="dark"] .pf-acad-back { background: #3a2a10; color: #fcd34d; }
 .pf-saqr-pic { display: block; max-width: 190px; max-height: 190px; border-radius: 12px; margin-bottom: 6px; object-fit: cover; }
 
 .pf-paid-badge { position: absolute; top: 12px; inset-inline-end: 12px; background: linear-gradient(135deg, #0e8a9e, #155e86); color: #fff; font-size: 11.5px; font-weight: 800; letter-spacing: 0.04em; padding: 4px 10px; border-radius: 99px; }
+.pf-fun-split { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; height: calc(100svh - 330px); min-height: 380px; max-height: 640px; }
+.pf-fun-half { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px; padding: 16px; border-radius: 22px; text-align: center; color: #fff; text-decoration: none; }
+.pf-fun-games { background: linear-gradient(135deg, #6d28d9, #4f46e5); }
+.pf-fun-memes { background: linear-gradient(135deg, #f97316, #e11d48); }
+.pf-fun-half .pf-icon { width: 44px; height: 44px; fill: #fff; }
+.pf-fun-half b { font-size: 24px; }
+.pf-fun-half small { font-size: 13px; opacity: .9; }
+.pf-fun-item { display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px; border-radius: 999px; background: rgb(255 255 255 / .18); font-weight: 700; font-size: 15px; }
+.pf-fun-item i { font-style: normal; font-size: 12px; padding: 3px 10px; border-radius: 999px; background: #fff; color: #222; }
+.pf-mm-prev { margin: 14px 0; border-radius: 18px; overflow: hidden; border: 1px solid var(--ds-hairline); background: #000; }
+.pf-mm-prev canvas { display: block; width: 100%; height: auto; }
+.pf-mm-list { display: flex; gap: 10px; overflow-x: auto; padding: 4px 2px 10px; scroll-snap-type: x proximity; }
+.pf-mm-th { flex: 0 0 96px; display: flex; flex-direction: column; gap: 6px; align-items: center; padding: 6px; border-radius: 14px; border: 2px solid var(--ds-hairline); background: transparent; color: var(--ds-ink); font: inherit; font-size: 12px; cursor: pointer; scroll-snap-align: start; }
+.pf-mm-th canvas { width: 80px; height: 80px; border-radius: 10px; }
+.pf-mm-th.on { border-color: #22d3ee; }
+.pf-mm-lab { display: block; margin: 12px 0 6px; font-weight: 700; font-size: 14px; }
+.pf-mm-in { width: 100%; box-sizing: border-box; padding: 12px; border-radius: 14px; border: 1px solid var(--ds-hairline); background: transparent; color: var(--ds-ink); font: inherit; font-size: 16px; resize: vertical; }
+.pf-mm-btns { display: flex; gap: 10px; margin-top: 14px; }
+.pf-mm-btn { flex: 1; height: 48px; border-radius: 14px; border: 1px solid var(--ds-hairline); background: transparent; color: var(--ds-ink); font: inherit; font-weight: 700; font-size: 16px; cursor: pointer; }
+.pf-mm-pri { background: linear-gradient(135deg, #22d3ee, #5b8cff); color: #081018; border-color: transparent; }
+.pf-mm-note { font-size: 12px; opacity: .65; margin-top: 10px; }

@@ -55,6 +55,7 @@
     store: 'M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z',
     navApp: 'M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z',
     navCap: 'M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z',
+    fun: 'M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z',
     navGlobe: 'M12 2a10 10 0 100 20 10 10 0 000-20zm0 2c1.7 2 2.7 4.6 2.9 7H9.1C9.3 8.6 10.3 6 12 4zM4.3 11a8 8 0 013.9-6.1C7.3 6.5 6.7 8.6 6.6 11H4.3zm0 2h2.3c.1 2.4.7 4.5 1.6 6.1A8 8 0 014.3 13zM12 20c-1.7-2-2.7-4.6-2.9-7h5.8c-.2 2.4-1.2 5-2.9 7zm3.8-.9c.9-1.6 1.5-3.7 1.6-6.1h2.3a8 8 0 01-3.9 6.1zM17.4 11c-.1-2.4-.7-4.5-1.6-6.1A8 8 0 0119.7 11h-2.3z',
     navShield: 'M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z',
     pin: 'M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13c0-3.37-3.13-6.5-7-6.5zm0 8.75a2.25 2.25 0 1 1 0-4.5 2.25 2.25 0 0 1 0 4.5z'
@@ -1041,7 +1042,7 @@
 
   function currentRoute() {
     var h = location.hash || '#/';
-    if (navPaths.indexOf(h) === -1 && h !== '#/checkup' && h !== '#/map' && h.indexOf('#/academy') !== 0) return '#/';
+    if (navPaths.indexOf(h) === -1 && h !== '#/checkup' && h !== '#/map' && h !== '#/fun' && h !== '#/memes' && h.indexOf('#/academy') !== 0) return '#/';
     return h;
   }
 
@@ -1105,6 +1106,27 @@
     Promise.all([cfgP, jsP]).then(function (r) { go(r[0]); });
   }
 
+  function renderFun() {
+    var ar = lang === 'ar';
+    return '<div class="pf-page pf-fun-page">' + pageHead('FUN', ar ? 'الألعاب والترفيه' : 'Games & fun') +
+      '<div class="pf-fun-split">' +
+      '<div class="pf-fun-half pf-fun-games">' + icon('fun') + '<b>' + (ar ? 'ألعاب' : 'Games') + '</b>' +
+      '<span class="pf-fun-item">' + (ar ? 'اجري يا صقر!' : 'Run, Sakr!') + '<i>' + (ar ? 'قريباً' : 'Soon') + '</i></span>' +
+      '<small>' + (ar ? 'ألعاب جديدة هتتضاف هنا بعدين.' : 'More games will be added here later.') + '</small></div>' +
+      '<a class="pf-fun-half pf-fun-memes" href="#/memes">' + icon('doc') + '<b>' + (ar ? 'قوالب ميم' : 'Meme templates') + '</b>' +
+      '<span class="pf-fun-item">' + (ar ? 'ميمز الكلية' : 'College memes') + '<i>' + (ar ? 'افتح' : 'Open') + '</i></span>' +
+      '<small>' + (ar ? 'اختار قالب واكتب كلامك وشارك.' : 'Pick a template, write and share.') + '</small></a>' +
+      '</div></div>';
+  }
+  function loadMemes() {
+    var host = document.getElementById('pf-memes');
+    if (!host) return;
+    var go = function () { if (window.pfMemes && document.getElementById('pf-memes')) window.pfMemes.render(document.getElementById('pf-memes')); };
+    if (window.pfMemes) return go();
+    var sc = document.createElement('script');
+    sc.src = 'memes.js?v=1'; sc.onload = go; document.head.appendChild(sc);
+  }
+
   function render() {
     var t = T[lang];
     document.documentElement.lang = lang;
@@ -1121,9 +1143,10 @@
       { href: navPaths[3], icon: navIcons[3], label: t.nav[3] },
       { href: navPaths[4], icon: navIcons[4], label: t.nav[4] },
       { href: '#/checkup', icon: 'navShield', label: t.checkupTitle },
-      { href: '#/map', icon: 'navGlobe', label: ar0 ? 'خريطة الزوار' : 'Visitor map' }
+      { href: '#/map', icon: 'navGlobe', label: ar0 ? 'خريطة الزوار' : 'Visitor map' },
+      { href: '#/fun', icon: 'fun', label: ar0 ? 'الألعاب والترفيه' : 'Games & fun' }
     ];
-    var moreActive = moreItems.some(function (m) { return m.href === route || (m.href === '#/academy' && route.indexOf('#/academy') === 0); });
+    var moreActive = moreItems.some(function (m) { return m.href === route || (m.href === '#/fun' && route === '#/memes') || (m.href === '#/academy' && route.indexOf('#/academy') === 0); });
     var moreLabel = ar0 ? 'المزيد' : 'More';
     var nav = '<nav class="pf-nav" aria-label="' + esc(t.navAria) + '">' +
       mainIdx.map(function (i) {
@@ -1135,7 +1158,7 @@
       '<div class="pf-sheet" id="pf-sheet" hidden><div class="pf-sheet-back" data-close="1"></div>' +
       '<div class="pf-sheet-panel" role="dialog" aria-label="' + esc(moreLabel) + '"><div class="pf-sheet-grip"></div>' +
       '<div class="pf-sheet-grid">' + moreItems.map(function (m) {
-        return '<a href="' + m.href + '"' + ((m.href === route || (m.href === '#/academy' && route.indexOf('#/academy') === 0)) ? ' aria-current="page"' : '') + '>' + icon(m.icon) + '<span>' + esc(m.label) + '</span></a>';
+        return '<a href="' + m.href + '"' + ((m.href === route || (m.href === '#/fun' && route === '#/memes') || (m.href === '#/academy' && route.indexOf('#/academy') === 0)) ? ' aria-current="page"' : '') + '>' + icon(m.icon) + '<span>' + esc(m.label) + '</span></a>';
       }).join('') + '</div></div></div>' +
       '<div class="pf-switch" role="navigation">' +
       '<a class="pf-sw-site' + (isAcad ? '' : ' pf-sw-on') + '" href="#/">' + icon('navGlobe') + esc(ar0 ? 'الموقع' : 'Site') + '</a>' +
@@ -1157,6 +1180,8 @@
     else if (route === '#/services') page = renderServices(t);
     else if (route === '#/checkup') page = renderCheckup(t);
     else if (route === '#/map') page = renderMapPage(t);
+    else if (route === '#/fun') page = renderFun();
+    else if (route === '#/memes') page = '<div class="pf-page" id="pf-memes"></div>';
     else if (route === '#/contact') page = renderContact(t);
     else if (route.indexOf('#/academy') === 0) page = '<div class="pf-page" id="pf-acad"></div>';
     else page = renderHome(t);
@@ -1169,6 +1194,7 @@
     setupTilt();
     wireNavSheet();
     if (route === '#/checkup') wireCheckup(t);
+    if (route === '#/memes') loadMemes();
     if (route.indexOf('#/academy') === 0) loadAcademy(route);
     if (route === '#/map') wireLive(); else clearInterval(pfLiveTimer);
     if (renderDone && window.goatcounter && window.goatcounter.count) {
