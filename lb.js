@@ -14,18 +14,17 @@
     fetch(W + '/games/lb').then(function (r) { return r.ok ? r.json() : null; }).then(function (d) { if (done) return; done = true; if (d && d.g) { cache = d.g; meta = { win: d.win || null, left: typeof d.left === 'number' ? d.left : null, at: Date.now() }; cacheAt = Date.now(); } cb(cache || {}); }).catch(function () { if (!done) { done = true; cb(cache || {}); } });
   }
 
-  var MED = ['🥇', '🥈', '🥉'];
-  function names(a) { return a.map(function (x, i) { return MED[i] + ' ' + esc(x.n); }).join(' · '); }
+  function names(a) { return a.map(function (x, i) { return '<i class="pf-lb-m pf-lb-m' + (i + 1) + '">' + (i + 1) + '</i>' + esc(x.n); }).join(' &nbsp; '); }
   function leftMs() { return meta.left === null || meta.left === undefined ? null : meta.left - (Date.now() - meta.at); }
   function weekNote(all) {
     var h = '', l = leftMs();
     if (l !== null && l > 0) {
       var hrs = Math.ceil(l / 3600000), t = hrs >= 24 ? Math.ceil(hrs / 24) + (ar() ? ' يوم' : ' days') : hrs + (ar() ? ' ساعة' : ' h');
-      h += '<p class="pf-lb-wk">' + (ar() ? '⏳ الجولة بتتصفّر كل أسبوع. المتبقي: ' : '⏳ Boards reset weekly. Time left: ') + t + '</p>';
+      h += '<p class="pf-lb-wk">' + (ar() ? 'الجولة بتتصفّر كل أسبوع. المتبقي: ' : 'Boards reset weekly. Time left: ') + t + '</p>';
       if (hrs <= 24 && all) {
         var tops = [];
         Object.keys(all).forEach(function (g) { if (all[g] && all[g].length && GN[g]) tops.push('<b>' + (ar() ? GN[g][0] : GN[g][1]) + '</b>: ' + names(all[g].slice(0, 3))); });
-        if (tops.length) h += '<div class="pf-lb-cong">🎉 ' + (ar() ? 'مبروك للمتصدرين قبل ما الجولة تقفل!' : 'Congratulations to the leaders before the round closes!') + '<br>' + tops.join('<br>') + '</div>';
+        if (tops.length) h += '<div class="pf-lb-cong">★ ' + (ar() ? 'مبروك للمتصدرين قبل ما الجولة تقفل!' : 'Congratulations to the leaders before the round closes!') + '<br>' + tops.join('<br>') + '</div>';
       }
     }
     return h;
@@ -34,7 +33,7 @@
     var w = meta.win; if (!w || !w.g) return '';
     var rows = '';
     Object.keys(w.g).forEach(function (g) { if ((only && only !== g) || !GN[g]) return; rows += '<li><b>' + (ar() ? GN[g][0] : GN[g][1]) + '</b> ' + names(w.g[g]) + '</li>'; });
-    return rows ? '<div class="pf-lb-win"><h4>🏆 ' + (ar() ? 'فائزو الأسبوع الماضي' : 'Last week winners') + '</h4><ul>' + rows + '</ul></div>' : '';
+    return rows ? '<div class="pf-lb-win"><h4>★ ' + (ar() ? 'فائزو الأسبوع الماضي' : 'Last week winners') + '</h4><ul>' + rows + '</ul></div>' : '';
   }
   function list(items) {
     if (!items || !items.length) return '<p class="pf-lb-empty">' + (ar() ? 'لسه مفيش نتايج. كن أول واحد.' : 'No scores yet. Be the first.') + '</p>';

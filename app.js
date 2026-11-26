@@ -56,7 +56,6 @@
     navApp: 'M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z',
     navCap: 'M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z',
     fun: 'M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z',
-    navPad: 'M6 8a5 5 0 00-5 5v2a3 3 0 005.2 2l1.6-2h8.4l1.6 2A3 3 0 0023 15v-2a5 5 0 00-5-5H6zm1 2h1.5v1.5H10V13H8.5v1.5H7V13H5.5v-1.5H7V10zm9 .8a1 1 0 110 2 1 1 0 010-2zm2.5 2.2a1 1 0 110 2 1 1 0 010-2z',
     navGlobe: 'M12 2a10 10 0 100 20 10 10 0 000-20zm0 2c1.7 2 2.7 4.6 2.9 7H9.1C9.3 8.6 10.3 6 12 4zM4.3 11a8 8 0 013.9-6.1C7.3 6.5 6.7 8.6 6.6 11H4.3zm0 2h2.3c.1 2.4.7 4.5 1.6 6.1A8 8 0 014.3 13zM12 20c-1.7-2-2.7-4.6-2.9-7h5.8c-.2 2.4-1.2 5-2.9 7zm3.8-.9c.9-1.6 1.5-3.7 1.6-6.1h2.3a8 8 0 01-3.9 6.1zM17.4 11c-.1-2.4-.7-4.5-1.6-6.1A8 8 0 0119.7 11h-2.3z',
     navShield: 'M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z',
     pin: 'M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13c0-3.37-3.13-6.5-7-6.5zm0 8.75a2.25 2.25 0 1 1 0-4.5 2.25 2.25 0 0 1 0 4.5z'
@@ -627,7 +626,7 @@
     return '<div class="pf-page"><div class="pf-hero">' +
       '<div class="pf-hero-glow pf-glow-a"></div><div class="pf-hero-glow pf-glow-b"></div>' +
       '<div class="pf-hero-inner">' +
-      '<div class="pf-portrait"><img src="photos/about-studio.webp" alt="' + esc(t.heroAlt) + '" fetchpriority="high"></div>' +
+      '<div class="pf-portrait"><img src="photos/about-studio-540.webp" width="250" height="330" decoding="async" alt="' + esc(t.heroAlt) + '" fetchpriority="high"></div>' +
       '<div class="pf-hero-text">' +
       '<div class="pf-brandline">' + esc(t.brandName) + '</div>' +
       '<div class="pf-name-en">ENG. AHMED MOKHTAR AWAD <span class="pf-nick-en">SAKR</span></div>' +
@@ -643,8 +642,7 @@
       '<div class="pf-visits" title="' + esc(t.visitsTitle) + '"><img src="https://hits.sh/ahmedsakr53.github.io/hits.svg?label=%F0%9F%91%81&color=2f7fd4&style=flat" alt="' + esc(t.visitsTitle) + '" loading="lazy"></div>' +
       '</div></div></div>' +
       '<a class="pf-checkup-banner" href="#/checkup">' + icon('navShield') + '<span><b>' + esc(t.checkupBannerT) + '</b><small>' + esc(t.checkupBannerS) + '</small></span></a>' +
-      '<a class="pf-checkup-banner pf-map-banner" href="#/map">' + icon('navGlobe') + '<span><b>' + esc(lang === 'ar' ? 'الزوار دلوقتي على الخريطة' : 'Live visitor map') + '</b><small>' + esc(lang === 'ar' ? 'شوف مين بيتصفح الموقع دلوقتي ومن أنهي دولة' : 'See who is browsing the site right now, and from which countries') + '</small></span></a>' +
-      '<a class="pf-checkup-banner pf-fun-banner" href="#/fun">' + icon('navPad') + '<span><b>' + esc(lang === 'ar' ? 'ألعاب وترفيه' : 'Games & fun') + '</b><small>' + esc(lang === 'ar' ? 'ألعاب خفيفة وميمز بتفتح وقت ما تحب' : 'Light games and memes, opened only when you want') + '</small></span></a></div>';
+      '<a class="pf-checkup-banner pf-map-banner" href="#/map">' + icon('navGlobe') + '<span><b>' + esc(lang === 'ar' ? 'الزوار دلوقتي على الخريطة' : 'Live visitor map') + '</b><small>' + esc(lang === 'ar' ? 'شوف مين بيتصفح الموقع دلوقتي ومن أنهي دولة' : 'See who is browsing the site right now, and from which countries') + '</small></span></a></div>';
   }
 
   function renderApp(t) {
@@ -1171,7 +1169,7 @@
       box.dataset.open = '1';
       var go = function () { window.pfLB.all(box, GAMES.filter(function (x) { return x.id !== 'xo' && gameState(x.id) !== 'hidden'; }).map(function (x) { return x.id; })); };
       if (window.pfLB) return go();
-      var sc = document.createElement('script'); sc.src = 'lb.js?v=2'; sc.onload = go; document.head.appendChild(sc);
+      var sc = document.createElement('script'); sc.src = 'lb.js?v=3'; sc.onload = go; document.head.appendChild(sc);
     });
   }
   function loadGame(id) {
@@ -1183,7 +1181,7 @@
       var run = function () { if (window.pfG && window.pfG[id] && document.getElementById('pf-game')) window.pfG[id](document.getElementById('pf-game')); };
       var ld = function (src, cb) { var sc = document.createElement('script'); sc.src = src; sc.onload = cb; document.head.appendChild(sc); };
       var after = function () { if (window.pfG && window.pfG[id]) return run(); ld('g-' + id + '.js?v=1', run); };
-      if (window.pfLB) after(); else ld('lb.js?v=2', after);
+      if (window.pfLB) after(); else ld('lb.js?v=3', after);
     });
   }
   function loadXO() {
