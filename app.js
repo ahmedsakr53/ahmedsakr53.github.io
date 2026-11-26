@@ -861,7 +861,7 @@
   }
   function livePlaceholder() {
     var ar = lang === 'ar';
-    return '<div class="pf-live" id="pf-live"><div class="pf-live-head"><span class="pf-live-pulse"></span><b id="pf-live-count">' + esc(ar ? 'الزوار دلوقتي' : 'Live visitors') + '</b></div>' +
+    return '<div class="pf-live" id="pf-live"><div class="pf-live-head"><span class="pf-live-pulse"></span><b id="pf-live-count">' + esc(ar ? 'الزوار' : 'Visitors') + '</b></div><div class="pf-live-online" id="pf-live-online"></div>' +
       '<div class="pf-live-map" id="pf-live-map"><canvas id="pf-live-canvas" width="720" height="280" aria-hidden="true"></canvas><div id="pf-live-dots"></div></div>' +
       '<div class="pf-live-list" id="pf-live-list"></div>' +
       '<div class="pf-live-note">' + esc(ar ? 'نقط تقريبية على مستوى المدينة، من غير أي بيانات شخصية أو عناوين IP.' : 'Approximate city-level dots only. No personal data and no IP addresses are shown.') + '</div></div>';
