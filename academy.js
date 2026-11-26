@@ -44,9 +44,10 @@
   ];
   function find(id) { for (var i = 0; i < TRACKS.length; i++) if (TRACKS[i].id === id) return TRACKS[i]; return null; }
   function n(x, ar) { return ar ? String(x).replace(/\d/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'[d]; }) : String(x); }
+  var DEF = { 'cyber-1': 'academy/cyber-1.mp4' };
   var CFG = null, SEL = 0;
   function ep(tid, i) {
-    var e = (CFG && CFG.eps && CFG.eps[tid + '-' + (i + 1)]) || {};
+    var k = tid + '-' + (i + 1), e = (CFG && CFG.eps && CFG.eps[k]) || (DEF[k] ? { mp4: DEF[k] } : {});
     var has = !!(e.yt || e.mp4);
     return { hidden: e.status === 'hidden', live: has && e.status !== 'soon', yt: e.yt || '', mp4: e.mp4 || '' };
   }
@@ -101,7 +102,7 @@
     if (b && box) b.addEventListener('click', function () {
       var x = ep(tr.id, SEL);
       if (x.yt) box.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(x.yt) + '?autoplay=1&rel=0" title="Episode" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>';
-      else if (x.mp4) box.innerHTML = '<video src="' + x.mp4.replace(/"/g, '') + '" controls autoplay playsinline preload="none"></video>';
+      else if (x.mp4) { box.style.cssText = 'aspect-ratio:9/16;max-height:78vh;width:min(100%,400px);margin:14px auto'; box.innerHTML = '<video src="' + x.mp4.replace(/"/g, '') + '" controls autoplay playsinline preload="none"></video>'; }
     });
     document.querySelectorAll('.pf-ep[data-i]').forEach(function (li) {
       function pick() { SEL = +li.dataset.i; rerender(); }
