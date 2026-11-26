@@ -51,13 +51,14 @@
     view(head(T('اسمك على الشهادة', 'Your name on the certificate'), T('اكتب اسمك بالعربي وبالإنجليزي زي ما عايزه يظهر بالظبط.', 'Type your name in Arabic and in English, exactly as you want it printed.')) +
       '<label class="pf-ex-l">' + esc(T('الاسم بالعربي', 'Name in Arabic')) + '<input id="pf-ex-ar" class="pf-ex-in" dir="rtl" lang="ar" maxlength="60" autocomplete="off" value="' + esc(S.nameAr || (c && c.nameAr) || '') + '"></label>' +
       '<label class="pf-ex-l">' + esc(T('الاسم بالإنجليزي', 'Name in English')) + '<input id="pf-ex-en" class="pf-ex-in" dir="ltr" lang="en" maxlength="60" autocomplete="off" value="' + esc(S.nameEn || (c && c.nameEn) || '') + '"></label>' +
+      '<label class="pf-ex-chk"><input type="checkbox" id="pf-ex-lb"' + (S.lb ? ' checked' : '') + '> ' + esc(T('ضيف اسمي الأول بس في لوحة المتصدرين لو نجحت (اختياري)', 'Show my first name only on the leaderboard if I pass (optional)')) + '</label>' +
       '<p class="pf-ex-err" id="pf-ex-err" role="alert">' + (typeof msg === 'string' ? esc(msg) : '') + '</p>' + btn('pf-ex-next', T('ابدأ الأسئلة', 'Start the questions')));
     on('pf-ex-next', function () {
       var a = box.querySelector('#pf-ex-ar').value.replace(/\s+/g, ' ').trim(), e = box.querySelector('#pf-ex-en').value.replace(/\s+/g, ' ').trim();
       var er = box.querySelector('#pf-ex-err');
       if (!/^[\u0600-\u06FF\u0750-\u077F ]{2,60}$/.test(a)) { er.textContent = T('الاسم بالعربي: حروف عربي بس (٢ حرف على الأقل).', 'Arabic name: Arabic letters only (at least 2).'); return; }
       if (!/^[A-Za-z][A-Za-z .'\-]{1,59}$/.test(e)) { er.textContent = T('الاسم بالإنجليزي: حروف إنجليزي بس (٢ حرف على الأقل).', 'English name: English letters only (at least 2).'); return; }
-      S.nameAr = a; S.nameEn = e; start();
+      S.nameAr = a; S.nameEn = e; S.lb = !!box.querySelector('#pf-ex-lb').checked; start();
     });
   }
 
@@ -96,9 +97,10 @@
   function submit() {
     if (S.busy) return; S.busy = true; S.step = 'load';
     view('<p class="pf-ex-p">' + esc(T('بنصحّح إجاباتك...', 'Grading your answers...')) + '</p>');
-    post('/exam/submit', { token: S.token, answers: S.ans, nameAr: S.nameAr, nameEn: S.nameEn }).then(function (r) {
+    post('/exam/submit', { token: S.token, answers: S.ans, nameAr: S.nameAr, nameEn: S.nameEn, lb: !!S.lb }).then(function (r) {
       S.busy = false;
       if (!r.ok) { fail(r.err); return; }
+      var tr = +(localStorage.getItem('pf-ex-n') || 0); try { localStorage.setItem('pf-ex-n', String(tr + 1)); if (r.pass && tr === 0) localStorage.setItem('pf-ex-first', '1'); } catch (e) {}
       if (r.pass) { try { localStorage.setItem(LS, JSON.stringify({ id: r.id, date: r.date, nameAr: r.nameAr, nameEn: r.nameEn, score: r.score })); } catch (e) {} passed(r); }
       else failed(r);
     }).catch(function () { S.busy = false; fail('net'); });
@@ -120,12 +122,60 @@
     S.step = 'pass';
     view('<div class="pf-ex-score"><b>' + dig(r.score) + '</b><span>/ ' + dig(r.total) + '</span></div>' + head(T('مبروك، نجحت!', 'Congratulations, you passed!'), T('شهادتك جاهزة. رقمها: ', 'Your certificate is ready. ID: ')) +
       '<p class="pf-ex-id" dir="ltr">' + esc(r.id) + '</p><div class="pf-ex-prev" id="pf-ex-prevw"></div>' +
-      btn('pf-ex-dl', T('نزّل الشهادة PDF', 'Download certificate PDF')));
+      btn('pf-ex-dl', T('نزّل الشهادة PDF', 'Download certificate PDF')) + shareBlock(r));
     var b = on('pf-ex-dl', function () { renderCertFile(r, this); });
+    wireShare(r);
     renderCert(r).then(function (cv) {
       var im = new Image(); im.alt = T('معاينة الشهادة', 'Certificate preview'); im.src = cv.toDataURL('image/jpeg', .8);
       var p = box.querySelector('#pf-ex-prevw'); if (p) p.appendChild(im);
     }).catch(function () {});
+  }
+
+  var ROOT = 'https://ahmedsakr53.github.io/';
+  function shareText(r) { return T('نجحت في اختبار «صقر أكاديمي» وخدت شهادتي 🎓 رقمها ' + r.id, 'I passed the Sakr Academy exam and earned my certificate 🎓 ID ' + r.id); }
+  function shareBlock(r) {
+    var t = encodeURIComponent(shareText(r)), u = encodeURIComponent(ROOT);
+    var L = [['Facebook', 'https://www.facebook.com/sharer/sharer.php?u=' + u + '&quote=' + t], ['WhatsApp', 'https://wa.me/?text=' + t + '%20' + u], ['LinkedIn', 'https://www.linkedin.com/sharing/share-offsite/?url=' + u], ['X', 'https://twitter.com/intent/tweet?text=' + t + '&url=' + u], ['Telegram', 'https://t.me/share/url?url=' + u + '&text=' + t]];
+    return '<div class="pf-ex-sh"><b>' + esc(T('شارك شهادتك', 'Share your certificate')) + '</b>' + btn('pf-ex-share', T('شارك على كل التطبيقات', 'Share to any app'), 'pf-ex-sec') +
+      '<div class="pf-ex-shl">' + L.map(function (x) { return '<a class="pf-ex-sl" target="_blank" rel="noopener noreferrer" href="' + x[1] + '">' + x[0] + '</a>'; }).join('') + '<button type="button" class="pf-ex-sl" id="pf-ex-copy">' + esc(T('نسخ الرابط', 'Copy link')) + '</button></div></div>';
+  }
+  function wireShare(r) {
+    var b = on('pf-ex-share', function () {
+      var d = { title: 'Sakr Academy', text: shareText(r), url: ROOT };
+      if (navigator.share) navigator.share(d).catch(function () {}); else if (navigator.clipboard) navigator.clipboard.writeText(d.text + ' ' + ROOT).then(function () { b.textContent = T('اتنسخ ✓', 'Copied \u2713'); }).catch(function () {});
+    });
+    on('pf-ex-copy', function () { var me = this; if (navigator.clipboard) navigator.clipboard.writeText(shareText(r) + ' ' + ROOT).then(function () { me.textContent = T('اتنسخ ✓', 'Copied \u2713'); }).catch(function () {}); });
+  }
+
+  /* ---------- leaderboard and weekly question (lazy panels) ---------- */
+  function board(el, isAr) {
+    box = el; ar = !!isAr; S.step = 'board';
+    view(head(T('🏆 المتصدرين', '🏆 Leaderboard'), T('أعلى درجات الاختبار. بيظهر الاسم الأول بس ولمن يوافق صاحبه.', 'Top exam scores. First names only, and only for people who opted in.')) + '<p class="pf-ex-p">' + esc(T('لحظة...', 'One moment...')) + '</p>');
+    fetch(API + '/academy/leaderboard').then(function (r) { return r.json(); }).then(function (r) {
+      var it = (r && r.items) || [];
+      view(head(T('🏆 المتصدرين', '🏆 Leaderboard'), T('أعلى درجات الاختبار. بيظهر الاسم الأول بس ولمن يوافق صاحبه.', 'Top exam scores. First names only, and only for people who opted in.')) +
+        (it.length ? '<ol class="pf-lb">' + it.map(function (x, i) { return '<li><span class="pf-lb-r">' + dig(i + 1) + '</span><span class="pf-lb-n">' + esc(ar ? x.a : x.n) + '</span><span class="pf-lb-s">' + dig(x.s) + '/' + dig(20) + '</span></li>'; }).join('') + '</ol>'
+          : '<p class="pf-ex-p">' + esc(T('لسه مفيش حد. كون إنت الأول!', 'Nobody yet. Be the first!')) + '</p>'));
+    }).catch(function () { view(head(T('🏆 المتصدرين', '🏆 Leaderboard')) + '<p class="pf-ex-err">' + esc(errMsg('net')) + '</p>'); });
+  }
+  function weekly(el, isAr) {
+    box = el; ar = !!isAr; S.step = 'weekly';
+    view(head(T('⚡ سؤال الأسبوع', '⚡ Question of the week')) + '<p class="pf-ex-p">' + esc(T('لحظة...', 'One moment...')) + '</p>');
+    fetch(API + '/academy/weekly').then(function (r) { return r.json(); }).then(function (r) {
+      if (!r || !r.q) throw 0;
+      view(head(T('⚡ سؤال الأسبوع', '⚡ Question of the week'), T('سؤال جديد كل أسبوع. جاوب وشوف.', 'A new question every week. Answer and see.')) + '<p class="pf-ex-q">' + esc(r.q) + '</p><div class="pf-ex-opts">' +
+        r.o.map(function (o, k) { return '<button type="button" class="pf-ex-o" data-k="' + k + '">' + esc(o) + '</button>'; }).join('') + '</div><p class="pf-ex-vr" id="pf-wq-r"></p>');
+      box.querySelectorAll('.pf-ex-o').forEach(function (b) {
+        b.addEventListener('click', function () {
+          box.querySelectorAll('.pf-ex-o').forEach(function (x) { x.disabled = true; });
+          post('/academy/weekly', { week: r.week, a: +b.dataset.k }).then(function (g) {
+            var o = box.querySelector('#pf-wq-r'); b.classList.add('on');
+            if (g && g.correct) { o.className = 'pf-ex-vr ok'; o.textContent = T('صح! 🎉 ارجع الأسبوع الجاي لسؤال جديد.', 'Correct! 🎉 Come back next week for a new one.'); try { localStorage.setItem('pf-wq-ok', '1'); } catch (e) {} }
+            else { o.className = 'pf-ex-vr bad'; o.textContent = T('مش دي. السؤال هيتغيّر الأسبوع الجاي، راجع الحلقات وجرّب تاني.', 'Not this one. It changes next week, review the episodes and try again.'); box.querySelectorAll('.pf-ex-o').forEach(function (x) { x.disabled = false; }); }
+          }).catch(function () { box.querySelector('#pf-wq-r').textContent = errMsg('net'); box.querySelectorAll('.pf-ex-o').forEach(function (x) { x.disabled = false; }); });
+        });
+      });
+    }).catch(function () { view(head(T('⚡ سؤال الأسبوع', '⚡ Question of the week')) + '<p class="pf-ex-err">' + esc(errMsg('net')) + '</p>'); });
   }
 
   /* ---------- certificate: drawn on a canvas, saved as a one-page A4 landscape PDF ---------- */
@@ -257,6 +307,7 @@
 
   window.pfExam = {
     open: function (el, isAr) { box = el; ar = !!isAr; S = { step: 'name', nameAr: '', nameEn: '', token: '', qs: [], i: 0, ans: [], busy: false }; intro(); },
+    board: board, weekly: weekly,
     _render: renderCert, _pdf: pdfFromJpeg
   };
 })();

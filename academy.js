@@ -63,13 +63,23 @@
     var ok = tr.id === 'cyber' && examReady(tr.id);
     return '<div class="pf-ep pf-exam ' + (ok ? 'pf-ep-on' : 'pf-ep-lock') + '"' + (ok ? ' id="pf-exam-open" tabindex="0" role="button"' : ' aria-disabled="true"') + '><span class="pf-ep-n">🎓</span><span class="pf-ep-t">' + esc(ar ? 'الاختبار والشهادة' : 'Exam and certificate') + '</span><span class="pf-ep-s">' + esc(ok ? (ar ? 'ابدأ' : 'Start') : (ar ? '🔒 بعد الحلقات العشر' : '🔒 After all 10 episodes')) + '</span></div>';
   }
-  function openExam(ar) {
+  function extraRows(tr, ar, esc) {
+    if (tr.id !== 'cyber') return '';
+    var rw = function (id, ic, t) { return '<div class="pf-ep pf-exam pf-ep-on" id="' + id + '" tabindex="0" role="button"><span class="pf-ep-n">' + ic + '</span><span class="pf-ep-t">' + esc(t) + '</span><span class="pf-ep-s">' + esc(ar ? 'افتح' : 'Open') + '</span></div>'; };
+    var p = prog('cyber').length, cert = null, o = {}; try { cert = JSON.parse(localStorage.getItem('pf-cert-cyber') || 'null'); } catch (e) {}
+    var B = [['🎬', ar ? '٥ حلقات' : '5 episodes', p >= 5], ['📚', ar ? 'خلّصت العشر' : 'All 10 episodes', p >= 10], ['🎓', ar ? 'نجحت في الاختبار' : 'Passed the exam', !!cert], ['⭐', ar ? 'نجحت من أول مرة' : 'Passed first try', !!cert && localStorage.getItem('pf-ex-first') === '1'], ['💯', ar ? 'درجة كاملة' : 'Perfect score', !!cert && cert.score >= 20], ['⚡', ar ? 'سؤال الأسبوع' : 'Weekly question', localStorage.getItem('pf-wq-ok') === '1']];
+    return rw('pf-board-open', '🏆', ar ? 'المتصدرين' : 'Leaderboard') + rw('pf-weekly-open', '⚡', ar ? 'سؤال الأسبوع' : 'Question of the week') +
+      '<p class="pf-bdg-t">' + esc(ar ? '🎖️ إنجازاتك' : '🎖️ Your badges') + '</p><div class="pf-bdg">' + B.map(function (b) { return '<span class="' + (b[2] ? '' : 'off') + '">' + b[0] + ' ' + esc(b[1]) + '</span>'; }).join('') + '</div>';
+  }
+  function openExam(ar, kind) {
     var box = document.getElementById('pf-exam-box'); if (!box) return;
-    if (!box.hidden) { box.hidden = true; return; }
+    kind = kind || 'exam';
+    if (!box.hidden && box.getAttribute('data-kind') === kind) { box.hidden = true; return; }
+    box.setAttribute('data-kind', kind);
     box.hidden = false; box.innerHTML = '<p class="pf-ex-p">' + (ar ? 'لحظة...' : 'One moment...') + '</p>';
-    var go = function () { window.pfExam.open(box, ar); box.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+    var go = function () { if (kind === 'board') window.pfExam.board(box, ar); else if (kind === 'weekly') window.pfExam.weekly(box, ar); else window.pfExam.open(box, ar); box.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
     if (window.pfExam) return go();
-    var sc = document.createElement('script'); sc.src = 'academy-exam.js?v=1'; sc.onload = go; sc.onerror = function () { box.textContent = ar ? 'مش قادرين نحمّل الاختبار. جرّب تاني.' : 'Could not load the exam. Try again.'; };
+    var sc = document.createElement('script'); sc.src = 'academy-exam.js?v=2'; sc.onload = go; sc.onerror = function () { box.textContent = ar ? 'مش قادرين نحمّل الاختبار. جرّب تاني.' : 'Could not load the exam. Try again.'; };
     document.head.appendChild(sc);
   }
 
@@ -113,7 +123,7 @@
       h.pageHead(n(10, ar) + (ar ? ' حلقات' : ' EPISODES'), ar ? tr.ar : tr.en) +
       '<p class="pf-para">' + esc(ar ? tr.dAr : tr.dEn) + '</p>' + player +
       '<ol class="pf-eps">' + rows + '</ol>' +
-      examRow(tr, ar, esc) + '<div class="pf-exam-box" id="pf-exam-box" hidden></div>' +
+      examRow(tr, ar, esc) + extraRows(tr, ar, esc) + '<div class="pf-exam-box" id="pf-exam-box" hidden></div>' +
       '<p class="pf-acad-note">' + esc(ar ? 'كل حلقة بتتفتح بعد ما تتفرج على دقيقة من اللي قبلها، والاختبار بيتفتح بعد العشر حلقات.' : 'Each episode unlocks after you watch one minute of the previous one. The exam opens after all 10.') + '</p>';
   }
 
@@ -154,6 +164,7 @@
       else if (x.mp4) { box.style.cssText = 'aspect-ratio:9/16;max-height:78vh;width:min(100%,400px);margin:14px auto'; box.innerHTML = '<video src="' + x.mp4.replace(/"/g, '') + '" controls autoplay playsinline preload="none"></video>'; track(tr, SEL, box.querySelector('video')); }
     });
     var eo = document.getElementById('pf-exam-open');
+    [['pf-board-open', 'board'], ['pf-weekly-open', 'weekly']].forEach(function (x) { var e = document.getElementById(x[0]); if (e) { e.addEventListener('click', function () { openExam(ar, x[1]); }); e.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); openExam(ar, x[1]); } }); } });
     if (eo) { eo.addEventListener('click', function () { openExam(ar); }); eo.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openExam(ar); } }); }
     document.querySelectorAll('.pf-ep.pf-ep-lock').forEach(function (li) {
       li.addEventListener('click', function () {
