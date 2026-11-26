@@ -1818,3 +1818,5 @@ html[data-theme="dark"] body.pf-acad-world .pf-nav a[aria-current="page"], html[
 html[data-theme="dark"] body.pf-acad-world .pf-acad-card { border-color: #5a3f85; }
 html[data-theme="dark"] body.pf-acad-world .pf-ep-s, html[data-theme="dark"] body.pf-acad-world .pf-acad-meta { color: #e0d2f2; }
 .pf-update-toast { white-space: nowrap; width: max-content; max-width: calc(100vw - 24px); }
+
+.pf-update-x { background: none; border: none; color: #9fb0d0; font-size: 20px; line-height: 1; padding: 0 2px; cursor: pointer; }

@@ -30,7 +30,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="عالم صقر">
-<link rel="stylesheet" href="style.css?v=64">
+<link rel="stylesheet" href="style.css?v=65">
 <script>try{document.documentElement.dataset.theme=localStorage.getItem('pf-theme')||'light'}catch(e){}</script>
 </head>
 <body>
@@ -121,10 +121,10 @@
     document.body.appendChild(wrap);
   }
 
-  var BUILD = '2026-11-26-5';
+  var BUILD = '2026-11-26-6'; var pending = false, dismissed = false, pendingWorker = null;
   function checkBuild(){
     fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
-      if (j && j.v && j.v !== BUILD) showUpdate(null);
+      if (j && j.v && j.v !== BUILD) { pending = true; showUpdate(null); }
     }).catch(function(){});
   }
   function hardRefresh(){
@@ -133,11 +133,14 @@
     p.then(function(){ return navigator.serviceWorker ? navigator.serviceWorker.getRegistration() : null; })
      .then(function(reg){ if (reg) return reg.update().catch(function(){}); }).then(done, done);
   }
-  window.addEventListener('load', function(){ setTimeout(checkBuild, 3000); });
+  window.addEventListener('load', function(){ setTimeout(checkBuild, 1500); });
+  window.addEventListener('hashchange', function(){ if (pending && !dismissed) showUpdate(pendingWorker); });
+  setInterval(function(){ if (pending && !dismissed) showUpdate(pendingWorker); else if (!document.hidden) checkBuild(); }, 45000);
   document.addEventListener('visibilitychange', function(){ if (!document.hidden) checkBuild(); });
 
   function showUpdate(worker){
-    if (document.getElementById('pf-update')) return;
+    pending = true; if (worker) pendingWorker = worker;
+    if (dismissed || document.getElementById('pf-update')) return;
     var t = document.createElement('div');
     t.id = 'pf-update';
     t.className = 'pf-update-toast';
@@ -148,8 +151,12 @@
     btn.type = 'button';
     btn.textContent = s('refresh');
     btn.addEventListener('click', function(){ if (worker) worker.postMessage('SKIP_WAITING'); else hardRefresh(); });
+    var x = document.createElement('button');
+    x.type = 'button'; x.className = 'pf-update-x'; x.setAttribute('aria-label', 'Close'); x.textContent = '\u00d7';
+    x.addEventListener('click', function(){ dismissed = true; t.remove(); });
     t.appendChild(span);
     t.appendChild(btn);
+    t.appendChild(x);
     document.body.appendChild(t);
   }
 
