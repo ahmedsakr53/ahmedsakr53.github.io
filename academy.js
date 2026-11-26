@@ -8,7 +8,7 @@
         ['إيه هو الأمن السيبراني وليه يهمك انت', 'What cybersecurity is and why it matters to you'],
         ['كلمات السر والتحقق بخطوتين', 'Passwords and two-step verification'],
         ['اللينكات المزيفة والنصب (phishing)', 'Fake links and phishing'],
-        ['الواي فاي العام والشبكات', 'Public Wi-Fi and networks'],
+        ['التحقق بخطوتين', 'Two-step verification'],
         ['الفيروسات وبرامج الفدية', 'Viruses and ransomware'],
         ['حماية موبايلك', 'Protect your phone'],
         ['حماية حساباتك على السوشيال', 'Protect your social accounts'],
@@ -44,7 +44,7 @@
   ];
   function find(id) { for (var i = 0; i < TRACKS.length; i++) if (TRACKS[i].id === id) return TRACKS[i]; return null; }
   function n(x, ar) { return ar ? String(x).replace(/\d/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'[d]; }) : String(x); }
-  var DEF = { 'cyber-1': 'academy/cyber-1.mp4', 'cyber-2': 'academy/cyber-2.mp4', 'cyber-3': 'academy/cyber-3.mp4' };
+  var DEF = { 'cyber-1': 'academy/cyber-1.mp4', 'cyber-2': 'academy/cyber-2.mp4', 'cyber-3': 'academy/cyber-3.mp4', 'cyber-4': 'academy/cyber-4.mp4' };
   var CFG = null, SEL = 0;
   function ep(tid, i) {
     var k = tid + '-' + (i + 1), e = (CFG && CFG.eps && CFG.eps[k]) || (DEF[k] ? { mp4: DEF[k] } : {});

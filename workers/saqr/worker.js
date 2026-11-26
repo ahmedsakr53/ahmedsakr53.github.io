@@ -207,11 +207,16 @@ async function adminPinPage(env, msg, locked) {
   });
 }
 
+let memPinLock = null;
+
 async function handleAdminPin(request, env, ctx) {
   if (!env.ADMIN_PASSWORD) return new Response('Not found', { status: 404 });
   const pinStored = await env.SAQR_CHATS.get('cfg:admin_pin');
   if (!pinStored) return adminLoginPage(false);
-  const lock = (await env.SAQR_CHATS.get('admin:pinlock', 'json')) || { fails: 0, round: 0, until: 0 };
+  let lock = null;
+  try { lock = await env.SAQR_CHATS.get('admin:pinlock', 'json'); } catch { lock = null; }
+  if (!lock || (memPinLock && (memPinLock.ts || 0) > (lock.ts || 0))) lock = memPinLock || lock;
+  if (!lock) lock = { fails: 0, round: 0, until: 0 };
   if (lock.until && Date.now() < lock.until) {
     const mins = Math.ceil((lock.until - Date.now()) / 60000);
     return adminPinPage(env, 'محاولات كتير غلط — اللوحة مقفولة ' + mins + ' دقيقة. ممكن تدخل بكلمة السر من اللينك تحت.', true);
@@ -225,44 +230,74 @@ async function handleAdminPin(request, env, ctx) {
   }
   if (!/^\d{4}$/.test(pin) || pin !== pinStored) {
     lock.fails = (lock.fails || 0) + 1;
-    ctx.waitUntil(logSecurity(env, ctx, 'رمز دخول غلط', 'محاولة رقم ' + lock.fails + ' من 5 للوحة التحكم'));
-    if (lock.fails >= 5) {
+    ctx.waitUntil(logSecurity(env, ctx, 'رمز دخول غلط', 'محاولة رقم ' + lock.fails + ' من 3 للوحة التحكم'));
+    if (lock.fails >= 3) {
       lock.round = Math.min((lock.round || 0) + 1, 4);
-      const mins = [5, 15, 60, 180][lock.round - 1];
+      const mins = [5, 10, 10, 10][lock.round - 1];
       lock.until = Date.now() + mins * 60000;
       lock.fails = 0;
+      lock.ts = Date.now(); memPinLock = lock;
       await env.SAQR_CHATS.put('admin:pinlock', JSON.stringify(lock), { expirationTtl: 86400 });
-      logActivity(env, ctx, 'security', 'لوحة التحكم اتقفلت ' + mins + ' دقيقة بعد ٥ محاولات رمز غلط');
-      ctx.waitUntil(sendOwnerAlert(env, '🚨 صقر: لوحة التحكم اتقفلت', '<div dir="rtl" style="font-family:sans-serif">5 محاولات رمز غلط ورا بعض ولوحة التحكم اتقفلت ' + mins + ' دقيقة. لو مش إنت اللي بتجرب، غيّر الرمز وكلمة السر.</div>'));
-      return adminPinPage(env, '٥ محاولات غلط — اللوحة اتقفلت ' + mins + ' دقيقة. ممكن تدخل بكلمة السر من اللينك تحت.', true);
+      logActivity(env, ctx, 'security', 'لوحة التحكم اتقفلت ' + mins + ' دقيقة بعد ٣ محاولات رمز غلط');
+      ctx.waitUntil(sendOwnerAlert(env, '🚨 صقر: لوحة التحكم اتقفلت', '<div dir="rtl" style="font-family:sans-serif">3 محاولات رمز غلط ورا بعض ولوحة التحكم اتقفلت ' + mins + ' دقيقة. لو مش إنت اللي بتجرب، غيّر الرمز وكلمة السر.</div>'));
+      return adminPinPage(env, '٣ محاولات غلط — اللوحة اتقفلت ' + mins + ' دقيقة. ممكن تدخل بكلمة السر من اللينك تحت.', true);
     }
-    await env.SAQR_CHATS.put('admin:pinlock', JSON.stringify(lock), { expirationTtl: 86400 });
-    const left = 5 - lock.fails;
+    lock.ts = Date.now(); memPinLock = lock;
+      await env.SAQR_CHATS.put('admin:pinlock', JSON.stringify(lock), { expirationTtl: 86400 });
+    const left = 3 - lock.fails;
     return adminPinPage(env, 'الرمز غلط — فاضل ' + left + (left === 1 ? ' محاولة' : ' محاولات') + ' قبل القفل المؤقت');
   }
-  await env.SAQR_CHATS.delete('admin:pinlock');
+  memPinLock = null;
+  if (lock.fails || lock.round || lock.until) await env.SAQR_CHATS.delete('admin:pinlock');
   // Known device (signed 90-day cookie from a past email verification) -> PIN only.
   const devOk = await adminVerify(getCookie(request, 'saqr_dev'), env.ADMIN_PASSWORD + ':dev');
   if (devOk || !env.RESEND_API_KEY) return grantPinSession(env);
-  // New device -> email a one-time code to the owner.
+  // New device -> email a one-time code to the owner (stateless: the code's MAC rides in a signed cookie, so no KV write is needed).
+  return issueOtp(env, ctx);
+}
+
+const OTP_TTL = 10 * 60000;
+const memOtpTries = {};
+
+async function hmacHex(secret, msg) {
+  const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const sig = new Uint8Array(await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(msg)));
+  return Array.from(sig).map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function issueOtp(env, ctx) {
   const code = String(100000 + (crypto.getRandomValues(new Uint32Array(1))[0] % 900000));
-  await env.SAQR_CHATS.put('admin:otp', JSON.stringify({ code, exp: Date.now() + 10 * 60000, tries: 0 }), { expirationTtl: 900 });
+  const codeExp = Date.now() + OTP_TTL;
+  const mac = await hmacHex(env.ADMIN_PASSWORD + ':otpmac', code + ':' + codeExp);
   const sent = await sendOwnerCode(env, code);
   logActivity(env, ctx, 'security', sent ? 'محاولة دخول من جهاز جديد — اتبعت كود تأكيد على الإيميل' : 'محاولة دخول من جهاز جديد — فشل إرسال كود الإيميل');
   if (!sent) return adminPinPage(env, 'مقدرتش أبعت كود الإيميل دلوقتي. جرب تاني بعد شوية أو ادخل بكلمة السر.');
-  const stage = await adminSign('stage:' + (Date.now() + 10 * 60000), env.ADMIN_PASSWORD + ':stage');
-  return new Response(otpPageHtml(''), {
+  const stage = await adminSign('stage:' + (Date.now() + 30 * 60000) + ':' + mac + ':' + codeExp, env.ADMIN_PASSWORD + ':stage');
+  return new Response(otpPageHtml('', codeExp), {
     status: 200,
     headers: [['content-type', 'text/html; charset=utf-8'], ['cache-control', 'no-store'],
-      ['set-cookie', 'saqr_stage=' + encodeURIComponent(stage) + '; Path=/admin; HttpOnly; Secure; SameSite=Lax; Max-Age=600']],
+      ['set-cookie', 'saqr_stage=' + encodeURIComponent(stage) + '; Path=/admin; HttpOnly; Secure; SameSite=Lax; Max-Age=1800']],
   });
 }
 
+async function handleAdminOtpResend(request, env, ctx) {
+  if (!env.ADMIN_PASSWORD) return new Response('Not found', { status: 404 });
+  const raw = getCookie(request, 'saqr_stage');
+  if (!(await adminVerify(raw, env.ADMIN_PASSWORD + ':stage'))) return adminPinPage(env, 'ابدأ من أول بالرمز');
+  const parts = raw.slice(0, raw.lastIndexOf('.')).split(':');
+  const codeExp = Number(parts[3] || 0);
+  const issued = codeExp - OTP_TTL;
+  if (Date.now() - issued < 30000) {
+    return new Response(otpPageHtml('استنى ٣٠ ثانية قبل ما تطلب كود جديد', codeExp), { status: 200, headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' } });
+  }
+  return issueOtp(env, ctx);
+}
+
 async function grantPinSession(env, trustDevice) {
-  const exp = Date.now() + 7 * 24 * 3600 * 1000;
+  const exp = Date.now() + 12 * 3600 * 1000;
   const token = await adminSign('pin:' + exp, env.ADMIN_PASSWORD);
-  const headers = [['location', '/admin'],
-    ['set-cookie', 'saqr_admin_pin=' + encodeURIComponent(token) + '; Path=/admin; HttpOnly; Secure; SameSite=Lax; Max-Age=' + 7 * 24 * 3600],
+  const headers = [['location', '/admin?s=1'],
+    ['set-cookie', 'saqr_admin_pin=' + encodeURIComponent(token) + '; Path=/admin; HttpOnly; Secure; SameSite=Lax'],
     ['set-cookie', 'saqr_stage=; Path=/admin; HttpOnly; Secure; Max-Age=0']];
   if (trustDevice) {
     const dev = await adminSign('dev:' + (Date.now() + 90 * 24 * 3600 * 1000), env.ADMIN_PASSWORD + ':dev');
@@ -271,15 +306,23 @@ async function grantPinSession(env, trustDevice) {
   return new Response(null, { status: 303, headers });
 }
 
-function otpPageHtml(msg) {
+function otpPageHtml(msg, codeExp) {
   const err = msg ? '<div class="err">' + msg + '</div>' : '';
+  const left = Math.max(0, Math.floor(((codeExp || 0) - Date.now()) / 1000));
+  const timer = '<div id="cd" style="text-align:center;margin:10px 0 2px;font-size:14px;color:#22d3ee"></div>' +
+    '<script>(function(){var end=Date.now()+' + left + '*1000,el=document.getElementById("cd"),inp=document.querySelector("input[name=otp]");' +
+    'function t(){var r=Math.max(0,Math.round((end-Date.now())/1000));if(r<=0){el.style.color="#f87171";el.textContent="الكود انتهى — اضغط «ابعت كود جديد»";if(inp)inp.disabled=true;clearInterval(h);return}' +
+    'var m=Math.floor(r/60),s=r%60;el.textContent="الكود صالح لمدة "+m+":"+(s<10?"0":"")+s;if(r<=60)el.style.color="#fbbf24"}' +
+    'var h=setInterval(t,1000);t()})()</script>';
   const html = ADMIN_LOGIN_HTML
     .replace('action="/admin/login"', 'action="/admin/otp"')
     .replace('كلمة السر</label>', 'كود التأكيد</label>')
     .replace('name="password" type="password" autocomplete="current-password"', 'name="otp" type="password" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code"')
     .replace('letter-spacing:2px', 'letter-spacing:8px')
     .replace('المنطقة دي للأدمن بس', 'جهاز جديد — بعتنا كود من ٦ أرقام على إيميلك')
-    .replace('ERRBLOCK', err);
+    .replace('</style>', '.rsd{display:block;width:100%;margin-top:12px;background:none;border:0;color:#22d3ee;font-size:13px;font-family:inherit;cursor:pointer}</style>')
+    .replace('دخول</button>', 'دخول</button>\n<button type="submit" formaction="/admin/otp-resend" formnovalidate class="rsd">ابعت كود جديد</button>')
+    .replace('ERRBLOCK', err + timer);
   return html;
 }
 
@@ -301,23 +344,27 @@ async function sendOwnerCode(env, code) {
 
 async function handleAdminOtp(request, env, ctx) {
   if (!env.ADMIN_PASSWORD) return new Response('Not found', { status: 404 });
-  const stageOk = await adminVerify(getCookie(request, 'saqr_stage'), env.ADMIN_PASSWORD + ':stage');
-  if (!stageOk) return adminPinPage(env, 'ابدأ من أول بالرمز');
+  const raw = getCookie(request, 'saqr_stage');
+  if (!(await adminVerify(raw, env.ADMIN_PASSWORD + ':stage'))) return adminPinPage(env, 'ابدأ من أول بالرمز');
+  const parts = raw.slice(0, raw.lastIndexOf('.')).split(':');
+  const mac = parts[2] || '';
+  const codeExp = Number(parts[3] || 0);
+  const htmlHdr = { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' };
   let otp = '';
   try { otp = String((await request.formData()).get('otp') || '').trim(); } catch { /* ignore */ }
-  const rec = await env.SAQR_CHATS.get('admin:otp', 'json');
-  if (!rec || Date.now() > rec.exp) return adminPinPage(env, 'الكود انتهى — ادخل الرمز تاني عشان يتبعتلك كود جديد');
-  if (otp !== rec.code) {
-    rec.tries = (rec.tries || 0) + 1;
-    if (rec.tries >= 5) {
-      await env.SAQR_CHATS.delete('admin:otp');
-      logActivity(env, ctx, 'security', '٥ أكواد إيميل غلط — الكود اتلغى');
-      return adminPinPage(env, 'محاولات كتير غلط — الكود اتلغى. ابدأ من أول.');
-    }
-    await env.SAQR_CHATS.put('admin:otp', JSON.stringify(rec), { expirationTtl: 900 });
-    return new Response(otpPageHtml('الكود غلط — فاضل ' + (5 - rec.tries) + ' محاولات'), { status: 401, headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' } });
+  if (Date.now() > codeExp) return new Response(otpPageHtml('الكود انتهى — اضغط «ابعت كود جديد»', codeExp), { status: 200, headers: htmlHdr });
+  const tkey = 'otpt:' + mac.slice(0, 16);
+  let tries = Number(memOtpTries[tkey] || 0);
+  try { tries = Math.max(tries, Number(await env.SAQR_CHATS.get(tkey)) || 0); } catch { /* ignore */ }
+  if (tries >= 5) return new Response(otpPageHtml('محاولات كتير غلط على الكود ده — اضغط «ابعت كود جديد»', codeExp), { status: 200, headers: htmlHdr });
+  const ok = /^\d{6}$/.test(otp) && (await hmacHex(env.ADMIN_PASSWORD + ':otpmac', otp + ':' + codeExp)) === mac;
+  if (!ok) {
+    tries += 1;
+    memOtpTries[tkey] = tries;
+    await env.SAQR_CHATS.put(tkey, String(tries), { expirationTtl: 700 });
+    if (tries >= 5) logActivity(env, ctx, 'security', '٥ أكواد إيميل غلط — الكود اتلغى');
+    return new Response(otpPageHtml('الكود غلط — فاضل ' + Math.max(0, 5 - tries) + ' محاولات', codeExp), { status: 401, headers: htmlHdr });
   }
-  await env.SAQR_CHATS.delete('admin:otp');
   logActivity(env, ctx, 'security', 'دخول ناجح من جهاز جديد بعد كود الإيميل');
   return grantPinSession(env, true);
 }
@@ -330,10 +377,12 @@ function adminLoginPage(withError) {
   });
 }
 
+const SESSION_GUARD = "(function(){try{if(location.search.indexOf('s=1')>-1){sessionStorage.setItem('adm','1');history.replaceState(null,'','/admin');}else if(!sessionStorage.getItem('adm')){location.replace('/admin/logout');}}catch(e){}})();";
+
 async function handleAdminPage(request, env, url) {
   if (!env.ADMIN_PASSWORD) return new Response('Not found', { status: 404 });
   if (await isAdmin(request, env)) {
-    return new Response(ADMIN_PAGE_HTML, {
+    return new Response(ADMIN_PAGE_HTML.replace('<head>', '<head><script>' + SESSION_GUARD + '</script>'), {
       headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' },
     });
   }
@@ -356,13 +405,13 @@ async function handleAdminLogin(request, env, ctx) {
     if (pn === 5) ctx.waitUntil(sendOwnerAlert(env, '🚨 صقر: محاولات دخول متكررة بكلمة سر غلط', '<div dir="rtl" style="font-family:sans-serif">5 محاولات دخول بكلمة سر غلط النهاردة. لو مش إنت، غيّر كلمة السر حالًا.</div>'));
     return adminLoginPage(true);
   }
-  const exp = Date.now() + 7 * 24 * 3600 * 1000;
+  const exp = Date.now() + 12 * 3600 * 1000;
   const token = await adminSign('admin:' + exp, env.ADMIN_PASSWORD);
   return new Response(null, {
     status: 303,
     headers: {
-      location: '/admin',
-      'set-cookie': 'saqr_admin=' + encodeURIComponent(token) + '; Path=/admin; HttpOnly; Secure; SameSite=Lax; Max-Age=' + 7 * 24 * 3600,
+      location: '/admin?s=1',
+      'set-cookie': 'saqr_admin=' + encodeURIComponent(token) + '; Path=/admin; HttpOnly; Secure; SameSite=Lax',
     },
   });
 }
@@ -568,7 +617,10 @@ async function bumpStats(env, day, field, vid, page) {
     }
     if (field === 'msgs') cur.msgs = (cur.msgs || 0) + 1;
     const puts = [env.SAQR_CHATS.put(key, JSON.stringify(cur), { expirationTtl: 1209600 })]; // 14 days
-    if (field === 'pv' && vid) puts.push(env.SAQR_CHATS.put('statsu:' + day + ':' + vid, '1', { expirationTtl: 1209600 }));
+    if (field === 'pv' && vid) {
+      const ex = await env.SAQR_CHATS.get('statsu:' + day + ':' + vid);
+      if (ex === null || ex === undefined) puts.push(env.SAQR_CHATS.put('statsu:' + day + ':' + vid, '1', { expirationTtl: 1209600 }));
+    }
     await Promise.all(puts);
   } catch { /* stats must never break the site */ }
 }
@@ -700,7 +752,8 @@ async function handleAdminApi(request, env, ctx, url) {
   }
 
   if (url.pathname === '/admin/api/seen' && request.method === 'POST') {
-    await env.SAQR_CHATS.put('admin:lastseen', String(Date.now()));
+    const ls = Number(await env.SAQR_CHATS.get('admin:lastseen')) || 0;
+    if (Date.now() - ls > 300000) await env.SAQR_CHATS.put('admin:lastseen', String(Date.now()));
     return Response.json({ ok: true });
   }
 
@@ -934,7 +987,7 @@ async function handleAdminApi(request, env, ctx, url) {
     const pres = await env.SAQR_CHATS.list({ prefix: 'presence:', limit: 200 });
     const pvals = await Promise.all(pres.keys.map((k) => env.SAQR_CHATS.get(k.name, 'json')));
     const visitors = pvals
-      .filter((v) => v && (now - (v.ts || 0)) < 150000)
+      .filter((v) => v && (now - (v.ts || 0)) < 300000)
       .sort((a, b) => (b.ts || 0) - (a.ts || 0))
       .map((v) => ({ page: v.page || '/', since: v.ts || 0 }));
     const dayStats = await Promise.all(days.map(async (d) => {
@@ -986,8 +1039,21 @@ async function handleStatus(env, origin) {
   );
 }
 
+// KV free plan allows 1000 writes/day. When it is exhausted put/delete throw and the whole
+// worker returned Error 1101. Never let a failed write crash a request.
+function safeKV(kv) {
+  return {
+    get: (...a) => kv.get(...a),
+    getWithMetadata: (...a) => kv.getWithMetadata(...a),
+    list: (...a) => kv.list(...a),
+    put: async (...a) => { try { return await kv.put(...a); } catch (e) { console.log('kv put failed', String(e && e.message || e).slice(0, 120)); } },
+    delete: async (...a) => { try { return await kv.delete(...a); } catch (e) { console.log('kv delete failed', String(e && e.message || e).slice(0, 120)); } },
+  };
+}
+
 export default {
-  async fetch(request, env, ctx) {
+  async fetch(request, env0, ctx) {
+    const env = Object.assign({}, env0, { SAQR_CHATS: safeKV(env0.SAQR_CHATS) });
     const url = new URL(request.url);
     const origin = request.headers.get('Origin') || '';
 
@@ -1004,7 +1070,7 @@ export default {
           env.SAQR_CHATS.list({ prefix: 'geo24:', limit: 1000 }),
         ]);
         const onlineVids = new Set();
-        pres.keys.forEach((k) => { if (k.metadata && (nowMs - (k.metadata.ts || 0)) < 150000) onlineVids.add(k.name.slice(9)); });
+        pres.keys.forEach((k) => { if (k.metadata && (nowMs - (k.metadata.ts || 0)) < 300000) onlineVids.add(k.name.slice(9)); });
         const countries = {};
         const dots = {};
         day.keys.forEach((k) => {
@@ -1031,9 +1097,17 @@ export default {
       }
       const page = String(pb.page || '/').slice(0, 60);
       const geo = { c: String((request.cf && request.cf.country) || '').slice(0, 2).toUpperCase(), city: String((request.cf && request.cf.city) || '').slice(0, 40), la: Math.round(Number((request.cf && request.cf.latitude) || NaN) * 10) / 10, lo: Math.round(Number((request.cf && request.cf.longitude) || NaN) * 10) / 10 };
-      const puts = [env.SAQR_CHATS.put('presence:' + vid, JSON.stringify({ ts: Date.now(), page, c: String((request.cf && request.cf.country) || '').slice(0, 2).toUpperCase(), city: String((request.cf && request.cf.city) || '').slice(0, 40), la: Number((request.cf && request.cf.latitude) || NaN), lo: Number((request.cf && request.cf.longitude) || NaN) }), { expirationTtl: 180, metadata: { ts: Date.now() } })];
-      if (pb.type === 'view') puts.push(env.SAQR_CHATS.put('geo24:' + vid, '1', { expirationTtl: 86400, metadata: { ts: Date.now(), c: geo.c, city: geo.city, la: geo.la, lo: geo.lo } }));
-      if (pb.type === 'view') puts.push(bumpStats(env, cairoDay(), 'pv', vid, page));
+      const puts = [];
+      const pm = await env.SAQR_CHATS.getWithMetadata('presence:' + vid);
+      const lastTs = (pm && pm.metadata && pm.metadata.ts) || 0;
+      if (pb.type === 'view' || Date.now() - lastTs > 120000) {
+        puts.push(env.SAQR_CHATS.put('presence:' + vid, JSON.stringify({ ts: Date.now(), page, c: geo.c, city: geo.city, la: geo.la, lo: geo.lo }), { expirationTtl: 360, metadata: { ts: Date.now() } }));
+      }
+      if (pb.type === 'view') {
+        const gm = await env.SAQR_CHATS.getWithMetadata('geo24:' + vid);
+        if (!gm || gm.value === null || gm.value === undefined) puts.push(env.SAQR_CHATS.put('geo24:' + vid, '1', { expirationTtl: 86400, metadata: { ts: Date.now(), c: geo.c, city: geo.city, la: geo.la, lo: geo.lo } }));
+        puts.push(bumpStats(env, cairoDay(), 'pv', vid, page));
+      }
       ctx.waitUntil(Promise.all(puts));
       return Response.json({ ok: true }, { headers: corsHeaders(origin) });
     }
@@ -1041,6 +1115,7 @@ export default {
     if (url.pathname === '/admin/') return handleAdminPage(request, env, url);
     if (url.pathname === '/admin/pin' && request.method === 'POST') return handleAdminPin(request, env, ctx);
     if (url.pathname === '/admin/otp' && request.method === 'POST') return handleAdminOtp(request, env, ctx);
+    if (url.pathname === '/admin/otp-resend' && request.method === 'POST') return handleAdminOtpResend(request, env, ctx);
     if (url.pathname === '/admin/manifest.webmanifest') {
       return Response.json(ADMIN_MANIFEST, {
         headers: { 'content-type': 'application/manifest+json', 'cache-control': 'public, max-age=3600' },
@@ -1162,7 +1237,6 @@ export default {
               const val = JSON.stringify({ ts: Date.now(), chatId: validChatId, user: lastUserMsg, saqr: qa });
               ctx.waitUntil(env.SAQR_CHATS.put(key, val, { expirationTtl: 15552000 }));
               ctx.waitUntil(updateVisitorMem(env, validChatId, lastUserMsg, qa));
-              logActivity(env, ctx, 'chat', 'رد سريع على سؤال في شات ' + validChatId + ': \u00ab' + lastUserMsg.slice(0, 80) + '\u00bb');
             } catch (e) { /* logging must never break the chat */ }
           }
           ctx.waitUntil(bumpStats(env, cairoDay(), 'msgs'));
@@ -1252,7 +1326,6 @@ export default {
           const val = JSON.stringify({ ts: Date.now(), chatId, user: lastUser, saqr: finalReply });
           ctx.waitUntil(env.SAQR_CHATS.put(key, val, { expirationTtl: 15552000 })); // 180 days
           ctx.waitUntil(updateVisitorMem(env, chatId, lastUser, finalReply));
-          logActivity(env, ctx, 'chat', 'رسالة جديدة متسجلة في شات ' + chatId + ': «' + lastUser.slice(0, 80) + '»');
         }
       } catch (e) { /* logging must never break the chat */ }
     }
