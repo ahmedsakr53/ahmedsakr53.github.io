@@ -229,7 +229,7 @@
       saqrFab: 'كلّم صقر',
       saqrTitle: 'صقر',
       saqrSub: 'مساعد أحمد الذكي',
-      saqrWelcome: 'أهلاً! أنا صقر 🦅 مساعد المهندس أحمد. اسألني عن خدماته أو مشاريعه أو أي حاجة تانية.',
+      saqrWelcome: 'إزيك! معاك صقر 🦅 مساعد المهندس أحمد. اسألني عن خدماته أو شغله أو أي حاجة تانية.',
       saqrChips: ['مين أحمد؟', 'إيه خدماته؟', 'عايز موقع لشغلي'],
       saqrPlaceholder: 'اكتب سؤالك هنا...',
       saqrSend: 'إرسال',
@@ -238,7 +238,7 @@
       saqrError: 'حصلت مشكلة في الاتصال. جرّب تاني بعد شوية.',
       saqrSoon: 'صقر لسه بيتجهّز. ارجع بعد شوية وهتلاقيني هنا.',
       saqrMute: 'كتم صوت صقر',
-      saqrReplay: 'اسمع الرد تاني 🔊',
+      saqrReplay: 'اسمع',
       saqrUnmute: 'تشغيل صوت صقر',
       saqrMic: 'اتكلم بصوتك',
       saqrCall: 'مكالمة صوتية',
@@ -253,7 +253,7 @@
       saqrConsentYes: 'موافق',
       saqrConsentNo: 'لا شكرًا',
       saqrConsentThanks: 'تمام، اختيارك اتسجّل 🦅',
-      saqrGreeting: 'أهلا بيك! أنا صقر، اسألني أي حاجة.',
+      saqrGreeting: 'إزيك! معاك صقر، اسألني أي حاجة.',
       servicesEyebrow: 'SERVICES',
       servicesTitle: 'خدماتي',
       servicesIntro: 'خدمات أقدمها بنفس الجودة التي تراها في هذا الموقع:',
@@ -470,7 +470,7 @@
       saqrError: 'Connection problem. Try again in a moment.',
       saqrSoon: 'Saqr is still getting ready. Check back soon.',
       saqrMute: 'Mute Saqr voice',
-      saqrReplay: 'Hear this reply again 🔊',
+      saqrReplay: 'Listen',
       saqrUnmute: 'Unmute Saqr voice',
       saqrMic: 'Speak your question',
       saqrCall: 'Voice call',
@@ -1499,11 +1499,9 @@
         '</header>' +
         '<div class="pf-saqr-msgs" id="pf-saqr-msgs"></div>' +
         (t.saqrChips ? '<div class="pf-saqr-chips" style="display:flex;gap:6px;flex-wrap:wrap;padding:10px 12px 0">' + t.saqrChips.map(function (c) { return '<button type="button" class="pf-saqr-chip" style="border:1.5px solid #d8d4cd;background:#fff;border-radius:99px;padding:6px 12px;font-size:12.5px;font-family:inherit;cursor:pointer;color:#5c6472">' + esc(c) + '</button>'; }).join('') + '</div>' : '') +
-        (SaqrRecog ? '<div class="pf-saqr-micstage' + (saqrCall.active ? ' pf-saqr-stage-' + saqrCall.phase : '') + '">' +
-            '<button type="button" class="pf-saqr-micbig' + (saqrCall.active && saqrCall.phase === 'speaking' ? ' pf-saqr-talking' : '') + '" aria-label="' + esc(t.saqrMic) + '" title="' + esc(t.saqrMic) + '"><span class="pf-saqr-micbig-ico">' + SAQR_MIC_SVG + '</span></button>' +
-            '<div class="pf-saqr-micbig-lbl">' + esc(saqrCall.active ? (saqrCall.phase === 'speaking' ? t.saqrCallSpeaking : saqrCall.phase === 'thinking' ? t.saqrCallThinking : t.saqrCallListening) : t.saqrMic) + '</div></div>' : '') +
         '<form class="pf-saqr-form" id="pf-saqr-form">' +
-          '<input type="text" class="pf-saqr-input" id="pf-saqr-input" placeholder="' + esc(t.saqrPlaceholder) + '" autocomplete="off" maxlength="500">' +
+          '<textarea class="pf-saqr-input" id="pf-saqr-input" rows="2" placeholder="' + esc(t.saqrPlaceholder) + '" autocomplete="off" maxlength="500"></textarea>' +
+          (SaqrRecog ? '<button type="button" class="pf-saqr-micbig pf-saqr-micsm' + (saqrListening ? ' pf-saqr-live' : '') + '" aria-label="' + esc(t.saqrMic) + '" title="' + esc(t.saqrMic) + '"><span class="pf-saqr-micbig-ico">' + SAQR_MIC_SVG + '</span></button>' : '') +
           '<button type="submit" class="pf-saqr-send" aria-label="' + esc(t.saqrSend) + '">' + icon('send') + '</button>' +
         '</form>' +
       '</section>';
@@ -1515,7 +1513,6 @@
           saqrState.open = !saqrState.open;
           saqrEnsure(T[lang]);
           if (saqrState.open) {
-            saqrSpeak(T[lang].saqrGreeting, lang);
             var inp = document.getElementById('pf-saqr-input'); if (inp) inp.focus();
           } else if (!saqrCall.active && 'speechSynthesis' in window) { window.speechSynthesis.cancel(); }
         } else if (e.target.closest('.pf-saqr-consent-yes')) {
@@ -1568,6 +1565,9 @@
           saqrEnsure(T[lang]);
         }
       });
+      root.addEventListener('keydown', function (e) {
+        if (e.target && e.target.id === 'pf-saqr-input' && e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); saqrSend(); }
+      });
       root.addEventListener('submit', function (e) {
         if (e.target.id === 'pf-saqr-form') { e.preventDefault(); saqrSend(); }
       });
@@ -1614,7 +1614,7 @@
     saqrState.msgs.forEach(function (m, mi) {
       if (m.role === 'user') html += '<div class="pf-saqr-msg pf-saqr-me"><div class="pf-saqr-bubble">' + esc(m.content) + '</div></div>';
       else html += '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">' + SAQR_FEATHER + '</span><div class="pf-saqr-bubble">' + esc(m.content) +
-        '<button type="button" class="pf-saqr-replay" data-mi="' + mi + '" aria-label="' + esc(t.saqrReplay) + '" title="' + esc(t.saqrReplay) + '">' + SAQR_SPK_ON + '</button>' +
+        '<button type="button" class="pf-saqr-replay" data-mi="' + mi + '" aria-label="' + esc(t.saqrReplay) + '" title="' + esc(t.saqrReplay) + '">' + SAQR_SPK_ON + '<span>' + esc(t.saqrReplay) + '</span></button>' +
         saqrProjectCards(m.content, t) + '</div></div>';
     });
     if (saqrState.sending) html += '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">' + SAQR_FEATHER + '</span><div class="pf-saqr-bubble pf-saqr-typing">' + esc(t.saqrTyping) + '</div></div>';
@@ -1656,8 +1656,6 @@
           if (saqrCall.active && saqrCall.phase === 'speaking') saqrCallListen();
         });
         saqrCallBargeListen();
-      } else {
-        saqrSpeak(reply, lang);
       }
     }).catch(function () {
       saqrState.msgs.push({ role: 'assistant', content: t.saqrError });

@@ -1879,3 +1879,12 @@ html[data-theme="dark"] .pf-exam-box { background: #28173f; border-color: #46306
 .pf-bdg span { padding: 6px 12px; border-radius: 999px; border: 1px solid #f0d6bd; font-size: 13px; font-weight: 700; }
 .pf-bdg span.off { opacity: .38; filter: grayscale(1); }
 .pf-bdg-t { margin: 14px 0 0; font-weight: 700; font-size: 14px; }
+
+/* Saqr chat: small mic in the input bar, bigger input, labeled listen button */
+.pf-saqr-form { align-items: flex-end; }
+.pf-saqr-input { border-radius: 18px; min-height: 64px; max-height: 120px; resize: none; padding: 11px 14px; font-size: 16px; line-height: 1.5; }
+.pf-saqr-micbig.pf-saqr-micsm { width: 42px; height: 42px; flex: none; box-shadow: none; }
+.pf-saqr-micbig.pf-saqr-micsm:hover { transform: none; box-shadow: none; }
+.pf-saqr-micbig.pf-saqr-micsm .pf-saqr-micbig-ico svg { width: 20px; height: 20px; }
+.pf-saqr-send { flex: none; width: 42px; height: 42px; }
+.pf-saqr-replay { width: auto; padding: 0 10px; gap: 5px; font-size: 12.5px; font-family: inherit; }
