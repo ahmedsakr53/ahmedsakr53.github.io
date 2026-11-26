@@ -1774,7 +1774,7 @@ html[data-theme="dark"] .pf-sw-site { background: rgb(17 22 34 / .86); color: #9
 .pf-sw-acad { background: linear-gradient(135deg, #f59e0b, #ef4444); color: #fff; border-color: transparent !important; box-shadow: 0 6px 18px rgb(239 68 68 / .3); }
 .pf-switch a.pf-sw-on { outline: 2px solid #22d3ee; outline-offset: 1px; }
 .pf-sw-acad.pf-sw-on { outline-color: #fff; }
-.pf-install-btn { top: 62px !important; }
+.pf-install-btn { top: auto !important; bottom: calc(88px + env(safe-area-inset-bottom, 0px)) !important; left: 12px !important; }
 @media (max-width: 380px) { .pf-switch a { padding: 0 10px; font-size: 12px; } }
 body.pf-hide-academy .pf-sw-acad { display: none; }
 .pf-ep[data-i] { cursor: pointer; }
