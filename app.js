@@ -1042,7 +1042,7 @@
 
   function currentRoute() {
     var h = location.hash || '#/';
-    if (navPaths.indexOf(h) === -1 && h !== '#/checkup' && h !== '#/map' && h !== '#/fun' && h !== '#/memes' && h.indexOf('#/academy') !== 0) return '#/';
+    if (navPaths.indexOf(h) === -1 && h !== '#/checkup' && h !== '#/map' && h !== '#/fun' && h !== '#/memes' && h !== '#/xo' && h.indexOf('#/academy') !== 0) return '#/';
     return h;
   }
 
@@ -1111,6 +1111,7 @@
     return '<div class="pf-page pf-fun-page">' + pageHead('FUN', ar ? 'الألعاب والترفيه' : 'Games & fun') +
       '<div class="pf-fun-split">' +
       '<div class="pf-fun-half pf-fun-games">' + icon('fun') + '<b>' + (ar ? 'ألعاب' : 'Games') + '</b>' +
+      '<a class="pf-fun-item pf-fun-play" href="#/xo">' + (ar ? 'إكس أو (نيون)' : 'X O (neon)') + '<i>' + (ar ? 'العب' : 'Play') + '</i></a>' +
       '<span class="pf-fun-item">' + (ar ? 'اجري يا صقر!' : 'Run, Sakr!') + '<i>' + (ar ? 'قريباً' : 'Soon') + '</i></span>' +
       '<small>' + (ar ? 'ألعاب جديدة هتتضاف هنا بعدين.' : 'More games will be added here later.') + '</small></div>' +
       '<a class="pf-fun-half pf-fun-memes" href="#/memes">' + icon('doc') + '<b>' + (ar ? 'قوالب ميم' : 'Meme templates') + '</b>' +
@@ -1118,13 +1119,18 @@
       '<small>' + (ar ? 'اختار قالب واكتب كلامك وشارك.' : 'Pick a template, write and share.') + '</small></a>' +
       '</div></div>';
   }
+  function loadXO() {
+    var go = function () { var h = document.getElementById('pf-xo'); if (window.pfXO && h) window.pfXO.render(h); };
+    if (window.pfXO) return go();
+    var sc = document.createElement('script'); sc.src = 'xo.js?v=1'; sc.onload = go; document.head.appendChild(sc);
+  }
   function loadMemes() {
     var host = document.getElementById('pf-memes');
     if (!host) return;
     var go = function () { if (window.pfMemes && document.getElementById('pf-memes')) window.pfMemes.render(document.getElementById('pf-memes')); };
     if (window.pfMemes) return go();
     var sc = document.createElement('script');
-    sc.src = 'memes.js?v=1'; sc.onload = go; document.head.appendChild(sc);
+    sc.src = 'memes.js?v=2'; sc.onload = go; document.head.appendChild(sc);
   }
 
   function render() {
@@ -1138,15 +1144,15 @@
     var isAcad = route.indexOf('#/academy') === 0;
     var mainIdx = [0, 5, 6];
     var moreItems = [
+      { href: '#/fun', icon: 'fun', label: ar0 ? 'الألعاب والترفيه' : 'Games & fun' },
       { href: navPaths[1], icon: navIcons[1], label: t.nav[1] },
       { href: navPaths[2], icon: navIcons[2], label: t.nav[2] },
       { href: navPaths[3], icon: navIcons[3], label: t.nav[3] },
       { href: navPaths[4], icon: navIcons[4], label: t.nav[4] },
       { href: '#/checkup', icon: 'navShield', label: t.checkupTitle },
-      { href: '#/map', icon: 'navGlobe', label: ar0 ? 'خريطة الزوار' : 'Visitor map' },
-      { href: '#/fun', icon: 'fun', label: ar0 ? 'الألعاب والترفيه' : 'Games & fun' }
+      { href: '#/map', icon: 'navGlobe', label: ar0 ? 'خريطة الزوار' : 'Visitor map' }
     ];
-    var moreActive = moreItems.some(function (m) { return m.href === route || (m.href === '#/fun' && route === '#/memes') || (m.href === '#/academy' && route.indexOf('#/academy') === 0); });
+    var moreActive = moreItems.some(function (m) { return m.href === route || (m.href === '#/fun' && (route === '#/memes' || route === '#/xo')) || (m.href === '#/academy' && route.indexOf('#/academy') === 0); });
     var moreLabel = ar0 ? 'المزيد' : 'More';
     var nav = '<nav class="pf-nav" aria-label="' + esc(t.navAria) + '">' +
       mainIdx.map(function (i) {
@@ -1158,7 +1164,7 @@
       '<div class="pf-sheet" id="pf-sheet" hidden><div class="pf-sheet-back" data-close="1"></div>' +
       '<div class="pf-sheet-panel" role="dialog" aria-label="' + esc(moreLabel) + '"><div class="pf-sheet-grip"></div>' +
       '<div class="pf-sheet-grid">' + moreItems.map(function (m) {
-        return '<a href="' + m.href + '"' + ((m.href === route || (m.href === '#/fun' && route === '#/memes') || (m.href === '#/academy' && route.indexOf('#/academy') === 0)) ? ' aria-current="page"' : '') + '>' + icon(m.icon) + '<span>' + esc(m.label) + '</span></a>';
+        return '<a href="' + m.href + '"' + ((m.href === route || (m.href === '#/fun' && (route === '#/memes' || route === '#/xo')) || (m.href === '#/academy' && route.indexOf('#/academy') === 0)) ? ' aria-current="page"' : '') + '>' + icon(m.icon) + '<span>' + esc(m.label) + '</span></a>';
       }).join('') + '</div></div></div>' +
       '<div class="pf-switch" role="navigation">' +
       '<a class="pf-sw-site' + (isAcad ? '' : ' pf-sw-on') + '" href="#/">' + icon('navGlobe') + esc(ar0 ? 'الموقع' : 'Site') + '</a>' +
@@ -1181,6 +1187,7 @@
     else if (route === '#/checkup') page = renderCheckup(t);
     else if (route === '#/map') page = renderMapPage(t);
     else if (route === '#/fun') page = renderFun();
+    else if (route === '#/xo') page = '<div class="pf-page" id="pf-xo"></div>';
     else if (route === '#/memes') page = '<div class="pf-page" id="pf-memes"></div>';
     else if (route === '#/contact') page = renderContact(t);
     else if (route.indexOf('#/academy') === 0) page = '<div class="pf-page" id="pf-acad"></div>';
@@ -1195,6 +1202,7 @@
     wireNavSheet();
     if (route === '#/checkup') wireCheckup(t);
     if (route === '#/memes') loadMemes();
+    if (route === '#/xo') loadXO();
     if (route.indexOf('#/academy') === 0) loadAcademy(route);
     if (route === '#/map') wireLive(); else clearInterval(pfLiveTimer);
     if (renderDone && window.goatcounter && window.goatcounter.count) {
