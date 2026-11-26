@@ -1888,3 +1888,8 @@ html[data-theme="dark"] .pf-exam-box { background: #28173f; border-color: #46306
 .pf-saqr-micbig.pf-saqr-micsm .pf-saqr-micbig-ico svg { width: 20px; height: 20px; }
 .pf-saqr-send { flex: none; width: 42px; height: 42px; }
 .pf-saqr-replay { width: auto; padding: 0 10px; gap: 5px; font-size: 12.5px; font-family: inherit; }
+
+.pf-acad-back { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; margin-bottom: 14px; border: 1.5px solid #f59e0b; border-radius: 99px; background: #fff7e6; color: #92400e; font-weight: 700; font-size: 15px; box-shadow: 0 2px 8px rgb(245 158 11 / .18); }
+[dir="rtl"] .pf-acad-back svg { transform: scaleX(-1); }
+.pf-acad-back:active { transform: scale(.97); }
+html[data-theme="dark"] .pf-acad-back { background: #3a2a10; color: #fcd34d; }

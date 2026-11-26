@@ -119,7 +119,7 @@
       ? '<div class="pf-player" id="pf-player"><button type="button" class="pf-player-btn" id="pf-player-btn" aria-label="' + esc(ar ? 'شغّل الحلقة' : 'Play episode') + '"><span class="pf-player-tri"></span></button>' +
         '<div class="pf-player-cap" id="pf-player-cap">' + esc((ar ? 'الحلقة ' + n(SEL + 1, ar) + ': ' : 'Episode ' + (SEL + 1) + ': ') + (ar ? tr.eps[SEL][0] : tr.eps[SEL][1])) + '</div></div>'
       : '<div class="pf-player pf-player-soon"><div class="pf-player-cap">' + esc(ar ? 'الحلقات قريباً، جاري التجهيز.' : 'Episodes coming soon.') + '</div></div>';
-    return '<a class="pf-acad-back" href="#/academy">' + esc(ar ? '← كل المسارات' : '← All tracks') + '</a>' +
+    return '<a class="pf-acad-back" href="#/academy"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg><span>' + esc(ar ? 'رجوع لكل المسارات' : 'Back to all tracks') + '</span></a>' +
       h.pageHead(n(10, ar) + (ar ? ' حلقات' : ' EPISODES'), ar ? tr.ar : tr.en) +
       '<p class="pf-para">' + esc(ar ? tr.dAr : tr.dEn) + '</p>' + player +
       '<ol class="pf-eps">' + rows + '</ol>' +
