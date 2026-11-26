@@ -70,6 +70,7 @@
     ar: {
       navAria: 'صفحات الموقع',
       nav: ['الرئيسية', 'التطبيق', 'نبذة عني', 'الشهادات', 'المشاريع', 'خدماتي', 'التواصل'],
+      brandName: 'عالم صقر',
       heroAlt: 'أحمد صقر ببدلة كحلية رسمية على خلفية استوديو بسيطة',
       verifiedTitle: 'الموقع الرسمي لأحمد مختار صقر',
       nameAr: 'أحمد مختار عوض',
@@ -301,6 +302,7 @@
     en: {
       navAria: 'Site pages',
       nav: ['Home', 'The App', 'About', 'Certifications', 'Projects', 'Services', 'Contact'],
+      brandName: 'Sakr World',
       heroAlt: 'Ahmed Sakr in a formal navy suit on a simple studio background',
       verifiedTitle: "Ahmed Mokhtar Sakr's official website",
       nameAr: 'أحمد مختار عوض',
@@ -601,6 +603,7 @@
       '<div class="pf-hero-inner">' +
       '<div class="pf-portrait"><img src="photos/about-studio.webp" alt="' + esc(t.heroAlt) + '" fetchpriority="high"></div>' +
       '<div class="pf-hero-text">' +
+      '<div class="pf-brandline">' + esc(t.brandName) + '</div>' +
       '<div class="pf-name-en">ENG. AHMED MOKHTAR AWAD <span class="pf-nick-en">SAKR</span></div>' +
       '<h1 class="pf-name"><span class="pf-eng">' + esc(t.engPrefix) + '</span> ' + esc(t.nameAr) + ' <span class="pf-nickwrap"><span class="pf-nick">صقر</span> <span class="pf-verified" title="' + esc(t.verifiedTitle) + '" role="img" aria-label="' + esc(t.verifiedTitle) + '">' + icon('verified') + '</span></span></h1>' +
       '<div class="pf-role"><bdi>' + esc(t.role) + '</bdi></div>' +

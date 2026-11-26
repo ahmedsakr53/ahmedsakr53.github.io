@@ -1811,3 +1811,5 @@ html[data-theme="dark"] body.pf-acad-world .pf-sw-site { background: rgb(29 18 4
 body.pf-acad-world .pf-sw-site { color: #9a3412; }
 body.pf-acad-world .pf-fabs .pf-theme-toggle { color: #c2410c; }
 html[data-theme="dark"] body.pf-acad-world .pf-fabs .pf-theme-toggle { color: #fbbf24; }
+
+.pf-brandline{font-weight:800;font-size:15px;letter-spacing:.04em;color:var(--pf-accent,#2dd4bf);margin:0 0 6px}
