@@ -1079,6 +1079,7 @@
     document.title = lang === 'ar' ? 'أحمد مختار صقر' : 'Ahmed Mokhtar Sakr';
     var route = currentRoute();
     var ar0 = lang === 'ar';
+    var isAcad = route.indexOf('#/academy') === 0;
     var mainIdx = [0, 5, 6];
     var moreItems = [
       { href: navPaths[1], icon: navIcons[1], label: t.nav[1] },
@@ -1086,7 +1087,6 @@
       { href: navPaths[3], icon: navIcons[3], label: t.nav[3] },
       { href: navPaths[4], icon: navIcons[4], label: t.nav[4] },
       { href: '#/checkup', icon: 'navShield', label: t.checkupTitle },
-      { href: '#/academy', icon: 'navCap', label: ar0 ? 'الأكاديمية' : 'Academy' },
       { href: '#/map', icon: 'navGlobe', label: ar0 ? 'خريطة الزوار' : 'Visitor map' }
     ];
     var moreActive = moreItems.some(function (m) { return m.href === route || (m.href === '#/academy' && route.indexOf('#/academy') === 0); });
@@ -1103,6 +1103,9 @@
       '<div class="pf-sheet-grid">' + moreItems.map(function (m) {
         return '<a href="' + m.href + '"' + ((m.href === route || (m.href === '#/academy' && route.indexOf('#/academy') === 0)) ? ' aria-current="page"' : '') + '>' + icon(m.icon) + '<span>' + esc(m.label) + '</span></a>';
       }).join('') + '</div></div></div>' +
+      '<div class="pf-switch" role="navigation">' +
+      '<a class="pf-sw-site' + (isAcad ? '' : ' pf-sw-on') + '" href="#/">' + icon('navGlobe') + esc(ar0 ? 'الموقع' : 'Site') + '</a>' +
+      '<a class="pf-sw-acad' + (isAcad ? ' pf-sw-on' : '') + '" href="#/academy">' + icon('navCap') + esc(ar0 ? 'الأكاديمية' : 'Academy') + '</a></div>' +
       '<div class="pf-fabs">' +
       '<button type="button" class="pf-lang-toggle" aria-label="' + esc(t.toggleLabel) + '">' +
       '<span class="pf-lang-toggle-thumb" aria-hidden="true"></span>' +

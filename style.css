@@ -1764,3 +1764,15 @@ body.pf-not-home .pf-fabs .pf-lang-toggle { display: none; }
 .pf-ep-s { font-size: 12px; color: var(--ds-ink-2); white-space: nowrap; }
 .pf-ep-on .pf-ep-s { color: #0e7490; font-weight: 700; }
 .pf-acad-note { margin-top: 14px; font-size: 13px; color: var(--ds-ink-2); }
+
+/* Top switch: Site | Academy */
+.pf-switch { position: fixed; top: calc(10px + env(safe-area-inset-top, 0px)); left: 10px; z-index: 90; display: flex; gap: 6px; direction: rtl; }
+.pf-switch a { display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 13px; border-radius: 999px; font-family: var(--ds-font-text); font-weight: 700; font-size: 13px; text-decoration: none; white-space: nowrap; border: 1px solid var(--ds-hairline); }
+.pf-switch a .pf-icon { width: 16px; height: 16px; fill: currentColor; }
+.pf-sw-site { background: rgb(255 255 255 / .86); color: #0e7490; }
+html[data-theme="dark"] .pf-sw-site { background: rgb(17 22 34 / .86); color: #9ef0fb; }
+.pf-sw-acad { background: linear-gradient(135deg, #f59e0b, #ef4444); color: #fff; border-color: transparent !important; box-shadow: 0 6px 18px rgb(239 68 68 / .3); }
+.pf-switch a.pf-sw-on { outline: 2px solid #22d3ee; outline-offset: 1px; }
+.pf-sw-acad.pf-sw-on { outline-color: #fff; }
+.pf-install-btn { top: 62px !important; }
+@media (max-width: 380px) { .pf-switch a { padding: 0 10px; font-size: 12px; } }
