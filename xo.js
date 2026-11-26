@@ -22,7 +22,7 @@
       { t: 'Tic-Tac-Toe', vs: 'vs Computer', two: '2 players', easy: 'Easy', hard: 'Hard', you: 'You', pc: 'Computer', p1: 'Player X', p2: 'Player O', draw: 'Draw', again: 'New round', turn: 'Turn', won: 'wins!', back: 'Back to games', tie: 'Draw' };
     var st = { mode: 'pc', hard: false, b: Array(9).fill(null), turn: 'X', over: false, sc: { X: 0, O: 0, D: 0 }, start: 'X', line: null };
     root.innerHTML = '<div class="pf-pagehead"><div class="pf-eyebrow">GAME</div><h2 class="pf-h2">' + tx.t + '</h2></div>' +
-      '<div class="pf-xo"><div class="pf-xo-opts"><button type="button" data-m="pc" class="on">' + tx.vs + '</button><button type="button" data-m="two">' + tx.two + '</button></div>' +
+      '<div class="pf-xo"><a class="pf-g-exit" href="#/fun">' + (ar ? '✕ خروج' : '✕ Exit') + '</a><div class="pf-xo-opts"><button type="button" data-m="pc" class="on">' + tx.vs + '</button><button type="button" data-m="two">' + tx.two + '</button></div>' +
       '<div class="pf-xo-opts" id="pf-xo-lv"><button type="button" data-l="0" class="on">' + tx.easy + '</button><button type="button" data-l="1">' + tx.hard + '</button></div>' +
       '<div class="pf-xo-score"><span class="x"><b id="pf-xo-sx">0</b><em id="pf-xo-nx">' + tx.p1 + '</em></span><span class="d"><b id="pf-xo-sd">0</b>' + tx.draw + '</span><span class="o"><b id="pf-xo-so">0</b><em id="pf-xo-no">' + tx.p2 + '</em></span></div>' +
       '<div class="pf-xo-msg" id="pf-xo-msg"></div><div class="pf-xo-board" id="pf-xo-board"></div>' +

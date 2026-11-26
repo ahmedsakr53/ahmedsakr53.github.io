@@ -78,7 +78,7 @@
       engPrefix: 'المهندس',
       role: 'Junior Cybersecurity Analyst · Network Technician · Software & Games Designer',
       purposeTitle: 'هدف التطبيق',
-      tagline: 'أن يكون الواجهة الرسمية للمهندس أحمد مختار صقر: مكان واحد يعرض خدماته ومشاريعه وشهاداته، وتصل منه إليه مباشرة لتطلب خدمتك بضغطة واحدة، ويطمّن فيه أي زائر على أمانه الرقمي بفحص شخصي مجاني يعمل بالكامل على جهازه، ويتعلّم من «صقر أكاديمي»: كورسات مجانية في الأمن السيبراني والبرمجة والشبكات بشهادة إتمام.',
+      tagline: 'أن يكون الواجهة الرسمية للمهندس أحمد مختار صقر: مكان واحد يعرض خدماته ومشاريعه وشهاداته، وتصل منه إليه مباشرة لتطلب خدمتك بضغطة واحدة، ويطمّن فيه أي زائر على أمانه الرقمي بفحص شخصي مجاني يعمل بالكامل على جهازه، ويتعلّم من «صقر أكاديمي»: كورسات مجانية في الأمن السيبراني والبرمجة والشبكات بشهادة إتمام، وركن «الألعاب والترفيه» بألعاب خفيفة وصانع ميمز.',
       visitsTitle: 'عدد زيارات الموقع',
       chips: ['طما، سوهاج، مصر', 'طالب هندسة كهرباء قسم اتصالات', 'الهدف: تدريب SOC'],
       ctaProjects: 'استعرض مشاريعي',
@@ -317,7 +317,7 @@
       engPrefix: 'Eng.',
       role: 'Junior Cybersecurity Analyst · Network Technician · Software & Games Designer',
       purposeTitle: 'Purpose of the app',
-      tagline: 'To be the official home of Eng. Ahmed Mokhtar Sakr: one place for his services, projects and certifications, with a direct line to reach him and order your service in one tap, and where any visitor can check their own digital safety with a free personal checkup that runs entirely on their device, plus a free Sakr Academy with courses in cybersecurity, programming and networking, each ending with a completion certificate.',
+      tagline: 'To be the official home of Eng. Ahmed Mokhtar Sakr: one place for his services, projects and certifications, with a direct line to reach him and order your service in one tap, and where any visitor can check their own digital safety with a free personal checkup that runs entirely on their device, plus a free Sakr Academy with courses in cybersecurity, programming and networking, each ending with a completion certificate, and a Games & fun corner with light games and a meme maker.',
       visitsTitle: 'Site visit count',
       chips: ['Tima, Sohag, Egypt', 'Electrical Engineering, Communications student', 'Goal: SOC internship'],
       ctaProjects: 'See my projects',
@@ -1042,7 +1042,7 @@
 
   function currentRoute() {
     var h = location.hash || '#/';
-    if (navPaths.indexOf(h) === -1 && h !== '#/checkup' && h !== '#/map' && h !== '#/fun' && h !== '#/memes' && h !== '#/xo' && h.indexOf('#/academy') !== 0) return '#/';
+    if (navPaths.indexOf(h) === -1 && h !== '#/checkup' && h !== '#/map' && h !== '#/fun' && h !== '#/memes' && h !== '#/xo' && h.indexOf('#/g/') !== 0 && h.indexOf('#/academy') !== 0) return '#/';
     return h;
   }
 
@@ -1106,31 +1106,91 @@
     Promise.all([cfgP, jsP]).then(function (r) { go(r[0]); });
   }
 
+  var GAMES = [
+    { id: 'xo', ar: 'إكس أو', en: 'X O', c: ['#22d3ee', '#ff2bd6'], href: '#/xo', svg: '<path d="M4 4l7 7M11 4l-7 7"/><circle cx="17" cy="17" r="4.5"/>' },
+    { id: 'snake', ar: 'الثعبان', en: 'Snake', c: ['#b6ff3b', '#10b981'], href: '#/g/snake', svg: '<path d="M4 6h10a3 3 0 010 6H8a3 3 0 000 6h12"/><circle cx="20" cy="18" r="1.2"/>' },
+    { id: 'mem', ar: 'الذاكرة', en: 'Memory', c: ['#ff2bd6', '#7c3aed'], href: '#/g/mem', svg: '<rect x="3" y="4" width="8" height="10" rx="2"/><rect x="13" y="10" width="8" height="10" rx="2"/><path d="M7 7.5h0M17 15h0"/>' },
+    { id: 'g2048', ar: '2048', en: '2048', c: ['#fbbf24', '#f97316'], href: '#/g/g2048', svg: '<rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/>' },
+    { id: 'mole', ar: 'طرق الخلد', en: 'Whack-a-mole', c: ['#f59e0b', '#a16207'], href: '#/g/mole', svg: '<path d="M4 20h16M6 20a6 6 0 0112 0"/><circle cx="10" cy="15" r=".8"/><circle cx="14" cy="15" r=".8"/>' },
+    { id: 'rps', ar: 'حجر ورق مقص', en: 'Rock Paper Scissors', c: ['#38bdf8', '#6366f1'], href: '#/g/rps', svg: '<circle cx="7" cy="17" r="3"/><path d="M13 4l7 7M20 4l-7 7M13 14h7v6h-7z"/>' },
+    { id: 'guess', ar: 'تخمين الرقم', en: 'Guess the number', c: ['#f472b6', '#fb7185'], href: '#/g/guess', svg: '<path d="M8 8a4 4 0 118 0c0 3-4 3-4 6M12 19h0"/>' }
+  ];
+  var gamesCfg = null;
+  function gameState(id) { var g = (gamesCfg && gamesCfg.games) || {}; return g[id] === 'hidden' || g[id] === 'soon' ? g[id] : ''; }
+  function loadGamesCfg(cb) {
+    if (gamesCfg) return cb();
+    var done = false, fin = function (c) { if (done) return; done = true; gamesCfg = c || {}; window.pfGamesCfg = gamesCfg; cb(); };
+    fetch(SAQR_WORKER_URL.replace(/\/chat$/, '/games/config')).then(function (r) { return r.ok ? r.json() : null; }).then(fin).catch(function () { fin(null); });
+    setTimeout(function () { fin(null); }, 3000);
+  }
+  function funGamesHTML(ar) {
+    var h = '';
+    GAMES.forEach(function (g) {
+      var st = gameState(g.id); if (st === 'hidden') return;
+      var inner = '<svg viewBox="0 0 24 24" class="pf-gc-i" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + g.svg + '</svg><span>' + (ar ? g.ar : g.en) + '</span>' + (st === 'soon' ? '<i>' + (ar ? 'قريباً' : 'Soon') + '</i>' : '');
+      var sty = ' style="--c1:' + g.c[0] + ';--c2:' + g.c[1] + '"';
+      h += st === 'soon' ? '<span class="pf-gc soon"' + sty + '>' + inner + '</span>' : '<a class="pf-gc" href="' + g.href + '"' + sty + '>' + inner + '</a>';
+    });
+    return h;
+  }
   function renderFun() {
-    var ar = lang === 'ar';
+    var ar = lang === 'ar', mst = gamesCfg && gamesCfg.memes && gamesCfg.memes.state;
+    var memes = mst === 'hidden' ? '' : '<a class="pf-fun-half pf-fun-memes' + (mst === 'soon' ? ' soon' : '') + '" href="' + (mst === 'soon' ? '#/fun' : '#/memes') + '">' + icon('doc') + '<b>' + (ar ? 'قوالب ميم' : 'Meme templates') + '</b>' +
+      '<span class="pf-fun-item">' + (ar ? 'ميمز' : 'Memes') + '<i>' + (mst === 'soon' ? (ar ? 'قريباً' : 'Soon') : (ar ? 'افتح' : 'Open')) + '</i></span>' +
+      '<small>' + (ar ? 'اختار قالب واكتب كلامك وشارك.' : 'Pick a template, write and share.') + '</small></a>';
     return '<div class="pf-page pf-fun-page">' + pageHead('FUN', ar ? 'الألعاب والترفيه' : 'Games & fun') +
       '<div class="pf-fun-split">' +
       '<div class="pf-fun-half pf-fun-games">' + icon('fun') + '<b>' + (ar ? 'ألعاب' : 'Games') + '</b>' +
-      '<a class="pf-fun-item pf-fun-play" href="#/xo">' + (ar ? 'إكس أو (نيون)' : 'X O (neon)') + '<i>' + (ar ? 'العب' : 'Play') + '</i></a>' +
-      '<span class="pf-fun-item">' + (ar ? 'اجري يا صقر!' : 'Run, Sakr!') + '<i>' + (ar ? 'قريباً' : 'Soon') + '</i></span>' +
-      '<small>' + (ar ? 'ألعاب جديدة هتتضاف هنا بعدين.' : 'More games will be added here later.') + '</small></div>' +
-      '<a class="pf-fun-half pf-fun-memes" href="#/memes">' + icon('doc') + '<b>' + (ar ? 'قوالب ميم' : 'Meme templates') + '</b>' +
-      '<span class="pf-fun-item">' + (ar ? 'ميمز الكلية' : 'College memes') + '<i>' + (ar ? 'افتح' : 'Open') + '</i></span>' +
-      '<small>' + (ar ? 'اختار قالب واكتب كلامك وشارك.' : 'Pick a template, write and share.') + '</small></a>' +
-      '</div></div>';
+      '<div class="pf-gc-grid" id="pf-gc-grid">' + funGamesHTML(ar) + '</div>' +
+      '<button type="button" class="pf-fun-item pf-lb-open" id="pf-lb-open">' + (ar ? '🏆 المتصدرين' : '🏆 Leaderboards') + '</button><div class="pf-lb-all" id="pf-lb-all"></div>' +
+      '</div>' + memes + '</div></div>';
+  }
+  function wireFun() {
+    loadGamesCfg(function () {
+      if (currentRoute() !== '#/fun') return;
+      var g = document.getElementById('pf-gc-grid'); if (g) g.innerHTML = funGamesHTML(lang === 'ar');
+      var m = document.querySelector('.pf-fun-split'); var mst = gamesCfg && gamesCfg.memes && gamesCfg.memes.state;
+      if (m && mst) { var old = m.querySelector('.pf-fun-memes'); var tmp = document.createElement('div'); tmp.innerHTML = renderFun(); var nw = tmp.querySelector('.pf-fun-memes'); if (old) { if (nw) old.replaceWith(nw); else old.remove(); } }
+    });
+    var b = document.getElementById('pf-lb-open');
+    if (b) b.addEventListener('click', function () {
+      var box = document.getElementById('pf-lb-all'); if (!box) return;
+      if (box.dataset.open) { box.dataset.open = ''; box.innerHTML = ''; return; }
+      box.dataset.open = '1';
+      var go = function () { window.pfLB.all(box, GAMES.filter(function (x) { return x.id !== 'xo' && gameState(x.id) !== 'hidden'; }).map(function (x) { return x.id; })); };
+      if (window.pfLB) return go();
+      var sc = document.createElement('script'); sc.src = 'lb.js?v=1'; sc.onload = go; document.head.appendChild(sc);
+    });
+  }
+  function loadGame(id) {
+    var host = document.getElementById('pf-game'); if (!host) return;
+    var meta = GAMES.filter(function (x) { return x.id === id; })[0];
+    if (!meta) { location.hash = '#/fun'; return; }
+    loadGamesCfg(function () {
+      if (currentRoute().indexOf('#/g/') !== 0 || gameState(id)) { if (gameState(id)) location.hash = '#/fun'; return; }
+      var run = function () { if (window.pfG && window.pfG[id] && document.getElementById('pf-game')) window.pfG[id](document.getElementById('pf-game')); };
+      var ld = function (src, cb) { var sc = document.createElement('script'); sc.src = src; sc.onload = cb; document.head.appendChild(sc); };
+      var after = function () { if (window.pfG && window.pfG[id]) return run(); ld('g-' + id + '.js?v=1', run); };
+      if (window.pfLB) after(); else ld('lb.js?v=1', after);
+    });
   }
   function loadXO() {
-    var go = function () { var h = document.getElementById('pf-xo'); if (window.pfXO && h) window.pfXO.render(h); };
-    if (window.pfXO) return go();
-    var sc = document.createElement('script'); sc.src = 'xo.js?v=1'; sc.onload = go; document.head.appendChild(sc);
+    loadGamesCfg(function () {
+      if (gameState('xo')) { location.hash = '#/fun'; return; }
+      var go = function () { var h = document.getElementById('pf-xo'); if (window.pfXO && h) window.pfXO.render(h); };
+      if (window.pfXO) return go();
+      var sc = document.createElement('script'); sc.src = 'xo.js?v=1'; sc.onload = go; document.head.appendChild(sc);
+    });
   }
   function loadMemes() {
     var host = document.getElementById('pf-memes');
     if (!host) return;
+    if (!gamesCfg) return loadGamesCfg(function () { if (currentRoute() === '#/memes') { if (gamesCfg && gamesCfg.memes && gamesCfg.memes.state) { location.hash = '#/fun'; return; } loadMemes(); } });
+    if (gamesCfg.memes && gamesCfg.memes.state) { location.hash = '#/fun'; return; }
     var go = function () { if (window.pfMemes && document.getElementById('pf-memes')) window.pfMemes.render(document.getElementById('pf-memes')); };
     if (window.pfMemes) return go();
     var sc = document.createElement('script');
-    sc.src = 'memes.js?v=2'; sc.onload = go; document.head.appendChild(sc);
+    sc.src = 'memes.js?v=5'; sc.onload = go; document.head.appendChild(sc);
   }
 
   function render() {
@@ -1139,6 +1199,7 @@
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.dataset.theme = theme;
     document.title = lang === 'ar' ? 'أحمد مختار صقر' : 'Ahmed Mokhtar Sakr';
+    if (window.pfGStop) { try { window.pfGStop(); } catch (e) {} window.pfGStop = null; }
     var route = currentRoute();
     var ar0 = lang === 'ar';
     var isAcad = route.indexOf('#/academy') === 0;
@@ -1152,7 +1213,7 @@
       { href: '#/checkup', icon: 'navShield', label: t.checkupTitle },
       { href: '#/map', icon: 'navGlobe', label: ar0 ? 'خريطة الزوار' : 'Visitor map' }
     ];
-    var moreActive = moreItems.some(function (m) { return m.href === route || (m.href === '#/fun' && (route === '#/memes' || route === '#/xo')) || (m.href === '#/academy' && route.indexOf('#/academy') === 0); });
+    var moreActive = moreItems.some(function (m) { return m.href === route || (m.href === '#/fun' && (route === '#/memes' || route === '#/xo' || route.indexOf('#/g/') === 0)) || (m.href === '#/academy' && route.indexOf('#/academy') === 0); });
     var moreLabel = ar0 ? 'المزيد' : 'More';
     var nav = '<nav class="pf-nav" aria-label="' + esc(t.navAria) + '">' +
       mainIdx.map(function (i) {
@@ -1164,7 +1225,7 @@
       '<div class="pf-sheet" id="pf-sheet" hidden><div class="pf-sheet-back" data-close="1"></div>' +
       '<div class="pf-sheet-panel" role="dialog" aria-label="' + esc(moreLabel) + '"><div class="pf-sheet-grip"></div>' +
       '<div class="pf-sheet-grid">' + moreItems.map(function (m) {
-        return '<a href="' + m.href + '"' + ((m.href === route || (m.href === '#/fun' && (route === '#/memes' || route === '#/xo')) || (m.href === '#/academy' && route.indexOf('#/academy') === 0)) ? ' aria-current="page"' : '') + '>' + icon(m.icon) + '<span>' + esc(m.label) + '</span></a>';
+        return '<a href="' + m.href + '"' + ((m.href === route || (m.href === '#/fun' && (route === '#/memes' || route === '#/xo' || route.indexOf('#/g/') === 0)) || (m.href === '#/academy' && route.indexOf('#/academy') === 0)) ? ' aria-current="page"' : '') + '>' + icon(m.icon) + '<span>' + esc(m.label) + '</span></a>';
       }).join('') + '</div></div></div>' +
       '<div class="pf-switch" role="navigation">' +
       '<a class="pf-sw-site' + (isAcad ? '' : ' pf-sw-on') + '" href="#/">' + icon('navGlobe') + esc(ar0 ? 'الموقع' : 'Site') + '</a>' +
@@ -1187,6 +1248,7 @@
     else if (route === '#/checkup') page = renderCheckup(t);
     else if (route === '#/map') page = renderMapPage(t);
     else if (route === '#/fun') page = renderFun();
+    else if (route.indexOf('#/g/') === 0) page = '<div class="pf-page" id="pf-game"></div>';
     else if (route === '#/xo') page = '<div class="pf-page" id="pf-xo"></div>';
     else if (route === '#/memes') page = '<div class="pf-page" id="pf-memes"></div>';
     else if (route === '#/contact') page = renderContact(t);
@@ -1203,6 +1265,8 @@
     if (route === '#/checkup') wireCheckup(t);
     if (route === '#/memes') loadMemes();
     if (route === '#/xo') loadXO();
+    if (route.indexOf('#/g/') === 0) loadGame(route.slice(4));
+    if (route === '#/fun') wireFun();
     if (route.indexOf('#/academy') === 0) loadAcademy(route);
     if (route === '#/map') wireLive(); else clearInterval(pfLiveTimer);
     if (renderDone && window.goatcounter && window.goatcounter.count) {

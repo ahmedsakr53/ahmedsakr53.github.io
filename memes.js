@@ -1,20 +1,20 @@
-/* College memes. Loaded only when a visitor opens #/memes. Template images load lazily, text is drawn on a canvas in the visitor's browser: no server. */
+/* Memes. Loaded only when a visitor opens #/memes. Template images load lazily, text is drawn on a canvas in the visitor's browser: no server. */
 (function () {
   var CW = 1080, STRIP = 58;
   var FONT = '"Cairo","IBM Plex Sans Arabic",sans-serif';
   var MARK = 'اصنع ميم، القوالب جاهزة 👉 ahmedsakr53.github.io';
   // f: [x, y, w, h, color, angle, default text]  (fractions of the image area; color w = white with outline, k = black)
   var T = [
-    { id: 'drake', ar: 'يرفض / يوافق', en: 'Reject / approve', w: 446, h: 698, half: true, f: [[0.5, 0, 0.5, 0.5, 'k', 0, 'مذاكرة من أول الترم'], [0.5, 0.5, 0.5, 0.5, 'k', 0, 'مذاكرة ليلة الامتحان']] },
-    { id: 'gb', ar: 'المخ المتوسع', en: 'Expanding brain', w: 600, h: 848, f: [[0, 0, 0.49, 0.245, 'k', 0, 'أذاكر من الملخص'], [0, 0.255, 0.49, 0.246, 'k', 0, 'أذاكر من الكتاب'], [0, 0.51, 0.49, 0.224, 'k', 0, 'أذاكر من المحاضرات'], [0, 0.746, 0.49, 0.255, 'k', 0, 'أنام وأتوكل']] },
-    { id: 'db', ar: 'الشاب والبنت', en: 'Distracted boyfriend', w: 800, h: 533, f: [[0.12, 0.7, 0.325, 0.1, 'w', 0, 'النوم'], [0.55, 0.45, 0.175, 0.1, 'w', 0, 'أنا'], [0.74, 0.66, 0.2, 0.1, 'w', 0, 'المذاكرة']] },
-    { id: 'fine', ar: 'كله تمام', en: 'This is fine', w: 640, h: 621, f: [[0, 0, 1, 0.2, 'w', 0, 'الدكتور: الامتحان بكره'], [0, 0.8, 1, 0.2, 'w', 0, 'أنا: كله تمام']] },
-    { id: 'ds', ar: 'الاتنين زراير', en: 'Two buttons', w: 458, h: 684, f: [[0.097, 0.108, 0.32, 0.095, 'k', 12.5, 'أذاكر'], [0.467, 0.069, 0.23, 0.09, 'k', 10.5, 'أنام'], [0.04, 0.82, 0.92, 0.15, 'w', 0, 'أنا الساعة ٢ بالليل']] },
-    { id: 'woman-cat', ar: 'الست والقطة', en: 'Woman yelling at cat', w: 680, h: 438, f: [[0, 0, 0.5, 0.22, 'k', 0, 'أنت: الامتحان كان سهل'], [0.5, 0, 0.5, 0.22, 'k', 0, 'أنا: ده كان غريب']] },
-    { id: 'spiderman', ar: 'سبايدرمان بيشاور', en: 'Spider-Man pointing', w: 800, h: 573, f: [[0.05, 0, 0.45, 0.15, 'w', 0, 'الدكتور'], [0.5, 0.85, 0.45, 0.15, 'w', 0, 'المعيد']] },
-    { id: 'pooh', ar: 'ويني الشيك', en: 'Tuxedo Pooh', w: 900, h: 540, f: [[0.5, 0, 0.5, 0.5, 'k', 0, 'أذاكر من أول الترم'], [0.5, 0.5, 0.5, 0.5, 'k', 0, 'أذاكر ليلة الامتحان بالمحاضرات']] },
-    { id: 'gru', ar: 'خطة جرو', en: "Gru's plan", w: 800, h: 512, f: [[0.275, 0.2, 0.2075, 0.2, 'k', 0, 'أقرر أذاكر'], [0.78, 0.2, 0.205, 0.2, 'k', 0, 'أفتح الكتاب'], [0.28, 0.7, 0.205, 0.2, 'k', 0, 'أنام'], [0.78, 0.7, 0.205, 0.2, 'k', 0, 'أصحى مصدوم']] },
-    { id: 'cmm', ar: 'غيّر رأيي', en: 'Change my mind', w: 800, h: 636, f: [[0.38, 0.45, 0.4, 0.2, 'k', 14, 'الغياب أحسن من الحضور']] }
+    { id: 'drake', ar: 'يرفض / يوافق', en: 'Reject / approve', w: 446, h: 698, half: true, f: [[0.5, 0, 0.5, 0.5, 'k', 0, 'أبدأ بدري'], [0.5, 0.5, 0.5, 0.5, 'k', 0, 'أأجّل لآخر لحظة']] },
+    { id: 'gb', ar: 'المخ المتوسع', en: 'Expanding brain', w: 600, h: 848, f: [[0, 0, 0.49, 0.245, 'k', 0, 'أرتب يومي'], [0, 0.255, 0.49, 0.246, 'k', 0, 'أعمل قايمة مهام'], [0, 0.51, 0.49, 0.224, 'k', 0, 'أظبط المنبّه'], [0, 0.746, 0.49, 0.255, 'k', 0, 'أنام وأتوكل']] },
+    { id: 'db', ar: 'الشاب والبنت', en: 'Distracted boyfriend', w: 800, h: 533, f: [[0.12, 0.7, 0.325, 0.1, 'w', 0, 'النوم'], [0.55, 0.45, 0.175, 0.1, 'w', 0, 'أنا'], [0.74, 0.66, 0.2, 0.1, 'w', 0, 'الشغل']] },
+    { id: 'fine', ar: 'كله تمام', en: 'This is fine', w: 640, h: 621, f: [[0, 0, 1, 0.2, 'w', 0, 'المدير: التسليم بكره'], [0, 0.8, 1, 0.2, 'w', 0, 'أنا: كله تمام']] },
+    { id: 'ds', ar: 'الاتنين زراير', en: 'Two buttons', w: 458, h: 684, f: [[0.097, 0.108, 0.32, 0.095, 'k', 12.5, 'أشتغل'], [0.467, 0.069, 0.23, 0.09, 'k', 10.5, 'أنام'], [0.04, 0.82, 0.92, 0.15, 'w', 0, 'أنا الساعة ٢ بالليل']] },
+    { id: 'woman-cat', ar: 'الست والقطة', en: 'Woman yelling at cat', w: 680, h: 438, f: [[0, 0, 0.5, 0.22, 'k', 0, 'أنت: الموضوع بسيط'], [0.5, 0, 0.5, 0.22, 'k', 0, 'أنا: ده كان غريب']] },
+    { id: 'spiderman', ar: 'سبايدرمان بيشاور', en: 'Spider-Man pointing', w: 800, h: 573, f: [[0.05, 0, 0.45, 0.15, 'w', 0, 'أنا'], [0.5, 0.85, 0.45, 0.15, 'w', 0, 'أنا بعد ساعة']] },
+    { id: 'pooh', ar: 'ويني الشيك', en: 'Tuxedo Pooh', w: 900, h: 540, f: [[0.5, 0, 0.5, 0.5, 'k', 0, 'أخلص بدري'], [0.5, 0.5, 0.5, 0.5, 'k', 0, 'أخلص آخر دقيقة بالدعاء']] },
+    { id: 'gru', ar: 'خطة جرو', en: "Gru's plan", w: 800, h: 512, f: [[0.275, 0.2, 0.2075, 0.2, 'k', 0, 'أقرر أبدأ'], [0.78, 0.2, 0.205, 0.2, 'k', 0, 'أفتح الشغل'], [0.28, 0.7, 0.205, 0.2, 'k', 0, 'أنام'], [0.78, 0.7, 0.205, 0.2, 'k', 0, 'أصحى مصدوم']] },
+    { id: 'cmm', ar: 'غيّر رأيي', en: 'Change my mind', w: 800, h: 636, f: [[0.38, 0.45, 0.4, 0.2, 'k', 14, 'النوم بدري أحسن من السهر']] }
   ];
   var cache = {};
   function loadImg(t) {
@@ -52,16 +52,16 @@
     c.restore();
   }
   function L(ar) { return ar ? {
-    title: 'ميمز الكلية', sub: 'اختار قالب مشهور، اكتب كلامك، ونزّل الميم أو شاركه. كله على موبايلك، من غير تسجيل.',
+    title: 'ميمز', sub: 'اختار قالب مشهور، اكتب كلامك، ونزّل الميم أو شاركه. كله على موبايلك، من غير تسجيل.',
     pick: 'القوالب', field: 'النص', dl: 'نزّل الصورة', sh: 'شارك', note: 'لو الشير مش متاح عندك بتتنزل الصورة وتشاركها يدوي.'
   } : {
-    title: 'College memes', sub: 'Pick a famous template, write your text, then download or share. It all runs on your phone, no sign-up.',
+    title: 'Memes', sub: 'Pick a famous template, write your text, then download or share. It all runs on your phone, no sign-up.',
     pick: 'Templates', field: 'Text', dl: 'Download image', sh: 'Share', note: 'If sharing is not available on your device, the image downloads so you can share it yourself.'
   }; }
 
   function render(root) {
-    var ar = document.documentElement.lang !== 'en', s = L(ar), cur = T[0], curImg = null, raf = 0;
-    root.innerHTML = '<div class="pf-pagehead"><div class="pf-eyebrow">MEMES</div><h2 class="pf-h2">' + s.title + '</h2></div><p class="pf-para">' + s.sub + '</p>' +
+    var ar = document.documentElement.lang !== 'en', s = L(ar), mc = ((window.pfGamesCfg || {}).memes || {}), TT = T.filter(function (t) { return (mc.off || []).indexOf(t.id) < 0; }), cur = TT[0], curImg = null, raf = 0;
+    root.innerHTML = '<a class="pf-g-exit" href="#/fun">' + (ar ? '✕ خروج' : '✕ Exit') + '</a><div class="pf-pagehead"><div class="pf-eyebrow">MEMES</div><h2 class="pf-h2">' + s.title + '</h2></div><p class="pf-para">' + s.sub + '</p>' +
       '<div class="pf-mm-prev"><canvas id="pf-mm-c" width="' + CW + '" height="800" aria-label="meme"></canvas></div>' +
       '<h3 class="pf-h3">' + s.pick + '</h3><div class="pf-mm-list" id="pf-mm-list"></div>' +
       '<div id="pf-mm-fields"></div>' +
@@ -78,7 +78,7 @@
       var sz = size(t); cv.height = sz.H; paint(ctx, t, null, vals());
       loadImg(t).then(function (im) { if (cur === t) { curImg = im; sched(); } });
     }
-    T.forEach(function (t, i) {
+    TT.forEach(function (t, i) {
       var b = document.createElement('button'); b.type = 'button'; b.className = 'pf-mm-th';
       var im = document.createElement('img'); im.src = 'memes/t-' + t.id + '.webp'; im.alt = ''; im.loading = 'lazy'; im.width = 80; im.height = 80; b.appendChild(im);
       var sp = document.createElement('span'); sp.textContent = ar ? t.ar : t.en; b.appendChild(sp);
