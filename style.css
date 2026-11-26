@@ -1824,3 +1824,6 @@ html[data-theme="dark"] body.pf-acad-world .pf-ep-s, html[data-theme="dark"] bod
 .pf-ep.pf-ep-lock { opacity: .55; cursor: not-allowed; border-style: dashed; }
 .pf-ep.pf-ep-lock .pf-ep-s { color: #f59e0b; font-weight: 700; }
 .pf-exam { margin-top: 10px; }
+
+.pf-lock-toast { position: fixed; left: 50%; bottom: 150px; transform: translate(-50%, 12px); max-width: calc(100vw - 32px); z-index: 85; background: rgb(14 22 38 / .96); color: #eef2ff; font: 600 13px/1.6 var(--ds-font-text); padding: 10px 16px; border-radius: 16px; border: 1px solid rgb(245 158 11 / .55); box-shadow: 0 10px 30px rgb(0 0 0 / .35); text-align: center; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; }
+.pf-lock-toast.on { opacity: 1; transform: translate(-50%, 0); }

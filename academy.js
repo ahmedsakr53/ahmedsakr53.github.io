@@ -120,6 +120,13 @@
     } else { setTimeout(function () { unlockNext(tr, i); }, NEED * 1000); }
   }
 
+  var lockT = null;
+  function lockMsg(msg) {
+    var t = document.getElementById('pf-lock-toast');
+    if (!t) { t = document.createElement('div'); t.id = 'pf-lock-toast'; t.className = 'pf-lock-toast'; t.setAttribute('role', 'status'); document.body.appendChild(t); }
+    t.textContent = msg; t.classList.add('on'); clearTimeout(lockT);
+    lockT = setTimeout(function () { t.classList.remove('on'); }, 3200);
+  }
   function wire(ar, route, rerender) {
     ARL = !!ar;
     var parts = route.split('/'), tr = parts[2] ? find(parts[2]) : null;
@@ -130,7 +137,14 @@
       if (x.yt) { box.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(x.yt) + '?autoplay=1&rel=0" title="Episode" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>'; track(tr, SEL, null); }
       else if (x.mp4) { box.style.cssText = 'aspect-ratio:9/16;max-height:78vh;width:min(100%,400px);margin:14px auto'; box.innerHTML = '<video src="' + x.mp4.replace(/"/g, '') + '" controls autoplay playsinline preload="none"></video>'; track(tr, SEL, box.querySelector('video')); }
     });
-    document.querySelectorAll('.pf-ep[data-i]').forEach(function (li) {
+    document.querySelectorAll('.pf-ep.pf-ep-lock').forEach(function (li) {
+      li.addEventListener('click', function () {
+        lockMsg(li.classList.contains('pf-exam')
+          ? (ar ? '\u0644\u0627\u0632\u0645 \u062a\u0634\u0627\u0647\u062f \u0627\u0644\u062d\u0644\u0642\u0627\u062a \u0627\u0644\u0639\u0634\u0631 \u0627\u0644\u0623\u0648\u0644 \u0639\u0634\u0627\u0646 \u064a\u0641\u062a\u062d \u0627\u0644\u0627\u062e\u062a\u0628\u0627\u0631.' : 'Watch all 10 episodes first to unlock the exam.')
+          : (ar ? '\u0644\u0627\u0632\u0645 \u062a\u0634\u0627\u0647\u062f \u0627\u0644\u062d\u0644\u0642\u0627\u062a \u0627\u0644\u0633\u0627\u0628\u0642\u0629 \u0627\u0644\u0623\u0648\u0644 \u0639\u0634\u0627\u0646 \u062a\u0641\u062a\u062d \u0627\u0644\u062d\u0644\u0642\u0629 \u062f\u064a.' : 'Watch the previous episodes first to unlock this one.'));
+      });
+    });
+    document.querySelectorAll('.pf-ep[data-i]:not(.pf-ep-lock)').forEach(function (li) {
       function pick() { SEL = +li.dataset.i; rerender(); }
       li.addEventListener('click', pick);
       li.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } });
