@@ -1051,9 +1051,131 @@ function safeKV(kv) {
   };
 }
 
+// ===== Sakr Academy exam (server-side grading). The answer key never leaves the worker. =====
+// [episode, difficulty 1-4, question, [correct, wrong, wrong, wrong]]. 20 are drawn (2 per episode), sorted easy -> hard.
+const EXAM_BANK = {
+  cyber: [
+    [1, 1, 'إيه التلات حاجات الأساسية اللي الأمن السيبراني بيحميها؟', ['السرية والسلامة والإتاحة', 'السرعة والسعر والشكل', 'الفيروسات والهكرز والتحديثات', 'كلمة السر والبصمة والكود']],
+    [1, 1, 'ليه حسابك يهم الهكر حتى لو مفيهوش فلوس؟', ['ممكن يستخدمه عشان ينصب على أصحابك', 'عشان يمسح صورك بس', 'مفيش سبب، الحسابات الصغيرة متهمهمش', 'عشان يزود متابعينه']],
+    [1, 2, 'جالك اتصال من "البنك" بيقولك: قولّي الكود اللي وصلك على موبايلك. تعمل إيه؟', ['تقفل وتتأكد من البنك بنفسك؛ البنك مبيطلبش الكود أبداً', 'تديله الكود بعد ما يقولك اسمه', 'تديله نص الكود بس', 'تديله الكود لو الرقم شبه رقم البنك']],
+    [2, 1, 'برنامج التخمين بيجرب كام كلمة سر في الثانية؟', ['ملايين الكلمات', 'كلمة واحدة', 'عشر كلمات', 'مئة كلمة']],
+    [2, 1, 'أي كلمة سر من دول هي الأصعب في التخمين؟', ['بحب أمي وقهوة الصبح', '123456', 'P@ssw0rd', 'Ahmed2006']],
+    [2, 2, 'ليه تبديل حرف برمز زي P@ssw0rd مش بيحميك كفاية؟', ['لأن الهكر عارف الحيلة دي من زمان وبيجربها', 'لأن المواقع مبتقبلش رموز', 'لأن الرموز بتبطّئ الموقع', 'لأن كلمة السر بتبقى أقصر']],
+    [3, 1, 'إيه اللي بيخلي فخ التصيد يشتغل على الناس؟', ['الاستعجال والخوف بيمنعوك تفكر', 'الهكر بيكسر الموبايل', 'الناس مبتستخدمش النت', 'الفخ بيشتغل بس على الأجهزة القديمة']],
+    [3, 1, 'أهم حاجة تبص عليها في أي لينك قبل ما تدوس؟', ['اللي قبل أول سلاش، لأنه اسم صاحب الموقع الحقيقي', 'طول اللينك', 'لون الصفحة', 'لو فيه كلمة login']],
+    [3, 2, 'أي لينك من دول هو فعلاً موقع فيسبوك الحقيقي؟', ['facebook.com/login', 'facebook.login.evil.example', 'faceb00k.com/login', 'facebook.com.secure-update.example']],
+    [4, 2, 'إيه العاملين اللي بيتطلبوا في التحقق بخطوتين؟', ['حاجة انت تعرفها (كلمة السر) وحاجة معاك (موبايلك)', 'كلمتين سر مختلفتين', 'اسمك وتاريخ ميلادك', 'إيميلين مختلفين']],
+    [4, 3, 'جاتلك رسالة "حد بيحاول يدخل حسابك، موافق؟" وانت مش بتدخل. تعمل إيه؟', ['تضغط "لأ" وتغيّر كلمة السر فوراً', 'توافق عشان الإشعار يختفي', 'تتجاهل الرسالة من غير ما تغيّر حاجة', 'تقفل الموبايل وتستنى']],
+    [4, 4, 'أي طريقة مفيهاش حاجة تتكتب أصلاً، فبتمنع التصيد حتى لو دخلت صفحة مزيفة؟', ['مفاتيح المرور (بصمة أو وش)', 'كود الرسالة النصية', 'كلمة سر أطول', 'سؤال الأمان']],
+    [5, 2, 'إيه هي حيلة "التوأم الشرير" في الواي فاي العام؟', ['شبكة مزيفة بنفس اسم شبكة الكافيه عشان الهكر يسمع اللي بتبعته', 'الراوتر بيبقى اتنين في الكافيه', 'الواي فاي بيتقطع عشان تدفع', 'برنامج بيزود سرعة النت']],
+    [5, 3, 'الشبكة المفتوحة في المطار طلبت منك إيميلك وكلمة سر الإيميل عشان تتصل. تعمل إيه؟', ['تقفل وتمشي؛ الواي فاي عمره ما بيطلب كلمة سر إيميلك', 'تكتب الإيميل بس من غير كلمة السر', 'تكتب بيانات إيميل قديم', 'تكتب كلمة سر الإيميل لأن المطار مكان آمن']],
+    [5, 4, 'اتصلت بـ VPN على واي فاي عام، وبعدها كتبت كلمة السر في صفحة دخول مزيفة. الـ VPN حماك؟', ['لأ، الـ VPN بيحمي الطريق بس، مش من صفحة مزيفة بتكتب فيها كلمة السر', 'آه، لأن الاتصال كله بقى متشفر', 'آه، طالما الـ VPN شغال مفيش هكر يقدر يخدعك', 'لأ، لأن الـ VPN ضعيف على الواي فاي العام']],
+    [6, 2, 'برنامج الفدية (ransomware) بيعمل إيه؟', ['بيقفل ملفاتك بتشفير ويطلب فلوس عشان يفكها', 'بيسرق باسوردات المتصفح بس', 'بيراقب موبايلك بصمت', 'بيبطّئ الجهاز لحد ما تحدّثه']],
+    [6, 3, 'لقيت "كراك مجاني" لبرنامج غالي. إيه أصح تصرف؟', ['متنزّلوش؛ ممكن يبقى فدية وانت اللي بتدفع بملفاتك', 'تنزله وتشغّل برنامج الحماية بعد التثبيت', 'تنزله بس تفصل النت وانت بتثبته', 'تنزله لو التعليقات تحته حلوة']],
+    [6, 4, 'ليه النسخة الاحتياطية لوحدها مش بتحل مشكلة الابتزاز المزدوج؟', ['لأنها بترجّع ملفاتك بس، والهكر لسه معاه نسخة ويهدد بنشرها', 'لأن النسخة الاحتياطية بتتشفر دايماً', 'لأن الهكر بيمسح النسخة الاحتياطية دايماً', 'لأن النسخة الاحتياطية بتبطّئ الجهاز']],
+    [7, 2, 'اختطاف الشريحة (SIM swap) معناه إيه؟', ['الهكر يقنع الشركة تنقل رقمك لشريحته', 'الشريحة بتتحرق من الحرارة', 'الشريحة بتتكسر', 'الهكر بيسرق الموبايل نفسه']],
+    [7, 3, 'موبايلك فجأة بقى "لا توجد خدمة" رغم إن التغطية كويسة. أول تصرف؟', ['تتصل بشركتك وتتأكد إن الرقم لسه معاك', 'تستنى للصبح', 'تفصل البطارية وتشغّله تاني وخلاص', 'تنزّل تطبيق تقوية الإشارة']],
+    [7, 4, 'أنهي خطوة تخلّي سرقة رقمك (SIM swap) متفتحش حساباتك المهمة؟', ['تفعيل تطبيق المصادقة بدل الرسائل النصية', 'إخفاء رقمك من فيسبوك بس', 'تغيير الرقم كل شهر', 'كلمة سر أطول مع رسالة نصية']],
+    [8, 2, 'إيه اللي بيتخبّى جوه أي صورة بتتصورها بموبايلك غالباً؟', ['بيانات وصفية زي المكان والتاريخ ونوع الجهاز', 'اسمك وكلمة سرك', 'رقم بطاقتك', 'مفيش حاجة، الصورة صورة بس']],
+    [8, 3, 'إيه بكسل التتبع اللي في الإيميلات التسويقية؟', ['صورة غير مرئية بتعرّف المرسل إنك فتحت الرسالة ومتى وفين تقريباً', 'فيروس بيتحمل مع المرفقات', 'إعلان صغير بيظهر فوق الرسالة', 'علامة إن الرسالة وصلت من بنك']],
+    [8, 4, 'عايز تنشر صور رحلتك من المطار. إيه التصرف الأحسن؟', ['تنشر بعد ما ترجع، وتشيل بيانات الموقع من الصورة أو تقفل تسجيل الموقع في الكاميرا', 'تنشر لحظياً مع الموقع الحي عشان أصحابك يعرفوا', 'تنشر لحظياً بس تخفي اسم المطار من الكلام', 'تنشر صورة تذكرة السفر بس تغطي الاسم']],
+    [9, 2, 'أول حاجة الهكر بيعملها قبل الهجوم غالباً؟', ['يجمع معلومات عنك من مصادر عامة', 'يكسر الإنترنت', 'يبعتلك فيروس فوراً', 'يتصل بيك ويطلب الباسورد']],
+    [9, 3, 'ليه الهكر غالباً بيستهدفك انت بدل ما يكسر نظام الشركة؟', ['لأن الإنسان أضعف حلقة، وخداعه أسهل من كسر النظام', 'لأن الأنظمة مفيهاش حماية أصلاً', 'لأن الشركات مبتتخترقش', 'لأن الخداع أغلى من الكسر']],
+    [9, 4, 'باسورد قديم ليك اتسرّب من موقع، وكنت مستخدمه في مواقع تانية. إيه الأنسب؟', ['تغيّره في كل موقع استخدمته فيه وتفعّل التحقق بخطوتين', 'تغيّره في الموقع اللي اتسرّب منه بس', 'تفعّل التحقق بخطوتين في الموقع اللي اتسرّب بس', 'تستنى لو حصل حاجة غريبة']],
+    [10, 2, 'ثغرة "زيرو داي" (zero-day) معناها إيه؟', ['ثغرة لسه مفيش ليها تصليح من الشركة', 'ثغرة بتتصلح في يوم واحد', 'فيروس بيشتغل الساعة 12 بالليل', 'تحديث بيتنزل يوم الأحد']],
+    [10, 3, 'وصلتك رسالة من "مديرك" بتطلب تحويل فلوس بسرعة وبسرية. الصح؟', ['تتأكد منه بقناة تانية معروفة قبل أي تحويل', 'تحوّل بسرعة لأنه المدير', 'ترد على نفس الرسالة تسأل لو ده هو', 'تحوّل نص المبلغ الأول']],
+    [10, 4, 'اتصل بيك "دعم فني" وعارف اسمك وآخر 4 أرقام من كارتك، وطلب الكود اللي وصلك. معرفته بالبيانات دي بتثبت إنه حقيقي؟', ['لأ، البيانات دي بتتجمّع من تسريبات ومصادر عامة، والكود مبيتطلبش أبداً', 'آه، لأنه عارف بياناتك', 'آه لو الرقم شبه رقم البنك', 'لأ، بس لو طلب كلمة السر كاملة']],
+  ],
+};
+const EXAM_TOTAL = 20, EXAM_PASS = 14, EXAM_TTL = 90 * 60000;
+const EXAM_TRACKS = { cyber: { code: 'CYB', eps: 10 } };
+const memExamRate = {};
+
+function b64u(s) { return btoa(unescape(encodeURIComponent(s))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
+function unb64u(s) { return decodeURIComponent(escape(atob(s.replace(/-/g, '+').replace(/_/g, '/')))); }
+function examKey(env) { return env.ADMIN_PASSWORD + ':exammac'; }
+function shuffled(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = crypto.getRandomValues(new Uint32Array(1))[0] % (i + 1); const t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+function examCors(origin, extra) { return Object.assign({ 'cache-control': 'no-store' }, corsHeaders(origin), extra || {}); }
+function examJson(o, origin, status) { return new Response(JSON.stringify(o), { status: status || 200, headers: examCors(origin, { 'content-type': 'application/json; charset=utf-8' }) }); }
+
+async function handleExamStart(request, env, origin) {
+  const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+  const now = Date.now();
+  const r = memExamRate[ip] = (memExamRate[ip] || []).filter((t) => now - t < 3600000);
+  if (r.length >= 20) return examJson({ ok: false, err: 'rate' }, origin, 429);
+  r.push(now);
+  const bank = EXAM_BANK.cyber;
+  let picked = [];
+  for (let ep = 1; ep <= EXAM_TRACKS.cyber.eps; ep++) {
+    const ids = [];
+    bank.forEach((q, i) => { if (q[0] === ep) ids.push(i); });
+    picked = picked.concat(shuffled(ids).slice(0, 2));
+  }
+  picked.sort((a, b) => (bank[a][1] - bank[b][1]) || (bank[a][0] - bank[b][0]) || (a - b));
+  const items = picked.map((id) => ({ id, perm: shuffled([0, 1, 2, 3]) }));
+  const nonce = Array.from(crypto.getRandomValues(new Uint8Array(9))).map((b) => b.toString(16).padStart(2, '0')).join('');
+  const payload = b64u(JSON.stringify({ n: nonce, t: 'cyber', x: now + EXAM_TTL, q: items.map((i) => [i.id, i.perm.join('')]) }));
+  const sig = await hmacHex(examKey(env), payload);
+  const questions = items.map((it) => ({ q: bank[it.id][2], o: it.perm.map((k) => bank[it.id][3][k]) }));
+  return examJson({ ok: true, token: payload + '.' + sig, total: EXAM_TOTAL, pass: EXAM_PASS, questions }, origin);
+}
+
+function cleanName(s, ar) {
+  s = String(s || '').replace(/\s+/g, ' ').trim();
+  if (s.length < 2 || s.length > 60) return '';
+  const re = ar ? /^[\u0600-\u06FF\u0750-\u077F ]+$/ : /^[A-Za-z][A-Za-z .'\-]*$/;
+  return re.test(s) ? s : '';
+}
+
+async function handleExamSubmit(request, env, origin) {
+  let b; try { b = await request.json(); } catch (e) { return examJson({ ok: false, err: 'bad' }, origin, 400); }
+  const nameAr = cleanName(b.nameAr, true), nameEn = cleanName(b.nameEn, false);
+  if (!nameAr || !nameEn) return examJson({ ok: false, err: 'name' }, origin, 400);
+  const tok = String(b.token || '').split('.');
+  if (tok.length !== 2 || (await hmacHex(examKey(env), tok[0])) !== tok[1]) return examJson({ ok: false, err: 'token' }, origin, 400);
+  let p; try { p = JSON.parse(unb64u(tok[0])); } catch (e) { return examJson({ ok: false, err: 'token' }, origin, 400); }
+  if (!p || Date.now() > p.x) return examJson({ ok: false, err: 'expired' }, origin, 400);
+  const ans = b.answers;
+  if (!Array.isArray(ans) || ans.length !== EXAM_TOTAL) return examJson({ ok: false, err: 'bad' }, origin, 400);
+  const raw = env.RAW_KV;
+  if (await env.SAQR_CHATS.get('examused:' + p.n)) return examJson({ ok: false, err: 'used' }, origin, 409);
+  let score = 0; const wrong = [];
+  p.q.forEach((it, i) => {
+    const a = ans[i];
+    if (typeof a === 'number' && a >= 0 && a <= 3 && it[1][a] === '0') score++; else wrong.push(i);
+  });
+  const pass = score >= EXAM_PASS;
+  if (!pass) {
+    await env.SAQR_CHATS.put('examused:' + p.n, '1', { expirationTtl: 7200 });
+    return examJson({ ok: true, pass: false, score, total: EXAM_TOTAL, wrong }, origin);
+  }
+  try {
+    const seq = parseInt((await raw.get('cert:seq')) || '0', 10) + 1;
+    const date = cairoDay();
+    const id = 'SA-CYB-' + date.slice(0, 4) + '-' + String(seq).padStart(6, '0');
+    await raw.put('cert:' + id, JSON.stringify({ a: nameAr, e: nameEn, t: 'cyber', d: date, s: score }));
+    await raw.put('cert:seq', String(seq));
+    await raw.put('examused:' + p.n, '1', { expirationTtl: 7200 });
+    return examJson({ ok: true, pass: true, score, total: EXAM_TOTAL, id, date, nameAr, nameEn }, origin);
+  } catch (e) {
+    console.log('cert issue failed', String(e && e.message || e).slice(0, 120));
+    return examJson({ ok: false, err: 'busy' }, origin, 503);
+  }
+}
+
+async function handleVerify(url, env, origin) {
+  const id = String(url.searchParams.get('id') || '').trim().toUpperCase();
+  if (!/^SA-CYB-\d{4}-\d{6}$/.test(id)) return examJson({ ok: true, valid: false }, origin);
+  const v = await env.SAQR_CHATS.get('cert:' + id);
+  if (!v) return examJson({ ok: true, valid: false }, origin);
+  let r; try { r = JSON.parse(v); } catch (e) { return examJson({ ok: true, valid: false }, origin); }
+  return examJson({ ok: true, valid: true, id, nameAr: r.a, nameEn: r.e, track: r.t, date: r.d, score: r.s, total: EXAM_TOTAL }, origin);
+}
+// ===== end exam =====
+
 export default {
   async fetch(request, env0, ctx) {
-    const env = Object.assign({}, env0, { SAQR_CHATS: safeKV(env0.SAQR_CHATS) });
+    const env = Object.assign({}, env0, { SAQR_CHATS: safeKV(env0.SAQR_CHATS), RAW_KV: env0.SAQR_CHATS });
     const url = new URL(request.url);
     const origin = request.headers.get('Origin') || '';
 
@@ -1061,6 +1183,9 @@ export default {
       return new Response(null, { status: 204, headers: corsHeaders(origin) });
     }
     if (url.pathname === '/chat/status') return handleStatus(env, origin);
+    if (url.pathname === '/exam/start' && (request.method === 'POST' || request.method === 'GET')) return handleExamStart(request, env, origin);
+    if (url.pathname === '/exam/submit' && request.method === 'POST') return handleExamSubmit(request, env, origin);
+    if (url.pathname === '/verify' && request.method === 'GET') return handleVerify(url, env, origin);
     if (url.pathname === '/academy/config' && request.method === 'GET') return handleAcademyPublic(env, origin);
     if (url.pathname === '/live' && request.method === 'GET') {
       const nowMs = Date.now();

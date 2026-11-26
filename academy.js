@@ -58,6 +58,21 @@
   function visible(t) { return !(CFG && CFG.tracks && CFG.tracks[t.id] && CFG.tracks[t.id].visible === false); }
   function liveList(t) { var a = []; for (var i = 0; i < t.eps.length; i++) { var e = ep(t.id, i); if (!e.hidden && e.live) a.push(i); } return a; }
 
+  function examReady(tid) { var a = prog(tid); for (var i = 0; i < 10; i++) if (a.indexOf(i) === -1) return false; return true; }
+  function examRow(tr, ar, esc) {
+    var ok = tr.id === 'cyber' && examReady(tr.id);
+    return '<div class="pf-ep pf-exam ' + (ok ? 'pf-ep-on' : 'pf-ep-lock') + '"' + (ok ? ' id="pf-exam-open" tabindex="0" role="button"' : ' aria-disabled="true"') + '><span class="pf-ep-n">🎓</span><span class="pf-ep-t">' + esc(ar ? 'الاختبار والشهادة' : 'Exam and certificate') + '</span><span class="pf-ep-s">' + esc(ok ? (ar ? 'ابدأ' : 'Start') : (ar ? '🔒 بعد الحلقات العشر' : '🔒 After all 10 episodes')) + '</span></div>';
+  }
+  function openExam(ar) {
+    var box = document.getElementById('pf-exam-box'); if (!box) return;
+    if (!box.hidden) { box.hidden = true; return; }
+    box.hidden = false; box.innerHTML = '<p class="pf-ex-p">' + (ar ? 'لحظة...' : 'One moment...') + '</p>';
+    var go = function () { window.pfExam.open(box, ar); box.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+    if (window.pfExam) return go();
+    var sc = document.createElement('script'); sc.src = 'academy-exam.js?v=1'; sc.onload = go; sc.onerror = function () { box.textContent = ar ? 'مش قادرين نحمّل الاختبار. جرّب تاني.' : 'Could not load the exam. Try again.'; };
+    document.head.appendChild(sc);
+  }
+
   function render(route, ar, h, cfg) {
     CFG = cfg || null;
     var esc = h.esc, icon = h.icon;
@@ -98,12 +113,13 @@
       h.pageHead(n(10, ar) + (ar ? ' حلقات' : ' EPISODES'), ar ? tr.ar : tr.en) +
       '<p class="pf-para">' + esc(ar ? tr.dAr : tr.dEn) + '</p>' + player +
       '<ol class="pf-eps">' + rows + '</ol>' +
-      '<div class="pf-ep pf-ep-lock pf-exam" aria-disabled="true"><span class="pf-ep-n">🎓</span><span class="pf-ep-t">' + esc(ar ? 'الاختبار والشهادة' : 'Exam and certificate') + '</span><span class="pf-ep-s">' + esc(ar ? '🔒 بعد الحلقات العشر' : '🔒 After all 10 episodes') + '</span></div>' +
+      examRow(tr, ar, esc) + '<div class="pf-exam-box" id="pf-exam-box" hidden></div>' +
       '<p class="pf-acad-note">' + esc(ar ? 'كل حلقة بتتفتح بعد ما تتفرج على دقيقة من اللي قبلها، والاختبار بيتفتح بعد العشر حلقات.' : 'Each episode unlocks after you watch one minute of the previous one. The exam opens after all 10.') + '</p>';
   }
 
   function unlockNext(tr, i) {
     mark(tr.id, i);
+    if (tr.id === 'cyber' && examReady('cyber')) { var er = document.querySelector('.pf-exam.pf-ep-lock'); if (er) { er.classList.remove('pf-ep-lock'); er.classList.add('pf-ep-on'); er.removeAttribute('aria-disabled'); er.id = 'pf-exam-open'; er.setAttribute('tabindex', '0'); er.setAttribute('role', 'button'); var es = er.querySelector('.pf-ep-s'); if (es) es.textContent = ARL === false ? 'Start' : '\u0627\u0628\u062f\u0623'; er.addEventListener('click', function () { openExam(ARL !== false); }); } }
     var cur = document.querySelector('.pf-ep[data-i="' + i + '"] .pf-ep-s'); if (cur && cur.textContent.indexOf('🔒') === -1) cur.textContent = (ARL === false ? '\u2713 Done' : '\u2713 \u062a\u0645\u062a');
     var nx = document.querySelector('.pf-ep[data-i="' + (i + 1) + '"]');
     if (nx && nx.classList.contains('pf-ep-lock')) {
@@ -137,6 +153,8 @@
       if (x.yt) { box.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(x.yt) + '?autoplay=1&rel=0" title="Episode" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>'; track(tr, SEL, null); }
       else if (x.mp4) { box.style.cssText = 'aspect-ratio:9/16;max-height:78vh;width:min(100%,400px);margin:14px auto'; box.innerHTML = '<video src="' + x.mp4.replace(/"/g, '') + '" controls autoplay playsinline preload="none"></video>'; track(tr, SEL, box.querySelector('video')); }
     });
+    var eo = document.getElementById('pf-exam-open');
+    if (eo) { eo.addEventListener('click', function () { openExam(ar); }); eo.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openExam(ar); } }); }
     document.querySelectorAll('.pf-ep.pf-ep-lock').forEach(function (li) {
       li.addEventListener('click', function () {
         lockMsg(li.classList.contains('pf-exam')
