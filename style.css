@@ -1335,6 +1335,11 @@ html[data-theme="dark"] .pf-checkup-banner {
 }
 html[data-theme="dark"] .pf-checkup-banner .pf-icon { fill: #fbbf24; }
 
+.pf-fun-banner { background: linear-gradient(135deg, rgb(57 255 20 / 0.16), rgb(0 229 255 / 0.14)); border-color: #39ff14; color: #0b5a12; box-shadow: 0 0 14px rgb(57 255 20 / 0.45); }
+.pf-fun-banner .pf-icon { fill: #19c900; filter: drop-shadow(0 0 4px rgb(57 255 20 / 0.8)); }
+.pf-fun-banner:hover { box-shadow: 0 0 22px rgb(57 255 20 / 0.7); }
+html[data-theme="dark"] .pf-fun-banner { background: linear-gradient(135deg, rgb(57 255 20 / 0.14), rgb(0 229 255 / 0.12)); border-color: #39ff14; color: #b6ffa8; }
+html[data-theme="dark"] .pf-fun-banner .pf-icon { fill: #39ff14; }
 /* Free checkup service card */
 .pf-card-free {
     border-color: rgb(251 191 36 / 0.55) !important;
