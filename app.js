@@ -1088,7 +1088,9 @@
     function setOpen(o) { sheet.hidden = !o; btn.setAttribute('aria-expanded', o ? 'true' : 'false'); document.body.classList.toggle('pf-sheet-open', o); }
     btn.addEventListener('click', function () { setOpen(sheet.hidden); });
     sheet.addEventListener('click', function (e) { if (e.target.closest('[data-close]') || e.target.closest('a')) setOpen(false); });
-    document.addEventListener('keydown', function esc2(e) { if (!document.getElementById('pf-sheet')) { document.removeEventListener('keydown', esc2); return; } if (e.key === 'Escape') setOpen(false); });
+    if (window.pfSheetEsc) document.removeEventListener('keydown', window.pfSheetEsc);
+    window.pfSheetEsc = function (e) { if (e.key === 'Escape') setOpen(false); };
+    document.addEventListener('keydown', window.pfSheetEsc);
   }
 
   var acadCfg;
