@@ -1001,6 +1001,8 @@
       if (eg.length) pool = eg;
       var nice = pool.filter(function (x) { return /google|natural|neural|online|premium|wavenet|microsoft/i.test(x.name) && !/espeak|mbrola|pico|festival/i.test(x.name); });
       if (nice.length) pool = nice;
+      var g = pool.filter(function (x) { return /google/i.test(x.name); });
+      if (g.length) pool = g;
     }
     return pool[0];
   }
@@ -1113,22 +1115,64 @@
     if (fab) fab.classList.toggle('pf-saqr-speaking', !!on);
   }
 
+  var saqrSpeakKA = null;
+  function saqrSpeakKeepAlive(on) {
+    clearInterval(saqrSpeakKA); saqrSpeakKA = null;
+    if (on) {
+      // Chrome network voices stall mid-utterance on long text; periodic pause/resume keeps them flowing.
+      saqrSpeakKA = setInterval(function () {
+        try { if (window.speechSynthesis.speaking) { window.speechSynthesis.pause(); window.speechSynthesis.resume(); } } catch (e) {}
+      }, 10000);
+    }
+  }
+
+  function saqrSpeechChunks(s) {
+    // Sentence-sized chunks: browsers stutter/clip long single utterances; short queued ones flow naturally.
+    var parts = s.match(/[^؟?!.…\n]+[؟?!.…]*\s*/g) || [s];
+    var out = [], buf = '';
+    for (var i = 0; i < parts.length; i++) {
+      var p = parts[i];
+      if (buf && (buf + p).length > 170) { out.push(buf.trim()); buf = p; }
+      else buf += p;
+    }
+    if (buf.trim()) out.push(buf.trim());
+    return out.length ? out : [s];
+  }
+
   function saqrSpeak(text, lg, ondone) {
     if (saqrVoice.muted || !('speechSynthesis' in window)) { if (ondone) ondone(); return; }
     try {
       var spoken = saqrCleanForSpeech(text);
       if (!spoken) { if (ondone) ondone(); return; }
       window.speechSynthesis.cancel();
-      var u = new SpeechSynthesisUtterance(spoken);
-      u.lang = lg === 'ar' ? 'ar-EG' : 'en-US';
+      var chunks = saqrSpeechChunks(spoken);
       var v = saqrPickVoice(lg);
-      if (v) u.voice = v;
-      u.rate = 0.98;
-      u.onstart = function () { saqrSetSpeaking(true); };
-      u.onend = function () { saqrSetSpeaking(false); if (ondone) ondone(); };
-      u.onerror = function () { saqrSetSpeaking(false); if (ondone) ondone(); };
-      window.speechSynthesis.speak(u);
-    } catch (e) {}
+      var idx = 0, finished = false;
+      function done() {
+        if (finished) return;
+        finished = true;
+        saqrSetSpeaking(false);
+        saqrSpeakKeepAlive(false);
+        if (ondone) ondone();
+      }
+      function next() {
+        if (finished) return;
+        if (idx >= chunks.length) { done(); return; }
+        var u = new SpeechSynthesisUtterance(chunks[idx++]);
+        u.lang = lg === 'ar' ? 'ar-EG' : 'en-US';
+        if (v) u.voice = v;
+        u.rate = 0.95;
+        u.pitch = 1.03;
+        u.volume = 1;
+        u.onstart = function () { saqrSetSpeaking(true); };
+        u.onend = function () { next(); };
+        u.onerror = function () { done(); };
+        window.speechSynthesis.speak(u);
+      }
+      saqrSpeakKeepAlive(true);
+      // Small delay after cancel(): Chrome can swallow the first utterance otherwise.
+      setTimeout(next, 60);
+    } catch (e) { if (ondone) ondone(); }
   }
 
   function saqrArmSilence() {
