@@ -1820,3 +1820,7 @@ html[data-theme="dark"] body.pf-acad-world .pf-ep-s, html[data-theme="dark"] bod
 .pf-update-toast { white-space: nowrap; width: max-content; max-width: calc(100vw - 24px); }
 
 .pf-update-x { background: none; border: none; color: #9fb0d0; font-size: 20px; line-height: 1; padding: 0 2px; cursor: pointer; }
+
+.pf-ep.pf-ep-lock { opacity: .55; cursor: not-allowed; border-style: dashed; }
+.pf-ep.pf-ep-lock .pf-ep-s { color: #f59e0b; font-weight: 700; }
+.pf-exam { margin-top: 10px; }

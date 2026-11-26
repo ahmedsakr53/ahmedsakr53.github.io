@@ -51,6 +51,10 @@
     var has = !!(e.yt || e.mp4);
     return { hidden: e.status === 'hidden', live: has && e.status !== 'soon', yt: e.yt || '', mp4: e.mp4 || '' };
   }
+  var NEED = 60, ARL = true;
+  function prog(tid) { try { return JSON.parse(localStorage.getItem('pf-acad-' + tid) || '[]'); } catch (e) { return []; } }
+  function mark(tid, i) { var a = prog(tid); if (a.indexOf(i) === -1) { a.push(i); try { localStorage.setItem('pf-acad-' + tid, JSON.stringify(a)); } catch (e) {} } return a; }
+  function unlocked(tid, i) { return i === 0 || prog(tid).indexOf(i - 1) !== -1; }
   function visible(t) { return !(CFG && CFG.tracks && CFG.tracks[t.id] && CFG.tracks[t.id].visible === false); }
   function liveList(t) { var a = []; for (var i = 0; i < t.eps.length; i++) { var e = ep(t.id, i); if (!e.hidden && e.live) a.push(i); } return a; }
 
@@ -75,13 +79,15 @@
         }).join('') + '</div>';
     }
     var lv = liveList(tr);
-    if (lv.indexOf(SEL) === -1) SEL = lv.length ? lv[0] : 0;
+    var okL = lv.filter(function (j) { return unlocked(tr.id, j); });
+    if (okL.indexOf(SEL) === -1) SEL = okL.length ? okL[0] : (lv.length ? lv[0] : 0);
     var rows = tr.eps.map(function (e, i) {
       var x = ep(tr.id, i);
       if (x.hidden) return '';
       var t = esc(ar ? e[0] : e[1]);
-      var st = esc(x.live ? (ar ? 'متاح' : 'Available') : (ar ? 'قريباً' : 'Soon'));
-      return '<li class="pf-ep' + (x.live ? ' pf-ep-on' : '') + (x.live && i === SEL ? ' pf-ep-sel' : '') + '"' + (x.live ? ' data-i="' + i + '" tabindex="0" role="button"' : '') + '><span class="pf-ep-n">' + n(i + 1, ar) + '</span>' +
+      var lk = x.live && !unlocked(tr.id, i), dn = prog(tr.id).indexOf(i) !== -1;
+      var st = esc(!x.live ? (ar ? 'قريباً' : 'Soon') : lk ? (ar ? '🔒 مقفولة' : '🔒 Locked') : dn ? (ar ? '✓ تمت' : '✓ Done') : (ar ? 'متاح' : 'Available'));
+      return '<li class="pf-ep' + (x.live && !lk ? ' pf-ep-on' : '') + (lk ? ' pf-ep-lock' : '') + (x.live && !lk && i === SEL ? ' pf-ep-sel' : '') + '"' + (x.live ? ' data-i="' + i + '"' + (lk ? ' aria-disabled="true"' : ' tabindex="0" role="button"') : '') + '><span class="pf-ep-n">' + n(i + 1, ar) + '</span>' +
         '<span class="pf-ep-t">' + t + '</span><span class="pf-ep-s">' + st + '</span></li>';
     }).join('');
     var player = lv.length
@@ -92,17 +98,37 @@
       h.pageHead(n(10, ar) + (ar ? ' حلقات' : ' EPISODES'), ar ? tr.ar : tr.en) +
       '<p class="pf-para">' + esc(ar ? tr.dAr : tr.dEn) + '</p>' + player +
       '<ol class="pf-eps">' + rows + '</ol>' +
-      '<p class="pf-acad-note">' + esc(ar ? 'الاختبار النهائي وشهادة الإتمام بيتفتحوا لما الحلقات تكمل.' : 'The final exam and certificate open once the episodes are out.') + '</p>';
+      '<div class="pf-ep pf-ep-lock pf-exam" aria-disabled="true"><span class="pf-ep-n">🎓</span><span class="pf-ep-t">' + esc(ar ? 'الاختبار والشهادة' : 'Exam and certificate') + '</span><span class="pf-ep-s">' + esc(ar ? '🔒 بعد الحلقات العشر' : '🔒 After all 10 episodes') + '</span></div>' +
+      '<p class="pf-acad-note">' + esc(ar ? 'كل حلقة بتتفتح بعد ما تتفرج على دقيقة من اللي قبلها، والاختبار بيتفتح بعد العشر حلقات.' : 'Each episode unlocks after you watch one minute of the previous one. The exam opens after all 10.') + '</p>';
+  }
+
+  function unlockNext(tr, i) {
+    mark(tr.id, i);
+    var cur = document.querySelector('.pf-ep[data-i="' + i + '"] .pf-ep-s'); if (cur && cur.textContent.indexOf('🔒') === -1) cur.textContent = (ARL === false ? '\u2713 Done' : '\u2713 \u062a\u0645\u062a');
+    var nx = document.querySelector('.pf-ep[data-i="' + (i + 1) + '"]');
+    if (nx && nx.classList.contains('pf-ep-lock')) {
+      nx.classList.remove('pf-ep-lock'); nx.classList.add('pf-ep-on'); nx.removeAttribute('aria-disabled'); nx.setAttribute('tabindex', '0'); nx.setAttribute('role', 'button');
+      var st = nx.querySelector('.pf-ep-s'); if (st) st.textContent = ARL === false ? 'Available' : '\u0645\u062a\u0627\u062d';
+      nx.addEventListener('click', function () { SEL = i + 1; location.reload(); });
+    }
+  }
+  function track(tr, i, v) {
+    var done = prog(tr.id).indexOf(i) !== -1; if (done) return;
+    if (v) {
+      var fin = function () { if (v.currentTime >= NEED || v.ended) { v.removeEventListener('timeupdate', fin); v.removeEventListener('ended', fin); unlockNext(tr, i); } };
+      v.addEventListener('timeupdate', fin); v.addEventListener('ended', fin);
+    } else { setTimeout(function () { unlockNext(tr, i); }, NEED * 1000); }
   }
 
   function wire(ar, route, rerender) {
+    ARL = !!ar;
     var parts = route.split('/'), tr = parts[2] ? find(parts[2]) : null;
     if (!tr) return;
     var b = document.getElementById('pf-player-btn'), box = document.getElementById('pf-player');
     if (b && box) b.addEventListener('click', function () {
       var x = ep(tr.id, SEL);
-      if (x.yt) box.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(x.yt) + '?autoplay=1&rel=0" title="Episode" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>';
-      else if (x.mp4) { box.style.cssText = 'aspect-ratio:9/16;max-height:78vh;width:min(100%,400px);margin:14px auto'; box.innerHTML = '<video src="' + x.mp4.replace(/"/g, '') + '" controls autoplay playsinline preload="none"></video>'; }
+      if (x.yt) { box.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(x.yt) + '?autoplay=1&rel=0" title="Episode" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>'; track(tr, SEL, null); }
+      else if (x.mp4) { box.style.cssText = 'aspect-ratio:9/16;max-height:78vh;width:min(100%,400px);margin:14px auto'; box.innerHTML = '<video src="' + x.mp4.replace(/"/g, '') + '" controls autoplay playsinline preload="none"></video>'; track(tr, SEL, box.querySelector('video')); }
     });
     document.querySelectorAll('.pf-ep[data-i]').forEach(function (li) {
       function pick() { SEL = +li.dataset.i; rerender(); }
