@@ -726,6 +726,12 @@
       '<div class="pf-pass-meter"><div class="pf-pass-fill" id="pf-pass-fill"></div></div>' +
       '<div class="pf-pass-label" id="pf-pass-label"></div>' +
       '<div class="pf-pass-tips" id="pf-pass-tips">' + esc(t.passTipsEmpty) + '</div></div>' +
+      '<h3 class="pf-h3">' + esc(lang === 'ar' ? 'افحص لينك مشكوك فيه' : 'Check a suspicious link') + '</h3>' +
+      '<div class="pf-card pf-pass-card">' +
+      '<div class="pf-card-detail">' + esc(lang === 'ar' ? 'جاتلك رسالة فيها لينك مش مطمّن له؟ الصقه هنا من غير ما تفتحه، وهنقولك الشكل فيه علامات نصب ولا لأ.' : 'Got a message with a link you do not trust? Paste it here without opening it and we will tell you if it shows scam signs.') + '</div>' +
+      '<input type="text" class="pf-pass-input" id="pf-link-input" dir="ltr" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://example.com/...">' +
+      '<button type="button" class="pf-btn pf-link-btn" id="pf-link-btn">' + esc(lang === 'ar' ? 'افحص اللينك' : 'Check link') + '</button>' +
+      '<div class="pf-score" id="pf-link-result" hidden></div></div>' +
       '<h3 class="pf-h3">' + esc(t.chkTitle) + '</h3>' +
       '<p class="pf-para">' + esc(t.chkNote) + '</p>' +
       '<div class="pf-grid">' + chk + '</div>' +
@@ -750,7 +756,99 @@
     return score;
   }
 
+
+  /* Suspicious-link checker: heuristic only, runs fully on the visitor's device. */
+  function linkCheck(raw, ar) {
+    var out = { score: 0, reasons: [], bad: false };
+    function add(pts, a, e) { out.score += pts; out.reasons.push(ar ? a : e); }
+    var input = String(raw || '').trim();
+    if (!input) { out.bad = true; return out; }
+    var hasScheme = /^[a-z][a-z0-9+.-]*:/i.test(input) && !/^[^\/]+:\d+(\/|$)/.test(input);
+    var u;
+    try { u = new URL(hasScheme ? input : 'https://' + input); } catch (e) { out.bad = true; return out; }
+    var proto = u.protocol.toLowerCase();
+    var host = u.hostname.toLowerCase().replace(/\.$/, '');
+    var full = (u.pathname + u.search).toLowerCase();
+    if (proto !== 'http:' && proto !== 'https:') {
+      add(3, 'اللينك مش لينك موقع عادي (بيبدأ بـ ' + proto + ') وده بيتستخدم أحياناً لتشغيل كود أو فتح حاجة غريبة.', 'This is not a normal web link (it starts with ' + proto + '), which can be used to run code or open something odd.');
+    } else if (proto === 'http:') {
+      add(1, 'مفيش HTTPS: الاتصال مش مشفّر، فأي بيانات تكتبها ممكن تتشاف.', 'No HTTPS: the connection is not encrypted, so anything you type could be seen.');
+    }
+    if (!hasScheme === false && proto === 'https:' ) { /* explicit https is fine */ }
+    var isIp = /^\d{1,3}(\.\d{1,3}){3}$/.test(host) || host.indexOf(':') !== -1 || /^0x[0-9a-f]+$/.test(host) || /^\d{8,10}$/.test(host);
+    if (isIp) add(2, 'اللينك بيستخدم رقم IP بدل اسم موقع، والمواقع الحقيقية نادراً بتعمل كده.', 'The link uses an IP address instead of a site name. Real sites rarely do this.');
+    if (u.username || u.password) add(2, 'فيه علامة @ أو بيانات قبل اسم الموقع، حيلة بتخلي اللينك يبان تبع موقع وهو رايح لموقع تاني.', 'It has an @ or credentials before the host, a trick that makes the link look like one site while going to another.');
+    if (/xn--/.test(host) || /[^\x00-\x7f]/.test(input.split('/')[2] || input)) add(2, 'الاسم فيه حروف مقلّدة (زي حروف من لغة تانية شبه الإنجليزي)، وده أسلوب شهير للتزييف.', 'The name has lookalike characters (letters from another alphabet that resemble English ones), a classic spoofing trick.');
+    var labels = host.split('.');
+    var twoPartTld = /\.(co|com|org|net|gov|edu|ac)\.[a-z]{2}$/.test(host);
+    var reg = isIp ? host : labels.slice(-(twoPartTld ? 3 : 2)).join('.');
+    var tld = labels[labels.length - 1];
+    if (!isIp) {
+      var badTld = ['zip','mov','xyz','top','tk','ml','ga','cf','gq','click','link','work','loan','country','support','icu','buzz','rest','cyou','monster','fit','cam','sbs'];
+      if (badTld.indexOf(tld) !== -1) add(1, 'الامتداد .' + tld + ' كتير بيتستخدم في مواقع النصب لأنه رخيص أو مجاني.', 'The ending .' + tld + ' is often used by scam sites because it is cheap or free.');
+      if (labels.length > (twoPartTld ? 5 : 4)) add(1, 'فيه نطاقات فرعية كتير قبل الاسم الأساسي، وده بيستخدم لتشتيت عينك عن الموقع الحقيقي.', 'There are many subdomains before the main name, used to distract you from the real site.');
+      var brands = ['paypal','google','facebook','instagram','whatsapp','microsoft','apple','amazon','netflix','vodafone','etisalat','orange','banquemisr','nbe','cib','fawry','binance','telegram','tiktok','youtube','cisco','github','gmail','outlook','icloud','steam'];
+      var regName = reg.split('.')[0];
+      var lookalike = false;
+      brands.forEach(function (b) {
+        if (host.indexOf(b) !== -1 && regName !== b) {
+          add(2, 'اسم "' + b + '" ظاهر في اللينك بس الموقع الحقيقي مش بتاعهم (النطاق الفعلي: ' + reg + ').', 'The name "' + b + '" appears in the link but the real site is not theirs (actual domain: ' + reg + ').');
+          lookalike = true;
+        }
+      });
+      if (!lookalike) {
+        var norm = regName.replace(/0/g, 'o').replace(/1/g, 'l').replace(/5/g, 's').replace(/rn/g, 'm').replace(/vv/g, 'w');
+        brands.forEach(function (b) {
+          if (norm !== regName && norm === b) add(2, 'الاسم "' + regName + '" شبه "' + b + '" بس مكتوب بأرقام أو حروف مبدّلة.', 'The name "' + regName + '" imitates "' + b + '" using swapped digits or letters.');
+        });
+      }
+      if ((host.match(/-/g) || []).length >= 3) add(1, 'اسم الموقع فيه شرطات كتير، وده شائع في المواقع المزيفة.', 'The site name has many hyphens, common on fake sites.');
+      var shorteners = ['bit.ly','tinyurl.com','t.co','goo.gl','is.gd','cutt.ly','ow.ly','rb.gy','shorturl.at','t.ly','buff.ly'];
+      if (shorteners.indexOf(reg) !== -1) add(1, 'ده لينك مختصر، مش هتعرف رايح فين قبل ما تفتحه.', 'This is a shortened link, so you cannot see where it goes before opening it.');
+    }
+    var words = ['login','signin','sign-in','verify','verification','secure','account','update','confirm','password','wallet','bank','gift','prize','free','claim','suspend','unlock','billing','payment','otp','recover'];
+    var hit = words.filter(function (w) { return (host + full).indexOf(w) !== -1; });
+    if (hit.length) add(hit.length >= 2 ? 2 : 1, 'فيه كلمات بتتكرر في رسائل النصب: ' + hit.slice(0, 4).join('، ') + '.', 'It contains words common in phishing messages: ' + hit.slice(0, 4).join(', ') + '.');
+    if (u.port && u.port !== '80' && u.port !== '443') add(1, 'بيستخدم بورت غريب (' + u.port + ').', 'It uses an unusual port (' + u.port + ').');
+    if (input.length > 120) add(1, 'اللينك طويل جداً، وده بيستخدم أحياناً لإخفاء الجزء المهم.', 'The link is very long, sometimes used to hide the important part.');
+    if (/(%[0-9a-f]{2}){4,}/i.test(input)) add(1, 'فيه رموز مشفّرة كتير جوه اللينك.', 'There are many encoded characters inside the link.');
+    out.host = host;
+    return out;
+  }
+
+  function wireLinkCheck(t) {
+    var ar = lang === 'ar';
+    var inp = document.getElementById('pf-link-input');
+    var btn = document.getElementById('pf-link-btn');
+    var box = document.getElementById('pf-link-result');
+    if (!inp || !btn || !box) return;
+    function run() {
+      var r = linkCheck(inp.value, ar);
+      box.hidden = false;
+      if (r.bad) {
+        box.className = 'pf-score pf-score-mid';
+        box.textContent = ar ? 'اكتب لينك صح عشان نفحصه (مثال: example.com/page).' : 'Enter a valid link to check (e.g. example.com/page).';
+        return;
+      }
+      var lvl = r.score === 0 ? 'good' : (r.score <= 2 ? 'mid' : 'bad');
+      var title = ar
+        ? (lvl === 'good' ? 'مفيش علامات خطر واضحة ✅' : (lvl === 'mid' ? 'مشبوه ⚠️ خد بالك' : 'غالباً خطر 🚫 متفتحوش'))
+        : (lvl === 'good' ? 'No obvious red flags ✅' : (lvl === 'mid' ? 'Suspicious ⚠️ be careful' : 'Likely dangerous 🚫 do not open it'));
+      var reasons = r.reasons.length ? r.reasons : [ar ? 'HTTPS شغال والاسم شكله عادي ومفيش حاجة غريبة في الشكل.' : 'HTTPS is used and the name looks normal with nothing odd in its shape.'];
+      var note = ar
+        ? 'ده مؤشر من شكل اللينك بس، مش ضمان. لينك شكله سليم ممكن يبقى خطر، ولينك مشبوه ممكن يبقى سليم. لو جاتلك رسالة بتستعجلك أو بتطلب بياناتك، متدوسش حتى لو الفحص مطمّن. الفحص بيتم على جهازك واللينك مش بيتبعت لأي حد.'
+        : 'This is an indicator based on the link\'s shape, not a guarantee. A clean-looking link can still be harmful and a suspicious one can be fine. If a message rushes you or asks for your data, do not click even if the check looks fine. The check runs on your device and the link is not sent anywhere.';
+      box.className = 'pf-score pf-score-' + lvl;
+      box.innerHTML = '<b>' + esc(title) + '</b><ul class="pf-link-reasons">' +
+        reasons.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') +
+        '</ul><div class="pf-link-note">' + esc(note) + '</div>';
+    }
+    btn.addEventListener('click', run);
+    inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); run(); } });
+  }
+
   function wireCheckup(t) {
+    wireLinkCheck(t);
     var pass = document.getElementById('pf-pass');
     if (pass) {
       pass.addEventListener('input', function () {
