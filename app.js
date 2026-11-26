@@ -235,6 +235,7 @@
       saqrError: 'حصلت مشكلة في الاتصال. جرّب تاني بعد شوية.',
       saqrSoon: 'صقر لسه بيتجهّز. ارجع بعد شوية وهتلاقيني هنا.',
       saqrMute: 'كتم صوت صقر',
+      saqrReplay: 'اسمع الرد تاني 🔊',
       saqrUnmute: 'تشغيل صوت صقر',
       saqrMic: 'اتكلم بصوتك',
       saqrCall: 'مكالمة صوتية',
@@ -464,6 +465,7 @@
       saqrError: 'Connection problem. Try again in a moment.',
       saqrSoon: 'Saqr is still getting ready. Check back soon.',
       saqrMute: 'Mute Saqr voice',
+      saqrReplay: 'Hear this reply again 🔊',
       saqrUnmute: 'Unmute Saqr voice',
       saqrMic: 'Speak your question',
       saqrCall: 'Voice call',
@@ -1308,6 +1310,17 @@
           paintSaqrMsgs(T[lang]);
           if (pend === 'call') saqrStartCall();
           else if (pend === 'mic') saqrStartListening(T[lang]);
+        } else if (e.target.closest('.pf-saqr-replay')) {
+          var rb = e.target.closest('.pf-saqr-replay');
+          var mm = saqrState.msgs[+rb.getAttribute('data-mi')];
+          if (mm && mm.role !== 'user') {
+            if (saqrVoice.muted) {
+              saqrVoice.muted = false;
+              try { localStorage.setItem('pf-saqr-muted', '0'); } catch (err) {}
+              saqrEnsure(T[lang]);
+            }
+            saqrSpeak(mm.content, lang);
+          }
         } else if (e.target.closest('.pf-saqr-mute')) {
           saqrVoice.muted = !saqrVoice.muted;
           try { localStorage.setItem('pf-saqr-muted', saqrVoice.muted ? '1' : '0'); } catch (err) {}
@@ -1331,6 +1344,27 @@
     }
   }
 
+  function saqrProjectCards(text, t) {
+    var s = String(text || '').toLowerCase();
+    if (!s) return '';
+    var projs = t.projects || [];
+    var out = '', seen = {};
+    for (var i = 0; i < projs.length; i++) {
+      var pr = projs[i];
+      if (!pr || !pr.img) continue;
+      var hay = (pr.name + ' ' + pr.detail).toLowerCase();
+      var hit = false;
+      if (/مطب|speed bump/.test(hay) && /مطب|speed bump/.test(s)) hit = true;
+      if (/اجري|لعبة|runner|run, sakr/.test(hay) && /اجري|لعبه|لعبة|اللعبة|runner|run,? sakr|\bgame\b/.test(s)) hit = true;
+      if (hit && !seen[pr.img]) {
+        seen[pr.img] = 1;
+        out += '<a class="pf-saqr-card" href="#/projects"><img src="' + pr.img + '" alt="' + esc(pr.imgAlt || pr.name) + '" loading="lazy">' +
+          '<span class="pf-saqr-card-t">' + esc(pr.name) + '</span><span class="pf-saqr-card-d">' + esc(pr.detail) + '</span></a>';
+      }
+    }
+    return out;
+  }
+
   function paintSaqrMsgs(t) {
     var box = document.getElementById('pf-saqr-msgs');
     if (!box) return;
@@ -1344,9 +1378,11 @@
       html += '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">' + SAQR_FEATHER + '</span><div class="pf-saqr-bubble pf-saqr-consent">' + esc(t.saqrVoiceNotice) +
         '<div class="pf-saqr-consent-btns"><button type="button" class="pf-saqr-voice-ok">' + esc(t.saqrVoiceNoticeOk) + '</button></div></div></div>';
     }
-    saqrState.msgs.forEach(function (m) {
+    saqrState.msgs.forEach(function (m, mi) {
       if (m.role === 'user') html += '<div class="pf-saqr-msg pf-saqr-me"><div class="pf-saqr-bubble">' + esc(m.content) + '</div></div>';
-      else html += '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">' + SAQR_FEATHER + '</span><div class="pf-saqr-bubble">' + esc(m.content) + '</div></div>';
+      else html += '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">' + SAQR_FEATHER + '</span><div class="pf-saqr-bubble">' + esc(m.content) +
+        '<button type="button" class="pf-saqr-replay" data-mi="' + mi + '" aria-label="' + esc(t.saqrReplay) + '" title="' + esc(t.saqrReplay) + '">' + SAQR_SPK_ON + '</button>' +
+        saqrProjectCards(m.content, t) + '</div></div>';
     });
     if (saqrState.sending) html += '<div class="pf-saqr-msg pf-saqr-bot"><span class="pf-saqr-mini">' + SAQR_FEATHER + '</span><div class="pf-saqr-bubble pf-saqr-typing">' + esc(t.saqrTyping) + '</div></div>';
     box.innerHTML = html;
