@@ -30,12 +30,12 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="عالم صقر">
-<link rel="stylesheet" href="style.css?v=86">
+<link rel="stylesheet" href="style.css?v=87">
 <script>try{document.documentElement.dataset.theme=localStorage.getItem('pf-theme')||'light'}catch(e){}</script>
 </head>
 <body>
 <main class="pf-shell" id="app"></main>
-<script src="app.js?v=107"></script>
+<script src="app.js?v=108"></script>
 <script data-goatcounter="https://ahmedsakr53.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script>
 (function(){
@@ -121,17 +121,21 @@
     document.body.appendChild(wrap);
   }
 
-  var BUILD = '2026-11-26-39'; var pending = false, dismissed = false, pendingWorker = null;
+  var BUILD = '2026-11-26-40'; var pending = false, dismissed = false, pendingWorker = null;
   function checkBuild(){
     fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
       if (j && j.v && j.v !== BUILD) { pending = true; showUpdate(null); }
     }).catch(function(){});
   }
+  var reloading = false;
+  function goReload(){ if (reloading) return; reloading = true; try { location.reload(); } catch (e) { location.href = location.pathname; } }
   function hardRefresh(){
-    var done = function(){ location.reload(); };
-    var p = window.caches ? caches.keys().then(function(ks){ return Promise.all(ks.map(function(k){ return caches.delete(k); })); }) : Promise.resolve();
-    p.then(function(){ return navigator.serviceWorker ? navigator.serviceWorker.getRegistration() : null; })
-     .then(function(reg){ if (reg) return reg.update().catch(function(){}); }).then(done, done);
+    // Always ends in a reload: every step is time-boxed so a stuck cache/SW call can never hang the button.
+    var t = setTimeout(goReload, 2500);
+    var step = function(pr){ return Promise.race([Promise.resolve(pr).catch(function(){}), new Promise(function(r){ setTimeout(r, 1500); })]); };
+    var clr = window.caches ? caches.keys().then(function(ks){ return Promise.all(ks.map(function(k){ return caches.delete(k); })); }) : null;
+    var rev = fetch(location.pathname, {cache: 'reload'});
+    step(clr).then(function(){ return step(rev); }).then(function(){ clearTimeout(t); goReload(); });
   }
   window.addEventListener('load', function(){ setTimeout(checkBuild, 1500); });
   window.addEventListener('hashchange', function(){ if (pending && !dismissed) showUpdate(pendingWorker); });
@@ -150,7 +154,7 @@
     btn.className = 'pf-update-btn';
     btn.type = 'button';
     btn.textContent = s('refresh');
-    btn.addEventListener('click', function(){ if (worker) worker.postMessage('SKIP_WAITING'); else hardRefresh(); });
+    btn.addEventListener('click', function(){ btn.disabled = true; btn.textContent = '...'; try { if (worker && worker.state === 'installed') worker.postMessage('SKIP_WAITING'); } catch (e) {} hardRefresh(); });
     var x = document.createElement('button');
     x.type = 'button'; x.className = 'pf-update-x'; x.setAttribute('aria-label', 'Close'); x.textContent = '\u00d7';
     x.addEventListener('click', function(){ dismissed = true; t.remove(); });
@@ -179,7 +183,7 @@
       navigator.serviceWorker.addEventListener('controllerchange', function(){
         if (refreshing) return;
         refreshing = true;
-        location.reload();
+        goReload();
       });
     });
   }

@@ -64,6 +64,15 @@ const buckets = new Map();
 const LIMIT = 20;          // requests
 const WINDOW_MS = 10 * 60 * 1000; // per 10 minutes
 
+// per-IP daily cap (per isolate, zero KV writes): protects the free Gemini/Workers quota
+const dayBuckets = new Map();
+const DAILY_CHAT = 80;
+function dailyLimited(ip, cap) {
+  const d = new Date().toISOString().slice(0, 10), k = d + '|' + ip;
+  if (dayBuckets.size > 8000) dayBuckets.clear();
+  const n = (dayBuckets.get(k) || 0) + 1; dayBuckets.set(k, n);
+  return n > cap;
+}
 function rateLimited(ip) {
   const now = Date.now();
   const b = buckets.get(ip) || { count: 0, start: now };
@@ -774,7 +783,7 @@ async function handleAdminApi(request, env, ctx, url) {
   }
 
   if (url.pathname === '/admin/api/games' && request.method === 'GET') {
-    return Response.json({ ok: true, cfg: await gamesCfgRaw(env, true), lb: await gamesLbLoad(env) });
+    return Response.json({ ok: true, cfg: await gamesCfgRaw(env, true), lb: await (async () => { const l = await gamesLbLoad(env); lbRoll(l); return l; })() });
   }
   if (url.pathname === '/admin/api/games' && request.method === 'POST') {
     let b;
@@ -791,8 +800,8 @@ async function handleAdminApi(request, env, ctx, url) {
   }
   if (url.pathname === '/admin/api/games/lb/remove' && request.method === 'POST') {
     let b; try { b = await request.json(); } catch { return Response.json({ ok: false }, { status: 400 }); }
-    const l = await gamesLbLoad(env);
-    if (l[b.g]) { l[b.g] = l[b.g].filter((x) => x.i !== b.i); await env.SAQR_CHATS.put('lb:games', JSON.stringify(l)); }
+    const l = await gamesLbLoad(env, true); lbRoll(l);
+    if (l[b.g]) { l[b.g] = l[b.g].filter((x) => x.i !== b.i); await env.SAQR_CHATS.put('lb:games', JSON.stringify(l)); memLb = null; }
     return Response.json({ ok: true, lb: l });
   }
   if (url.pathname === '/admin/api/academy/stats' && request.method === 'GET') return handleAcademyStats(env);
@@ -1341,14 +1350,38 @@ async function gamesCfgRaw(env, fresh) {
   memGamesCfg = out; memGamesAt = Date.now();
   return out;
 }
-async function gamesLbLoad(env) { try { const v = await env.SAQR_CHATS.get('lb:games', 'json'); return v && typeof v === 'object' ? v : {}; } catch (e) { return {}; } }
+function cairoDays() {
+  const f = new Intl.DateTimeFormat('en-GB', { timeZone: 'Africa/Cairo', hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
+  const p = {}; f.formatToParts(new Date()).forEach((x) => { p[x.type] = +x.value; });
+  const ms = Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute, p.second);
+  const days = Math.floor(ms / 86400000);
+  const week = Math.floor((days + 5) / 7); // weeks start Saturday 00:00 Cairo
+  return { week, left: ((week + 1) * 7 - 5) * 86400000 - ms };
+}
+function lbRoll(l) {
+  const w = cairoDays().week;
+  if (l._w === w) return false;
+  if (l._w !== undefined) {
+    const g = {}; let any = false;
+    Object.keys(GAME_MAX).forEach((k) => { const t = (l[k] || []).slice(0, 3).map((x) => ({ n: x.f, s: x.s })); if (t.length) { g[k] = t; any = true; } });
+    if (any) l._win = { w: l._w, g };
+  }
+  Object.keys(GAME_MAX).forEach((k) => { l[k] = []; });
+  l._w = w; return true;
+}
+let memLb = null, memLbAt = 0;
+async function gamesLbLoad(env, fresh) {
+  if (!fresh && memLb && Date.now() - memLbAt < 60000) return JSON.parse(JSON.stringify(memLb));
+  const v = await gamesLbLoadRaw(env); memLb = v; memLbAt = Date.now(); return JSON.parse(JSON.stringify(v));
+}
+async function gamesLbLoadRaw(env) { try { const v = await env.SAQR_CHATS.get('lb:games', 'json'); return v && typeof v === 'object' ? v : {}; } catch (e) { return {}; } }
 async function handleGamesConfig(env, origin) {
   return new Response(JSON.stringify(await gamesCfgRaw(env)), { headers: examCors(origin, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=30' }) });
 }
 async function handleGamesLb(env, origin) {
-  const l = await gamesLbLoad(env); const g = {};
+  const l = await gamesLbLoad(env); lbRoll(l); const g = {};
   Object.keys(GAME_MAX).forEach((k) => { g[k] = (l[k] || []).map((x) => ({ n: x.f, s: x.s })); });
-  return new Response(JSON.stringify({ ok: true, g }), { headers: examCors(origin, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=60' }) });
+  return new Response(JSON.stringify({ ok: true, g, win: l._win || null, left: cairoDays().left }), { headers: examCors(origin, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'public, max-age=60' }) });
 }
 async function handleGamesScore(request, env, origin) {
   let b = {}; try { b = await request.json(); } catch (e) { return examJson({ ok: false }, origin, 400); }
@@ -1357,7 +1390,8 @@ async function handleGamesScore(request, env, origin) {
   if (!GAME_MAX[g] || !(s > 0) || s > GAME_MAX[g] || i.length < 6 || n.length < 2) return examJson({ ok: false, err: 'bad' }, origin, 400);
   const cfg = await gamesCfgRaw(env);
   if (cfg.games[g]) return examJson({ ok: false, err: 'closed' }, origin, 403);
-  const l = await gamesLbLoad(env);
+  if (dailyLimited('s' + (request.headers.get('CF-Connecting-IP') || 'x'), 40)) return examJson({ ok: false, err: 'busy' }, origin, 429);
+  const l = await gamesLbLoad(env, true); lbRoll(l);
   const list = l[g] || [];
   const old = list.find((x) => x.i === i);
   if (old && old.s >= s) return examJson({ ok: true, kept: true }, origin);
@@ -1368,7 +1402,7 @@ async function handleGamesScore(request, env, origin) {
   const nl = list.filter((x) => x.i !== i); nl.push({ i, f: n, s, d: new Date(now + 7200000).toISOString().slice(0, 10) });
   nl.sort((a, c) => (c.s - a.s) || String(a.d).localeCompare(String(c.d)));
   l[g] = nl.slice(0, 10);
-  await env.SAQR_CHATS.put('lb:games', JSON.stringify(l));
+  await env.SAQR_CHATS.put('lb:games', JSON.stringify(l)); memLb = null;
   return examJson({ ok: true }, origin);
 }
 
@@ -1471,6 +1505,9 @@ export default {
     }
 
     const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+    if (dailyLimited('c' + ip, DAILY_CHAT)) {
+      return Response.json({ reply: 'وصلت الحد اليومي للأسئلة 🦅 ارجع بكرة، أو كلّم المهندس أحمد مباشرة من صفحة التواصل.' }, { status: 429, headers: corsHeaders(origin) });
+    }
     if (rateLimited(ip)) {
       const rn = await countHit(env, 'secrip:' + ip, 86400);
       ctx.waitUntil(logSecurity(env, ctx, 'تجاوز حد الطلبات', 'IP ' + ip + ' عدّى الحد (' + rn + ' مرة اليوم)'));

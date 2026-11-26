@@ -1,5 +1,5 @@
-var CACHE = 'pf-v4';
-self.addEventListener('install', function (e) {});
+var CACHE = 'pf-v5';
+self.addEventListener('install', function (e) { self.skipWaiting(); });
 self.addEventListener('message', function (e) { if (e.data === 'SKIP_WAITING') self.skipWaiting(); });
 self.addEventListener('activate', function (e) {
   e.waitUntil(caches.keys().then(function (keys) {

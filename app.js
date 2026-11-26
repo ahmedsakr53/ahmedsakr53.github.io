@@ -1171,7 +1171,7 @@
       box.dataset.open = '1';
       var go = function () { window.pfLB.all(box, GAMES.filter(function (x) { return x.id !== 'xo' && gameState(x.id) !== 'hidden'; }).map(function (x) { return x.id; })); };
       if (window.pfLB) return go();
-      var sc = document.createElement('script'); sc.src = 'lb.js?v=1'; sc.onload = go; document.head.appendChild(sc);
+      var sc = document.createElement('script'); sc.src = 'lb.js?v=2'; sc.onload = go; document.head.appendChild(sc);
     });
   }
   function loadGame(id) {
@@ -1183,7 +1183,7 @@
       var run = function () { if (window.pfG && window.pfG[id] && document.getElementById('pf-game')) window.pfG[id](document.getElementById('pf-game')); };
       var ld = function (src, cb) { var sc = document.createElement('script'); sc.src = src; sc.onload = cb; document.head.appendChild(sc); };
       var after = function () { if (window.pfG && window.pfG[id]) return run(); ld('g-' + id + '.js?v=1', run); };
-      if (window.pfLB) after(); else ld('lb.js?v=1', after);
+      if (window.pfLB) after(); else ld('lb.js?v=2', after);
     });
   }
   function loadXO() {
