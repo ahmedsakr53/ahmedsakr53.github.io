@@ -227,6 +227,7 @@
       saqrTitle: 'صقر',
       saqrSub: 'مساعد أحمد الذكي',
       saqrWelcome: 'أهلاً! أنا صقر 🦅 مساعد المهندس أحمد. اسألني عن خدماته أو مشاريعه أو أي حاجة تانية.',
+      saqrChips: ['مين أحمد؟', 'إيه خدماته؟', 'عايز موقع لشغلي'],
       saqrPlaceholder: 'اكتب سؤالك هنا...',
       saqrSend: 'إرسال',
       saqrClose: 'قفل الشات',
@@ -455,6 +456,7 @@
       saqrTitle: 'Saqr',
       saqrSub: "Ahmed's AI assistant",
       saqrWelcome: "Hey! I'm Saqr 🦅, Eng. Ahmed's assistant. Ask me about his services, projects, or anything else.",
+      saqrChips: ['Who is Ahmed?', 'What services?', 'I need a website'],
       saqrPlaceholder: 'Type your question...',
       saqrSend: 'Send',
       saqrClose: 'Close chat',
@@ -1261,6 +1263,7 @@
         '<button type="button" class="pf-saqr-close" aria-label="' + esc(t.saqrClose) + '">✕</button>' +
         '</header>' +
         '<div class="pf-saqr-msgs" id="pf-saqr-msgs"></div>' +
+        (t.saqrChips ? '<div class="pf-saqr-chips" style="display:flex;gap:6px;flex-wrap:wrap;padding:10px 12px 0">' + t.saqrChips.map(function (c) { return '<button type="button" class="pf-saqr-chip" style="border:1.5px solid #d8d4cd;background:#fff;border-radius:99px;padding:6px 12px;font-size:12.5px;font-family:inherit;cursor:pointer;color:#5c6472">' + esc(c) + '</button>'; }).join('') + '</div>' : '') +
         (SaqrRecog ? '<div class="pf-saqr-micstage' + (saqrCall.active ? ' pf-saqr-stage-' + saqrCall.phase : '') + '">' +
             '<button type="button" class="pf-saqr-micbig' + (saqrCall.active && saqrCall.phase === 'speaking' ? ' pf-saqr-talking' : '') + '" aria-label="' + esc(t.saqrMic) + '" title="' + esc(t.saqrMic) + '"><span class="pf-saqr-micbig-ico">' + SAQR_MIC_SVG + '</span></button>' +
             '<div class="pf-saqr-micbig-lbl">' + esc(saqrCall.active ? (saqrCall.phase === 'speaking' ? t.saqrCallSpeaking : saqrCall.phase === 'thinking' ? t.saqrCallThinking : t.saqrCallListening) : t.saqrMic) + '</div></div>' : '') +
@@ -1290,6 +1293,10 @@
           try { localStorage.setItem('pf-saqr-consent', '0'); } catch (err) {}
           saqrState.msgs.push({ role: 'assistant', content: T[lang].saqrConsentThanks });
           saqrEnsure(T[lang]);
+        } else if (e.target.closest('.pf-saqr-chip')) {
+          var chipBtn = e.target.closest('.pf-saqr-chip');
+          var inpC = document.getElementById('pf-saqr-input');
+          if (inpC && chipBtn) { inpC.value = chipBtn.textContent; saqrSend(); }
         } else if (e.target.closest('.pf-saqr-call')) {
           if (saqrCall.active) saqrEndCall();
           else if (!saqrVoiceOk) { saqrVoicePending = 'call'; paintSaqrMsgs(T[lang]); }
