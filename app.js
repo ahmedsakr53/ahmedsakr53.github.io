@@ -849,7 +849,7 @@
 
   function currentRoute() {
     var h = location.hash || '#/';
-    if (navPaths.indexOf(h) === -1) return '#/';
+    if (navPaths.indexOf(h) === -1 && h !== '#/checkup') return '#/';
     return h;
   }
 
