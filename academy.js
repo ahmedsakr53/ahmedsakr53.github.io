@@ -109,7 +109,7 @@
     if (nx && nx.classList.contains('pf-ep-lock')) {
       nx.classList.remove('pf-ep-lock'); nx.classList.add('pf-ep-on'); nx.removeAttribute('aria-disabled'); nx.setAttribute('tabindex', '0'); nx.setAttribute('role', 'button');
       var st = nx.querySelector('.pf-ep-s'); if (st) st.textContent = ARL === false ? 'Available' : '\u0645\u062a\u0627\u062d';
-      nx.addEventListener('click', function () { SEL = i + 1; location.reload(); });
+      nx.addEventListener('click', function () { SEL = i + 1; window.dispatchEvent(new HashChangeEvent('hashchange')); });
     }
   }
   function track(tr, i, v) {
