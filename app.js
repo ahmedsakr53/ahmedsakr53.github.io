@@ -549,6 +549,7 @@
       try {
         if (cfg.saqr === false) document.body.classList.add('pf-hide-saqr');
         if (cfg.checkup === false) document.body.classList.add('pf-hide-checkup');
+        if (cfg.academy === false) document.body.classList.add('pf-hide-academy');
         if (cfg.banner) pfShowBanner(String(cfg.banner));
         if (cfg.palette && cfg.palette !== 'teal') document.body.setAttribute('data-palette', String(cfg.palette));
         if (cfg.appearance === 'dark' || cfg.appearance === 'light') {
@@ -1056,19 +1057,29 @@
     document.addEventListener('keydown', function esc2(e) { if (!document.getElementById('pf-sheet')) { document.removeEventListener('keydown', esc2); return; } if (e.key === 'Escape') setOpen(false); });
   }
 
+  var acadCfg;
   function loadAcademy(route) {
-    function go() {
+    function go(cfg) {
       var host = document.getElementById('pf-acad');
       if (!host || !window.pfAcademy) return;
       var ar = lang === 'ar';
-      host.innerHTML = window.pfAcademy.render(route, ar, { esc: esc, icon: icon, pageHead: pageHead });
-      window.pfAcademy.wire(ar);
+      function draw() {
+        host.innerHTML = window.pfAcademy.render(route, ar, { esc: esc, icon: icon, pageHead: pageHead }, cfg);
+        window.pfAcademy.wire(ar, route, draw);
+      }
+      draw();
     }
-    if (window.pfAcademy) return go();
-    var sc = document.createElement('script');
-    sc.src = 'academy.js?v=1';
-    sc.onload = go;
-    document.head.appendChild(sc);
+    var cfgP = acadCfg ? Promise.resolve(acadCfg) : Promise.race([
+      fetch(SAQR_WORKER_URL.replace(/\/chat$/, '/academy/config')).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
+      new Promise(function (res) { setTimeout(function () { res(null); }, 3000); })
+    ]).then(function (c) { if (c) acadCfg = c; return c; });
+    var jsP = window.pfAcademy ? Promise.resolve() : new Promise(function (res) {
+      var sc = document.createElement('script');
+      sc.src = 'academy.js?v=2';
+      sc.onload = res; sc.onerror = res;
+      document.head.appendChild(sc);
+    });
+    Promise.all([cfgP, jsP]).then(function (r) { go(r[0]); });
   }
 
   function render() {

@@ -1776,3 +1776,7 @@ html[data-theme="dark"] .pf-sw-site { background: rgb(17 22 34 / .86); color: #9
 .pf-sw-acad.pf-sw-on { outline-color: #fff; }
 .pf-install-btn { top: 62px !important; }
 @media (max-width: 380px) { .pf-switch a { padding: 0 10px; font-size: 12px; } }
+body.pf-hide-academy .pf-sw-acad { display: none; }
+.pf-ep[data-i] { cursor: pointer; }
+.pf-ep.pf-ep-sel { background: rgb(34 211 238 / .12); }
+.pf-player-soon .pf-player-cap { position: static; background: none; text-align: center; }
