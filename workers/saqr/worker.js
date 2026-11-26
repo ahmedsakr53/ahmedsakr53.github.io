@@ -941,21 +941,26 @@ export default {
     if (url.pathname === '/live' && request.method === 'GET') {
       const nowMs = Date.now();
       if (!globalThis.__liveCache || nowMs - globalThis.__liveCache.t > 20000) {
-        const pres = await env.SAQR_CHATS.list({ prefix: 'presence:', limit: 200 });
-        const pv = await Promise.all(pres.keys.map((k) => env.SAQR_CHATS.get(k.name, 'json')));
-        const act = pv.filter((v) => v && (nowMs - (v.ts || 0)) < 150000);
+        const [pres, day] = await Promise.all([
+          env.SAQR_CHATS.list({ prefix: 'presence:', limit: 200 }),
+          env.SAQR_CHATS.list({ prefix: 'geo24:', limit: 1000 }),
+        ]);
+        const onlineVids = new Set();
+        pres.keys.forEach((k) => { if (k.metadata && (nowMs - (k.metadata.ts || 0)) < 150000) onlineVids.add(k.name.slice(9)); });
         const countries = {};
         const dots = {};
-        act.forEach((v) => {
-          if (v.c && /^[A-Z]{2}$/.test(v.c)) countries[v.c] = (countries[v.c] || 0) + 1;
-          if (Number.isFinite(v.la) && Number.isFinite(v.lo)) {
-            const la = Math.round(v.la * 10) / 10, lo = Math.round(v.lo * 10) / 10;
-            const key = la + ',' + lo;
-            if (!dots[key]) dots[key] = { la, lo, n: 0, city: v.city || '', c: v.c || '' };
+        day.keys.forEach((k) => {
+          const m = k.metadata || {};
+          const isOn = onlineVids.has(k.name.slice(6));
+          if (m.c && /^[A-Z]{2}$/.test(m.c)) countries[m.c] = (countries[m.c] || 0) + 1;
+          if (Number.isFinite(m.la) && Number.isFinite(m.lo)) {
+            const key = m.la + ',' + m.lo;
+            if (!dots[key]) dots[key] = { la: m.la, lo: m.lo, n: 0, on: 0, city: m.city || '', c: m.c || '' };
             dots[key].n++;
+            if (isOn) dots[key].on++;
           }
         });
-        globalThis.__liveCache = { t: nowMs, body: { ok: true, online: act.length, countries, dots: Object.values(dots).slice(0, 80) } };
+        globalThis.__liveCache = { t: nowMs, body: { ok: true, online: onlineVids.size, day: day.keys.length, countries, dots: Object.values(dots).slice(0, 150) } };
       }
       return Response.json(globalThis.__liveCache.body, { headers: { ...corsHeaders(origin), 'cache-control': 'public, max-age=15' } });
     }
@@ -967,7 +972,9 @@ export default {
         return Response.json({ ok: false }, { status: 400, headers: corsHeaders(origin) });
       }
       const page = String(pb.page || '/').slice(0, 60);
-      const puts = [env.SAQR_CHATS.put('presence:' + vid, JSON.stringify({ ts: Date.now(), page, c: String((request.cf && request.cf.country) || '').slice(0, 2).toUpperCase(), city: String((request.cf && request.cf.city) || '').slice(0, 40), la: Number((request.cf && request.cf.latitude) || NaN), lo: Number((request.cf && request.cf.longitude) || NaN) }), { expirationTtl: 180 })];
+      const geo = { c: String((request.cf && request.cf.country) || '').slice(0, 2).toUpperCase(), city: String((request.cf && request.cf.city) || '').slice(0, 40), la: Math.round(Number((request.cf && request.cf.latitude) || NaN) * 10) / 10, lo: Math.round(Number((request.cf && request.cf.longitude) || NaN) * 10) / 10 };
+      const puts = [env.SAQR_CHATS.put('presence:' + vid, JSON.stringify({ ts: Date.now(), page, c: String((request.cf && request.cf.country) || '').slice(0, 2).toUpperCase(), city: String((request.cf && request.cf.city) || '').slice(0, 40), la: Number((request.cf && request.cf.latitude) || NaN), lo: Number((request.cf && request.cf.longitude) || NaN) }), { expirationTtl: 180, metadata: { ts: Date.now() } })];
+      if (pb.type === 'view') puts.push(env.SAQR_CHATS.put('geo24:' + vid, '1', { expirationTtl: 86400, metadata: { ts: Date.now(), c: geo.c, city: geo.city, la: geo.la, lo: geo.lo } }));
       if (pb.type === 'view') puts.push(bumpStats(env, cairoDay(), 'pv', vid, page));
       ctx.waitUntil(Promise.all(puts));
       return Response.json({ ok: true }, { headers: corsHeaders(origin) });

@@ -856,7 +856,7 @@
   function renderMapPage(t) {
     var ar = lang === 'ar';
     return '<div class="pf-page">' + pageHead(ar ? 'LIVE' : 'LIVE', ar ? 'خريطة الزوار الحية' : 'Live visitor map') +
-      '<p class="pf-para">' + esc(ar ? 'نقط مضيئة بتبيّن الدول والمدن اللي الناس بتتصفح الموقع منها دلوقتي. بتتحدث تلقائي كل نص دقيقة.' : 'Glowing dots show the countries and cities people are browsing this site from right now. It refreshes every 30 seconds.') + '</p>' +
+      '<p class="pf-para">' + esc(ar ? 'نقط مضيئة بتبيّن الدول والمدن اللي زوار آخر ٢٤ ساعة دخلوا منها، والنقطة الخضرا المنوّرة معناها حد أونلاين دلوقتي. بتتحدث تلقائي كل نص دقيقة.' : 'Glowing dots show where visitors from the last 24 hours came from. A bright green dot means someone is online right now. It refreshes every 30 seconds.') + '</p>' +
       livePlaceholder() + '</div>';
   }
   function livePlaceholder() {
@@ -893,15 +893,18 @@
         if (!d || !d.ok || !document.getElementById('pf-live')) return;
         var cc = Object.keys(d.countries || {});
         var cnt = document.getElementById('pf-live-count');
-        cnt.textContent = d.online > 0
-          ? (ar ? 'دلوقتي ' + d.online + (d.online === 1 ? ' زائر' : ' زوار') + (cc.length ? ' من ' + cc.length + (cc.length === 1 ? ' دولة' : ' دول') : '')
-                : 'Now ' + d.online + (d.online === 1 ? ' visitor' : ' visitors') + (cc.length ? ' from ' + cc.length + (cc.length === 1 ? ' country' : ' countries') : ''))
-          : (ar ? 'مفيش زوار أونلاين دلوقتي' : 'No visitors online right now');
+        var day = d.day || 0;
+        cnt.textContent = day > 0
+          ? (ar ? 'آخر ٢٤ ساعة: ' + day + (day === 1 ? ' زائر' : ' زائر') + (cc.length ? ' من ' + cc.length + (cc.length === 1 ? ' دولة' : ' دول') : '')
+                : 'Last 24 hours: ' + day + (day === 1 ? ' visitor' : ' visitors') + (cc.length ? ' from ' + cc.length + (cc.length === 1 ? ' country' : ' countries') : ''))
+          : (ar ? 'لسه مفيش زوار في آخر ٢٤ ساعة' : 'No visitors in the last 24 hours yet');
+        var onl = document.getElementById('pf-live-online');
+        onl.textContent = d.online > 0 ? (ar ? '🟢 دلوقتي أونلاين: ' + d.online : '🟢 Online now: ' + d.online) : '';
         var dots = document.getElementById('pf-live-dots');
         dots.innerHTML = (d.dots || []).map(function (p) {
           var x = (p.lo + 180) / 360 * 100, y = (PF_MAP.top - p.la) / (PF_MAP.top - PF_MAP.bot) * 100;
           if (y < 0 || y > 100) return '';
-          return '<i class="pf-live-dot" style="left:' + x.toFixed(2) + '%;top:' + y.toFixed(2) + '%" title="' + esc((p.city ? p.city + ' ' : '') + (p.c && names ? names.of(p.c) : '')) + '"></i>';
+          return '<i class="pf-live-dot' + (p.on ? ' pf-live-dot-on' : '') + '" style="left:' + x.toFixed(2) + '%;top:' + y.toFixed(2) + '%" title="' + esc((p.city ? p.city + ' ' : '') + (p.c && names ? names.of(p.c) : '')) + '"></i>';
         }).join('');
         document.getElementById('pf-live-list').innerHTML = cc.sort(function (a, b) { return d.countries[b] - d.countries[a]; }).map(function (c) {
           var nm = c; try { if (names) nm = names.of(c) || c; } catch (e) {}
