@@ -24,7 +24,7 @@
         ['المتغيرات وأنواع البيانات', 'Variables and data types'],
         ['الشروط (if)', 'Conditions (if)'],
         ['اللوبات (loops)', 'Loops'],
-        ['الفنكشنز', 'Functions'],
+        ['الفانكشنز', 'Functions'],
         ['المصفوفات والأوبجكتس', 'Arrays and objects'],
         ['التعامل مع الصفحة (DOM)', 'Working with the page (DOM)'],
         ['نعمل لعبة صغيرة مع بعض', 'We build a small game together'],
