@@ -1362,7 +1362,7 @@ html[data-theme="dark"] .pf-card-free {
 /* ===== Saqr AI chat widget ===== */
 .pf-saqr-fab {
     position: fixed;
-    top: 54%;
+    top: 60%;
     inset-inline-end: 0;
     z-index: 95;
     display: flex;
