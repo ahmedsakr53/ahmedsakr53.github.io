@@ -100,6 +100,13 @@
         ['تواصل مباشر', 'زر واتساب برسالة جاهزة لكل خدمة، وسيرة ذاتية باللغتين بضغطة واحدة.']
       ],
       aboutTitle: 'من هو؟',
+      aboutAchTitle: 'إنجازاتي',
+      aboutAchIntro: 'ببني حاجات بتتستخدم فعلاً، مش بس بتتكتب في السيرة الذاتية. دي أهم تلاتة لحد دلوقتي:',
+      aboutAch: [
+        ['الموقع ده نفسه', 'صممته وبرمجته بنفسي من الصفر، بيشتغل كتطبيق ويب على الموبايل، بالعربي والإنجليزي، وخفيف وسريع. وجواه مساعد ذكي اسمه صقر بيرد على الزوار.'],
+        ['صقر أكاديمي', 'منصة تعليمية عملتها بنفسي، فيها مسارات فيديو قصيرة بالعربي. مسار الأمن السيبراني فيه ١٠ حلقات واختبار وشهادة إتمام، ومسارا البرمجة والشبكات شغالين عليهم.'],
+        ['تطبيق «عالم صقر»', 'التطبيق اللي بيجمع شغلي وخدماتي والأكاديمية في مكان واحد، وتقدر تنزله على موبايلك وتفتحه زي أي تطبيق.']
+      ],
       aboutBio: [
         'من طما، محافظة سوهاج، تخرج أحمد مختار عوض (صقر) في الثانوية العامة شعبة علمي رياضة بمجموع 92.25%، والتحق بكلية الهندسة جامعة سوهاج، هندسة كهرباء قسم اتصالات، وهو يعرف تمامًا إلى أين يتجه.',
         'شغفه بالأمن السيبراني والشبكات ليس مادة في منهج، بل حياة يومية: شهادتان من Cisco (محلل أمن سيبراني مبتدئ، وفني شبكات)، وشهادة مقدمة في الأمن السيبراني، وشهادة شبكات من منصة إدراك، وتدريب عملي مستمر على TryHackMe. يبني ويختبر ويتعلم بيده: من أنظمة IoT ذكية إلى مواقع كاملة صممها ونفذها بنفسه.',
@@ -332,6 +339,13 @@
         ['Direct contact', 'A WhatsApp button with a ready message for every service, and a CV in both languages one tap away.']
       ],
       aboutTitle: 'Who is he?',
+      aboutAchTitle: 'My achievements',
+      aboutAchIntro: 'I build things people actually use, not just lines on a CV. These are the three that matter most so far:',
+      aboutAch: [
+        ['This website itself', 'I designed and coded it from scratch myself. It runs as a web app on your phone, in Arabic and English, light and fast, with a smart assistant named Saqr that answers visitors.'],
+        ['Sakr Academy', 'A learning platform I built myself, with short Arabic video tracks. The cybersecurity track has 10 episodes, an exam and a completion certificate, and the programming and networking tracks are on the way.'],
+        ['The Sakr World app', 'The app that brings my work, services and the Academy into one place. You can install it on your phone and open it like any other app.']
+      ],
       aboutBio: [
         'From Tima, Sohag Governorate, Ahmed Mokhtar Awad (Sakr) graduated from Thanaweya Amma, advanced mathematics track, with a score of 92.25%, and entered the Faculty of Engineering at Sohag University, Electrical Engineering, Communications section, knowing exactly where he was headed.',
         'His passion for cybersecurity and networking is not a course in a curriculum; it is a daily life: two Cisco certifications (Junior Cybersecurity Analyst and Network Technician), an Introduction to Cybersecurity certificate, a networking certificate from the Edraak platform, and continuous hands-on training on TryHackMe. He builds, tests, and learns with his own hands: from smart IoT systems to complete websites he designed and built himself.',
@@ -634,6 +648,10 @@
   function renderAbout(t) {
     return '<div class="pf-page">' + pageHead(t.aboutEyebrow, t.aboutTitle) +
       t.aboutBio.map(function (p) { return '<p class="pf-para">' + esc(p) + '</p>'; }).join('') +
+      '<h3 class="pf-h3">' + esc(t.aboutAchTitle) + '</h3><p class="pf-para">' + esc(t.aboutAchIntro) + '</p>' +
+      '<div class="pf-facts pf-ach">' + t.aboutAch.map(function (f) {
+        return '<div class="pf-fact"><span class="pf-fact-label">' + esc(f[0]) + '</span><span class="pf-fact-value">' + esc(f[1]) + '</span></div>';
+      }).join('') + '</div>' +
       '<div class="pf-facts">' + t.facts.map(function (f) {
         return '<div class="pf-fact"><span class="pf-fact-label">' + esc(f[0]) + '</span><span class="pf-fact-value">' + esc(f[1]) + '</span></div>';
       }).join('') + '</div>' +
