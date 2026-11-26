@@ -702,7 +702,7 @@
         btn = '<a class="pf-btn pf-btn-primary pf-service-wa" href="' + t.serviceWaLinks[waIdx++] + '" target="_blank" rel="noopener">' + icon('whatsapp') + esc(t.serviceWa) + '</a>';
       }
       return '<div class="pf-card' + (s.free ? ' pf-card-free' : '') + '"><div class="pf-card-num">' + (i + 1) + '</div>' +
-        (s.free ? '<span class="pf-free-badge">' + esc(t.serviceFree) + '</span>' : '') +
+        (s.free ? '<span class="pf-free-badge">' + esc(t.serviceFree) + '</span>' : '<span class="pf-paid-badge">' + esc(lang === 'ar' ? 'بمقابل مادي' : 'Paid') + '</span>') +
         '<div class="pf-card-name">' + esc(s.name) + '</div>' +
         '<div class="pf-card-detail">' + esc(s.detail) + '</div>' + btn + '</div>';
     }).join('');
