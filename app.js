@@ -942,6 +942,31 @@
     if (!saqrChatId) saqrChatId = 'chat-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
     try { localStorage.setItem('pf-saqr-chatid', saqrChatId); } catch (e1) { sessionStorage.setItem('pf-saqr-chatid', saqrChatId); }
   } catch (e) { if (!saqrChatId) saqrChatId = 'chat-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
+  // Anonymous live-presence heartbeat: random visitor id + page path only.
+  try {
+    var pfVid = '';
+    try { pfVid = localStorage.getItem('pf-vid') || ''; } catch (e0) {}
+    if (!pfVid && window.crypto && crypto.randomUUID) {
+      pfVid = crypto.randomUUID();
+      try { localStorage.setItem('pf-vid', pfVid); } catch (e1) {}
+    }
+    if (pfVid && SAQR_WORKER_URL) {
+      var SAQR_PING_URL = SAQR_WORKER_URL.replace(/\/chat$/, '/ping');
+      var saqrPing = function (ptype) {
+        try {
+          fetch(SAQR_PING_URL, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ vid: pfVid, type: ptype, page: location.pathname }),
+          }).catch(function () {});
+        } catch (e2) {}
+      };
+      saqrPing('view');
+      setInterval(function () { if (!document.hidden) saqrPing('hb'); }, 45000);
+      document.addEventListener('visibilitychange', function () { if (!document.hidden) saqrPing('hb'); });
+    }
+  } catch (e3) {}
+
   var SaqrRecog = window.SpeechRecognition || window.webkitSpeechRecognition || null;
   var saqrRecog = null, saqrListening = false, saqrFinalBuf = '', saqrSilenceTimer = null, saqrManualStop = false;
   var SAQR_SILENCE_MS = 3000;
