@@ -937,9 +937,11 @@
   var saqrVoicePending = null; // 'mic' | 'call' while the voice notice card is showing
   var saqrChatId = '';
   try {
-    saqrChatId = sessionStorage.getItem('pf-saqr-chatid') || '';
-    if (!saqrChatId && window.crypto && crypto.randomUUID) { saqrChatId = crypto.randomUUID(); sessionStorage.setItem('pf-saqr-chatid', saqrChatId); }
-  } catch (e) { saqrChatId = 'chat-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
+    saqrChatId = localStorage.getItem('pf-saqr-chatid') || sessionStorage.getItem('pf-saqr-chatid') || '';
+    if (!saqrChatId && window.crypto && crypto.randomUUID) saqrChatId = crypto.randomUUID();
+    if (!saqrChatId) saqrChatId = 'chat-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+    try { localStorage.setItem('pf-saqr-chatid', saqrChatId); } catch (e1) { sessionStorage.setItem('pf-saqr-chatid', saqrChatId); }
+  } catch (e) { if (!saqrChatId) saqrChatId = 'chat-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
   var SaqrRecog = window.SpeechRecognition || window.webkitSpeechRecognition || null;
   var saqrRecog = null, saqrListening = false, saqrFinalBuf = '', saqrSilenceTimer = null, saqrManualStop = false;
   var SAQR_SILENCE_MS = 3000;

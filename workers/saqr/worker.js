@@ -418,6 +418,45 @@ function newRuleId() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 }
 
+// ---- Long-term visitor memory (consent-gated, per random chat id only) ----
+async function loadVisitorMem(env, chatId) {
+  try {
+    const m = await env.SAQR_CHATS.get('visitor:' + chatId, 'json');
+    return m && typeof m.summary === 'string' ? m : null;
+  } catch { return null; }
+}
+
+function memPromptBlock(mem) {
+  if (!mem) return '\n\nملاحظة عن الزائر اللي بيكلمك: دي أول مرة يتكلم معاك، مفيش ذاكرة سابقة عنه.';
+  let b = '\n\nذاكرتك طويلة المدى عن الزائر ده من زياراته السابقة (عدد زياراته المسجلة: ' + (mem.visits || 1) + '):\n' + mem.summary;
+  if (Array.isArray(mem.facts) && mem.facts.length) b += '\nحقائق تعرفها عنه: ' + mem.facts.slice(0, 6).join('، ');
+  b += '\n- استخدم الذاكرة دي بشكل طبيعي: الزائر ده راجعلك مش أول مرة، فما تسألوش حاجة إنت عارفها، بس متفتريش حاجة مش مكتوبة في الذاكرة.';
+  return b;
+}
+
+async function updateVisitorMem(env, chatId, lastUser, lastSaqr) {
+  try {
+    const old = await loadVisitorMem(env, chatId);
+    const now = Date.now();
+    const isNewVisit = !old || !old.lastActive || (now - old.lastActive) > 30 * 60 * 1000;
+    const mergeSys = 'إنت بتدير ذاكرة طويلة المدى لمساعد دردشة اسمه صقر على موقع شخصي. هتاخد الذاكرة القديمة (لو موجودة) وآخر رسالة من الزائر ورد صقر، وترجع JSON بس من غير أي كلمة زيادة: {"summary":"ملخص محدث من سطرين لأربعة عن الزائر ده: مين، مهتم بإيه، وصل لإيه مع صقر","facts":["حتى 6 حقائق قصيرة ثابتة عن الزائر زي اسمه أو شغله أو الخدمة اللي طلبها"]}. ماتحفظش كلام عابر ولا أسئلة عامة ملهاش علاقة بالزائر نفسه، ولو مفيش حاجة جديدة مهمة رجع الذاكرة القديمة زي ما هي.';
+    const mergeUser = 'الذاكرة القديمة: ' + (old ? JSON.stringify({ summary: old.summary, facts: old.facts || [] }) : 'مفيش') + '\nرسالة الزائر: ' + lastUser + '\nرد صقر: ' + lastSaqr;
+    const out = await callGemini(env, mergeSys, [{ role: 'user', parts: [{ text: mergeUser }] }], { temperature: 0.3, maxOutputTokens: 1500, responseMimeType: 'application/json' });
+    const m = out.match(/\{[\s\S]*\}/);
+    const parsed = m ? JSON.parse(m[0]) : null;
+    const summary = parsed && typeof parsed.summary === 'string' && parsed.summary.trim() ? parsed.summary.trim().slice(0, 600) : (old ? old.summary : '');
+    const facts = parsed && Array.isArray(parsed.facts) ? parsed.facts.map((x) => String(x).slice(0, 120)).filter(Boolean).slice(0, 6) : (old && Array.isArray(old.facts) ? old.facts : []);
+    const mem = {
+      summary,
+      facts,
+      visits: (old ? old.visits || 0 : 0) + (isNewVisit ? 1 : 0),
+      lastActive: now,
+      firstSeen: old && old.firstSeen ? old.firstSeen : now,
+    };
+    if (summary) await env.SAQR_CHATS.put('visitor:' + chatId, JSON.stringify(mem), { expirationTtl: 15552000 }); // 180 days
+  } catch { /* memory must never break the chat */ }
+}
+
 async function handleAdminApi(request, env, ctx, url) {
   if (!env.ADMIN_PASSWORD) return new Response('Not found', { status: 404 });
   if (!(await isAdmin(request, env))) return Response.json({ ok: false, error: 'auth' }, { status: 401 });
@@ -494,6 +533,7 @@ async function handleAdminApi(request, env, ctx, url) {
     const list = await env.SAQR_CHATS.list({ limit: 1000 });
     const prefix = 'chat:' + b.chatId + ':';
     const dels = list.keys.filter((k) => k.name.indexOf(prefix) === 0).map((k) => env.SAQR_CHATS.delete(k.name));
+    dels.push(env.SAQR_CHATS.delete('visitor:' + b.chatId));
     await Promise.all(dels);
     return Response.json({ ok: true, deleted: dels.length });
   }
@@ -554,6 +594,18 @@ async function handleAdminApi(request, env, ctx, url) {
     const lastC = await Promise.all(cKeys.slice(-40).map((k) => env.SAQR_CHATS.get(k.name, 'json')));
     const chatDump = lastC.filter((v) => v && v.user).map((v) => 'زائر: ' + v.user + ' | صقر: ' + v.saqr).join('\n').slice(0, 6000);
 
+    let memDump = 'مفيش زوار متسجلين في الذاكرة لسه';
+    try {
+      const vKeys = list.keys.filter((k) => k.name.indexOf('visitor:') === 0).slice(-15);
+      const vms = await Promise.all(vKeys.map((k) => env.SAQR_CHATS.get(k.name, 'json')));
+      const lines = vms
+        .filter((m) => m && m.summary)
+        .sort((a, b) => (b.lastActive || 0) - (a.lastActive || 0))
+        .slice(0, 12)
+        .map((m, i) => (i + 1) + ') ' + m.summary + (m.visits ? ' (زيارات: ' + m.visits + ')' : '') + (Array.isArray(m.facts) && m.facts.length ? ' — ' + m.facts.slice(0, 6).join('، ') : ''));
+      if (lines.length) memDump = lines.join('\n');
+    } catch { /* memory listing must never break the owner chat */ }
+
     const sys = 'أنت صقر 🦅 — النسخة الكاملة منك، شغالة جوه لوحة تحكم المهندس أحمد مختار صقر، صاحبك ورئيسك الوحيد. اللي بيكلمك دلوقتي هو أحمد نفسه، وكلامه أمر يتنفذ فورًا من غير جدال ولا مماطلة (الاستثناء الوحيد: حاجة فيها ضرر حقيقي أو مخالفة للقانون، وساعتها اعتذر بأدب واشرح ليه).\n' +
       'شخصيتك هنا: مساعد شخصي عبقري وعصري — سريع، دقيق، واثق، بيفكر استراتيجي. مفيش كلام إنشا ولا حشو: إجابات عملية مباشرة، وأرقام وحقائق من البيانات المرفقة لما تكون متاحة. لما يطلب رأي أو اقتراح، اديله أحسن ما عندك بثقة — إنت مستشاره الشخصي مش مجرد منفذ أوامر.\n' +
       'شغلتك هنا:\n' +
@@ -561,6 +613,7 @@ async function handleAdminApi(request, env, ctx, url) {
       '2) لو بيسألك أي سؤال (عنه، عن الزوار، «الناس بتسألك في إيه؟»، ملخصات أو إحصائيات أو تحليل)، جاوب بعمق من الشاتات المرفقة تحت، ولو المعلومة مش موجودة قوله بصراحة من غير ما تخترع واقترح إزاي توصلها.\n' +
       '- كلامك عامية مصرية شيك وعصرية، مختصرة وذكية، من غير فصحى ولا حشو.\n' +
       '- القواعد الدائمة الحالية (id: نص القاعدة):\n' + (rules.length ? rules.map((r) => r.id + ': ' + r.text).join('\n') : 'مفيش قواعد لسه') + '\n' +
+      '- ذاكرتك طويلة المدى عن الزوار الراجعين (الزوار المتميزين):\n' + memDump + '\n' +
       '- آخر الشاتات المسجلة بموافقة الزوار:\n' + (chatDump || 'مفيش شاتات مسجلة لسه') + '\n' +
       'ارجع JSON بس من غير أي كلمة زيادة: {"reply":"ردك لأحمد","new_rule":"نص القاعدة الجديدة أو null","remove_rule":"id القاعدة أو null"}';
 
@@ -710,11 +763,21 @@ export default {
       return Response.json({ reply: 'اسألني أي حاجة 🦅' }, { status: 400, headers: corsHeaders(origin) });
     }
 
+    let validChatId = '';
+    if (body.consent === true && typeof body.chatId === 'string' && /^[A-Za-z0-9-]{8,64}$/.test(body.chatId)) {
+      validChatId = body.chatId;
+    }
+
     let sysPrompt = SYSTEM_PROMPT;
     if (env.SAQR_CHATS) {
       try {
         sysPrompt += rulesPromptBlock(await loadRules(env));
       } catch { /* rules must never break the chat */ }
+      if (validChatId) {
+        try {
+          sysPrompt += memPromptBlock(await loadVisitorMem(env, validChatId));
+        } catch { /* memory must never break the chat */ }
+      }
     }
 
     const model = env.MODEL || 'gemini-3.5-flash-lite';
@@ -757,12 +820,13 @@ export default {
     // visitor's browser generated for this visit, and only the text they typed.
     if (body.consent === true && env.SAQR_CHATS) {
       try {
-        const chatId = String(body.chatId || '');
-        if (/^[A-Za-z0-9-]{8,64}$/.test(chatId)) {
+        if (validChatId) {
+          const chatId = validChatId;
           const lastUser = contents[contents.length - 1].parts[0].text;
           const key = 'chat:' + chatId + ':' + Date.now();
           const val = JSON.stringify({ ts: Date.now(), chatId, user: lastUser, saqr: finalReply });
           ctx.waitUntil(env.SAQR_CHATS.put(key, val, { expirationTtl: 15552000 })); // 180 days
+          ctx.waitUntil(updateVisitorMem(env, chatId, lastUser, finalReply));
           logActivity(env, ctx, 'chat', 'رسالة جديدة متسجلة في شات ' + chatId + ': «' + lastUser.slice(0, 80) + '»');
         }
       } catch (e) { /* logging must never break the chat */ }
