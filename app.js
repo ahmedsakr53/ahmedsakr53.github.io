@@ -189,9 +189,9 @@
       projectsEyebrow: 'PROJECTS',
       projectsTitle: 'مشاريع نفذتها بنفسي',
       projects: [
-        { name: 'المطب الصناعي الذكي', detail: 'مشروع إنترنت أشياء باستخدام Arduino: مطب صناعي ذكي يستشعر الحركة ويتفاعل معها.', img: 'photos/speed-bump.webp', imgAlt: 'أحمد مع النموذج الأولي للمطب الصناعي الذكي أمام كلية الهندسة بجامعة سوهاج' },
+        { name: 'المطب الصناعي الذكي', detail: 'مشروع إنترنت أشياء باستخدام Arduino: مطب صناعي ذكي يستشعر الحركة ويتفاعل معها.', img: 'photos/speed-bump-640.webp', imgAlt: 'أحمد مع النموذج الأولي للمطب الصناعي الذكي أمام كلية الهندسة بجامعة سوهاج' },
         { name: 'منصة تجارية', detail: 'تصميم وتنفيذ منصة تجارية لصالح عميل خاص — تفاصيل المشروع محفوظة التزاماً بسرية العمل مع العملاء.' },
-        { name: 'اجري يا صقر!', detail: 'لعبة جري لا نهائية برسوم كرتونية عالية الجودة وتجربة موبايل كاملة — في مراحلها الأخيرة، قريباً.', img: 'photos/game-cover.webp', imgAlt: 'الغلاف الرسمي للعبة اجري يا صقر: العريس يجري ووالد العروسة والعروسة وراءه في شوارع مصرية' }
+        { name: 'اجري يا صقر!', detail: 'لعبة جري لا نهائية برسوم كرتونية عالية الجودة وتجربة موبايل كاملة — في مراحلها الأخيرة، قريباً.', img: 'photos/game-cover-640.webp', imgAlt: 'الغلاف الرسمي للعبة اجري يا صقر: العريس يجري ووالد العروسة والعروسة وراءه في شوارع مصرية' }
       ],
       checkupEyebrow: 'CHECK YOURSELF',
       checkupTitle: 'اطمّن على نفسك',
@@ -433,9 +433,9 @@
       projectsEyebrow: 'PROJECTS',
       projectsTitle: 'Things I built myself',
       projects: [
-        { name: 'The Smart Speed Bump', detail: 'An Arduino IoT project: a smart speed bump that senses motion and reacts.', img: 'photos/speed-bump.webp', imgAlt: 'Ahmed holding the Smart Speed Bump prototype at the Faculty of Engineering, Sohag University' },
+        { name: 'The Smart Speed Bump', detail: 'An Arduino IoT project: a smart speed bump that senses motion and reacts.', img: 'photos/speed-bump-640.webp', imgAlt: 'Ahmed holding the Smart Speed Bump prototype at the Faculty of Engineering, Sohag University' },
         { name: 'Commercial Platform', detail: 'Design and delivery of a commercial platform for a private client — project details kept confidential under client privacy.' },
-        { name: 'Run, Sakr! (اجري يا صقر)', detail: 'An endless-runner mobile game with high-quality cartoon art and a full gameplay experience — in final stages, coming soon.', img: 'photos/game-cover.webp', imgAlt: 'Official cover art of Run Sakr: the groom sprinting away from the bride and her father through Egyptian streets' }
+        { name: 'Run, Sakr! (اجري يا صقر)', detail: 'An endless-runner mobile game with high-quality cartoon art and a full gameplay experience — in final stages, coming soon.', img: 'photos/game-cover-640.webp', imgAlt: 'Official cover art of Run Sakr: the groom sprinting away from the bride and her father through Egyptian streets' }
       ],
       checkupEyebrow: 'CHECK YOURSELF',
       checkupTitle: 'Check yourself',
@@ -674,7 +674,7 @@
       '<div class="pf-langs">' + t.langs.map(function (l) {
         return '<div class="pf-lang"><span class="pf-lang-name">' + esc(l[0]) + '</span><span class="pf-lang-level">' + esc(l[1]) + '</span></div>';
       }).join('') + '</div>' +
-      '<div class="pf-about-photo"><img src="photos/speed-bump-vest.webp" alt="' + esc(t.journeyPhotoAlt) + '" loading="lazy"></div>' +
+      '<div class="pf-about-photo"><img src="photos/speed-bump-vest-640.webp" width="640" height="1028" decoding="async" alt="' + esc(t.journeyPhotoAlt) + '" loading="lazy"></div>' +
       '<h3 class="pf-h3 pf-map-title">' + icon('pin') + '<span class="pf-map-word">' + esc(t.journeyTitle) + '</span><span class="pf-map-sub">' + esc(t.journeySub) + '</span></h3>' +
       '<div class="pf-timeline">' + t.journey.map(function (j) {
         var done = j[2];
@@ -691,7 +691,7 @@
     var cards = certNames.map(function (name, i) {
       return '<div class="pf-card pf-cert">' +
         '<button type="button" class="pf-cert-imgbtn" data-cert="' + i + '" aria-label="' + esc(t.certView + ' ' + name) + '">' +
-        '<img src="' + certImages[i] + '" alt="' + esc(t.certAlts[i]) + '" loading="lazy"></button>' +
+        '<img src="' + certImages[i].replace('.jpg', '-600.webp') + '" width="600" height="' + [424, 461, 398, 398][i] + '" decoding="async" alt="' + esc(t.certAlts[i]) + '" loading="lazy"></button>' +
         '<div class="pf-card-num">' + (i + 1) + '</div>' +
         '<div class="pf-card-name">' + bdi(name) + '</div>' +
         '<div class="pf-card-detail">' + bdi(t.certIssuers[i]) + '</div>' +
@@ -1092,28 +1092,42 @@
   }
 
   var acadCfg;
+  function acadPrefetch() { var u = 'academy.js?v=24'; if (window.pfAcademy || document.querySelector('link[href="' + u + '"]')) return; var l = document.createElement('link'); l.rel = 'prefetch'; l.as = 'script'; l.href = u; document.head.appendChild(l); }
+  document.addEventListener('pointerdown', function (e) { var a = e.target.closest && e.target.closest('a[href="#/academy"]'); if (a) acadPrefetch(); }, { passive: true });
+  window.addEventListener('load', function () { setTimeout(acadPrefetch, 5000); });
   function loadAcademy(route) {
+    var host0 = document.getElementById('pf-acad');
+    var cached = null; try { cached = JSON.parse(localStorage.getItem('pf-acad-cfg') || 'null'); } catch (e) {}
+    if (!acadCfg && cached) acadCfg = cached;
+    var drawn = false;
     function go(cfg) {
       var host = document.getElementById('pf-acad');
-      if (!host || !window.pfAcademy) return;
+      if (!host || !window.pfAcademy || currentRoute().indexOf('#/academy') !== 0) return;
       var ar = lang === 'ar';
       function draw() {
         host.innerHTML = window.pfAcademy.render(route, ar, { esc: esc, icon: icon, pageHead: pageHead }, cfg);
         window.pfAcademy.wire(ar, route, draw);
       }
-      draw();
+      draw(); drawn = true;
     }
-    var cfgP = acadCfg ? Promise.resolve(acadCfg) : Promise.race([
-      fetch(SAQR_WORKER_URL.replace(/\/chat$/, '/academy/config')).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
-      new Promise(function (res) { setTimeout(function () { res(null); }, 3000); })
-    ]).then(function (c) { if (c) acadCfg = c; return c; });
+    if (host0 && !window.pfAcademy) host0.innerHTML = '<div class="pf-g-skel"><i></i><span>' + (lang === 'ar' ? 'جارٍ التحميل…' : 'Loading…') + '</span></div>';
     var jsP = window.pfAcademy ? Promise.resolve() : new Promise(function (res) {
       var sc = document.createElement('script');
       sc.src = 'academy.js?v=24';
       sc.onload = res; sc.onerror = res;
       document.head.appendChild(sc);
     });
-    Promise.all([cfgP, jsP]).then(function (r) { go(r[0]); });
+    // Draw at once from the cached config; refresh it in the background (never blocks the screen).
+    jsP.then(function () { if (acadCfg || !window.pfAcademy) go(acadCfg); });
+    var fresh = Promise.race([
+      fetch(SAQR_WORKER_URL.replace(/\/chat$/, '/academy/config')).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
+      new Promise(function (res) { setTimeout(function () { res(null); }, 4000); })
+    ]);
+    Promise.all([fresh, jsP]).then(function (r) {
+      var c = r[0]; var changed = c && JSON.stringify(c) !== JSON.stringify(acadCfg);
+      if (c) { acadCfg = c; try { localStorage.setItem('pf-acad-cfg', JSON.stringify(c)); } catch (e) {} }
+      if (!drawn) go(acadCfg); else if (changed && currentRoute() === '#/academy') go(acadCfg);
+    });
   }
 
   var GAMES = [
@@ -1156,6 +1170,7 @@
       '</div>' + memes + '</div></div>';
   }
   function wireFun() {
+    setTimeout(function () { funCss(function () {}); }, 300);
     loadGamesCfg(function () {
       if (currentRoute() !== '#/fun') return;
       var g = document.getElementById('pf-gc-grid'); if (g) g.innerHTML = funGamesHTML(lang === 'ar');
@@ -1167,29 +1182,60 @@
       var box = document.getElementById('pf-lb-all'); if (!box) return;
       if (box.dataset.open) { box.dataset.open = ''; box.innerHTML = ''; return; }
       box.dataset.open = '1';
+      funCss(function () {});
       var go = function () { window.pfLB.all(box, GAMES.filter(function (x) { return x.id !== 'xo' && gameState(x.id) !== 'hidden'; }).map(function (x) { return x.id; })); };
       if (window.pfLB) return go();
       var sc = document.createElement('script'); sc.src = 'lb.js?v=3'; sc.onload = go; document.head.appendChild(sc);
     });
   }
+  document.addEventListener('pointerdown', function (e) {
+    var a = e.target.closest && e.target.closest('a.pf-gc'); if (!a) return;
+    var m = /#\/g\/(\w+)/.exec(a.getAttribute('href') || ''); if (!m) return;
+    ['lb.js?v=3', 'g-' + m[1] + '.js?v=1'].forEach(function (u) { if (document.querySelector('link[href="' + u + '"]')) return; var l = document.createElement('link'); l.rel = 'prefetch'; l.href = u; l.as = 'script'; document.head.appendChild(l); });
+  }, { passive: true });
+  var funCssP = null;
+  function funCss(cb) {
+    if (!funCssP) funCssP = new Promise(function (res) {
+      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'fun.css?v=1';
+      var t = setTimeout(res, 2500); l.onload = function () { clearTimeout(t); res(); }; l.onerror = function () { clearTimeout(t); res(); };
+      document.head.appendChild(l);
+    });
+    funCssP.then(cb);
+  }
   function loadGame(id) {
     var host = document.getElementById('pf-game'); if (!host) return;
     var meta = GAMES.filter(function (x) { return x.id === id; })[0];
     if (!meta) { location.hash = '#/fun'; return; }
-    loadGamesCfg(function () {
-      if (currentRoute().indexOf('#/g/') !== 0 || gameState(id)) { if (gameState(id)) location.hash = '#/fun'; return; }
-      var run = function () { if (window.pfG && window.pfG[id] && document.getElementById('pf-game')) window.pfG[id](document.getElementById('pf-game')); };
-      var ld = function (src, cb) { var sc = document.createElement('script'); sc.src = src; sc.onload = cb; document.head.appendChild(sc); };
-      var after = function () { if (window.pfG && window.pfG[id]) return run(); ld('g-' + id + '.js?v=1', run); };
-      if (window.pfLB) after(); else ld('lb.js?v=3', after);
-    });
+    // Instant skeleton, then fetch lb.js + the game file in parallel (no waiting on config).
+    host.innerHTML = '<div class="pf-g-skel"><i></i><span>' + (lang === 'ar' ? 'جارٍ التحميل…' : 'Loading…') + '</span></div>';
+    var cssOk = false, finished = false;
+    var run = function () {
+      if (!cssOk || finished || currentRoute() !== '#/g/' + id) return;
+      var h = document.getElementById('pf-game');
+      if (!h || !window.pfG || !window.pfG[id] || !window.pfLB) return;
+      finished = true; h.innerHTML = '';
+      setTimeout(function () { if (currentRoute() === '#/g/' + id && document.getElementById('pf-game')) window.pfG[id](document.getElementById('pf-game')); }, 0);
+    };
+    var fail = function () { if (finished) return; var h = document.getElementById('pf-game'); if (h && currentRoute() === '#/g/' + id) h.innerHTML = '<div class="pf-g-skel"><span>' + (lang === 'ar' ? 'مقدرناش نحمّل اللعبة. تأكد من النت وجرّب تاني.' : 'Could not load the game. Check your connection and try again.') + '</span><a class="pf-xo-back" href="#/fun">' + (lang === 'ar' ? 'رجوع للألعاب' : 'Back to games') + '</a></div>'; };
+    setTimeout(function () { if (!finished) fail(); }, 15000);
+    var ld = function (src, key) {
+      if (document.querySelector('script[data-pf="' + key + '"]')) { run(); return; }
+      var sc = document.createElement('script'); sc.src = src; sc.async = true; sc.setAttribute('data-pf', key); sc.onload = run; sc.onerror = function () { sc.remove(); fail(); }; document.head.appendChild(sc);
+    };
+    funCss(function () { cssOk = true; run(); });
+    ld('lb.js?v=3', 'lb'); ld('g-' + id + '.js?v=1', 'g-' + id);
+    run();
+    loadGamesCfg(function () { if (currentRoute() === '#/g/' + id && gameState(id)) location.hash = '#/fun'; });
   }
   function loadXO() {
     loadGamesCfg(function () {
       if (gameState('xo')) { location.hash = '#/fun'; return; }
-      var go = function () { var h = document.getElementById('pf-xo'); if (window.pfXO && h) window.pfXO.render(h); };
+      var hx = document.getElementById('pf-xo'); if (hx && !window.pfXO) hx.innerHTML = '<div class="pf-g-skel"><i></i><span>' + (lang === 'ar' ? 'جارٍ التحميل…' : 'Loading…') + '</span></div>';
+      var cssDone = false, jsDone = !!window.pfXO;
+      var go = function () { var h = document.getElementById('pf-xo'); if (cssDone && jsDone && window.pfXO && h && currentRoute() === '#/xo') window.pfXO.render(h); };
+      funCss(function () { cssDone = true; go(); });
       if (window.pfXO) return go();
-      var sc = document.createElement('script'); sc.src = 'xo.js?v=1'; sc.onload = go; document.head.appendChild(sc);
+      var sc = document.createElement('script'); sc.src = 'xo.js?v=1'; sc.onload = function () { jsDone = true; go(); }; document.head.appendChild(sc);
     });
   }
   function loadMemes() {
@@ -1197,10 +1243,13 @@
     if (!host) return;
     if (!gamesCfg) return loadGamesCfg(function () { if (currentRoute() === '#/memes') { if (gamesCfg && gamesCfg.memes && gamesCfg.memes.state) { location.hash = '#/fun'; return; } loadMemes(); } });
     if (gamesCfg.memes && gamesCfg.memes.state) { location.hash = '#/fun'; return; }
-    var go = function () { if (window.pfMemes && document.getElementById('pf-memes')) window.pfMemes.render(document.getElementById('pf-memes')); };
+    if (!window.pfMemes) host.innerHTML = '<div class="pf-g-skel"><i></i><span>' + (lang === 'ar' ? 'جارٍ التحميل…' : 'Loading…') + '</span></div>';
+    var cssDone = false, jsDone = !!window.pfMemes;
+    var go = function () { if (cssDone && jsDone && window.pfMemes && currentRoute() === '#/memes' && document.getElementById('pf-memes')) window.pfMemes.render(document.getElementById('pf-memes')); };
+    funCss(function () { cssDone = true; go(); });
     if (window.pfMemes) return go();
     var sc = document.createElement('script');
-    sc.src = 'memes.js?v=5'; sc.onload = go; document.head.appendChild(sc);
+    sc.src = 'memes.js?v=6'; sc.onload = function () { jsDone = true; go(); }; document.head.appendChild(sc);
   }
 
   function render() {
@@ -1275,6 +1324,7 @@
     if (route === '#/checkup') wireCheckup(t);
     if (route === '#/memes') loadMemes();
     if (route === '#/xo') loadXO();
+    document.documentElement.classList.toggle('pf-ingame', route.indexOf('#/g/') === 0 || route === '#/xo');
     if (route.indexOf('#/g/') === 0) loadGame(route.slice(4));
     if (route === '#/fun') wireFun();
     if (route.indexOf('#/academy') === 0) loadAcademy(route);
