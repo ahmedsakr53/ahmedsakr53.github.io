@@ -1957,3 +1957,9 @@ html[data-theme="dark"] .pf-acad-back { background: #3a2a10; color: #fcd34d; }
 main.pf-shell { overflow-x: clip; }
 .pf-g-skel { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 64px 0; opacity: .85; font-size: 14px; }
 .pf-g-skel i { width: 34px; height: 34px; border-radius: 50%; border: 3px solid rgb(34 211 238 / .25); border-top-color: #22d3ee; animation: pfSkel .8s linear infinite; }
+
+.pf-fun-banner { background: linear-gradient(135deg, rgb(57 255 20 / 0.16), rgb(0 229 255 / 0.14)); border-color: #39ff14; color: #0b5a12; box-shadow: 0 0 14px rgb(57 255 20 / 0.45); }
+.pf-fun-banner .pf-icon { fill: #19c900; filter: drop-shadow(0 0 4px rgb(57 255 20 / 0.8)); }
+.pf-fun-banner:hover { box-shadow: 0 0 22px rgb(57 255 20 / 0.7); }
+html[data-theme="dark"] .pf-fun-banner { background: linear-gradient(135deg, rgb(57 255 20 / 0.14), rgb(0 229 255 / 0.12)); border-color: #39ff14; color: #b6ffa8; }
+html[data-theme="dark"] .pf-fun-banner .pf-icon { fill: #39ff14; }
