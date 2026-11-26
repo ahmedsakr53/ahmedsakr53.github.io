@@ -1161,7 +1161,7 @@
 
 
   /* ===== Saqr AI chat widget (lives outside #app so state survives route changes) ===== */
-  var saqrState = { open: false, sending: false, msgs: [] };
+  var saqrState = { open: false, sending: false, full: false, msgs: [] };
   var saqrWired = false;
 
 
@@ -1488,12 +1488,13 @@
       '<button type="button" class="pf-saqr-fab" aria-label="' + esc(t.saqrFab) + '" title="' + esc(t.saqrFab) + '">' +
         '<span class="pf-saqr-fab-ico">' + '<svg class="pf-icon pf-saqr-feather" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="9" y2="15"/></svg>' + '</span><span class="pf-saqr-fab-txt">' + esc(t.saqrFab) + '</span>' +
         '<span class="pf-saqr-waves" aria-hidden="true"><i></i><i></i><i></i></span></button>' +
-      '<section class="pf-saqr-panel' + (saqrState.open ? ' pf-saqr-open' : '') + '" role="dialog" aria-label="' + esc(t.saqrTitle) + '">' +
+      '<section class="pf-saqr-panel' + (saqrState.open ? ' pf-saqr-open' : '') + (saqrState.full ? ' pf-saqr-full' : '') + '" role="dialog" aria-label="' + esc(t.saqrTitle) + '">' +
         '<header class="pf-saqr-head">' +
           '<div class="pf-saqr-id"><span class="pf-saqr-avatar">' + SAQR_FEATHER + '</span>' +
           '<div><div class="pf-saqr-name">' + esc(t.saqrTitle) + '</div>' +
           '<div class="pf-saqr-sub">' + esc(t.saqrSub) + '</div></div></div>' +
           (SaqrRecog && ('speechSynthesis' in window) ? '<button type="button" class="pf-saqr-call' + (saqrCall.active ? ' pf-saqr-call-on' : '') + '" aria-label="' + esc(saqrCall.active ? t.saqrCallEnd : t.saqrCall) + '" title="' + esc(saqrCall.active ? t.saqrCallEnd : t.saqrCall) + '">' + (saqrCall.active ? SAQR_PHONE_OFF : SAQR_PHONE) + '</button>' : '') +
+          '<button type="button" class="pf-saqr-fs" aria-label="' + esc(saqrState.full ? (lang === 'ar' ? 'تصغير الشات' : 'Exit full screen') : (lang === 'ar' ? 'تكبير الشات لملء الشاشة' : 'Full screen')) + '" title="' + esc(saqrState.full ? (lang === 'ar' ? 'تصغير الشات' : 'Exit full screen') : (lang === 'ar' ? 'تكبير الشات لملء الشاشة' : 'Full screen')) + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (saqrState.full ? '<path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7"/>' : '<path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>') + '</svg></button>' +
           '<button type="button" class="pf-saqr-mute" aria-label="' + esc(saqrVoice.muted ? t.saqrUnmute : t.saqrMute) + '" title="' + esc(saqrVoice.muted ? t.saqrUnmute : t.saqrMute) + '">' + (saqrVoice.muted ? SAQR_SPK_OFF : SAQR_SPK_ON) + '</button>' +
         '<button type="button" class="pf-saqr-close" aria-label="' + esc(t.saqrClose) + '">✕</button>' +
         '</header>' +
@@ -1551,6 +1552,9 @@
             }
             saqrSpeak(mm.content, lang);
           }
+        } else if (e.target.closest('.pf-saqr-fs')) {
+          saqrState.full = !saqrState.full;
+          saqrEnsure(T[lang]);
         } else if (e.target.closest('.pf-saqr-mute')) {
           saqrVoice.muted = !saqrVoice.muted;
           try { localStorage.setItem('pf-saqr-muted', saqrVoice.muted ? '1' : '0'); } catch (err) {}

@@ -1893,3 +1893,9 @@ html[data-theme="dark"] .pf-exam-box { background: #28173f; border-color: #46306
 [dir="rtl"] .pf-acad-back svg { transform: scaleX(-1); }
 .pf-acad-back:active { transform: scale(.97); }
 html[data-theme="dark"] .pf-acad-back { background: #3a2a10; color: #fcd34d; }
+
+/* Saqr chat full screen */
+.pf-saqr-fs { border: none; background: rgb(255 255 255 / 0.16); color: #fff; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; margin-inline-end: 6px; }
+.pf-saqr-fs svg { width: 15px; height: 15px; display: block; margin: auto; }
+.pf-saqr-panel.pf-saqr-full { inset: 0; bottom: 0; width: 100%; max-width: none; height: 100vh; height: 100dvh; max-height: none; border-radius: 0; z-index: 400; }
+.pf-saqr-panel.pf-saqr-full .pf-saqr-msgs { flex: 1; max-height: none; }
