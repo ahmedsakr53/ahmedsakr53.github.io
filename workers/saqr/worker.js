@@ -1022,6 +1022,23 @@ export default {
 
     const lastUserMsg = contents[contents.length - 1].parts[0].text;
     const normMsg = normQ(lastUserMsg);
+
+    // Instant owner notification: first-ever message from a consenting visitor
+    if (validChatId && contents.length === 1) {
+      try {
+        const seenKey = 'seenchat:' + validChatId;
+        if (!(await env.SAQR_CHATS.get(seenKey))) {
+          ctx.waitUntil(env.SAQR_CHATS.put(seenKey, '1'));
+          const escH = (x) => String(x).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+          ctx.waitUntil(sendOwnerAlert(
+            env,
+            '🔔 صقر: زائر جديد بيكلمك على الموقع',
+            '<div dir="rtl" style="font-family:sans-serif">زائر جديد فتح شات مع صقر دلوقتي.<br><br>أول رسالة:<br><b>«' + escH(lastUserMsg.slice(0, 300)) + '»</b><br><br>افتح لوحة التحكم وتابع الشات لايف من تاب الشاتات.</div>'
+          ));
+          logActivity(env, ctx, 'chat', '🔔 زائر جديد بدأ شات ' + validChatId);
+        }
+      } catch { /* notification must never break the chat */ }
+    }
     const susp = detectSuspicion(lastUserMsg);
     if (susp) {
       ctx.waitUntil(logSecurity(env, ctx, susp, 'شات ' + (validChatId || 'مجهول') + ': «' + lastUserMsg.slice(0, 80) + '»'));

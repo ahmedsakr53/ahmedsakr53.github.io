@@ -966,7 +966,7 @@
         } catch (e2) {}
       };
       saqrPing('view');
-      setInterval(function () { if (!document.hidden) saqrPing('hb'); }, 45000);
+      setInterval(function () { if (!document.hidden) saqrPing('hb'); }, 90000);
       document.addEventListener('visibilitychange', function () { if (!document.hidden) saqrPing('hb'); });
     }
   } catch (e3) {}
