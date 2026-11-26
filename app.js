@@ -98,7 +98,12 @@
         ['ليلي ونهاري', 'وضع داكن وفاتح بألوان مريحة للعين، ويتذكر اختيارك في كل زيارة.'],
         ['تنقل كالتطبيقات', 'شريط تنقل ثابت أسفل الشاشة، وحركة ناعمة لصورة الغلاف تتبع الماوس على الكمبيوتر.'],
         ['إحصاءات شفافة', 'عداد زيارات حقيقي مفتوح للجميع، بلا إعلانات ولا تتبع تجاري.'],
-        ['تواصل مباشر', 'زر واتساب برسالة جاهزة لكل خدمة، وسيرة ذاتية باللغتين بضغطة واحدة.']
+        ['تواصل مباشر', 'زر واتساب برسالة جاهزة لكل خدمة، وسيرة ذاتية باللغتين بضغطة واحدة.'],
+        ['صقر أكاديمي', 'كورسات مجانية بحلقات فيديو في مسارات، كل حلقة تفتح بعد مشاهدة اللي قبلها، واختبار نهائي بتصحيح على السيرفر، وشهادة إتمام تقدر تتحقق منها، وشارات وإنجازات، ولوحة متصدرين اختيارية.'],
+        ['صقر يفهم الصور', 'تبعت لصقر صورة ويشرحها لك، بالإضافة للشات والصوت.'],
+        ['اطمّن على نفسك', 'فحص أمني شخصي مجاني بيشتغل كله على جهازك.'],
+        ['ألعاب وميمز', 'ركن «الألعاب والترفيه»: ألعاب نيون خفيفة بمتصدرين اختياريين وصانع ميمز، وكلها بتتحمل لما تفتحها بس.'],
+        ['خريطة الزوار ولوحة التحكم', 'خريطة حية للزوار، ولوحة تحكم خاصة بصاحب الموقع لإدارة المحتوى والأكاديمي والألعاب.']
       ],
       aboutTitle: 'من هو؟',
       aboutAchTitle: 'إنجازاتي',
@@ -337,7 +342,12 @@
         ['Dark and light', 'Dark and light modes with eye-friendly colors, and it remembers your choice on every visit.'],
         ['App-like navigation', 'A fixed navigation bar at the bottom of the screen, and a soft hero-photo motion that follows the mouse on desktop.'],
         ['Transparent stats', 'A real visitor counter open to everyone, with no ads and no commercial tracking.'],
-        ['Direct contact', 'A WhatsApp button with a ready message for every service, and a CV in both languages one tap away.']
+        ['Direct contact', 'A WhatsApp button with a ready message for every service, and a CV in both languages one tap away.'],
+        ['Sakr Academy', 'Free video courses in several tracks. Each episode unlocks after you watch the previous one, with a final exam graded on the server, a completion certificate you can verify, badges, and an optional leaderboard.'],
+        ['Saqr understands photos', 'Send Saqr a photo and it explains it, on top of text and voice chat.'],
+        ['Check yourself', 'A free personal security checkup that runs entirely on your device.'],
+        ['Games and memes', 'A Games & fun corner: light neon games with optional leaderboards and a meme maker, each loaded only when you open it.'],
+        ['Visitor map and control panel', 'A live visitor map, and a private control panel for the owner to manage content, the academy and games.']
       ],
       aboutTitle: 'Who is he?',
       aboutAchTitle: 'My achievements',
