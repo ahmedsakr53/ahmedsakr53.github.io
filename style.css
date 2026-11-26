@@ -1899,3 +1899,19 @@ html[data-theme="dark"] .pf-acad-back { background: #3a2a10; color: #fcd34d; }
 .pf-saqr-fs svg { width: 15px; height: 15px; display: block; margin: auto; }
 .pf-saqr-panel.pf-saqr-full { inset: 0; bottom: 0; width: 100%; max-width: none; height: 100vh; height: 100dvh; max-height: none; border-radius: 0; z-index: 400; }
 .pf-saqr-panel.pf-saqr-full .pf-saqr-msgs { flex: 1; max-height: none; }
+
+/* Saqr header buttons: one consistent glass style */
+.pf-saqr-head .pf-saqr-call, .pf-saqr-head .pf-saqr-mute, .pf-saqr-head .pf-saqr-fs, .pf-saqr-head .pf-saqr-close {
+  width: 34px; height: 34px; padding: 0; margin: 0; flex: none; display: grid; place-items: center; border-radius: 12px;
+  background: rgb(255 255 255 / .14); border: 1px solid rgb(255 255 255 / .28); color: #fff; cursor: pointer;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .18); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  transition: background .16s ease, transform .12s ease, box-shadow .16s ease;
+}
+.pf-saqr-head .pf-saqr-call svg, .pf-saqr-head .pf-saqr-mute svg, .pf-saqr-head .pf-saqr-fs svg, .pf-saqr-head .pf-saqr-close svg { width: 17px; height: 17px; display: block; }
+.pf-saqr-head .pf-saqr-call:hover, .pf-saqr-head .pf-saqr-mute:hover, .pf-saqr-head .pf-saqr-fs:hover, .pf-saqr-head .pf-saqr-close:hover { background: rgb(255 255 255 / .26); box-shadow: 0 4px 12px rgb(0 0 0 / .18); }
+.pf-saqr-head .pf-saqr-call:active, .pf-saqr-head .pf-saqr-mute:active, .pf-saqr-head .pf-saqr-fs:active, .pf-saqr-head .pf-saqr-close:active { transform: scale(.92); }
+.pf-saqr-head .pf-saqr-call:focus-visible, .pf-saqr-head .pf-saqr-mute:focus-visible, .pf-saqr-head .pf-saqr-fs:focus-visible, .pf-saqr-head .pf-saqr-close:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.pf-saqr-head .pf-saqr-call.pf-saqr-call-on { background: #e5484d; border-color: #ff8a8e; }
+.pf-saqr-head .pf-saqr-close:hover { background: rgb(229 72 77 / .85); border-color: rgb(255 138 142 / .6); }
+.pf-saqr-head { gap: 6px; }
+.pf-saqr-head .pf-saqr-id { flex: 1; min-width: 0; }
