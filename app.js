@@ -1080,7 +1080,7 @@
     ]).then(function (c) { if (c) acadCfg = c; return c; });
     var jsP = window.pfAcademy ? Promise.resolve() : new Promise(function (res) {
       var sc = document.createElement('script');
-      sc.src = 'academy.js?v=13';
+      sc.src = 'academy.js?v=14';
       sc.onload = res; sc.onerror = res;
       document.head.appendChild(sc);
     });
