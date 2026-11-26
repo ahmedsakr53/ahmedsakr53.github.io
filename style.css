@@ -2019,3 +2019,6 @@ html[data-theme="dark"] .pf-acad-back { background: #3a2a10; color: #fcd34d; }
 .pf-fun-half { flex: 0 0 auto; }
 .pf-g-exit { display: block; float: none; width: fit-content; margin: 0 0 10px auto; }
 .pf-lb-all .pf-lb-g, .pf-lb { color: #fff; }
+.pf-gc { min-height: 108px; }
+.pf-gc-i { width: 46px; height: 46px; }
+.pf-gc span { font-size: 15px; }

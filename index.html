@@ -30,12 +30,12 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="عالم صقر">
-<link rel="stylesheet" href="style.css?v=84">
+<link rel="stylesheet" href="style.css?v=85">
 <script>try{document.documentElement.dataset.theme=localStorage.getItem('pf-theme')||'light'}catch(e){}</script>
 </head>
 <body>
 <main class="pf-shell" id="app"></main>
-<script src="app.js?v=105"></script>
+<script src="app.js?v=106"></script>
 <script data-goatcounter="https://ahmedsakr53.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script>
 (function(){
@@ -121,7 +121,7 @@
     document.body.appendChild(wrap);
   }
 
-  var BUILD = '2026-11-26-37'; var pending = false, dismissed = false, pendingWorker = null;
+  var BUILD = '2026-11-26-38'; var pending = false, dismissed = false, pendingWorker = null;
   function checkBuild(){
     fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
       if (j && j.v && j.v !== BUILD) { pending = true; showUpdate(null); }

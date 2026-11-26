@@ -1119,11 +1119,11 @@
   var GAMES = [
     { id: 'xo', ar: 'إكس أو', en: 'X O', c: ['#22d3ee', '#ff2bd6'], href: '#/xo', svg: '<path d="M4 4l7 7M11 4l-7 7"/><circle cx="17" cy="17" r="4.5"/>' },
     { id: 'snake', ar: 'الثعبان', en: 'Snake', c: ['#b6ff3b', '#10b981'], href: '#/g/snake', svg: '<path d="M4 6h10a3 3 0 010 6H8a3 3 0 000 6h12"/><circle cx="20" cy="18" r="1.2"/>' },
-    { id: 'mem', ar: 'الذاكرة', en: 'Memory', c: ['#ff2bd6', '#7c3aed'], href: '#/g/mem', svg: '<rect x="3" y="4" width="8" height="10" rx="2"/><rect x="13" y="10" width="8" height="10" rx="2"/><path d="M7 7.5h0M17 15h0"/>' },
+    { id: 'mem', ar: 'الذاكرة', en: 'Memory', c: ['#ff2bd6', '#7c3aed'], href: '#/g/mem', svg: '<rect x="2.5" y="5" width="9" height="12" rx="2"/><rect x="12.5" y="7" width="9" height="12" rx="2"/><path d="M7 9l1 2 2 .3-1.5 1.4.4 2L7 13.7 5.1 14.7l.4-2L4 11.3l2-.3z"/>' },
     { id: 'g2048', ar: '2048', en: '2048', c: ['#fbbf24', '#f97316'], href: '#/g/g2048', svg: '<rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/>' },
-    { id: 'mole', ar: 'طرق الخلد', en: 'Whack-a-mole', c: ['#f59e0b', '#a16207'], href: '#/g/mole', svg: '<path d="M4 20h16M6 20a6 6 0 0112 0"/><circle cx="10" cy="15" r=".8"/><circle cx="14" cy="15" r=".8"/>' },
+    { id: 'mole', ar: 'طرق الخلد', en: 'Whack-a-mole', c: ['#f59e0b', '#a16207'], href: '#/g/mole', svg: '<path d="M3 20h18"/><path d="M5 20a7 5 0 0114 0"/><circle cx="12" cy="11" r="4.5"/><circle cx="10.3" cy="10.2" r=".9"/><circle cx="13.7" cy="10.2" r=".9"/><path d="M11 12.6h2"/>' },
     { id: 'rps', ar: 'حجر ورق مقص', en: 'Rock Paper Scissors', c: ['#38bdf8', '#6366f1'], href: '#/g/rps', svg: '<circle cx="7" cy="17" r="3"/><path d="M13 4l7 7M20 4l-7 7M13 14h7v6h-7z"/>' },
-    { id: 'guess', ar: 'تخمين الرقم', en: 'Guess the number', c: ['#f472b6', '#fb7185'], href: '#/g/guess', svg: '<path d="M8 8a4 4 0 118 0c0 3-4 3-4 6M12 19h0"/>' }
+    { id: 'guess', ar: 'تخمين الرقم', en: 'Guess the number', c: ['#f472b6', '#fb7185'], href: '#/g/guess', svg: '<path d="M9 3L7 21M17 3l-2 18M3.5 9h18M2.5 15h18"/>' }
   ];
   var gamesCfg = null;
   function gameState(id) { var g = (gamesCfg && gamesCfg.games) || {}; return g[id] === 'hidden' || g[id] === 'soon' ? g[id] : ''; }
