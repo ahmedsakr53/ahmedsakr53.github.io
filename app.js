@@ -1107,6 +1107,7 @@
     else page = renderHome(t);
     document.getElementById('app').innerHTML = nav + page + '<div class="pf-closing">' + esc(t.closing) + '</div>';
     saqrEnsure(t);
+    document.body.classList.toggle('pf-not-home', route !== '#/');
     if (openCert >= 0 && route === '#/certifications') showLightbox(openCert);
     setupReveal();
     setupTilt();

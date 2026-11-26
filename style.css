@@ -1728,3 +1728,6 @@ body.pf-sheet-open { overflow: hidden; }
 
 /* theme + language toggles: top-right corner, side by side, away from the Saqr launcher */
 .pf-fabs { top: calc(10px + env(safe-area-inset-top, 0px)); bottom: auto; transform: none; inset-inline-end: auto; left: auto; right: 10px; flex-direction: row; gap: 8px; }
+
+/* Saqr launcher: home page only (an already-open chat panel stays usable) */
+body.pf-not-home .pf-saqr-fab { display: none; }
