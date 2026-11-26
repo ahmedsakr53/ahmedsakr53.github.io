@@ -54,6 +54,7 @@
     chip: 'M15 9H9v6h6V9zm-2 4h-2v-2h2v2zm8-2V9h-3V6c0-1.1-.9-2-2-2h-3V1h-2v3h-4V1H9v3H6C4.9 4 4 4.9 4 6v3H1v2h3v2H1v2h3v3c0 1.1.9 2 2 2h3v3h2v-3h4v3h2v-3h3c1.1 0 2-.9 2-2v-3h3v-2h-3v-2h3zm-4 8H7V7h10v10z',
     store: 'M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z',
     navApp: 'M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z',
+    navGlobe: 'M12 2a10 10 0 100 20 10 10 0 000-20zm0 2c1.7 2 2.7 4.6 2.9 7H9.1C9.3 8.6 10.3 6 12 4zM4.3 11a8 8 0 013.9-6.1C7.3 6.5 6.7 8.6 6.6 11H4.3zm0 2h2.3c.1 2.4.7 4.5 1.6 6.1A8 8 0 014.3 13zM12 20c-1.7-2-2.7-4.6-2.9-7h5.8c-.2 2.4-1.2 5-2.9 7zm3.8-.9c.9-1.6 1.5-3.7 1.6-6.1h2.3a8 8 0 01-3.9 6.1zM17.4 11c-.1-2.4-.7-4.5-1.6-6.1A8 8 0 0119.7 11h-2.3z',
     navShield: 'M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z',
     pin: 'M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13c0-3.37-3.13-6.5-7-6.5zm0 8.75a2.25 2.25 0 1 1 0-4.5 2.25 2.25 0 0 1 0 4.5z'
   };
@@ -608,7 +609,8 @@
       '</div>' +
       '<div class="pf-visits" title="' + esc(t.visitsTitle) + '"><img src="https://hits.sh/ahmedsakr53.github.io/hits.svg?label=%F0%9F%91%81&color=2f7fd4&style=flat" alt="' + esc(t.visitsTitle) + '" loading="lazy"></div>' +
       '</div></div></div>' +
-      '<a class="pf-checkup-banner" href="#/checkup">' + icon('navShield') + '<span><b>' + esc(t.checkupBannerT) + '</b><small>' + esc(t.checkupBannerS) + '</small></span></a>' + livePlaceholder() + '</div>';
+      '<a class="pf-checkup-banner" href="#/checkup">' + icon('navShield') + '<span><b>' + esc(t.checkupBannerT) + '</b><small>' + esc(t.checkupBannerS) + '</small></span></a>' +
+      '<a class="pf-checkup-banner pf-map-banner" href="#/map">' + icon('navGlobe') + '<span><b>' + esc(lang === 'ar' ? 'الزوار دلوقتي على الخريطة' : 'Live visitor map') + '</b><small>' + esc(lang === 'ar' ? 'شوف مين بيتصفح الموقع دلوقتي ومن أنهي دولة' : 'See who is browsing the site right now, and from which countries') + '</small></span></a></div>';
   }
 
   function renderApp(t) {
@@ -851,6 +853,12 @@
   /* ===== Live visitor map: anonymous, country/city-level dots from the worker's presence data ===== */
   var PF_MAP = { cols: 144, rows: 56, top: 84, bot: -58, step: 2.5, data: "AAAAAAH+A/8AAAAAAAAAAAAAAAAAAHn3//+AAeAQAAcAAAAAAAAAEEOf//8AAsAAAAAAAAAAAAAAfN8Af/8AAAABgB/4AfAAAAAD5a8AP/4AAAAECP//8IAAAfgAHmf4P/gAAHAAG/////8Ag///1v5cH+AAA/8v+///////J/////h6HwHAB7z/////////A////+AIDgAAHv//////////B/v//8BwAgAAPl////////xgAGA//+B+AAAABj///////wGAAAAf//5/AAACEH///////AOAAAAP//5/wAALv////////4IAAAAH///9AAACf////////0AAAAAD///84AAB/////////wAAAAAD////AAAB//fn/////gAAAAAD///wAAAPjeBn////+MAAAAAD///AAAAPEt/3////YIAAAAAB//+AAAAPBF/z////MQAAAAAA///AAAAD8Gf/////FwAAAAAAf/8AAAAP+IP/////CAAAAAAAH/IAAAAP////////gAAAAAAAL4EAAAAf//v3////AAAAAAAAF4AAAAA///363///AAAAAAAAA4MAAAB///z/D/f8AAAAAAAAA4hAAAB///7+B+fgAAAAAAAAAfgAAAA///58B4PggAAAAAAAAB4AAAB///94AwHwgAAAAAAAAAYAAAB////AAwHwwAAAAAAAAAI/AAA////wAwEgQAAAAAAAAAF/AAAf///wAIAAYAAAAAAAAAB/4AAPP//gAAKDAAAAAAAAAAB/8AAAD//gAAEGAAAAAAAAAAD/8AAAD/+AAACOAAAAAAAAAAD//AAAD/8AAADOhQAAAAAAAAH//4AAB/8AAABAAcAAAAAAAAD//8AAB/8AAAAYAeAAAAAAAAB//8AAB/8AAAAAQBAAAAAAAAB//4AAB/8AAAAADgAAAAAAAAA//wAAB/8QAAAALEAAAAAAAAAf/wAAB/4wAAAAf8AAAAAAAAAP/wAAB/wwAAAA/+AAAAAAAAAP/gAAA/xgAAAD//AAAAAAAAAP+AAAA/wgAAAH//gAAAAAAAAP+AAAA/gAAAAD//gAAAAAAAAf8AAAAfAAAAAD//gAAAAAAAAf4AAAAfAAAAADx/gAAAAAAAAfwAAAAAAAAAACAfAAAAAAAAAfgAAAAAAAAAAAAPAAAAAAAAAeAAAAAAAAAAAAAAACAAAAAAA+AAAAAAAAAAAAACAEAAAAAAA8AAAAAAAAAAAAAAAQAAAAAAA8AAAAAAAAAAAAAAAAAAAAAAA4AAAAAAAAEAAAAAAAAAAAAAA4AAAAAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAAA" };
   var pfLiveTimer = 0;
+  function renderMapPage(t) {
+    var ar = lang === 'ar';
+    return '<div class="pf-page">' + pageHead(ar ? 'LIVE' : 'LIVE', ar ? 'خريطة الزوار الحية' : 'Live visitor map') +
+      '<p class="pf-para">' + esc(ar ? 'نقط مضيئة بتبيّن الدول والمدن اللي الناس بتتصفح الموقع منها دلوقتي. بتتحدث تلقائي كل نص دقيقة.' : 'Glowing dots show the countries and cities people are browsing this site from right now. It refreshes every 30 seconds.') + '</p>' +
+      livePlaceholder() + '</div>';
+  }
   function livePlaceholder() {
     var ar = lang === 'ar';
     return '<div class="pf-live" id="pf-live"><div class="pf-live-head"><span class="pf-live-pulse"></span><b id="pf-live-count">' + esc(ar ? 'الزوار دلوقتي' : 'Live visitors') + '</b></div>' +
@@ -1005,7 +1013,7 @@
 
   function currentRoute() {
     var h = location.hash || '#/';
-    if (navPaths.indexOf(h) === -1 && h !== '#/checkup') return '#/';
+    if (navPaths.indexOf(h) === -1 && h !== '#/checkup' && h !== '#/map') return '#/';
     return h;
   }
 
@@ -1068,6 +1076,7 @@
     else if (route === '#/projects') page = renderProjects(t);
     else if (route === '#/services') page = renderServices(t);
     else if (route === '#/checkup') page = renderCheckup(t);
+    else if (route === '#/map') page = renderMapPage(t);
     else if (route === '#/contact') page = renderContact(t);
     else page = renderHome(t);
     document.getElementById('app').innerHTML = nav + page + '<div class="pf-closing">' + esc(t.closing) + '</div>';
@@ -1076,7 +1085,7 @@
     setupReveal();
     setupTilt();
     if (route === '#/checkup') wireCheckup(t);
-    if (route === '#/') wireLive(); else clearInterval(pfLiveTimer);
+    if (route === '#/map') wireLive(); else clearInterval(pfLiveTimer);
     if (renderDone && window.goatcounter && window.goatcounter.count) {
       try { window.goatcounter.count({ path: location.hash.slice(1) || '/' }); } catch (e) {}
     }
