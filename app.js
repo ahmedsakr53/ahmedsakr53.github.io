@@ -54,6 +54,7 @@
     chip: 'M15 9H9v6h6V9zm-2 4h-2v-2h2v2zm8-2V9h-3V6c0-1.1-.9-2-2-2h-3V1h-2v3h-4V1H9v3H6C4.9 4 4 4.9 4 6v3H1v2h3v2H1v2h3v3c0 1.1.9 2 2 2h3v3h2v-3h4v3h2v-3h3c1.1 0 2-.9 2-2v-3h3v-2h-3v-2h3zm-4 8H7V7h10v10z',
     store: 'M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z',
     navApp: 'M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z',
+    navCap: 'M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z',
     navGlobe: 'M12 2a10 10 0 100 20 10 10 0 000-20zm0 2c1.7 2 2.7 4.6 2.9 7H9.1C9.3 8.6 10.3 6 12 4zM4.3 11a8 8 0 013.9-6.1C7.3 6.5 6.7 8.6 6.6 11H4.3zm0 2h2.3c.1 2.4.7 4.5 1.6 6.1A8 8 0 014.3 13zM12 20c-1.7-2-2.7-4.6-2.9-7h5.8c-.2 2.4-1.2 5-2.9 7zm3.8-.9c.9-1.6 1.5-3.7 1.6-6.1h2.3a8 8 0 01-3.9 6.1zM17.4 11c-.1-2.4-.7-4.5-1.6-6.1A8 8 0 0119.7 11h-2.3z',
     navShield: 'M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z',
     pin: 'M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13c0-3.37-3.13-6.5-7-6.5zm0 8.75a2.25 2.25 0 1 1 0-4.5 2.25 2.25 0 0 1 0 4.5z'
@@ -1016,7 +1017,7 @@
 
   function currentRoute() {
     var h = location.hash || '#/';
-    if (navPaths.indexOf(h) === -1 && h !== '#/checkup' && h !== '#/map') return '#/';
+    if (navPaths.indexOf(h) === -1 && h !== '#/checkup' && h !== '#/map' && h.indexOf('#/academy') !== 0) return '#/';
     return h;
   }
 
@@ -1055,6 +1056,21 @@
     document.addEventListener('keydown', function esc2(e) { if (!document.getElementById('pf-sheet')) { document.removeEventListener('keydown', esc2); return; } if (e.key === 'Escape') setOpen(false); });
   }
 
+  function loadAcademy(route) {
+    function go() {
+      var host = document.getElementById('pf-acad');
+      if (!host || !window.pfAcademy) return;
+      var ar = lang === 'ar';
+      host.innerHTML = window.pfAcademy.render(route, ar, { esc: esc, icon: icon, pageHead: pageHead });
+      window.pfAcademy.wire(ar);
+    }
+    if (window.pfAcademy) return go();
+    var sc = document.createElement('script');
+    sc.src = 'academy.js?v=1';
+    sc.onload = go;
+    document.head.appendChild(sc);
+  }
+
   function render() {
     var t = T[lang];
     document.documentElement.lang = lang;
@@ -1070,9 +1086,10 @@
       { href: navPaths[3], icon: navIcons[3], label: t.nav[3] },
       { href: navPaths[4], icon: navIcons[4], label: t.nav[4] },
       { href: '#/checkup', icon: 'navShield', label: t.checkupTitle },
+      { href: '#/academy', icon: 'navCap', label: ar0 ? 'الأكاديمية' : 'Academy' },
       { href: '#/map', icon: 'navGlobe', label: ar0 ? 'خريطة الزوار' : 'Visitor map' }
     ];
-    var moreActive = moreItems.some(function (m) { return m.href === route; });
+    var moreActive = moreItems.some(function (m) { return m.href === route || (m.href === '#/academy' && route.indexOf('#/academy') === 0); });
     var moreLabel = ar0 ? 'المزيد' : 'More';
     var nav = '<nav class="pf-nav" aria-label="' + esc(t.navAria) + '">' +
       mainIdx.map(function (i) {
@@ -1084,7 +1101,7 @@
       '<div class="pf-sheet" id="pf-sheet" hidden><div class="pf-sheet-back" data-close="1"></div>' +
       '<div class="pf-sheet-panel" role="dialog" aria-label="' + esc(moreLabel) + '"><div class="pf-sheet-grip"></div>' +
       '<div class="pf-sheet-grid">' + moreItems.map(function (m) {
-        return '<a href="' + m.href + '"' + (m.href === route ? ' aria-current="page"' : '') + '>' + icon(m.icon) + '<span>' + esc(m.label) + '</span></a>';
+        return '<a href="' + m.href + '"' + ((m.href === route || (m.href === '#/academy' && route.indexOf('#/academy') === 0)) ? ' aria-current="page"' : '') + '>' + icon(m.icon) + '<span>' + esc(m.label) + '</span></a>';
       }).join('') + '</div></div></div>' +
       '<div class="pf-fabs">' +
       '<button type="button" class="pf-lang-toggle" aria-label="' + esc(t.toggleLabel) + '">' +
@@ -1104,6 +1121,7 @@
     else if (route === '#/checkup') page = renderCheckup(t);
     else if (route === '#/map') page = renderMapPage(t);
     else if (route === '#/contact') page = renderContact(t);
+    else if (route.indexOf('#/academy') === 0) page = '<div class="pf-page" id="pf-acad"></div>';
     else page = renderHome(t);
     document.getElementById('app').innerHTML = nav + page + '<div class="pf-closing">' + esc(t.closing) + '</div>';
     saqrEnsure(t);
@@ -1113,6 +1131,7 @@
     setupTilt();
     wireNavSheet();
     if (route === '#/checkup') wireCheckup(t);
+    if (route.indexOf('#/academy') === 0) loadAcademy(route);
     if (route === '#/map') wireLive(); else clearInterval(pfLiveTimer);
     if (renderDone && window.goatcounter && window.goatcounter.count) {
       try { window.goatcounter.count({ path: location.hash.slice(1) || '/' }); } catch (e) {}
