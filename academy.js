@@ -53,7 +53,7 @@
   }
   var NEED = 60, ARL = true;
   function prog(tid) { try { return JSON.parse(localStorage.getItem('pf-acad-' + tid) || '[]'); } catch (e) { return []; } }
-  function mark(tid, i) { var a = prog(tid); if (a.indexOf(i) === -1) { a.push(i); try { localStorage.setItem('pf-acad-' + tid, JSON.stringify(a)); } catch (e) {} } return a; }
+  function mark(tid, i) { var a = prog(tid); if (a.indexOf(i) === -1) { a.push(i); try { localStorage.setItem('pf-acad-' + tid, JSON.stringify(a)); } catch (e) {} try { fetch('https://saqr-ahmed.ahmedsakr5326.workers.dev/academy/view', { method: 'POST', body: JSON.stringify({ t: tid, i: i + 1 }), keepalive: true }); } catch (e) {} } return a; }
   function unlocked(tid, i) { return i === 0 || prog(tid).indexOf(i - 1) !== -1; }
   function visible(t) { return !(CFG && CFG.tracks && CFG.tracks[t.id] && CFG.tracks[t.id].visible === false); }
   function liveList(t) { var a = []; for (var i = 0; i < t.eps.length; i++) { var e = ep(t.id, i); if (!e.hidden && e.live) a.push(i); } return a; }
