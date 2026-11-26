@@ -40,6 +40,32 @@
         ['الـ subnetting من غير وجع دماغ', 'Subnetting without the headache'],
         ['الواي فاي وأمان الشبكات البيتية', 'Wi-Fi and home network security'],
         ['إزاي بتتبعت الداتا عبر العالم', 'How data travels across the world'],
+        ['المشروع النهائي + الاختبار والشهادة', 'Final project + exam and certificate']] },
+    { id: 'linux', ico: 'navCode', ar: 'لينكس من الصفر', en: 'Linux from Scratch',
+      dAr: 'تتعلم التيرمنال وأوامر لينكس خطوة خطوة، من غير خبرة قبل كده.', dEn: 'Learn the terminal and Linux commands step by step, with no prior experience.',
+      eps: [
+        ['لينكس يعني إيه وليه تتعلمه', 'What Linux is and why learn it'],
+        ['أول تعامل مع التيرمنال', 'Your first time in the terminal'],
+        ['التنقل بين الفولدرات والملفات', 'Moving around folders and files'],
+        ['إنشاء الملفات وتعديلها ومسحها', 'Creating, editing and deleting files'],
+        ['الصلاحيات والمستخدمين', 'Permissions and users'],
+        ['تثبيت البرامج وإدارة الحزم', 'Installing software and package management'],
+        ['البحث والفلترة (grep و find)', 'Searching and filtering (grep and find)'],
+        ['العمليات والخدمات', 'Processes and services'],
+        ['الشبكة والاتصال من التيرمنال', 'Networking from the terminal'],
+        ['المشروع النهائي + الاختبار والشهادة', 'Final project + exam and certificate']] },
+    { id: 'py', ico: 'python', ar: 'بايثون من الصفر', en: 'Python from Scratch',
+      dAr: 'أسهل لغة تبدأ بيها البرمجة، من أول سطر لحد مشروع صغير بتعمله بنفسك.', dEn: 'The friendliest language to start with, from your first line to a small project you build yourself.',
+      eps: [
+        ['بايثون يعني إيه وإزاي تبدأ', 'What Python is and how to start'],
+        ['أول برنامج: print والمدخلات', 'Your first program: print and input'],
+        ['المتغيرات وأنواع البيانات', 'Variables and data types'],
+        ['الشروط (if)', 'Conditions (if)'],
+        ['اللوبات (for و while)', 'Loops (for and while)'],
+        ['الدوال (functions)', 'Functions'],
+        ['القوائم والقواميس', 'Lists and dictionaries'],
+        ['التعامل مع الملفات والأخطاء', 'Files and error handling'],
+        ['مكتبات بايثون الجاهزة', 'Python libraries'],
         ['المشروع النهائي + الاختبار والشهادة', 'Final project + exam and certificate']] }
   ];
   function find(id) { for (var i = 0; i < TRACKS.length; i++) if (TRACKS[i].id === id) return TRACKS[i]; return null; }
@@ -92,7 +118,7 @@
     if (!tr) {
       var list = TRACKS.filter(visible);
       return h.pageHead('ACADEMY', ar ? 'صقر أكاديمي' : 'Sakr Academy') +
-        '<p class="pf-para">' + esc(ar ? 'ثلاث مسارات مجانية، كل مسار ١٠ حلقات قصيرة بالصوت والصورة، وفي آخره اختبار وشهادة إتمام. نبدأ بمسار الأمن السيبراني، والباقي قريباً.' : 'Three free tracks, each with 10 short video episodes, a final exam and a completion certificate. We start with the cybersecurity track, the rest are coming soon.') + '</p>' +
+        '<p class="pf-para">' + esc(ar ? 'خمسة مسارات مجانية، كل مسار ١٠ حلقات قصيرة بالصوت والصورة، وفي آخره اختبار وشهادة إتمام. نبدأ بمسار الأمن السيبراني، والباقي قريباً.' : 'Five free tracks, each with 10 short video episodes, a final exam and a completion certificate. We start with the cybersecurity track, the rest are coming soon.') + '</p>' +
         '<div class="pf-acad-grid">' + list.map(function (t) {
           var c = liveList(t).length;
           return '<a class="pf-acad-card" href="#/academy/' + t.id + '">' +

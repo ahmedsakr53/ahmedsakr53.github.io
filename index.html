@@ -35,7 +35,7 @@
 </head>
 <body>
 <main class="pf-shell" id="app"></main>
-<script src="app.js?v=95"></script>
+<script src="app.js?v=96"></script>
 <script data-goatcounter="https://ahmedsakr53.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script>
 (function(){
@@ -121,7 +121,7 @@
     document.body.appendChild(wrap);
   }
 
-  var BUILD = '2026-11-26-29'; var pending = false, dismissed = false, pendingWorker = null;
+  var BUILD = '2026-11-26-30'; var pending = false, dismissed = false, pendingWorker = null;
   function checkBuild(){
     fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
       if (j && j.v && j.v !== BUILD) { pending = true; showUpdate(null); }

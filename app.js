@@ -266,7 +266,7 @@
       servicesIntro: 'خدمات أقدمها بنفس الجودة التي تراها في هذا الموقع:',
       services: [
         { name: 'اطمّن على نفسك — فحص أمني شخصي', detail: 'فحص مجاني داخل التطبيق: اختبر قوة كلمة سرك، راجع عادات حمايتك، وجرّب عينك على رسائل الاحتيال. كل شيء يعمل على جهازك ولا يُرسَل أي شيء.', free: true },
-        { name: 'صقر أكاديمي — كورسات مجانية بشهادة', detail: 'ثلاث مسارات مجانية: أمن سيبراني وبرمجة وشبكات، كل مسار ١٠ حلقات بالصوت والصورة، وفي آخره اختبار وشهادة إتمام.', free: true, href: '#/academy', cta: 'ادخل صقر أكاديمي', ico: 'navCap' },
+        { name: 'صقر أكاديمي — كورسات مجانية بشهادة', detail: 'خمسة مسارات مجانية: أمن سيبراني وبرمجة وشبكات ولينكس وبايثون، كل مسار ١٠ حلقات بالصوت والصورة، وفي آخره اختبار وشهادة إتمام.', free: true, href: '#/academy', cta: 'ادخل صقر أكاديمي', ico: 'navCap' },
         { name: 'موقع شخصي أو صفحة تعريفية', detail: 'صفحة واحدة أنيقة وسريعة، مصممة للموبايل أولاً — تماماً مثل هذا الموقع.' },
         { name: 'صفحة هبوط لنشاطك التجاري', detail: 'صفحة تعرّف بمنتجك أو خدمتك وتجلب لك العملاء، مع أزرار تواصل جاهزة.' },
         { name: 'لعبة متصفح خفيفة', detail: 'لعبة جافاسكريبت كاملة تعمل من المتصفح على الموبايل والكمبيوتر.' },
@@ -505,7 +505,7 @@
       servicesIntro: 'What I can build for you, with the same quality you see on this site:',
       services: [
         { name: 'Check yourself - personal security checkup', detail: 'A free in-app checkup: test your password strength, review your security habits, and try your phishing radar. Everything runs on your device, nothing is sent.', free: true },
-        { name: 'Sakr Academy - free courses with certificates', detail: 'Three free tracks: cybersecurity, programming and networking. Each has 10 video episodes, a final exam and a completion certificate.', free: true, href: '#/academy', cta: 'Open Sakr Academy', ico: 'navCap' },
+        { name: 'Sakr Academy - free courses with certificates', detail: 'Five free tracks: cybersecurity, programming, networking, Linux and Python. Each has 10 video episodes, a final exam and a completion certificate.', free: true, href: '#/academy', cta: 'Open Sakr Academy', ico: 'navCap' },
         { name: 'Personal one-page website', detail: 'A clean, fast, mobile-first page — just like this very site.' },
         { name: 'Landing page for your business', detail: 'A page that presents your product or service and brings you customers, with ready contact buttons.' },
         { name: 'A light browser game', detail: 'A complete JavaScript game that runs in the browser on mobile and desktop.' },
@@ -1098,7 +1098,7 @@
     ]).then(function (c) { if (c) acadCfg = c; return c; });
     var jsP = window.pfAcademy ? Promise.resolve() : new Promise(function (res) {
       var sc = document.createElement('script');
-      sc.src = 'academy.js?v=22';
+      sc.src = 'academy.js?v=23';
       sc.onload = res; sc.onerror = res;
       document.head.appendChild(sc);
     });
