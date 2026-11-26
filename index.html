@@ -38,7 +38,7 @@
   try { lang = localStorage.getItem('pf-lang') === 'en' ? 'en' : 'ar'; } catch(e){}
   var STR = {
     ar: {
-      install: 'حمّل التطبيق', update: 'تحديث جديد متاح', refresh: 'حدّث',
+      install: 'حمّل التطبيق', update: 'تحديث جديد متاح', refresh: 'تحديث',
       guideTitle: 'تثبيت التطبيق',
       guideInAppTitle: 'افتح الموقع في المتصفح الأول',
       guideInAppSteps: ['دوس على قائمة النقط التلاتة (أو زرار المشاركة) في التطبيق اللي إنت فيه دلوقتي', 'اختار «فتح في المتصفح» (Open in browser / Chrome / Safari)', 'لما الموقع يفتح في المتصفح، ارجع دوس على زرار «حمّل التطبيق»'],
@@ -116,6 +116,21 @@
     document.body.appendChild(wrap);
   }
 
+  var BUILD = '2026-11-26-3';
+  function checkBuild(){
+    fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
+      if (j && j.v && j.v !== BUILD) showUpdate(null);
+    }).catch(function(){});
+  }
+  function hardRefresh(){
+    var done = function(){ location.reload(); };
+    var p = window.caches ? caches.keys().then(function(ks){ return Promise.all(ks.map(function(k){ return caches.delete(k); })); }) : Promise.resolve();
+    p.then(function(){ return navigator.serviceWorker ? navigator.serviceWorker.getRegistration() : null; })
+     .then(function(reg){ if (reg) return reg.update().catch(function(){}); }).then(done, done);
+  }
+  window.addEventListener('load', function(){ setTimeout(checkBuild, 3000); });
+  document.addEventListener('visibilitychange', function(){ if (!document.hidden) checkBuild(); });
+
   function showUpdate(worker){
     if (document.getElementById('pf-update')) return;
     var t = document.createElement('div');
@@ -127,7 +142,7 @@
     btn.className = 'pf-update-btn';
     btn.type = 'button';
     btn.textContent = s('refresh');
-    btn.addEventListener('click', function(){ worker.postMessage('SKIP_WAITING'); });
+    btn.addEventListener('click', function(){ if (worker) worker.postMessage('SKIP_WAITING'); else hardRefresh(); });
     t.appendChild(span);
     t.appendChild(btn);
     document.body.appendChild(t);

@@ -1,4 +1,4 @@
-var CACHE = 'pf-v3';
+var CACHE = 'pf-v4';
 self.addEventListener('install', function (e) {});
 self.addEventListener('message', function (e) { if (e.data === 'SKIP_WAITING') self.skipWaiting(); });
 self.addEventListener('activate', function (e) {
@@ -9,6 +9,7 @@ self.addEventListener('activate', function (e) {
 self.addEventListener('fetch', function (e) {
   var url = new URL(e.request.url);
   if (e.request.method !== 'GET' || url.origin !== location.origin) return;
+  if (url.pathname.slice(-12) === 'version.json') return;
   var isStatic = /^\/(photos|fonts)\//.test(url.pathname);
   if (isStatic) {
     e.respondWith(caches.open(CACHE).then(function (cache) {
