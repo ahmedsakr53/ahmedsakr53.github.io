@@ -1169,7 +1169,7 @@
   }
 
   var acadCfg;
-  function acadPrefetch() { var u = 'academy.js?v=78'; if (window.pfAcademy || document.querySelector('link[href="' + u + '"]')) return; var l = document.createElement('link'); l.rel = 'prefetch'; l.as = 'script'; l.href = u; document.head.appendChild(l); }
+  function acadPrefetch() { var u = 'academy.js?v=79'; if (window.pfAcademy || document.querySelector('link[href="' + u + '"]')) return; var l = document.createElement('link'); l.rel = 'prefetch'; l.as = 'script'; l.href = u; document.head.appendChild(l); }
   document.addEventListener('pointerdown', function (e) { var a = e.target.closest && e.target.closest('a[href="#/academy"]'); if (a) acadPrefetch(); }, { passive: true });
   window.addEventListener('load', function () { setTimeout(acadPrefetch, 5000); });
   function loadAcademy(route) {
@@ -1190,7 +1190,7 @@
     if (host0 && !window.pfAcademy) host0.innerHTML = '<div class="pf-g-skel"><i></i><span>' + (lang === 'ar' ? 'جارٍ التحميل…' : 'Loading…') + '</span></div>';
     var jsP = window.pfAcademy ? Promise.resolve() : new Promise(function (res) {
       var sc = document.createElement('script');
-      sc.src = 'academy.js?v=78';
+      sc.src = 'academy.js?v=79';
       sc.onload = res; sc.onerror = res;
       document.head.appendChild(sc);
     });
@@ -1349,6 +1349,13 @@
   }, 1500);
 
   function render() {
+    try { renderCore(); } catch (err) {
+      try { window.__pfErr = String(err && err.stack || err).slice(0, 300); } catch (e2) {}
+      try { var bad = currentRoute(); if (bad !== '#/') { sessionStorage.setItem('pf-rerr', bad); history.replaceState(null, '', location.pathname + '#/'); renderCore(); } } catch (e3) {}
+    }
+    try { document.getElementById('app').dataset.route = currentRoute(); } catch (e4) {}
+  }
+  function renderCore() {
     var t = T[lang];
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
@@ -2097,6 +2104,22 @@
     if (e.key === 'Escape') closeLightbox();
   });
 
-  window.addEventListener('hashchange', function () { closeLightbox(); render(); window.scrollTo(0, 0); });
+  window.addEventListener('hashchange', function () {
+    try { closeLightbox(); } catch (e) {}
+    render(); window.scrollTo(0, 0);
+    // watchdog: if the screen did not switch, redraw once, then hard-reload once per minute
+    setTimeout(function () {
+      var ap = document.getElementById('app');
+      if (ap && ap.dataset.route !== currentRoute()) {
+        render();
+        setTimeout(function () {
+          if (ap.dataset.route !== currentRoute()) {
+            var last = +sessionStorage.getItem('pf-wd') || 0;
+            if (Date.now() - last > 60000) { sessionStorage.setItem('pf-wd', String(Date.now())); location.reload(); }
+          }
+        }, 600);
+      }
+    }, 500);
+  });
   render();
 })();
