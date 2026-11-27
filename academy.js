@@ -59,14 +59,14 @@
       eps: [
         ['بايثون يعني إيه وإزاي تبدأ', 'What Python is and how to start'],
         ['المتغيرات وأنواع البيانات', 'Variables and data types'],
-        ['أول برنامج: print والمدخلات', 'Your first program: print and input'],
-        ['الشروط (if)', 'Conditions (if)'],
-        ['اللوبات (for و while)', 'Loops (for and while)'],
-        ['الدوال (functions)', 'Functions'],
+        ['الشروط واتخاذ القرار', 'Conditions and decision making'],
+        ['التكرار واللوبس', 'Repetition and loops'],
         ['القوائم والقواميس', 'Lists and dictionaries'],
-        ['التعامل مع الملفات والأخطاء', 'Files and error handling'],
-        ['مكتبات بايثون الجاهزة', 'Python libraries'],
-        ['المشروع النهائي + الاختبار والشهادة', 'Final project + exam and certificate']] }
+        ['الدوال', 'Functions'],
+        ['الملفات والأخطاء', 'Files and errors'],
+        ['المكتبات والبيئات', 'Libraries and environments'],
+        ['البرمجة الكائنية', 'Object-oriented programming'],
+        ['مشروع ختامي وتحدي', 'Final project and challenge']] }
   ];
   function find(id) { for (var i = 0; i < TRACKS.length; i++) if (TRACKS[i].id === id) return TRACKS[i]; return null; }
   function n(x, ar) { return ar ? String(x).replace(/\d/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'[d]; }) : String(x); }
