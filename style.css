@@ -2072,7 +2072,7 @@ html[dir="rtl"] .pf-ep-d, html[dir="rtl"] .pf-card-detail, html[dir="rtl"] .pf-p
 .pf-acad-card.pf-t-py .pf-icon { fill: #FFD43B !important; }
 .pf-acad-card.pf-t-git .pf-icon { fill: #f97316 !important; }
 .pf-acad-card.pf-t-websec .pf-icon { fill: #fb7185 !important; }
-.pf-acad-card.pf-t-sql .pf-icon { fill: #a78bfa !important; }
+.pf-acad-card.pf-t-sql .pf-icon { fill: #14B8A6 !important; }
 .pf-acad-card.pf-t-api .pf-icon { fill: #34d399 !important; }
 .pf-acad-card.pf-t-ai .pf-icon { fill: #f472b6 !important; }
 
@@ -2184,3 +2184,27 @@ html:not([data-theme="dark"]) body .pf-acad-card.pf-t-websec small { color: #6b4
 html:not([data-theme="dark"]) body .pf-acad-card.pf-t-websec .pf-acad-ico .pf-icon { fill: #c42a37; }
 html:not([data-theme="dark"]) body .pf-acad-card.pf-t-websec .pf-acad-meta i { color: inherit; opacity: .85; }
 .pf-trk.pf-t-websec .pf-ep-t, .pf-trk.pf-t-websec p { color: #fff; }
+/* sql track (teal) */
+.pf-trk.pf-t-sql { background: linear-gradient(180deg, #0a2622, #06201c); border: 1px solid #14B8A6; border-radius: 22px; padding: 14px; color: #fff; }
+.pf-trk.pf-t-sql .pf-ep { background: #0d302b; border-color: rgb(20 184 166 / .45); border-radius: 22px; }
+.pf-trk.pf-t-sql .pf-ep.pf-ep-on { border-color: #5EEAD4; }
+.pf-trk.pf-t-sql .pf-ep-n { background: #14B8A6; color: #fff; }
+.pf-trk.pf-t-sql .pf-ep-on .pf-ep-s { color: #5EEAD4; }
+.pf-trk.pf-t-sql p, .pf-trk.pf-t-sql .pf-ep-t { color: #fff; }
+.pf-trk.pf-t-sql .pf-player { background: linear-gradient(135deg, #14B8A6, #0a2622); }
+.pf-trk.pf-t-sql .pf-player-btn { background: #5EEAD4; }
+.pf-trk.pf-t-sql .pf-player-tri { border-left-color: #06201c; }
+.pf-acad-card.pf-t-sql { background: #0a2622; border-color: #14B8A6; color: #fff; }
+.pf-acad-card.pf-t-sql small { color: #c7efe9; }
+body .pf-acad-card.pf-t-sql { background: #0a2622; border-color: #14B8A6; color: #fff; }
+body .pf-acad-card.pf-t-sql small { color: #c7efe9; }
+body .pf-acad-card.pf-t-sql b { color: inherit; }
+.pf-trk.pf-t-sql h1, .pf-trk.pf-t-sql h2 { color: #fff; }
+.pf-trk.pf-t-sql .pf-ep-d, .pf-trk.pf-t-sql .pf-ep-s, .pf-trk.pf-t-sql .pf-acad-note { color: #c7efe9; }
+.pf-trk.pf-t-sql .pf-acad-back { color: #1a1a1a; }
+.pf-acad-card.pf-t-sql .pf-icon { fill: #14B8A6 !important; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-sql { background: #ecfdf9; border-color: #14B8A6; color: #083a34; box-shadow: inset 0 -3px 0 #5EEAD4; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-sql small { color: #3f7f77; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-sql .pf-acad-ico .pf-icon { fill: #0f8f81; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-sql .pf-acad-meta i { color: inherit; opacity: .85; }
+.pf-trk.pf-t-sql .pf-ep-t, .pf-trk.pf-t-sql p { color: #fff; }
