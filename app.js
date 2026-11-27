@@ -196,11 +196,11 @@
         { name: 'منصة تجارية', detail: 'تصميم وتنفيذ منصة تجارية لصالح عميل خاص — تفاصيل المشروع محفوظة التزاماً بسرية العمل مع العملاء.' },
         { name: 'اجري يا صقر!', detail: 'لعبة جري لا نهائية برسوم كرتونية عالية الجودة وتجربة موبايل كاملة — في مراحلها الأخيرة، قريباً.', img: 'photos/game-cover-640.webp', imgAlt: 'الغلاف الرسمي للعبة اجري يا صقر: العريس يجري ووالد العروسة والعروسة وراءه في شوارع مصرية' }
       ],
-      checkupEyebrow: 'CHECK YOURSELF',
-      checkupTitle: 'اطمّن على نفسك',
+      checkupEyebrow: 'THE HIVE',
+      checkupTitle: 'الخلية',
       checkupIntro: 'أربع أدوات سريعة تقيس مستوى حمايتك على الإنترنت. كل شيء يعمل على جهازك أنت، ولا يُرسَل أو يُحفظ أي شيء تكتبه هنا.',
-      checkupBannerT: 'اطمّن على نفسك',
-      checkupBannerS: 'فحص أمني مجاني وسريع: قوة كلمة السر، عاداتك، وعينك على الاحتيال — كل شيء على جهازك، لا يُرسَل أي شيء.',
+      checkupBannerT: 'الخلية',
+      checkupBannerS: 'فحص أمني شخصي وأدوات سيبرانية: كلمة السر، اللينكات، Base64، الشبكات الفرعية والهاش — كله على جهازك.',
       passTitle: 'اختبر قوة كلمة السر',
       passNote: 'اكتب كلمة سر تجريبية مشابهة لأسلوبك، وليست الحقيقية. لا تُحفظ ولا تغادر جهازك.',
       passPlaceholder: 'اكتب كلمة السر هنا',
@@ -441,11 +441,11 @@
         { name: 'Commercial Platform', detail: 'Design and delivery of a commercial platform for a private client — project details kept confidential under client privacy.' },
         { name: 'Run, Sakr! (اجري يا صقر)', detail: 'An endless-runner mobile game with high-quality cartoon art and a full gameplay experience — in final stages, coming soon.', img: 'photos/game-cover-640.webp', imgAlt: 'Official cover art of Run Sakr: the groom sprinting away from the bride and her father through Egyptian streets' }
       ],
-      checkupEyebrow: 'CHECK YOURSELF',
-      checkupTitle: 'Check yourself',
+      checkupEyebrow: 'THE HIVE',
+      checkupTitle: 'The Hive',
       checkupIntro: 'Four quick tools that measure how protected you are online. Everything runs on your own device, and nothing you type is sent or saved anywhere.',
-      checkupBannerT: 'Check yourself',
-      checkupBannerS: 'A free quick security checkup: password strength, your habits, and your phishing radar. All on your device, nothing is sent.',
+      checkupBannerT: 'The Hive',
+      checkupBannerS: 'A personal security check plus cyber tools: passwords, links, Base64, subnets and hashes. All on your device.',
       passTitle: 'Test your password strength',
       passNote: 'Type a sample password similar to your style, not your real one. It is never saved or sent.',
       passPlaceholder: 'Type a password here',
@@ -763,6 +763,8 @@
     }).join('');
     return '<div class="pf-page">' + pageHead(t.checkupEyebrow, t.checkupTitle) +
       '<p class="pf-para">' + esc(t.checkupIntro) + '</p>' +
+      '<div class="pf-ops-tabs" role="tablist"><button type="button" class="on" data-ops="chk" role="tab">' + esc(lang === 'ar' ? 'اطمّن على نفسك' : 'Check yourself') + '</button><button type="button" data-ops="tools" role="tab">' + esc(lang === 'ar' ? 'أدوات سيبرانية' : 'Cyber tools') + '</button></div>' +
+      '<div id="pf-chk-pane">' +
       '<h3 class="pf-h3">' + esc(t.passTitle) + '</h3>' +
       '<div class="pf-card pf-pass-card">' +
       '<div class="pf-card-detail">' + esc(t.passNote) + '</div>' +
@@ -783,7 +785,7 @@
       '<h3 class="pf-h3">' + esc(t.quizTitle) + '</h3>' +
       '<p class="pf-para">' + esc(t.quizNote) + '</p>' +
       '<div class="pf-grid">' + quiz + '</div>' +
-      '<div class="pf-score" id="pf-quiz-score" hidden></div></div>';
+      '<div class="pf-score" id="pf-quiz-score" hidden></div></div><div id="pf-ops-pane" hidden></div></div>';
   }
 
   function passScore(p) {
@@ -960,6 +962,17 @@
 
   function wireCheckup(t) {
     wireLinkCheck(t);
+    var tabs = document.querySelectorAll('.pf-ops-tabs button');
+    for (var ti = 0; ti < tabs.length; ti++) tabs[ti].addEventListener('click', function () {
+      var tools = this.getAttribute('data-ops') === 'tools', pane = document.getElementById('pf-ops-pane'), chk = document.getElementById('pf-chk-pane');
+      if (!pane || !chk) return;
+      for (var k = 0; k < tabs.length; k++) tabs[k].classList.toggle('on', tabs[k] === this);
+      chk.hidden = tools; pane.hidden = !tools;
+      if (tools && !pane.getAttribute('data-ready')) {
+        var go = function () { window.pfOps.mount(pane, lang === 'ar'); pane.setAttribute('data-ready', '1'); };
+        if (window.pfOps) go(); else { var sc = document.createElement('script'); sc.src = 'ops.js?v=1'; sc.onload = go; sc.onerror = function () { pane.textContent = lang === 'ar' ? 'مش قادرين نحمّل الأدوات. جرّب تاني.' : 'Could not load the tools. Try again.'; }; document.head.appendChild(sc); }
+      }
+    });
     var pass = document.getElementById('pf-pass');
     if (pass) {
       pass.addEventListener('input', function () {

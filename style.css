@@ -2014,3 +2014,16 @@ body .pf-acad-card.pf-t-linux { background: #000; border-color: #39FF14; color: 
 body .pf-acad-card.pf-t-code { background: #2a0a2e; border-color: #FF3EA5; color: #fff; }
 body .pf-acad-card.pf-t-code small, body .pf-acad-card.pf-t-linux small, body .pf-acad-card.pf-t-py small { color: #d6dde6; }
 body .pf-acad-card.pf-t-code b, body .pf-acad-card.pf-t-linux b, body .pf-acad-card.pf-t-py b { color: inherit; }
+
+/* Ops Room tabs and tools */
+.pf-ops-tabs { display: flex; gap: 8px; margin: 14px 0; }
+.pf-ops-tabs button { flex: 1; padding: 11px 8px; border-radius: 14px; border: 1px solid var(--ds-hairline); background: transparent; color: var(--ds-ink); font: inherit; font-weight: 700; font-size: 14px; cursor: pointer; }
+.pf-ops-tabs button.on { background: linear-gradient(135deg, #f97316, #ef4444); color: #fff; border-color: transparent; }
+.pf-ops-ta { min-height: 76px; resize: vertical; font-family: ui-monospace, Menlo, monospace; }
+.pf-ops-btns { display: flex; gap: 8px; margin-top: 8px; }
+.pf-ops-out { margin: 10px 0 0; padding: 10px; border-radius: 12px; background: rgb(0 0 0 / .08); white-space: pre-wrap; word-break: break-all; font-size: 13px; text-align: left; }
+.pf-ops-out.bad, .pf-ops-bad { color: #dc2626; font-size: 13px; }
+.pf-ops-res { margin-top: 10px; }
+.pf-ops-r { display: flex; justify-content: space-between; gap: 10px; padding: 7px 0; border-top: 1px solid var(--ds-hairline); font-size: 13.5px; }
+.pf-ops-r b { font-family: ui-monospace, Menlo, monospace; word-break: break-all; text-align: left; }
+.pf-ops-note { font-size: 12px; opacity: .7; padding-top: 6px; }
