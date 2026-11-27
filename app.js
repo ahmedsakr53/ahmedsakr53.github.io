@@ -668,7 +668,10 @@
     }).join('');
     return '<div class="pf-page">' + pageHead(t.appEyebrow, t.appTitle) +
       '<p class="pf-para">' + esc(t.appIntro) + '</p>' +
-      '<div class="pf-grid">' + cards + '</div></div>';
+      '<div class="pf-grid">' + cards + '</div>' +
+      '<div class="pf-card" style="margin-top:14px"><div class="pf-card-name">' + esc(lang === 'ar' ? 'تطبيق أندرويد (APK)' : 'Android app (APK)') + '</div>' +
+      '<div class="pf-card-detail">' + esc(lang === 'ar' ? 'نسخة أندرويد مباشرة من غير متجر. بعد التحميل افتح الملف واسمح بالتثبيت من المتصفح لو الجهاز طلب كده. لو ظهر تحذير Play Protect دوس «مزيد من التفاصيل» ثم «تثبيت على أي حال»، لأنه تطبيق مش منشور على المتجر.' : 'A direct Android build, no store needed. Open the file after download and allow installs from your browser if asked. If Play Protect warns, tap More details then Install anyway: the app is not published on the store.') + '</div>' +
+      '<a class="pf-install-btn" style="position:static;display:inline-block;margin-top:10px;text-decoration:none" href="sakr-world.apk" download="sakr-world.apk">' + esc(lang === 'ar' ? 'حمّل ملف APK' : 'Download APK') + '</a></div></div>';
   }
 
   function renderAbout(t) {
@@ -1169,7 +1172,7 @@
   }
 
   var acadCfg;
-  function acadPrefetch() { var u = 'academy.js?v=82'; if (window.pfAcademy || document.querySelector('link[href="' + u + '"]')) return; var l = document.createElement('link'); l.rel = 'prefetch'; l.as = 'script'; l.href = u; document.head.appendChild(l); }
+  function acadPrefetch() { var u = 'academy.js?v=83'; if (window.pfAcademy || document.querySelector('link[href="' + u + '"]')) return; var l = document.createElement('link'); l.rel = 'prefetch'; l.as = 'script'; l.href = u; document.head.appendChild(l); }
   document.addEventListener('pointerdown', function (e) { var a = e.target.closest && e.target.closest('a[href="#/academy"]'); if (a) acadPrefetch(); }, { passive: true });
   window.addEventListener('load', function () { setTimeout(acadPrefetch, 5000); });
   function loadAcademy(route) {
@@ -1190,7 +1193,7 @@
     if (host0 && !window.pfAcademy) host0.innerHTML = '<div class="pf-g-skel"><i></i><span>' + (lang === 'ar' ? 'جارٍ التحميل…' : 'Loading…') + '</span></div>';
     var jsP = window.pfAcademy ? Promise.resolve() : new Promise(function (res) {
       var sc = document.createElement('script');
-      sc.src = 'academy.js?v=82';
+      sc.src = 'academy.js?v=83';
       sc.onload = res; sc.onerror = res;
       document.head.appendChild(sc);
     });
