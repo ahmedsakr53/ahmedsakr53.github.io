@@ -1965,3 +1965,52 @@ main.pf-shell { overflow-x: clip; }
 .pf-fun-banner:hover { box-shadow: 0 0 22px rgb(57 255 20 / 0.7); }
 html[data-theme="dark"] .pf-fun-banner { background: linear-gradient(135deg, rgb(57 255 20 / 0.14), rgb(0 229 255 / 0.12)); border-color: #39ff14; color: #b6ffa8; }
 html[data-theme="dark"] .pf-fun-banner .pf-icon { fill: #39ff14; }
+
+/* per-track themes (Python, Linux, JavaScript) */
+.pf-trk.pf-t-py { --tk: #FFD43B; --tk2: #4B8BBE; background: linear-gradient(180deg, #0D1520, #070B12); border: 1px solid rgb(75 139 190 / .4); border-radius: 20px; padding: 14px; color: #e6edf6; }
+.pf-trk.pf-t-py .pf-ep { background: #101b2b; border-color: rgb(75 139 190 / .35); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; position: relative; padding-top: 22px; }
+.pf-trk.pf-t-py .pf-ep::before { content: ""; position: absolute; top: 7px; left: 12px; width: 6px; height: 6px; border-radius: 50%; background: #ff5f57; box-shadow: 11px 0 #febc2e, 22px 0 #28c840; }
+.pf-trk.pf-t-py .pf-ep.pf-ep-on { border-color: #FFD43B; }
+.pf-trk.pf-t-py .pf-ep-n { background: rgb(255 212 59 / .16); color: #FFD43B; }
+.pf-trk.pf-t-py .pf-ep-on .pf-ep-s { color: #FFD43B; }
+.pf-trk.pf-t-py .pf-ep.pf-ep-sel { background: rgb(75 139 190 / .22); }
+.pf-trk.pf-t-py .pf-player { background: linear-gradient(135deg, #1b3a5c, #0D1520); border: 1px solid rgb(75 139 190 / .5); }
+.pf-trk.pf-t-py .pf-player-btn { background: #FFD43B; }
+.pf-trk.pf-t-py .pf-player-tri { border-left-color: #0D1520; }
+.pf-trk.pf-t-py p, .pf-trk.pf-t-py .pf-ep-t, .pf-trk.pf-t-py h1, .pf-trk.pf-t-py h2 { color: #e6edf6; }
+.pf-trk.pf-t-py .pf-ep-d, .pf-trk.pf-t-py .pf-ep-s, .pf-trk.pf-t-py .pf-acad-note { color: #9db4cc; }
+.pf-trk.pf-t-py .pf-acad-back { color: #FFD43B; }
+.pf-acad-card.pf-t-py { background: #0D1520; border-color: rgb(75 139 190 / .5); color: #e6edf6; }
+.pf-acad-card.pf-t-py small { color: #9db4cc; }
+.pf-acad-card.pf-t-py:hover { border-color: #FFD43B; }
+.pf-trk.pf-t-linux { background: #000; border: 1px solid #39FF14; border-radius: 14px; padding: 14px; color: #fff; font-family: ui-monospace, Menlo, monospace; }
+.pf-trk.pf-t-linux .pf-ep { background: #050805; border-color: rgb(57 255 20 / .35); }
+.pf-trk.pf-t-linux .pf-ep-t::before { content: "$ "; color: #39FF14; }
+.pf-trk.pf-t-linux .pf-ep.pf-ep-on { border-color: #39FF14; }
+.pf-trk.pf-t-linux .pf-ep-n { background: rgb(57 255 20 / .15); color: #39FF14; }
+.pf-trk.pf-t-linux .pf-ep-on .pf-ep-s { color: #39FF14; }
+.pf-trk.pf-t-linux p, .pf-trk.pf-t-linux .pf-ep-t { color: #fff; }
+.pf-trk.pf-t-linux .pf-player { background: #000; border: 1px solid #39FF14; }
+.pf-trk.pf-t-linux .pf-player-btn { background: #39FF14; }
+.pf-trk.pf-t-linux .pf-player-tri { border-left-color: #000; }
+.pf-acad-card.pf-t-linux { background: #000; border-color: #39FF14; color: #fff; }
+.pf-acad-card.pf-t-linux small { color: #b8ffa8; }
+.pf-trk.pf-t-code { background: linear-gradient(180deg, #2a0a2e, #14051a); border: 1px solid #FF3EA5; border-radius: 22px; padding: 14px; color: #fff; }
+.pf-trk.pf-t-code .pf-ep { background: #3a1240; border-color: rgb(255 62 165 / .4); border-radius: 22px; }
+.pf-trk.pf-t-code .pf-ep.pf-ep-on { border-color: #C6F135; }
+.pf-trk.pf-t-code .pf-ep-n { background: #FF3EA5; color: #fff; }
+.pf-trk.pf-t-code .pf-ep-on .pf-ep-s { color: #C6F135; }
+.pf-trk.pf-t-code p, .pf-trk.pf-t-code .pf-ep-t { color: #fff; }
+.pf-trk.pf-t-code .pf-player { background: linear-gradient(135deg, #FF3EA5, #2a0a2e); }
+.pf-trk.pf-t-code .pf-player-btn { background: #C6F135; }
+.pf-trk.pf-t-code .pf-player-tri { border-left-color: #14051a; }
+.pf-acad-card.pf-t-code { background: #2a0a2e; border-color: #FF3EA5; color: #fff; }
+.pf-acad-card.pf-t-code small { color: #f3c4e0; }
+.pf-trk.pf-t-linux h1, .pf-trk.pf-t-linux h2, .pf-trk.pf-t-code h1, .pf-trk.pf-t-code h2 { color: #fff; }
+.pf-trk.pf-t-linux .pf-ep-d, .pf-trk.pf-t-code .pf-ep-d, .pf-trk.pf-t-linux .pf-ep-s, .pf-trk.pf-t-code .pf-ep-s, .pf-trk.pf-t-linux .pf-acad-note, .pf-trk.pf-t-code .pf-acad-note { color: #cfd6cf; }
+.pf-trk.pf-t-linux .pf-acad-back, .pf-trk.pf-t-code .pf-acad-back { color: #1a1a1a; }
+body .pf-acad-card.pf-t-py { background: #0D1520; border-color: rgb(75 139 190 / .5); color: #e6edf6; }
+body .pf-acad-card.pf-t-linux { background: #000; border-color: #39FF14; color: #fff; }
+body .pf-acad-card.pf-t-code { background: #2a0a2e; border-color: #FF3EA5; color: #fff; }
+body .pf-acad-card.pf-t-code small, body .pf-acad-card.pf-t-linux small, body .pf-acad-card.pf-t-py small { color: #d6dde6; }
+body .pf-acad-card.pf-t-code b, body .pf-acad-card.pf-t-linux b, body .pf-acad-card.pf-t-py b { color: inherit; }

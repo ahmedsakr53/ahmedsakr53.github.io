@@ -70,7 +70,7 @@
   ];
   function find(id) { for (var i = 0; i < TRACKS.length; i++) if (TRACKS[i].id === id) return TRACKS[i]; return null; }
   function n(x, ar) { return ar ? String(x).replace(/\d/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'[d]; }) : String(x); }
-  var DEF = { 'net-1': 'academy/net-1.mp4', 'net-2': 'academy/net-2.mp4', 'net-3': 'academy/net-3.mp4', 'net-4': 'academy/net-4.mp4', 'net-5': 'academy/net-5.mp4', 'net-6': 'academy/net-6.mp4', 'net-7': 'academy/net-7.mp4', 'net-8': 'academy/net-8.mp4', 'net-9': 'academy/net-9.mp4', 'net-10': 'academy/net-10.mp4', 'cyber-1': 'academy/cyber-1.mp4', 'cyber-2': 'academy/cyber-2.mp4', 'cyber-3': 'academy/cyber-3.mp4', 'cyber-4': 'academy/cyber-4.mp4', 'cyber-5': 'academy/cyber-5.mp4', 'cyber-6': 'academy/cyber-6.mp4', 'cyber-7': 'academy/cyber-7.mp4', 'cyber-8': 'academy/cyber-8.mp4', 'cyber-9': 'academy/cyber-9.mp4', 'cyber-10': 'academy/cyber-10.mp4' };
+  var DEF = { 'py-1': 'academy/py-1.mp4', 'net-1': 'academy/net-1.mp4', 'net-2': 'academy/net-2.mp4', 'net-3': 'academy/net-3.mp4', 'net-4': 'academy/net-4.mp4', 'net-5': 'academy/net-5.mp4', 'net-6': 'academy/net-6.mp4', 'net-7': 'academy/net-7.mp4', 'net-8': 'academy/net-8.mp4', 'net-9': 'academy/net-9.mp4', 'net-10': 'academy/net-10.mp4', 'cyber-1': 'academy/cyber-1.mp4', 'cyber-2': 'academy/cyber-2.mp4', 'cyber-3': 'academy/cyber-3.mp4', 'cyber-4': 'academy/cyber-4.mp4', 'cyber-5': 'academy/cyber-5.mp4', 'cyber-6': 'academy/cyber-6.mp4', 'cyber-7': 'academy/cyber-7.mp4', 'cyber-8': 'academy/cyber-8.mp4', 'cyber-9': 'academy/cyber-9.mp4', 'cyber-10': 'academy/cyber-10.mp4' };
   var CFG = null, SEL = 0;
   function ep(tid, i) {
     var k = tid + '-' + (i + 1), e = (CFG && CFG.eps && CFG.eps[k]) || (DEF[k] ? { mp4: DEF[k] } : {});
@@ -84,28 +84,30 @@
   function visible(t) { return !(CFG && CFG.tracks && CFG.tracks[t.id] && CFG.tracks[t.id].visible === false); }
   function liveList(t) { var a = []; for (var i = 0; i < t.eps.length; i++) { var e = ep(t.id, i); if (!e.hidden && e.live) a.push(i); } return a; }
 
+  var EXAM_OK = { cyber: 1, net: 1 };
   function examReady(tid) { var a = prog(tid); for (var i = 0; i < 10; i++) if (a.indexOf(i) === -1) return false; return true; }
   function examRow(tr, ar, esc) {
-    var ok = tr.id === 'cyber' && examReady(tr.id);
+    var ok = !!EXAM_OK[tr.id] && examReady(tr.id);
     return '<div class="pf-ep pf-exam ' + (ok ? 'pf-ep-on' : 'pf-ep-lock') + '"' + (ok ? ' id="pf-exam-open" tabindex="0" role="button"' : ' aria-disabled="true"') + '><span class="pf-ep-n">🎓</span><span class="pf-ep-t">' + esc(ar ? 'الاختبار والشهادة' : 'Exam and certificate') + '</span><span class="pf-ep-s">' + esc(ok ? (ar ? 'ابدأ' : 'Start') : (ar ? '🔒 بعد الحلقات العشر' : '🔒 After all 10 episodes')) + '</span></div>';
   }
   function extraRows(tr, ar, esc) {
-    if (tr.id !== 'cyber') return '';
-    var rw = function (id, ic, t) { return '<div class="pf-ep pf-exam pf-ep-on" id="' + id + '" tabindex="0" role="button"><span class="pf-ep-n">' + ic + '</span><span class="pf-ep-t">' + esc(t) + '</span><span class="pf-ep-s">' + esc(ar ? 'افتح' : 'Open') + '</span></div>'; };
-    var p = prog('cyber').length, cert = null, o = {}; try { cert = JSON.parse(localStorage.getItem('pf-cert-cyber') || 'null'); } catch (e) {}
-    var B = [['🎬', ar ? '٥ حلقات' : '5 episodes', p >= 5], ['📚', ar ? 'خلّصت العشر' : 'All 10 episodes', p >= 10], ['🎓', ar ? 'نجحت في الاختبار' : 'Passed the exam', !!cert], ['⭐', ar ? 'نجحت من أول مرة' : 'Passed first try', !!cert && localStorage.getItem('pf-ex-first') === '1'], ['💯', ar ? 'درجة كاملة' : 'Perfect score', !!cert && cert.score >= 20], ['⚡', ar ? 'سؤال الأسبوع' : 'Weekly question', localStorage.getItem('pf-wq-ok') === '1']];
-    return rw('pf-board-open', '🏆', ar ? 'المتصدرين' : 'Leaderboard') + rw('pf-weekly-open', '⚡', ar ? 'سؤال الأسبوع' : 'Question of the week') +
+    if (!EXAM_OK[tr.id]) return '';
+    var cy = tr.id === 'cyber', rw = function (id, ic, t) { return '<div class="pf-ep pf-exam pf-ep-on" id="' + id + '" tabindex="0" role="button"><span class="pf-ep-n">' + ic + '</span><span class="pf-ep-t">' + esc(t) + '</span><span class="pf-ep-s">' + esc(ar ? 'افتح' : 'Open') + '</span></div>'; };
+    var p = prog(tr.id).length, cert = null, o = {}; try { cert = JSON.parse(localStorage.getItem('pf-cert-' + tr.id) || 'null'); } catch (e) {}
+    var B = [['🎬', ar ? '٥ حلقات' : '5 episodes', p >= 5], ['📚', ar ? 'خلّصت العشر' : 'All 10 episodes', p >= 10], ['🎓', ar ? 'نجحت في الاختبار' : 'Passed the exam', !!cert], ['⭐', ar ? 'نجحت من أول مرة' : 'Passed first try', !!cert && localStorage.getItem(cy ? 'pf-ex-first' : 'pf-ex-first-' + tr.id) === '1'], ['💯', ar ? 'درجة كاملة' : 'Perfect score', !!cert && cert.score >= 20]];
+    if (cy) B.push(['⚡', ar ? 'سؤال الأسبوع' : 'Weekly question', localStorage.getItem('pf-wq-ok') === '1']);
+    return (cy ? rw('pf-board-open', '🏆', ar ? 'المتصدرين' : 'Leaderboard') + rw('pf-weekly-open', '⚡', ar ? 'سؤال الأسبوع' : 'Question of the week') : '') +
       '<p class="pf-bdg-t">' + esc(ar ? '🎖️ إنجازاتك' : '🎖️ Your badges') + '</p><div class="pf-bdg">' + B.map(function (b) { return '<span class="' + (b[2] ? '' : 'off') + '">' + b[0] + ' ' + esc(b[1]) + '</span>'; }).join('') + '</div>';
   }
-  function openExam(ar, kind) {
+  function openExam(ar, kind, tid) {
     var box = document.getElementById('pf-exam-box'); if (!box) return;
     kind = kind || 'exam';
     if (!box.hidden && box.getAttribute('data-kind') === kind) { box.hidden = true; return; }
     box.setAttribute('data-kind', kind);
     box.hidden = false; box.innerHTML = '<p class="pf-ex-p">' + (ar ? 'لحظة...' : 'One moment...') + '</p>';
-    var go = function () { if (kind === 'board') window.pfExam.board(box, ar); else if (kind === 'weekly') window.pfExam.weekly(box, ar); else window.pfExam.open(box, ar); box.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+    var go = function () { if (kind === 'board') window.pfExam.board(box, ar); else if (kind === 'weekly') window.pfExam.weekly(box, ar); else window.pfExam.open(box, ar, tid); box.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
     if (window.pfExam) return go();
-    var sc = document.createElement('script'); sc.src = 'academy-exam.js?v=2'; sc.onload = go; sc.onerror = function () { box.textContent = ar ? 'مش قادرين نحمّل الاختبار. جرّب تاني.' : 'Could not load the exam. Try again.'; };
+    var sc = document.createElement('script'); sc.src = 'academy-exam.js?v=3'; sc.onload = go; sc.onerror = function () { box.textContent = ar ? 'مش قادرين نحمّل الاختبار. جرّب تاني.' : 'Could not load the exam. Try again.'; };
     document.head.appendChild(sc);
   }
 
@@ -121,7 +123,7 @@
         '<p class="pf-para">' + esc(ar ? 'خمسة مسارات مجانية، كل مسار ١٠ حلقات قصيرة بالصوت والصورة، وفي آخره اختبار وشهادة إتمام. نبدأ بمسار الأمن السيبراني، والباقي قريباً.' : 'Five free tracks, each with 10 short video episodes, a final exam and a completion certificate. We start with the cybersecurity track, the rest are coming soon.') + '</p>' +
         '<div class="pf-acad-grid">' + list.map(function (t) {
           var c = liveList(t).length;
-          return '<a class="pf-acad-card" href="#/academy/' + t.id + '">' +
+          return '<a class="pf-acad-card pf-t-' + t.id + '" href="#/academy/' + t.id + '">' +
             '<span class="pf-acad-ico">' + icon(t.ico) + '</span>' +
             '<b>' + esc(ar ? t.ar : t.en) + '</b>' +
             '<small>' + esc(ar ? t.dAr : t.dEn) + '</small>' +
@@ -145,17 +147,17 @@
       ? '<div class="pf-player" id="pf-player"><button type="button" class="pf-player-btn" id="pf-player-btn" aria-label="' + esc(ar ? 'شغّل الحلقة' : 'Play episode') + '"><span class="pf-player-tri"></span></button>' +
         '<div class="pf-player-cap" id="pf-player-cap">' + esc((ar ? 'الحلقة ' + n(SEL + 1, ar) + ': ' : 'Episode ' + (SEL + 1) + ': ') + (ar ? tr.eps[SEL][0] : tr.eps[SEL][1])) + '</div></div>'
       : '<div class="pf-player pf-player-soon"><div class="pf-player-cap">' + esc(ar ? 'الحلقات قريباً، جاري التجهيز.' : 'Episodes coming soon.') + '</div></div>';
-    return '<a class="pf-acad-back" href="#/academy"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg><span>' + esc(ar ? 'رجوع لكل المسارات' : 'Back to all tracks') + '</span></a>' +
+    return '<div class="pf-trk pf-t-' + tr.id + '"></div>'.slice(0, -6) + '<a class="pf-acad-back" href="#/academy"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg><span>' + esc(ar ? 'رجوع لكل المسارات' : 'Back to all tracks') + '</span></a>' +
       h.pageHead(n(10, ar) + (ar ? ' حلقات' : ' EPISODES'), ar ? tr.ar : tr.en) +
       '<p class="pf-para">' + esc(ar ? tr.dAr : tr.dEn) + '</p>' + player +
       '<ol class="pf-eps">' + rows + '</ol>' +
       examRow(tr, ar, esc) + extraRows(tr, ar, esc) + '<div class="pf-exam-box" id="pf-exam-box" hidden></div>' +
-      '<p class="pf-acad-note">' + esc(ar ? 'كل حلقة بتتفتح بعد ما تتفرج على دقيقة من اللي قبلها، والاختبار بيتفتح بعد العشر حلقات.' : 'Each episode unlocks after you watch one minute of the previous one. The exam opens after all 10.') + '</p>';
+      '<p class="pf-acad-note">' + esc(ar ? 'كل حلقة بتتفتح بعد ما تتفرج على دقيقة من اللي قبلها، والاختبار بيتفتح بعد العشر حلقات.' : 'Each episode unlocks after you watch one minute of the previous one. The exam opens after all 10.') + '</p></div>';
   }
 
   function unlockNext(tr, i) {
     mark(tr.id, i);
-    if (tr.id === 'cyber' && examReady('cyber')) { var er = document.querySelector('.pf-exam.pf-ep-lock'); if (er) { er.classList.remove('pf-ep-lock'); er.classList.add('pf-ep-on'); er.removeAttribute('aria-disabled'); er.id = 'pf-exam-open'; er.setAttribute('tabindex', '0'); er.setAttribute('role', 'button'); var es = er.querySelector('.pf-ep-s'); if (es) es.textContent = ARL === false ? 'Start' : '\u0627\u0628\u062f\u0623'; er.addEventListener('click', function () { openExam(ARL !== false); }); } }
+    if (EXAM_OK[tr.id] && examReady(tr.id)) { var er = document.querySelector('.pf-exam.pf-ep-lock'); if (er) { er.classList.remove('pf-ep-lock'); er.classList.add('pf-ep-on'); er.removeAttribute('aria-disabled'); er.id = 'pf-exam-open'; er.setAttribute('tabindex', '0'); er.setAttribute('role', 'button'); var es = er.querySelector('.pf-ep-s'); if (es) es.textContent = ARL === false ? 'Start' : '\u0627\u0628\u062f\u0623'; er.addEventListener('click', function () { openExam(ARL !== false, 'exam', tr.id); }); } }
     var cur = document.querySelector('.pf-ep[data-i="' + i + '"] .pf-ep-s'); if (cur && cur.textContent.indexOf('🔒') === -1) cur.textContent = (ARL === false ? '\u2713 Done' : '\u2713 \u062a\u0645\u062a');
     var nx = document.querySelector('.pf-ep[data-i="' + (i + 1) + '"]');
     if (nx && nx.classList.contains('pf-ep-lock')) {
@@ -191,7 +193,7 @@
     });
     var eo = document.getElementById('pf-exam-open');
     [['pf-board-open', 'board'], ['pf-weekly-open', 'weekly']].forEach(function (x) { var e = document.getElementById(x[0]); if (e) { e.addEventListener('click', function () { openExam(ar, x[1]); }); e.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); openExam(ar, x[1]); } }); } });
-    if (eo) { eo.addEventListener('click', function () { openExam(ar); }); eo.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openExam(ar); } }); }
+    if (eo) { eo.addEventListener('click', function () { openExam(ar, 'exam', tr.id); }); eo.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openExam(ar, 'exam', tr.id); } }); }
     document.querySelectorAll('.pf-ep.pf-ep-lock').forEach(function (li) {
       li.addEventListener('click', function () {
         lockMsg(li.classList.contains('pf-exam')

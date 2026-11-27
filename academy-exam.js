@@ -4,7 +4,14 @@
   var API = 'https://saqr-ahmed.ahmedsakr5326.workers.dev';
   var QR = 'M0 0.5h7m2 0h2m1 0h2m1 0h2m1 0h1m3 0h7m-29 1h1m5 0h1m1 0h2m6 0h1m2 0h2m1 0h1m5 0h1m-29 1h1m1 0h3m1 0h1m2 0h1m1 0h1m1 0h1m1 0h2m3 0h1m1 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m1 0h6m1 0h1m1 0h1m1 0h2m1 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m1 0h2m2 0h4m2 0h2m2 0h1m1 0h3m1 0h1m-29 1h1m5 0h1m4 0h2m1 0h1m1 0h3m3 0h1m5 0h1m-29 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-21 1h1m1 0h3m2 0h1m3 0h2m-20 1h1m1 0h4m1 0h2m3 0h1m3 0h1m3 0h2m1 0h2m1 0h1m-28 1h1m4 0h1m1 0h2m9 0h4m1 0h5m-27 1h2m1 0h1m1 0h1m1 0h2m2 0h2m3 0h1m2 0h3m1 0h3m-27 1h1m6 0h2m2 0h1m1 0h5m1 0h1m3 0h1m4 0h1m-29 1h2m1 0h2m1 0h1m2 0h6m4 0h4m4 0h1m-28 1h1m1 0h1m2 0h1m3 0h1m2 0h7m3 0h1m1 0h1m1 0h3m-29 1h3m1 0h4m3 0h2m1 0h2m1 0h1m1 0h2m1 0h2m1 0h1m1 0h2m-29 1h1m2 0h1m1 0h1m2 0h1m4 0h3m4 0h1m1 0h1m1 0h3m-27 1h4m2 0h3m2 0h5m2 0h1m1 0h1m2 0h1m1 0h1m1 0h1m-28 1h2m1 0h1m1 0h1m7 0h1m3 0h4m3 0h1m-25 1h4m1 0h2m3 0h5m1 0h2m1 0h1m8 0h1m-29 1h2m3 0h1m1 0h1m2 0h1m3 0h3m1 0h2m1 0h6m1 0h1m-29 1h2m1 0h1m1 0h2m1 0h2m2 0h2m2 0h2m1 0h8m-19 1h2m2 0h2m1 0h1m1 0h1m2 0h1m3 0h4m-28 1h7m3 0h1m3 0h3m2 0h2m1 0h1m1 0h1m1 0h1m-27 1h1m5 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h2m1 0h2m3 0h2m1 0h1m-28 1h1m1 0h3m1 0h1m1 0h1m1 0h1m2 0h12m2 0h1m-28 1h1m1 0h3m1 0h1m1 0h1m2 0h1m2 0h1m3 0h1m4 0h1m3 0h1m-28 1h1m1 0h3m1 0h1m2 0h5m1 0h4m1 0h2m1 0h6m-29 1h1m5 0h1m1 0h1m2 0h2m1 0h1m1 0h1m2 0h1m4 0h3m1 0h1m-29 1h7m2 0h1m5 0h1m3 0h3m1 0h2';
   var FALCON = 'M100 62L105 65L106 73L109 78L118 80L132 77L146 69L158 60L151 77L158 76L147 90L151 91L137 102L139 104L122 111L116 114L112 126L108 136L104 148L100 152Z';
-  var TRACK = 'cyber', LS = 'pf-cert-cyber';
+  var TRK = {
+    cyber: { code: 'CYB', en1: 'CYBERSECURITY AWARENESS TRACK', en2: 'Digital Safety, Made Simple', ar2: 'شهادة إتمام مسار «أمنك الرقمي ببساطة»' },
+    net: { code: 'NET', en1: 'NETWORKING FUNDAMENTALS TRACK', en2: 'Networking from Scratch', ar2: 'شهادة إتمام مسار «شبكات من الصفر»' }
+  };
+  var TRACK = 'cyber', LS = 'pf-cert-cyber', CODE = 'CYB';
+  function setTrack(t) { TRACK = TRK[t] ? t : 'cyber'; LS = 'pf-cert-' + TRACK; CODE = TRK[TRACK].code; }
+  function ex(k) { return k + (TRACK === 'cyber' ? '' : '-' + TRACK); }
+  function codeRe() { return new RegExp('^SA-(' + Object.keys(TRK).map(function (k) { return TRK[k].code; }).join('|') + ')-\\d{4}-\\d{6}$'); }
   var ar = true, box = null, S = { step: 'name', nameAr: '', nameEn: '', token: '', qs: [], i: 0, ans: [], busy: false };
 
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
@@ -29,7 +36,7 @@
     view(head(T('الاختبار النهائي', 'Final exam'), T('٢٠ سؤال من محتوى الحلقات العشر. النجاح من ١٤ فما فوق، وتقدر تعيد الاختبار. الأسئلة بتبدأ سهلة وبتصعب لحد الآخر.', '20 questions from the 10 episodes. Pass mark is 14 or more, and you can retake it. Questions start easy and get harder.')) +
       (c ? '<div class="pf-ex-have"><b>' + esc(T('عندك شهادة', 'You already have a certificate')) + '</b><span dir="ltr">' + esc(c.id) + '</span>' + btn('pf-ex-dl0', T('نزّل الشهادة PDF', 'Download certificate PDF'), 'pf-ex-sec') + '</div>' : '') +
       btn('pf-ex-go', c ? T('اعمل الاختبار تاني', 'Take the exam again') : T('ابدأ', 'Start')) +
-      '<div class="pf-ex-ver"><b>' + esc(T('تحقق من شهادة', 'Verify a credential')) + '</b><div class="pf-ex-vrow"><input id="pf-ex-vid" class="pf-ex-in" dir="ltr" maxlength="20" placeholder="SA-CYB-2026-000001" autocomplete="off" autocapitalize="characters">' + btn('pf-ex-vgo', T('تحقق', 'Verify'), 'pf-ex-sec') + '</div><p class="pf-ex-vr" id="pf-ex-vr" role="status"></p></div>');
+      '<div class="pf-ex-ver"><b>' + esc(T('تحقق من شهادة', 'Verify a credential')) + '</b><div class="pf-ex-vrow"><input id="pf-ex-vid" class="pf-ex-in" dir="ltr" maxlength="20" placeholder="SA-' + CODE + '-2026-000001" autocomplete="off" autocapitalize="characters">' + btn('pf-ex-vgo', T('تحقق', 'Verify'), 'pf-ex-sec') + '</div><p class="pf-ex-vr" id="pf-ex-vr" role="status"></p></div>');
     on('pf-ex-go', nameStep);
     on('pf-ex-vgo', verify);
     on('pf-ex-dl0', function () { renderCertFile(c, this); });
@@ -37,7 +44,7 @@
 
   function verify() {
     var id = box.querySelector('#pf-ex-vid').value.trim().toUpperCase(), out = box.querySelector('#pf-ex-vr');
-    if (!/^SA-CYB-\d{4}-\d{6}$/.test(id)) { out.className = 'pf-ex-vr bad'; out.textContent = T('الرقم شكله غلط. مثال: SA-CYB-2026-000001', 'Wrong format. Example: SA-CYB-2026-000001'); return; }
+    if (!codeRe().test(id)) { out.className = 'pf-ex-vr bad'; out.textContent = T('الرقم شكله غلط. مثال: SA-' + CODE + '-2026-000001', 'Wrong format. Example: SA-' + CODE + '-2026-000001'); return; }
     out.className = 'pf-ex-vr'; out.textContent = T('بنتحقق...', 'Checking...');
     fetch(API + '/verify?id=' + encodeURIComponent(id)).then(function (r) { return r.json(); }).then(function (r) {
       if (r && r.valid) { out.className = 'pf-ex-vr ok'; out.innerHTML = esc(T('شهادة صحيحة', 'Valid credential')) + ' \u2713<br>' + esc(r.nameEn) + ' / ' + esc(r.nameAr) + '<br>' + '<bdi dir="ltr">' + esc(r.date) + '</bdi> \u00b7 <bdi dir="ltr">' + dig(r.score) + '/' + dig(r.total) + '</bdi>'; }
@@ -66,7 +73,7 @@
     if (S.busy) return; S.busy = true;
     view('<p class="pf-ex-p">' + esc(T('بنجهّز الأسئلة...', 'Preparing your questions...')) + '</p>');
     S.step = 'load';
-    post('/exam/start').then(function (r) {
+    post('/exam/start', { t: TRACK }).then(function (r) {
       S.busy = false;
       if (!r.ok) { nameStep(errMsg(r.err)); return; }
       S.token = r.token; S.qs = r.questions; S.i = 0; S.ans = []; S.pass = r.pass; S.total = r.total;
@@ -100,7 +107,7 @@
     post('/exam/submit', { token: S.token, answers: S.ans, nameAr: S.nameAr, nameEn: S.nameEn, lb: !!S.lb }).then(function (r) {
       S.busy = false;
       if (!r.ok) { fail(r.err); return; }
-      var tr = +(localStorage.getItem('pf-ex-n') || 0); try { localStorage.setItem('pf-ex-n', String(tr + 1)); if (r.pass && tr === 0) localStorage.setItem('pf-ex-first', '1'); } catch (e) {}
+      var tr = +(localStorage.getItem(ex('pf-ex-n')) || 0); try { localStorage.setItem(ex('pf-ex-n'), String(tr + 1)); if (r.pass && tr === 0) localStorage.setItem(ex('pf-ex-first'), '1'); } catch (e) {}
       if (r.pass) { try { localStorage.setItem(LS, JSON.stringify({ id: r.id, date: r.date, nameAr: r.nameAr, nameEn: r.nameEn, score: r.score })); } catch (e) {} passed(r); }
       else failed(r);
     }).catch(function () { S.busy = false; fail('net'); });
@@ -219,10 +226,10 @@
       txt('Sakr Academy', m(45), m(30.5), m(6), G, NAVY, 'left', false, m(.2));
       txt('صقر أكاديمي', m(45), m(37), m(4.4), C, BLUE, 'left', true);
       txt('PROFESSIONAL CERTIFICATE', W - m(26), m(32), m(2.8), G, GREY, 'right', false, m(.9));
-      txt('CYBERSECURITY AWARENESS TRACK', W - m(26), m(37), m(2.8), G, GREY, 'right', false, m(.9));
+      txt(TRK[TRACK].en1, W - m(26), m(37), m(2.8), G, GREY, 'right', false, m(.9));
       txt('CERTIFICATE OF COMPLETION', m(26), m(48), m(3.2), G, BLUE, 'left', false, m(1.4));
-      txt('Digital Safety, Made Simple', m(26), m(62), m(11.5), G, NAVY, 'left');
-      txt('شهادة إتمام مسار «أمنك الرقمي ببساطة»', m(26), m(72), m(5.6), C, GREY, 'left', true);
+      txt(TRK[TRACK].en2, m(26), m(62), m(11.5), G, NAVY, 'left');
+      txt(TRK[TRACK].ar2, m(26), m(72), m(5.6), C, GREY, 'left', true);
       x.fillStyle = BLUE; x.fillRect(m(26), m(77), m(22), m(.9));
       txt('This is to certify that  ·  نشهد بأن', m(26), m(88), m(3.8), G, GREY, 'left');
       var nm = c.nameEn, fs = 11; x.font = m(fs) + 'px ' + G; while (x.measureText(nm).width > m(170) && fs > 6) { fs -= .5; x.font = m(fs) + 'px ' + G; }
@@ -306,7 +313,7 @@
   function lockMsg(m) { var t = document.getElementById('pf-lock-toast'); if (t) { t.textContent = m; t.classList.add('on'); setTimeout(function () { t.classList.remove('on'); }, 3000); } }
 
   window.pfExam = {
-    open: function (el, isAr) { box = el; ar = !!isAr; S = { step: 'name', nameAr: '', nameEn: '', token: '', qs: [], i: 0, ans: [], busy: false }; intro(); },
+    open: function (el, isAr, trk) { setTrack(trk); box = el; ar = !!isAr; S = { step: 'name', nameAr: '', nameEn: '', token: '', qs: [], i: 0, ans: [], busy: false }; intro(); },
     board: board, weekly: weekly,
     _render: renderCert, _pdf: pdfFromJpeg
   };
