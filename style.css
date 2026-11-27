@@ -2131,3 +2131,6 @@ html:not([data-theme="dark"]) body .pf-acad-card.pf-t-py .pf-acad-meta i, html:n
 .pf-ex-o:disabled { cursor: default; opacity: 1; color: inherit; }
 .pf-ex-x { margin: 10px 0 0; padding: 10px 12px; border-radius: 12px; font: 14px/1.8 var(--ds-font-text); border: 1.5px solid #16a34a; background: rgb(22 163 74 / .1); }
 .pf-ex-x.bad { border-color: #dc2626; background: rgb(220 38 38 / .08); }
+.pf-exam-box { color: #3b2412; }
+html[data-theme="dark"] .pf-exam-box { color: #f3e8ff; }
+.pf-trk[class] .pf-exam-box p, .pf-trk[class] .pf-exam-box h3, .pf-trk[class] .pf-exam-box label, .pf-trk[class] .pf-exam-box span, .pf-trk[class] .pf-exam-box b { color: inherit; }
