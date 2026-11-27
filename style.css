@@ -2096,3 +2096,11 @@ body:has(.pf-pg-box:not([hidden]) .pf-pg) .pf-saqr-fab { top: auto; bottom: 168p
 .pf-pl-b:disabled { opacity: .6; cursor: wait; }
 .pf-pl-r { flex: 1; min-width: 0; accent-color: var(--pc1, #d4a017); height: 28px; }
 .pf-pl-t { flex: none; min-width: 74px; font-size: 12.5px; text-align: end; opacity: .85; font-variant-numeric: tabular-nums; }
+/* podcast accordion */
+.pf-pod-tg { display: flex; align-items: center; gap: 10px; width: 100%; border: 0; background: transparent; font: inherit; text-align: start; cursor: pointer; padding: 6px; min-height: 48px; }
+.pf-pod-ht { flex: 1; min-width: 0; }
+.pf-pod-cnt { flex: none; min-width: 28px; height: 28px; border-radius: 14px; background: rgb(255 255 255 / .25); color: #fff; display: grid; place-items: center; font-size: 13px; font-weight: 700; }
+.pf-pod-chev { flex: none; color: #fff; font-size: 18px; transition: transform .2s; }
+.pf-pod-show.open .pf-pod-chev { transform: rotate(180deg); }
+.pf-pod-tg:focus-visible { outline: 2px solid #fff; outline-offset: 2px; border-radius: 12px; }
+.pf-pod-body[hidden] { display: none; }

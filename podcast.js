@@ -23,12 +23,13 @@
       shows.forEach(function (sh) {
         var se = eps.filter(function (e) { return e.show === sh.id; });
         se.forEach(function (e) { used[eps.indexOf(e)] = 1; });
-        html += '<section class="pf-pod-show" style="--pc1:' + esc(sh.c1) + ';--pc2:' + esc(sh.c2) + '"><div class="pf-pod-head"><b>' + esc(ar ? sh.ar : (sh.en || sh.ar)) + '</b><small>' + esc(ar ? sh.dAr : (sh.dEn || sh.dAr)) + '</small></div>' +
-          (se.length ? se.map(function (e, i) { return card(e, i + 1); }).join('') : '<div class="pf-card pf-pod-soon"><div class="pf-card-name">' + esc(T('قريباً', 'Coming soon')) + '</div></div>') + '</section>';
+        html += '<section class="pf-pod-show" style="--pc1:' + esc(sh.c1) + ';--pc2:' + esc(sh.c2) + '"><button type="button" class="pf-pod-head pf-pod-tg" aria-expanded="false"><span class="pf-pod-ht"><b>' + esc(ar ? sh.ar : (sh.en || sh.ar)) + '</b><small>' + esc(ar ? sh.dAr : (sh.dEn || sh.dAr)) + '</small></span><span class="pf-pod-cnt">' + se.length + '</span><span class="pf-pod-chev" aria-hidden="true">&#9662;</span></button><div class="pf-pod-body" hidden>' +
+          (se.length ? se.map(function (e, i) { return card(e, i + 1); }).join('') : '<div class="pf-card pf-pod-soon"><div class="pf-card-name">' + esc(T('قريباً', 'Coming soon')) + '</div></div>') + '</div></section>';
       });
       var rest = eps.filter(function (e, i) { return !used[i]; });
       html += rest.map(function (e, i) { return card(e, rest.length - i); }).join('');
       el.innerHTML = html;
+      Array.prototype.forEach.call(el.querySelectorAll('.pf-pod-tg'), function (t) { t.addEventListener('click', function () { var body = t.nextElementSibling, open = body.hidden; body.hidden = !open; t.setAttribute('aria-expanded', open ? 'true' : 'false'); t.parentNode.classList.toggle('open', open); }); });
       el.addEventListener('contextmenu', function (ev) { if (ev.target.closest && ev.target.closest('.pf-pl')) ev.preventDefault(); });
       var cur = null;
       function fmt(s) { s = Math.max(0, Math.floor(s || 0)); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
