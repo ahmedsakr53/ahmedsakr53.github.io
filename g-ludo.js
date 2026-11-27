@@ -14,6 +14,7 @@
     var cfg = [true, false, false, false], cnt = 2;
     var sh = L.shell(root, 'ludo', '<div id="g-w"></div>');
     var W = document.getElementById('g-w');
+    var xoCard = W.closest('.pf-xo'); if (xoCard) xoCard.classList.add('pf-ludo-xo');
     var tms = [], pl = [], S = [], cur = 0, roll = 0, over = true, opts = null, note = '', ph = 0, busy = false;
     var cv, cx, msg, die, scb, dice;
     function T(f, ms) { if (window.__fast) ms = Math.min(ms, window.__fast); var id = setTimeout(function () { var k = tms.indexOf(id); if (k > -1) tms.splice(k, 1); f(); }, ms); tms.push(id); return id; }
@@ -123,18 +124,18 @@
     /* ---------- dice & scoreboard ---------- */
     function dieSvg(n) { return '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="5"/>' + (PIP[n] || []).map(function (p) { return '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="2.1"/>'; }).join('') + '</svg>'; }
     function buildDice() {
-      dice.innerHTML = pl.map(function (p, i) { return '<div class="pf-ludo-dw pf-ludo-k' + p.s + '" id="g-dw' + i + '" style="--c:' + COL[p.s] + '"><small>' + nm(i) + '</small><div class="pf-ludo-d" id="g-d' + i + '"></div></div>'; }).join('');
-      scb.innerHTML = pl.map(function (p, i) { return '<span style="--c:' + COL[p.s] + '"><i></i><b id="g-s' + i + '">0</b>/4</span>'; }).join('');
+      dice.innerHTML = pl.map(function (p, i) { return '<button type="button" class="pf-ludo-dw pf-ludo-k' + p.s + '" id="g-dw' + i + '" data-dw="' + i + '" style="--c:' + COL[p.s] + '"><small>' + nm(i) + ' <b id="g-s' + i + '">0</b>/4</small><div class="pf-ludo-d" id="g-d' + i + '"></div></button>'; }).join('');
+      scb.innerHTML = '';
     }
     function showDie(i, n, on) { var e = document.getElementById('g-d' + i); if (e) { e.innerHTML = n ? dieSvg(n) : ''; e.className = 'pf-ludo-d' + (on ? ' on' : ''); } }
-    function mark() { pl.forEach(function (p, i) { var e = document.getElementById('g-dw' + i); if (e) e.className = 'pf-ludo-dw pf-ludo-k' + p.s + (i === cur && !over ? ' act' : ''); var s = document.getElementById('g-s' + i); if (s) s.textContent = done(i); }); }
+    function mark() { pl.forEach(function (p, i) { var e = document.getElementById('g-dw' + i); if (e) e.className = 'pf-ludo-dw pf-ludo-k' + p.s + (i === cur && !over ? ' act' : '') + (i === cur && !over && !roll && !busy && !opts && pl[i].h ? ' rdy' : ''); var s = document.getElementById('g-s' + i); if (s) s.textContent = done(i); }); }
     function say(t, cls) { msg.textContent = t; msg.className = 'pf-xo-msg ' + (cls || ''); }
 
     /* ---------- turn flow ---------- */
     function begin() {
       if (over) return; opts = null; roll = 0; busy = false; mark(); draw();
       var nt = note ? note + ' ' : ''; note = '';
-      if (pl[cur].h) { die.disabled = false; die.textContent = (ar ? 'ارمِ النرد: ' : 'Roll: ') + nm(cur); say(nt + (ar ? 'دور ' : '') + nm(cur) + (ar ? '، ارمِ النرد' : ', roll the dice'), ''); }
+      if (pl[cur].h) { die.disabled = false; die.textContent = (ar ? 'ارمِ النرد: ' : 'Roll: ') + nm(cur); say(nt + (ar ? 'دور ' : '') + nm(cur) + (ar ? '، دوس على النرد بتاعك' : ', tap your die'), ''); }
       else { die.disabled = true; die.textContent = nm(cur) + '…'; say(nt + nm(cur) + '…', ''); T(doRoll, 750); }
     }
     function doRoll() {
@@ -219,6 +220,7 @@
       if (b.getAttribute('data-n')) { cnt = +b.getAttribute('data-n'); return setup(); }
       if (b.getAttribute('data-t') !== null) { var t = +b.getAttribute('data-t'); cfg[t] = !cfg[t]; return setup(); }
       if (b.getAttribute('data-go')) { if (!cfg.slice(0, cnt).some(function (v) { return v; })) { cfg[0] = true; } ac(); return play(); }
+      if (b.getAttribute('data-dw') !== null) { var di = +b.getAttribute('data-dw'); if (di === cur && !over && !busy && !roll && !opts && pl[cur] && pl[cur].h) doRoll(); return; }
       if (b.id === 'g-die') { if (!over && !busy && !roll && pl[cur] && pl[cur].h) doRoll(); return; }
       if (b.id === 'g-new') { return setup(); }
       if (b.id === 'g-sn') { sndOn = !sndOn; lss('pf-ludo-snd', sndOn ? '1' : '0'); if (!sndOn) stopMusic(); else { ac(); music(); } return buildSnd(); }
