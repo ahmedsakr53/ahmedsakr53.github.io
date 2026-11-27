@@ -2044,3 +2044,5 @@ body .pf-acad-card.pf-t-code b, body .pf-acad-card.pf-t-linux b, body .pf-acad-c
 .pf-pod-head b { display: block; font-size: 18px; }
 .pf-pod-head small { display: block; opacity: .9; font-size: 13px; line-height: 1.6; }
 .pf-pod-show .pf-card { margin-top: 10px; }
+.pf-prod-badge { display: inline-block; margin: 8px 0 2px; padding: 4px 12px; border-radius: 999px; background: #dc2626; color: #fff; font-weight: 700; font-size: 13px; }
+.pf-prod-cd { font-weight: 700; font-variant-numeric: tabular-nums; color: #dc2626; margin-bottom: 4px; }

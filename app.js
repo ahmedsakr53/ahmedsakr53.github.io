@@ -1122,7 +1122,7 @@
   }
 
   var acadCfg;
-  function acadPrefetch() { var u = 'academy.js?v=39'; if (window.pfAcademy || document.querySelector('link[href="' + u + '"]')) return; var l = document.createElement('link'); l.rel = 'prefetch'; l.as = 'script'; l.href = u; document.head.appendChild(l); }
+  function acadPrefetch() { var u = 'academy.js?v=40'; if (window.pfAcademy || document.querySelector('link[href="' + u + '"]')) return; var l = document.createElement('link'); l.rel = 'prefetch'; l.as = 'script'; l.href = u; document.head.appendChild(l); }
   document.addEventListener('pointerdown', function (e) { var a = e.target.closest && e.target.closest('a[href="#/academy"]'); if (a) acadPrefetch(); }, { passive: true });
   window.addEventListener('load', function () { setTimeout(acadPrefetch, 5000); });
   function loadAcademy(route) {
@@ -1143,7 +1143,7 @@
     if (host0 && !window.pfAcademy) host0.innerHTML = '<div class="pf-g-skel"><i></i><span>' + (lang === 'ar' ? 'جارٍ التحميل…' : 'Loading…') + '</span></div>';
     var jsP = window.pfAcademy ? Promise.resolve() : new Promise(function (res) {
       var sc = document.createElement('script');
-      sc.src = 'academy.js?v=39';
+      sc.src = 'academy.js?v=40';
       sc.onload = res; sc.onerror = res;
       document.head.appendChild(sc);
     });
@@ -1355,7 +1355,7 @@
     setupReveal();
     setupTilt();
     wireNavSheet();
-    if (route === '#/services') { var stEl = document.getElementById('pf-store'); if (stEl) { var goS = function () { window.pfStore.mount(stEl, lang === 'ar'); }; if (window.pfStore) goS(); else { var ss = document.createElement('script'); ss.src = 'store.js?v=1'; ss.onload = goS; ss.onerror = function () { stEl.textContent = ''; }; document.head.appendChild(ss); } } }
+    if (route === '#/services') { var stEl = document.getElementById('pf-store'); if (stEl) { var goS = function () { window.pfStore.mount(stEl, lang === 'ar'); }; if (window.pfStore) goS(); else { var ss = document.createElement('script'); ss.src = 'store.js?v=2'; ss.onload = goS; ss.onerror = function () { stEl.textContent = ''; }; document.head.appendChild(ss); } } }
     if (route === '#/checkup') wireCheckup(t);
     if (route === '#/memes') loadMemes();
     if (route === '#/xo') loadXO();

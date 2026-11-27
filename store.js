@@ -14,9 +14,21 @@
       el.innerHTML = '<div class="pf-grid">' + ps.map(function (p) {
         return '<div class="pf-card pf-prod" data-pid="' + esc(p.id) + '"><div class="pf-card-name">' + esc(ar ? p.ar : (p.en || p.ar)) + '</div>' +
           '<div class="pf-card-detail">' + esc(ar ? p.dAr : (p.dEn || p.dAr)) + '</div>' +
+          (p.discEnd > Date.now() ? '<div class="pf-prod-badge">' + esc(T('خصم 80% لفترة محدودة', '80% off for a limited time')) + '</div><div class="pf-prod-cd" data-end="' + p.discEnd + '" dir="ltr"></div>' : '') +
           '<div class="pf-prod-price">' + esc(p.price ? p.price + (ar ? ' جنيه' : ' EGP') : T('مجاني', 'Free')) + '</div>' +
           '<button type="button" class="pf-btn pf-btn-primary pf-prod-buy">' + esc(T('اطلب الآن', 'Request now')) + '</button><div class="pf-prod-form" hidden></div></div>';
       }).join('') + '</div>';
+      var cds = el.querySelectorAll('.pf-prod-cd');
+      function tick() {
+        if (!el.isConnected) { clearInterval(iv); return; }
+        Array.prototype.forEach.call(cds, function (c) {
+          var ms = +c.getAttribute('data-end') - Date.now();
+          if (ms <= 0) { var bd = c.previousSibling; c.remove(); if (bd && bd.classList && bd.classList.contains('pf-prod-badge')) bd.remove(); return; }
+          var d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60, s = Math.floor(ms / 1e3) % 60, z = function (n) { return (n < 10 ? '0' : '') + n; };
+          c.textContent = (d ? d + 'd ' : '') + z(h) + ':' + z(m) + ':' + z(s);
+        });
+      }
+      var iv = cds.length ? setInterval(tick, 1000) : 0; if (cds.length) tick();
       Array.prototype.forEach.call(el.querySelectorAll('.pf-prod'), function (card) {
         var btn = card.querySelector('.pf-prod-buy'), form = card.querySelector('.pf-prod-form');
         btn.onclick = function () {
