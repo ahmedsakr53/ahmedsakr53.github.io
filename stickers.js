@@ -1,26 +1,38 @@
 /* Stickers. Loaded only on #/stickers. Everything is drawn on a canvas in the visitor's browser: no upload, no server. */
 (function () {
   var S = 512, FONT = '"Cairo","IBM Plex Sans Arabic",sans-serif';
-  // [caption, eyes, mouth, brows, props]
+  // item: [caption, character, eyes, mouth, brows, props, wave]
   var PACKS = [
-    { id: 'falcon', ar: 'الصقر', en: 'Sakr the falcon', ch: 'falcon', t: [
-      ['صباح الفل', 'open', 'grin', '', ['stars']], ['بحبك يا باشا', 'love', 'smile', '', ['hearts']], ['أنا الصقر', 'cool', 'smirk', '', []], ['تعبت منك', 'open', 'frown', 'sad', ['sweat']],
-      ['إيه الاستهبال ده', 'open', 'flat', 'angry', ['vein']], ['يا نهار أبيض', 'shock', 'o', 'up', ['sweat']], ['وحشتني', 'cry', 'frown', 'sad', ['tears']], ['تصبح على خير', 'sleep', 'smile', '', ['zzz']],
-      ['هفكر وأرد عليك', 'think', 'flat', 'up', []], ['من عيوني', 'wink', 'grin', '', ['hearts']], ['هموت من الضحك', 'happy', 'laugh', '', []], ['سلام يا عم', 'open', 'smile', '', [], 1]] },
-    { id: 'hussein', ar: 'عم حسين', en: 'Uncle Hussein', ch: 'man', t: [
-      ['ولا يهمك', 'open', 'smile', '', []], ['على راسي', 'wink', 'grin', '', ['stars']], ['يا عم خلاص', 'side', 'flat', '', []], ['إنت بتهزر؟', 'shock', 'o', 'up', ['sweat']],
-      ['ده كلام؟', 'open', 'frown', 'angry', ['vein']], ['اشرب شاي', 'happy', 'smile', '', ['tea']], ['تسلم إيدك', 'love', 'smile', '', ['hearts']], ['مبروك يا بطل', 'happy', 'laugh', '', ['confetti']],
-      ['ربنا يسهل', 'think', 'smirk', 'up', []], ['نايم دلوقتي', 'sleep', 'flat', '', ['zzz']], ['مش فارقة', 'cool', 'smirk', '', []], ['زعلان منك', 'open', 'frown', 'sad', ['tears']]] },
-    { id: 'souad', ar: 'ست سعاد', en: 'Auntie Souad', ch: 'woman', t: [
-      ['يا حبيبي', 'love', 'smile', '', ['hearts']], ['ربنا يخليك', 'happy', 'smile', '', ['stars']], ['كل سنة وإنت طيب', 'happy', 'grin', '', ['confetti']], ['إيه ده؟', 'shock', 'o', 'up', ['sweat']],
-      ['عيب كده', 'open', 'flat', 'angry', ['vein']], ['يا ختي', 'side', 'smirk', '', []], ['وحشتني', 'cry', 'frown', 'sad', ['tears']], ['الأكل جاهز', 'open', 'grin', '', ['plate']],
-      ['ادعيلي', 'think', 'smile', 'up', ['stars']], ['ماشي يا قلبي', 'wink', 'smile', '', ['hearts']], ['تصبحوا على خير', 'sleep', 'smile', '', ['zzz']], ['هموت من الضحك', 'happy', 'laugh', '', []]] },
-    { id: 'sim', ar: 'سمسم الطالب', en: 'Semsem the student', ch: 'sim', t: [
-      ['الامتحان بكره', 'shock', 'o', 'up', ['sweat']], ['مذاكرة لا', 'open', 'flat', 'angry', ['vein']], ['محتاج قهوة', 'sleep', 'frown', '', ['zzz']], ['نجحت!', 'happy', 'laugh', '', ['confetti']],
-      ['الكود شغال', 'cool', 'smirk', '', ['stars']], ['الكود مش شغال', 'cry', 'frown', 'sad', ['tears']], ['ثانية واحدة', 'think', 'flat', 'up', []], ['في الجامعة', 'open', 'smile', '', []],
-      ['ريّح شوية', 'side', 'flat', '', []], ['ديدلاين النهارده', 'dead', 'o', '', ['sweat']], ['شكراً يا دكتور', 'happy', 'smile', '', ['hearts']], ['الواي فاي وقع', 'open', 'frown', 'sad', ['sweat']]] }
+    { id: 'love', ar: 'حب ودلع', en: 'Love & cute', t: [
+      ['بحبك يا باشا', 'falcon', 'love', 'smile', '', ['hearts']], ['وحشتني أوي', 'girl', 'love', 'smile', '', ['hearts']], ['يا حبيبي', 'woman', 'love', 'smile', '', ['hearts']], ['يا قلبي', 'man', 'love', 'grin', '', ['hearts']], ['إنت حبيبي', 'sim', 'love', 'smile', '', ['hearts']],
+      ['من عيوني', 'falcon', 'wink', 'grin', '', ['hearts']], ['تعالى في حضني', 'girl', 'happy', 'smile', '', ['hearts'], 1], ['ماشي يا قلبي', 'woman', 'wink', 'smile', '', ['hearts']], ['تسلم ليا', 'eng', 'love', 'smile', '', ['hearts']], ['يا عمري', 'falcon', 'love', 'grin', '', ['hearts', 'stars']],
+      ['اشتقتلك', 'girl', 'happy', 'smile', '', ['hearts']], ['عيوني ليك', 'sim', 'wink', 'smile', '', ['hearts']], ['ده أنا بحبك', 'man', 'happy', 'smile', '', ['hearts']], ['وحشني كلامك', 'girl', 'love', 'smirk', '', ['hearts']], ['ليك وحشة', 'falcon', 'love', 'o', '', ['hearts']]] },
+    { id: 'laugh', ar: 'ضحك وقفشات', en: 'Laughs & banter', t: [
+      ['هموت من الضحك', 'falcon', 'happy', 'laugh', '', []], ['إنت بتهزر؟', 'man', 'shock', 'o', 'up', ['sweat']], ['قفشة جامدة', 'sim', 'wink', 'grin', '', ['stars']], ['يا ختي', 'woman', 'side', 'smirk', '', []], ['ههههههه', 'girl', 'happy', 'laugh', '', ['stars']],
+      ['ده أنا اللي غلطان', 'eng', 'open', 'smirk', '', ['sweat']], ['يا نهار أبيض', 'falcon', 'shock', 'o', 'up', ['sweat']], ['ده كلام؟', 'man', 'open', 'smirk', 'up', []], ['بس يا عم', 'sim', 'side', 'grin', '', []], ['هموت من الضحك', 'woman', 'happy', 'laugh', '', []],
+      ['لأ بجد؟', 'girl', 'shock', 'grin', 'up', []], ['ماتقولش كده', 'falcon', 'open', 'smirk', 'up', []], ['ابتسم', 'eng', 'happy', 'grin', '', ['stars']], ['مبروك يا بطل', 'man', 'happy', 'laugh', '', ['confetti']], ['قفشة قديمة', 'sim', 'side', 'flat', '', []]] },
+    { id: 'sad', ar: 'زعل وعياط', en: 'Sad & crying', t: [
+      ['وحشتني', 'falcon', 'cry', 'frown', 'sad', ['tears']], ['زعلانة منك', 'girl', 'cry', 'frown', 'sad', ['tears']], ['زعلان منك', 'man', 'open', 'frown', 'sad', ['tears']], ['ياي يا قلبي', 'woman', 'cry', 'frown', 'sad', ['tears']], ['الكود مش شغال', 'sim', 'cry', 'frown', 'sad', ['tears']],
+      ['ضاع المجهود', 'eng', 'open', 'frown', 'sad', ['sweat']], ['تعبت منك', 'falcon', 'open', 'frown', 'sad', ['sweat']], ['مش هكلمك', 'girl', 'side', 'frown', 'sad', []], ['حرام عليك', 'woman', 'cry', 'o', 'sad', ['tears']], ['مفيش نصيب', 'man', 'side', 'flat', 'sad', []],
+      ['الواي فاي وقع', 'sim', 'open', 'frown', 'sad', ['sweat']], ['أنا زعلانة', 'girl', 'cry', 'frown', 'sad', ['tears']], ['كده يا هندسة؟', 'eng', 'open', 'frown', 'sad', []], ['ياريت اللي فات', 'falcon', 'open', 'frown', 'sad', []], ['عيب عليك', 'woman', 'open', 'flat', 'sad', []]] },
+    { id: 'sleep', ar: 'نوم وكسل', en: 'Sleepy & lazy', t: [
+      ['تصبح على خير', 'falcon', 'sleep', 'smile', '', ['zzz']], ['عايزة أنام', 'girl', 'sleep', 'frown', '', ['zzz']], ['نايم دلوقتي', 'man', 'sleep', 'flat', '', ['zzz']], ['محتاج قهوة', 'sim', 'sleep', 'frown', '', ['zzz']], ['تصبحوا على خير', 'woman', 'sleep', 'smile', '', ['zzz']],
+      ['نص ساعة بس', 'eng', 'sleep', 'flat', '', ['zzz']], ['كسلان النهارده', 'falcon', 'side', 'flat', '', []], ['ريّحني شوية', 'girl', 'side', 'flat', '', []], ['اشرب شاي', 'man', 'happy', 'smile', '', ['tea']], ['ريّح شوية', 'sim', 'side', 'flat', '', []],
+      ['الأكل جاهز', 'woman', 'open', 'grin', '', ['plate']], ['قهوتي الأولى', 'girl', 'happy', 'smile', '', ['tea']], ['يوم الأجازة', 'eng', 'happy', 'grin', '', ['stars']], ['مش قايم', 'falcon', 'sleep', 'o', '', ['zzz']], ['خليني في حالي', 'man', 'side', 'flat', '', ['zzz']]] },
+    { id: 'study', ar: 'دراسة ومهندسين', en: 'Study & engineers', t: [
+      ['الامتحان بكره', 'sim', 'shock', 'o', 'up', ['sweat']], ['مذاكرة لا', 'sim', 'open', 'flat', 'angry', ['vein']], ['نجحت!', 'sim', 'happy', 'laugh', '', ['confetti']], ['الكود شغال', 'sim', 'cool', 'smirk', '', ['stars']], ['الكود مش شغال', 'eng', 'cry', 'frown', 'sad', ['tears']],
+      ['ثانية واحدة', 'eng', 'think', 'flat', 'up', []], ['شغال على جهازي', 'eng', 'cool', 'smirk', '', []], ['في الجامعة', 'girl', 'open', 'smile', '', ['book']], ['ذاكرت كله', 'girl', 'happy', 'grin', '', ['book', 'stars']], ['نسيت الباسورد', 'falcon', 'shock', 'o', 'up', ['sweat']],
+      ['ديدلاين النهارده', 'eng', 'dead', 'o', '', ['sweat']], ['شكراً يا دكتور', 'sim', 'happy', 'smile', '', ['hearts']], ['باج جديد', 'eng', 'open', 'flat', 'angry', ['vein', 'laptop']], ['ممتاز', 'girl', 'wink', 'grin', '', ['stars']], ['تم الدمج', 'eng', 'happy', 'grin', '', ['confetti', 'laptop']]] },
+    { id: 'nice', ar: 'مجاملات وصباح الخير', en: 'Greetings & kind words', t: [
+      ['صباح الفل', 'falcon', 'open', 'grin', '', ['sun']], ['صباح الخير', 'woman', 'happy', 'smile', '', ['sun']], ['صباح الورد', 'man', 'happy', 'smile', '', ['flower']], ['كل سنة وإنت طيب', 'girl', 'happy', 'grin', '', ['confetti']], ['كل سنة وإنتم طيبين', 'woman', 'happy', 'grin', '', ['confetti']],
+      ['تسلم إيدك', 'sim', 'happy', 'smile', '', ['stars']], ['ربنا يخليك', 'eng', 'happy', 'smile', '', []], ['جزاك الله خير', 'man', 'happy', 'smile', '', ['stars']], ['شكراً ليك', 'falcon', 'happy', 'smile', '', ['hearts']], ['مساء الخير', 'girl', 'happy', 'smile', '', ['stars']],
+      ['ربنا يخليكي', 'woman', 'happy', 'smile', '', []], ['على راسي', 'man', 'wink', 'grin', '', ['stars']], ['عقبال عندك', 'sim', 'wink', 'grin', '', ['confetti']], ['مبروك', 'eng', 'happy', 'laugh', '', ['confetti']], ['ولا يهمك', 'falcon', 'open', 'smile', '', []]] },
+    { id: 'anger', ar: 'غضب وتحدي', en: 'Anger & challenge', t: [
+      ['إيه الاستهبال ده', 'falcon', 'open', 'flat', 'angry', ['vein']], ['ده كلام؟', 'man', 'open', 'frown', 'angry', ['vein']], ['متقلقنيش', 'girl', 'open', 'flat', 'angry', ['vein']], ['عيب كده', 'woman', 'open', 'flat', 'angry', ['vein']], ['أنا مش بهزر', 'sim', 'open', 'flat', 'angry', ['vein', 'fire']],
+      ['تعالى لو راجل', 'eng', 'open', 'smirk', 'angry', ['fire']], ['أنا الصقر', 'falcon', 'cool', 'smirk', '', ['fire']], ['تحدي؟ يلا', 'girl', 'cool', 'grin', '', ['fire']], ['مش هسكت', 'man', 'open', 'frown', 'angry', ['vein']], ['كفاية بقى', 'sim', 'open', 'o', 'angry', ['vein']],
+      ['هتشوف', 'woman', 'open', 'smirk', 'angry', ['fire']], ['مين هيغلبني؟', 'eng', 'cool', 'grin', '', ['fire']], ['اقلب الترابيزة', 'falcon', 'open', 'grin', 'angry', ['fire']], ['اتحداك', 'girl', 'cool', 'smirk', '', ['fire']], ['ماشي يا باشا', 'man', 'open', 'flat', 'angry', []]] }
   ];
-  function spec(ch, it) { return { ch: ch, eyes: it[1], mouth: it[2], brow: it[3], props: it[4], wave: it[5] }; }
+  function spec(it) { return { ch: it[1], eyes: it[2], mouth: it[3], brow: it[4], props: it[5], wave: it[6] }; }
   function L(ar) { return ar ? {
     title: 'استيكرز', sub: 'استيكرات مرسومة بشخصيات مصرية وتعابير مختلفة. اختار واحد، عدّل الجملة، ونزّله. أو حوّل صورتك لاستيكر. كله على موبايلك.',
     photo: '📷 اعمل استيكر من صورة', packs: 'باكات الاستيكرز المصرية', text: 'الكلمة على الاستيكر', dl: 'نزّل الاستيكر', sh: 'شارك', own: 'نص الاستيكر (اختياري)',
@@ -94,6 +106,11 @@
       if (p === 'stars') { c.fillStyle = '#facc15'; [[96, 110, 16], [430, 120, 20], [110, 250, 12]].forEach(function (s) { c.beginPath(); for (var j = 0; j < 8; j++) { var a = j * Math.PI / 4, rr = j % 2 ? s[2] * .35 : s[2]; c.lineTo(s[0] + Math.cos(a) * rr, s[1] + Math.sin(a) * rr); } c.closePath(); c.fill(); }); }
       if (p === 'tea') { c.translate(420, 330); lw(c, 5); c.beginPath(); c.moveTo(-30, -45); c.lineTo(30, -45); c.lineTo(22, 40); c.lineTo(-22, 40); c.closePath(); c.fillStyle = 'rgba(255,255,255,.85)'; c.fill(); c.stroke(); c.beginPath(); c.moveTo(-26, -20); c.lineTo(26, -20); c.lineTo(20, 38); c.lineTo(-20, 38); c.closePath(); c.fillStyle = '#b45309'; c.fill(); c.strokeStyle = 'rgba(255,255,255,.9)'; c.lineWidth = 6; c.beginPath(); c.moveTo(-6, -58); c.quadraticCurveTo(-18, -74, -6, -90); c.moveTo(10, -58); c.quadraticCurveTo(-2, -74, 10, -90); c.stroke(); }
       if (p === 'plate') { c.translate(418, 340); lw(c, 5); ell(c, 0, 20, 62, 20, '#fff'); ell(c, 0, 8, 40, 22, '#f59e0b'); ell(c, -8, 0, 18, 10, '#fde68a', false); }
+      if (p === 'sun') { c.translate(88, 92); c.fillStyle = '#facc15'; c.strokeStyle = '#f59e0b'; c.lineWidth = 8; c.lineCap = 'round'; for (var q = 0; q < 10; q++) { var an = q * Math.PI / 5; c.beginPath(); c.moveTo(Math.cos(an) * 40, Math.sin(an) * 40); c.lineTo(Math.cos(an) * 56, Math.sin(an) * 56); c.stroke(); } lw(c, 5); ell(c, 0, 0, 34, 34, '#fde047'); }
+      if (p === 'flower') { c.translate(424, 336); lw(c, 5); c.strokeStyle = '#15803d'; c.lineWidth = 8; c.beginPath(); c.moveTo(0, 20); c.lineTo(-6, 84); c.stroke(); lw(c, 5); for (var q2 = 0; q2 < 6; q2++) { var a2 = q2 * Math.PI / 3; ell(c, Math.cos(a2) * 26, Math.sin(a2) * 26, 18, 18, '#f9a8d4'); } ell(c, 0, 0, 16, 16, '#facc15'); }
+      if (p === 'fire') { [[70, 360, 1], [440, 360, -1]].forEach(function (f) { c.save(); c.translate(f[0], f[1]); c.scale(f[2], 1); lw(c, 5); c.beginPath(); c.moveTo(0, 0); c.bezierCurveTo(-34, -30, -10, -60, -6, -96); c.bezierCurveTo(16, -70, 36, -40, 20, -10); c.bezierCurveTo(14, 6, 6, 8, 0, 0); c.closePath(); c.fillStyle = '#f97316'; c.fill(); c.stroke(); c.fillStyle = '#fde047'; c.beginPath(); c.moveTo(2, -4); c.bezierCurveTo(-14, -20, -2, -36, 0, -50); c.bezierCurveTo(12, -34, 16, -20, 2, -4); c.fill(); c.restore(); }); }
+      if (p === 'book') { c.translate(420, 340); c.rotate(-.15); lw(c, 5); rrect(c, -44, -34, 88, 68, 8); c.fillStyle = '#6366f1'; c.fill(); c.stroke(); c.fillStyle = '#fff'; c.fillRect(-34, -24, 68, 6); c.fillRect(-34, -10, 48, 6); c.fillRect(-34, 4, 56, 6); }
+      if (p === 'laptop') { c.translate(420, 340); lw(c, 5); rrect(c, -48, -40, 96, 62, 8); c.fillStyle = '#334155'; c.fill(); c.stroke(); c.fillStyle = '#22d3ee'; c.fillRect(-38, -30, 76, 42); c.fillStyle = '#e2e8f0'; rrect(c, -62, 22, 124, 14, 6); c.fill(); c.stroke(); }
       if (p === 'phone') { c.translate(420, 330); c.rotate(.2); lw(c, 5); rrect(c, -26, -46, 52, 92, 10); c.fillStyle = '#334155'; c.fill(); c.stroke(); c.fillStyle = '#38bdf8'; c.fillRect(-18, -36, 36, 66); }
       c.restore();
     });
@@ -137,9 +154,9 @@
     c.fillStyle = 'rgba(251,113,133,.45)'; c.beginPath(); c.ellipse(CX - 96, 230, 18, 11, 0, 0, 6.2832); c.fill(); c.beginPath(); c.ellipse(CX + 96, 230, 18, 11, 0, 0, 6.2832); c.fill();
   }
   function human(c, e, k) {
-    var skin = k === 'sim' ? '#f1c27d' : k === 'woman' ? '#f0c8a0' : '#d9a066', hair = '#1f1630';
+    var skin = k === 'sim' ? '#f1c27d' : k === 'woman' ? '#f0c8a0' : k === 'girl' ? '#f6d0a8' : k === 'eng' ? '#e0ac7a' : '#d9a066', hair = k === 'girl' ? '#5b3a29' : '#1f1630';
     // body / clothes
-    var cloth = k === 'man' ? ['#fafafa', '#cbd5e1'] : k === 'woman' ? ['#0f766e', '#115e59'] : ['#6d28d9', '#4c1d95'];
+    var cloth = k === 'man' ? ['#fafafa', '#cbd5e1'] : k === 'woman' ? ['#0f766e', '#115e59'] : k === 'girl' ? ['#f472b6', '#be185d'] : k === 'eng' ? ['#fb923c', '#c2410c'] : ['#6d28d9', '#4c1d95'];
     if (k === 'woman') { lw(c, 7); c.beginPath(); c.moveTo(CX - 170, 400); c.bezierCurveTo(CX - 190, 250, CX - 150, 60, CX, 56); c.bezierCurveTo(CX + 150, 60, CX + 190, 250, CX + 170, 400); c.closePath(); c.fillStyle = grad(c, 0, 60, 0, 400, '#14b8a6', '#0f766e'); c.fill(); c.stroke(); }
     lw(c, 7); c.beginPath(); c.moveTo(CX - 150, 420); c.quadraticCurveTo(CX - 140, 310, CX - 40, 300); c.lineTo(CX + 40, 300); c.quadraticCurveTo(CX + 140, 310, CX + 150, 420); c.closePath(); c.fillStyle = grad(c, 0, 300, 0, 420, cloth[0], cloth[1]); c.fill(); c.stroke();
     if (k === 'sim') { c.strokeStyle = '#facc15'; c.lineWidth = 10; c.beginPath(); c.arc(CX, 300, 60, .15, 3, false); c.stroke(); c.fillStyle = '#facc15'; ell(c, CX - 62, 330, 20, 26, '#facc15'); ell(c, CX + 62, 330, 20, 26, '#facc15'); lw(c, 6); }
@@ -148,19 +165,24 @@
     lw(c, 7); c.fillStyle = skin; rrect(c, CX - 36, 270, 72, 50, 14); c.fill(); c.stroke();
     // ears
     ell(c, CX - 126, CY + 8, 22, 30, skin); ell(c, CX + 126, CY + 8, 22, 30, skin);
-    if (k === 'sim') { /* hair back */ }
+    if (k === 'girl') { lw(c, 7); ell(c, CX - 112, 74, 40, 40, hair); ell(c, CX + 112, 74, 40, 40, hair); c.beginPath(); c.ellipse(CX, CY + 14, 138, 136, 0, 0, 6.2832); c.fillStyle = hair; c.fill(); c.stroke(); }
+    if (k === 'eng') { c.strokeStyle = '#fde68a'; c.lineWidth = 12; c.beginPath(); c.moveTo(CX - 70, 330); c.lineTo(CX - 40, 420); c.moveTo(CX + 70, 330); c.lineTo(CX + 40, 420); c.stroke(); lw(c, 7); }
     // head
     c.beginPath(); c.ellipse(CX, CY, 124, 128, 0, 0, 6.2832); c.fillStyle = grad(c, 0, 60, 0, 320, skin, k === 'woman' ? '#e3b184' : '#c88d55'); c.fill(); c.stroke();
     // hair / hats
     if (k === 'man') { c.fillStyle = '#b91c1c'; rrect(c, CX - 72, 22, 144, 82, 16); c.fill(); c.stroke(); c.fillStyle = '#991b1b'; c.beginPath(); c.ellipse(CX, 104, 96, 18, 0, 0, 6.2832); c.fill(); c.stroke(); c.strokeStyle = INK; c.lineWidth = 6; c.beginPath(); c.moveTo(CX, 24); c.quadraticCurveTo(CX + 70, 20, CX + 82, 70); c.stroke(); c.fillStyle = INK; c.beginPath(); c.arc(CX + 82, 78, 9, 0, 6.2832); c.fill(); }
     if (k === 'woman') { c.beginPath(); c.moveTo(CX - 118, 200); c.bezierCurveTo(CX - 128, 110, CX - 70, 78, CX, 80); c.bezierCurveTo(CX + 70, 78, CX + 128, 110, CX + 118, 200); c.bezierCurveTo(CX + 100, 120, CX + 40, 112, CX, 112); c.bezierCurveTo(CX - 40, 112, CX - 100, 120, CX - 118, 200); c.closePath(); c.fillStyle = '#14b8a6'; c.fill(); lw(c, 7); c.stroke(); }
     if (k === 'sim') { c.fillStyle = hair; c.beginPath(); c.moveTo(CX - 126, 170); c.bezierCurveTo(CX - 140, 70, CX - 60, 40, CX - 10, 64); c.lineTo(CX + 10, 36); c.lineTo(CX + 40, 66); c.lineTo(CX + 70, 42); c.bezierCurveTo(CX + 130, 60, CX + 140, 110, CX + 126, 170); c.bezierCurveTo(CX + 100, 120, CX + 40, 104, CX - 10, 118); c.bezierCurveTo(CX - 70, 112, CX - 104, 130, CX - 126, 170); c.closePath(); c.fill(); lw(c, 7); c.stroke(); }
+    if (k === 'girl') { c.fillStyle = hair; c.beginPath(); c.moveTo(CX - 124, 190); c.bezierCurveTo(CX - 130, 70, CX + 130, 70, CX + 124, 190); c.bezierCurveTo(CX + 110, 150, CX + 80, 120, CX + 40, 150); c.bezierCurveTo(CX + 20, 118, CX - 20, 118, CX - 40, 150); c.bezierCurveTo(CX - 80, 120, CX - 110, 150, CX - 124, 190); c.closePath(); c.fill(); lw(c, 7); c.stroke();
+      c.fillStyle = '#ec4899'; c.beginPath(); c.moveTo(CX, 66); c.lineTo(CX - 44, 36); c.lineTo(CX - 44, 96); c.closePath(); c.fill(); c.stroke(); c.beginPath(); c.moveTo(CX, 66); c.lineTo(CX + 44, 36); c.lineTo(CX + 44, 96); c.closePath(); c.fill(); c.stroke(); ell(c, CX, 66, 13, 13, '#f9a8d4'); }
+    if (k === 'eng') { lw(c, 7); c.fillStyle = '#facc15'; c.beginPath(); c.ellipse(CX, 112, 134, 92, 0, Math.PI, 0); c.closePath(); c.fill(); c.stroke(); rrect(c, CX - 152, 104, 304, 24, 12); c.fill(); c.stroke(); c.fillStyle = '#eab308'; rrect(c, CX - 18, 30, 36, 76, 10); c.fill(); c.stroke(); }
     var browCol = k === 'woman' ? '#3b2417' : hair;
     eyesBrows(c, e, 50, 178, 21, browCol);
     if (k === 'woman') { c.strokeStyle = INK; c.lineWidth = 4; [-1, 1].forEach(function (s) { c.beginPath(); c.moveTo(CX + s * 70, 164); c.lineTo(CX + s * 76, 156); c.moveTo(CX + s * 60, 160); c.lineTo(CX + s * 62, 150); c.stroke(); }); }
     // nose
     lw(c, 5); c.beginPath(); c.moveTo(CX - 8, 206); c.quadraticCurveTo(CX, 226, CX + 12, 214); c.stroke();
-    if (k !== 'man') { c.fillStyle = 'rgba(244,114,128,.35)'; c.beginPath(); c.ellipse(CX - 84, 226, 18, 11, 0, 0, 6.2832); c.fill(); c.beginPath(); c.ellipse(CX + 84, 226, 18, 11, 0, 0, 6.2832); c.fill(); }
+    if (k === 'eng') { lw(c, 6); c.beginPath(); c.arc(CX - 50, 178, 36, 0, 6.2832); c.stroke(); c.beginPath(); c.arc(CX + 50, 178, 36, 0, 6.2832); c.stroke(); c.beginPath(); c.moveTo(CX - 14, 176); c.lineTo(CX + 14, 176); c.stroke(); }
+    if (k !== 'man' && k !== 'eng') { c.fillStyle = 'rgba(244,114,128,.35)'; c.beginPath(); c.ellipse(CX - 84, 226, 18, 11, 0, 0, 6.2832); c.fill(); c.beginPath(); c.ellipse(CX + 84, 226, 18, 11, 0, 0, 6.2832); c.fill(); }
     mouth(c, CX, k === 'man' ? 262 : 252, 56, e.mouth || 'smile');
     if (k === 'man') { // big mustache over the mouth
       c.fillStyle = hair; lw(c, 5); c.beginPath(); c.moveTo(CX, 236); c.bezierCurveTo(CX - 30, 222, CX - 78, 232, CX - 84, 252); c.bezierCurveTo(CX - 60, 246, CX - 30, 252, CX, 246); c.bezierCurveTo(CX + 30, 252, CX + 60, 246, CX + 84, 252); c.bezierCurveTo(CX + 78, 232, CX + 30, 222, CX, 236); c.closePath(); c.fill(); c.stroke();
@@ -208,8 +230,8 @@
   function render(root) {
     var ar = document.documentElement.lang !== 'en', s = L(ar), cfg = ((window.pfGamesCfg || {}).memes || {}), stk = cfg.stk || {}, off = stk.off || [], extra = (stk.extra || []).filter(Boolean);
     var packs = PACKS.filter(function (p) { return off.indexOf(p.id) < 0; });
-    if (extra.length) { var faces = PACKS[0].t; packs = packs.concat([{ id: 'extra', ar: 'إضافات جديدة', en: 'New picks', ch: 'falcon', t: extra.map(function (x, i) { var f = faces[i % faces.length]; return [x, f[1], f[2], f[3], f[4], f[5]]; }) }]); }
-    var mode = 'art', sel = packs.length ? { ch: packs[0].ch, it: packs[0].t[0] } : { ch: 'falcon', it: PACKS[0].t[0] }, img = null, fit = false, raf = 0;
+    if (extra.length) { var faces = PACKS[0].t.slice(0, 12); packs = packs.concat([{ id: 'extra', ar: 'إضافات جديدة', en: 'New picks', t: extra.map(function (x, i) { var f = faces[i % faces.length]; return [x, 'falcon', f[2], f[3], f[4], f[5]]; }) }]); }
+    var mode = 'art', sel = { it: (packs[0] || PACKS[0]).t[0] }, img = null, fit = false, raf = 0;
     root.innerHTML = '<a class="pf-g-exit" href="#/fun">' + (ar ? '✕ خروج' : '✕ Exit') + '</a><div class="pf-pagehead"><div class="pf-eyebrow">STICKERS</div><h2 class="pf-h2">' + s.title + '</h2></div><p class="pf-para">' + s.sub + '</p>' +
       '<div class="pf-st-prev"><canvas id="pf-st-c" width="' + S + '" height="' + S + '" aria-label="sticker"></canvas></div>' +
       '<label class="pf-mm-lab" for="pf-st-t">' + s.text + '</label><textarea id="pf-st-t" class="pf-mm-in" rows="2" maxlength="40"></textarea>' +
@@ -218,24 +240,26 @@
       '<label class="pf-mm-btn pf-mm-own" for="pf-st-file">' + s.photo + '</label><input type="file" id="pf-st-file" accept="image/*" hidden><p class="pf-mm-note" id="pf-st-err" hidden></p>' +
       '<div class="pf-mm-btns" id="pf-st-fitw" hidden><button type="button" class="pf-mm-btn" id="pf-st-fit">' + s.fitb + '</button></div><p class="pf-mm-note">' + s.note + '</p>';
     var cv = document.getElementById('pf-st-c'), ctx = cv.getContext('2d'), ta = document.getElementById('pf-st-t'), host = document.getElementById('pf-st-packs');
-    function draw() { raf = 0; ctx.clearRect(0, 0, S, S); if (mode === 'photo' && img) photoSticker(ctx, img, ta.value, fit); else ctx.drawImage(build(spec(sel.ch, sel.it), ta.value, S), 0, 0); }
+    function draw() { raf = 0; ctx.clearRect(0, 0, S, S); if (mode === 'photo' && img) photoSticker(ctx, img, ta.value, fit); else ctx.drawImage(build(spec(sel.it), ta.value, S), 0, 0); }
     function sched() { if (!raf) raf = requestAnimationFrame(draw); }
     ta.value = sel.it[0]; ta.addEventListener('input', sched);
-    var todo = [];
-    packs.forEach(function (p) {
-      var h = document.createElement('div'); h.className = 'pf-st-pack'; h.innerHTML = '<div class="pf-st-pn">' + (ar ? p.ar : p.en) + '</div>';
-      var g = document.createElement('div'); g.className = 'pf-st-grid';
+    var todo = [], tabs = document.createElement('div'), grid = document.createElement('div'), cur = -1, stamp = 0;
+    tabs.className = 'pf-st-tabs'; grid.className = 'pf-st-grid'; host.appendChild(tabs); host.appendChild(grid);
+    function pump(my) { if (my !== stamp || !document.body.contains(host)) return; var j = todo.shift(); if (!j) return; j[0].getContext('2d').drawImage(build(spec(j[1]), j[1][0], 200), 0, 0); setTimeout(function () { pump(my); }, 12); }
+    function show(i) {
+      if (i === cur) return; cur = i; stamp++; todo = []; var p = packs[i];
+      [].forEach.call(tabs.children, function (x, k) { x.classList.toggle('on', k === i); });
+      grid.innerHTML = '';
       p.t.forEach(function (it) {
         var b = document.createElement('button'); b.type = 'button'; b.className = 'pf-st-chip'; b.setAttribute('aria-label', it[0]);
-        var cn = document.createElement('canvas'); cn.width = cn.height = 200; b.appendChild(cn); todo.push([cn, p.ch, it]);
-        b.addEventListener('click', function () { mode = 'art'; sel = { ch: p.ch, it: it }; ta.value = it[0]; document.getElementById('pf-st-fitw').hidden = true; sched(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
-        g.appendChild(b);
+        var cn = document.createElement('canvas'); cn.width = cn.height = 200; b.appendChild(cn); todo.push([cn, it]);
+        b.addEventListener('click', function () { mode = 'art'; sel = { it: it }; ta.value = it[0]; document.getElementById('pf-st-fitw').hidden = true; sched(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+        grid.appendChild(b);
       });
-      h.appendChild(g); host.appendChild(h);
-    });
-    var alive = true;
-    function pump() { if (!alive || !document.body.contains(host)) return; var j = todo.shift(); if (!j) return; j[0].getContext('2d').drawImage(build(spec(j[1], j[2]), j[2][0], 200), 0, 0); setTimeout(pump, 16); }
-    function start() { setTimeout(pump, 30); }
+      var my = stamp; setTimeout(function () { pump(my); }, 20);
+    }
+    packs.forEach(function (p, i) { var b = document.createElement('button'); b.type = 'button'; b.className = 'pf-st-tab'; b.textContent = (ar ? p.ar : p.en) + ' ' + p.t.length; b.addEventListener('click', function () { show(i); }); tabs.appendChild(b); });
+    var start = function () { if (packs.length) show(0); };
     document.getElementById('pf-st-fit').addEventListener('click', function () { fit = !fit; this.textContent = fit ? s.fit : s.fitb; sched(); });
     document.getElementById('pf-st-file').addEventListener('change', function (e) {
       var fl = e.target.files && e.target.files[0], er = document.getElementById('pf-st-err'); er.hidden = true;

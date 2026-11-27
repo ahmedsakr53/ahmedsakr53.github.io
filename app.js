@@ -1283,7 +1283,7 @@
   var funCssP = null;
   function funCss(cb) {
     if (!funCssP) funCssP = new Promise(function (res) {
-      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'fun.css?v=14';
+      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'fun.css?v=15';
       var t = setTimeout(res, 2500); l.onload = function () { clearTimeout(t); res(); }; l.onerror = function () { clearTimeout(t); res(); };
       document.head.appendChild(l);
     });
@@ -1348,7 +1348,7 @@
     funCss(function () { cssDone = true; go(); });
     if (window.pfStickers) return go();
     var sc = document.createElement('script');
-    sc.src = 'stickers.js?v=2'; sc.onload = function () { jsDone = true; go(); }; document.head.appendChild(sc);
+    sc.src = 'stickers.js?v=3'; sc.onload = function () { jsDone = true; go(); }; document.head.appendChild(sc);
   }
 
   function loadTrend() {
