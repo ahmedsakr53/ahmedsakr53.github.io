@@ -805,13 +805,19 @@ async function handleStoreOrder(request, env, origin, ctx) {
 // ---------- Podcast (admin-managed audio episodes) ----------
 const POD_DEFAULT_SHOWS = [
   { id: 'giants', ar: 'عمالقة مجهولين', en: 'Unknown Giants', dAr: 'حكايات ناس صنعوا التقنية ومحدش يعرفهم', dEn: 'Stories of the unsung people behind tech', c1: '#d4a017', c2: '#5b3a1a' },
-  { id: 'today', ar: 'بكرة النهارده', en: 'Tomorrow Is Today', dAr: 'تقنيات المستقبل اللي بدأت تحصل دلوقتي', dEn: 'Future tech that is already happening', c1: '#22d3ee', c2: '#0e7490' },
-  { id: 'plan', ar: 'خطة الغد', en: 'Plan for Tomorrow', dAr: 'إزاي تجهّز نفسك للي جاي', dEn: 'How to prepare for what is next', c1: '#8b5cf6', c2: '#4c1d95' }
+  { id: 'hacked', ar: 'اتهكر', en: 'Hacked', dAr: 'أشهر الهجمات السيبرانية في التاريخ، وإزاي حصلت', dEn: 'The most famous cyberattacks in history and how they happened', c1: '#e11d48', c2: '#1a0a0e' },
+  { id: 'history', ar: 'لحظة تاريخ', en: 'A Moment in History', dAr: 'لحظات صغيرة غيّرت مسار التقنية', dEn: 'Small moments that changed the course of tech', c1: '#f97316', c2: '#7c2d12' }
 ];
 const POD_DEFAULT_EPISODES = [
   { show: 'giants', ar: 'خزنة القطب الشمالي: إزاي GitHub حفظ كود العالم تحت الجليد', en: "How GitHub stored the world's open source code under Arctic ice.", dAr: 'قصة أرشفة الكود المفتوح في خزنة محفورة في الجليد عشان يعيش مئات السنين.', dEn: 'The story of archiving open source code in an Arctic vault.', url: 'podcast/g1.mp3', visible: true },
   { show: 'giants', ar: 'بنبان: إزاي أسوان بقت من أكبر محطات الطاقة الشمسية في العالم', en: 'Benban: how Aswan got one of the largest solar parks', dAr: 'حكاية مجمّع بنبان للطاقة الشمسية في أسوان وإزاي اتبنى.', dEn: 'The story of the Benban solar park in Aswan.', url: 'podcast/g2.mp3', visible: true },
-  { show: 'giants', ar: '2Africa: الكابل البحري اللي بيلف أفريقيا كلها', en: '2Africa: the subsea cable that rings Africa', dAr: 'إزاي كابل إنترنت بحري عملاق بيربط أفريقيا بالعالم.', dEn: 'How a giant subsea internet cable connects Africa to the world.', url: 'podcast/g3.mp3', visible: true }
+  { show: 'giants', ar: '2Africa: الكابل البحري اللي بيلف أفريقيا كلها', en: '2Africa: the subsea cable that rings Africa', dAr: 'إزاي كابل إنترنت بحري عملاق بيربط أفريقيا بالعالم.', dEn: 'How a giant subsea internet cable connects Africa to the world.', url: 'podcast/g3.mp3', visible: true },
+  { show: "hacked", ar: "Stuxnet: أول سلاح سيبراني بيدمّر في العالم الحقيقي", en: "Stuxnet: the first cyber weapon to cause real-world destruction", dAr: "قصة الدودة اللي دمّرت معدات حقيقية من جوه الكمبيوتر.", dEn: "The story of the worm that destroyed physical equipment.", url: "podcast/h1.mp3", visible: true },
+  { show: "hacked", ar: "WannaCry: الهجوم اللي شل 150 دولة.. ووقفه شاب من بيته", en: "WannaCry: the attack that hit 150 countries and the young man who stopped it from home", dAr: "هجوم الفدية اللي ضرب أجهزة في ١٥٠ دولة، وإزاي اتوقف.", dEn: "The ransomware attack that hit 150 countries and how it was stopped.", url: "podcast/h2.mp3", visible: true },
+  { show: "hacked", ar: "سرقة البنك المركزي: 81 مليون دولار بحرف واحد غلط", en: "The central bank heist: $81 million and one wrong letter", dAr: "حكاية سرقة ٨١ مليون دولار وحرف واحد غلط كشف جزء منها.", dEn: "The story of an $81 million heist and the one-letter typo.", url: "podcast/h3.mp3", visible: true },
+  { show: "history", ar: "1202: الإنذار اللي كاد يلغي هبوط أبولو 11 على القمر", en: "1202: the alarm that nearly cancelled the Apollo 11 landing", dAr: "الإنذار اللي ظهر وقت هبوط أبولو ١١ وإزاي اتعاملوا معاه.", dEn: "The alarm that appeared during the Apollo 11 landing and how it was handled.", url: "podcast/t1.mp3", visible: true },
+  { show: "history", ar: "9 يناير 2007: اليوم اللي Apple أعادت فيه اختراع التليفون", en: "January 9, 2007: the day Apple reinvented the phone", dAr: "اليوم اللي اتعرض فيه أول آيفون وغيّر شكل التليفونات.", dEn: "The day the first iPhone was unveiled.", url: "podcast/t2.mp3", visible: true },
+  { show: "history", ar: "1989: مقترح غامض بس مثير اللي ولّد الويب", en: "1989: the vague but exciting proposal that gave birth to the Web", dAr: "المقترح البسيط اللي بدأ منه الويب.", dEn: "The simple proposal the Web started from.", url: "podcast/t3.mp3", visible: true }
 ];
 function podClean(b) {
   const out = { shows: [], episodes: [] };
