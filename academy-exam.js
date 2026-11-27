@@ -6,7 +6,8 @@
   var FALCON = 'M100 62L105 65L106 73L109 78L118 80L132 77L146 69L158 60L151 77L158 76L147 90L151 91L137 102L139 104L122 111L116 114L112 126L108 136L104 148L100 152Z';
   var TRK = {
     cyber: { code: 'CYB', en1: 'CYBERSECURITY AWARENESS TRACK', en2: 'Digital Safety, Made Simple', ar2: 'شهادة إتمام مسار «أمنك الرقمي ببساطة»' },
-    net: { code: 'NET', en1: 'NETWORKING FUNDAMENTALS TRACK', en2: 'Networking from Scratch', ar2: 'شهادة إتمام مسار «شبكات من الصفر»' }
+    net: { code: 'NET', en1: 'NETWORKING FUNDAMENTALS TRACK', en2: 'Networking from Scratch', ar2: 'شهادة إتمام مسار «شبكات من الصفر»' },
+    py: { code: 'PY', en1: 'PYTHON PROGRAMMING TRACK', en2: 'Python from Scratch', ar2: 'شهادة إتمام مسار «بايثون من الصفر»' }
   };
   var TRACK = 'cyber', LS = 'pf-cert-cyber', CODE = 'CYB';
   function setTrack(t) { TRACK = TRK[t] ? t : 'cyber'; LS = 'pf-cert-' + TRACK; CODE = TRK[TRACK].code; }
