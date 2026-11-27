@@ -1,7 +1,7 @@
 /* Shared game shell + opt-in leaderboard. Loaded only when a game or the board opens. */
 (function () {
   var W = 'https://saqr-ahmed.ahmedsakr5326.workers.dev';
-  var GN = { xo: ['إكس أو', 'X O'], snake: ['الثعبان', 'Snake'], mem: ['لعبة الذاكرة', 'Memory'], g2048: ['2048', '2048'], mole: ['طرق الخلد', 'Whack-a-mole'], rps: ['حجر ورق مقص', 'Rock Paper Scissors'], guess: ['تخمين الرقم', 'Guess the number'] };
+  var GN = { xo: ['إكس أو', 'X O'], snake: ['الثعبان', 'Snake'], mem: ['لعبة الذاكرة', 'Memory'], g2048: ['2048', '2048'], mole: ['طرق الخلد', 'Whack-a-mole'], rps: ['حجر ورق مقص', 'Rock Paper Scissors'], guess: ['تخمين الرقم', 'Guess the number'], ludo: ['لودو', 'Ludo'], domino: ['دومينو', 'Domino'] }, NOLB = { ludo: 1, domino: 1 };
   function ar() { return document.documentElement.lang !== 'en'; }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function pid() { var v = null; try { v = localStorage.getItem('pf-pid'); if (!v) { v = Math.random().toString(36).slice(2, 10) + Date.now().toString(36); localStorage.setItem('pf-pid', v); } } catch (e) { v = 'x' + Math.random().toString(36).slice(2, 10); } return v; }
@@ -71,7 +71,7 @@
     root.innerHTML = '<div class="pf-pagehead"><div class="pf-eyebrow">GAME</div><h2 class="pf-h2">' + (ar() ? n[0] : n[1]) + '</h2></div>' +
       '<div class="pf-xo pf-g"><a class="pf-g-exit" href="#/fun">' + (ar() ? '✕ خروج' : '✕ Exit') + '</a>' + body + '<div id="pf-lbs"></div><div class="pf-lb" id="pf-lbt"></div>' +
       '<a class="pf-xo-back" href="#/fun">' + (ar() ? 'رجوع للألعاب' : 'Back to games') + '</a></div>';
-    top(g, document.getElementById('pf-lbt'));
+    if (!NOLB[g]) top(g, document.getElementById('pf-lbt'));
     return { end: function (s) { offer(document.getElementById('pf-lbs'), g, s); } };
   }
   function swipe(el, cb) {

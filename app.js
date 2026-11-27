@@ -1142,7 +1142,9 @@
     { id: 'g2048', ar: '2048', en: '2048', c: ['#fbbf24', '#f97316'], href: '#/g/g2048', svg: '<rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/>' },
     { id: 'mole', ar: 'طرق الخلد', en: 'Whack-a-mole', c: ['#f59e0b', '#a16207'], href: '#/g/mole', svg: '<path d="M3 20h18"/><path d="M5 20a7 5 0 0114 0"/><circle cx="12" cy="11" r="4.5"/><circle cx="10.3" cy="10.2" r=".9"/><circle cx="13.7" cy="10.2" r=".9"/><path d="M11 12.6h2"/>' },
     { id: 'rps', ar: 'حجر ورق مقص', en: 'Rock Paper Scissors', c: ['#38bdf8', '#6366f1'], href: '#/g/rps', svg: '<circle cx="7" cy="17" r="3"/><path d="M13 4l7 7M20 4l-7 7M13 14h7v6h-7z"/>' },
-    { id: 'guess', ar: 'تخمين الرقم', en: 'Guess the number', c: ['#f472b6', '#fb7185'], href: '#/g/guess', svg: '<path d="M9 3L7 21M17 3l-2 18M3.5 9h18M2.5 15h18"/>' }
+    { id: 'guess', ar: 'تخمين الرقم', en: 'Guess the number', c: ['#f472b6', '#fb7185'], href: '#/g/guess', svg: '<path d="M9 3L7 21M17 3l-2 18M3.5 9h18M2.5 15h18"/>' },
+    { id: 'ludo', ar: 'لودو', en: 'Ludo', c: ['#22d3ee', '#ff2bd6'], href: '#/g/ludo', svg: '<rect x="3.5" y="3.5" width="17" height="17" rx="4"/><circle cx="8.5" cy="8.5" r="1.1"/><circle cx="15.5" cy="8.5" r="1.1"/><circle cx="12" cy="12" r="1.1"/><circle cx="8.5" cy="15.5" r="1.1"/><circle cx="15.5" cy="15.5" r="1.1"/>' },
+    { id: 'domino', ar: 'دومينو', en: 'Domino', c: ['#a78bfa', '#22d3ee'], href: '#/g/domino', svg: '<rect x="2.5" y="7" width="19" height="10" rx="2.5"/><path d="M12 7v10"/><circle cx="7" cy="12" r="1.1"/><circle cx="16" cy="10.3" r="1.1"/><circle cx="18" cy="13.7" r="1.1"/>' }
   ];
   var gamesCfg = null;
   function gameState(id) { var g = (gamesCfg && gamesCfg.games) || {}; return g[id] === 'hidden' || g[id] === 'soon' ? g[id] : ''; }
@@ -1188,20 +1190,20 @@
       if (box.dataset.open) { box.dataset.open = ''; box.innerHTML = ''; return; }
       box.dataset.open = '1';
       funCss(function () {});
-      var go = function () { window.pfLB.all(box, GAMES.filter(function (x) { return x.id !== 'xo' && gameState(x.id) !== 'hidden'; }).map(function (x) { return x.id; })); };
+      var go = function () { window.pfLB.all(box, GAMES.filter(function (x) { return x.id !== 'xo' && x.id !== 'ludo' && x.id !== 'domino' && gameState(x.id) !== 'hidden'; }).map(function (x) { return x.id; })); };
       if (window.pfLB) return go();
-      var sc = document.createElement('script'); sc.src = 'lb.js?v=3'; sc.onload = go; document.head.appendChild(sc);
+      var sc = document.createElement('script'); sc.src = 'lb.js?v=4'; sc.onload = go; document.head.appendChild(sc);
     });
   }
   document.addEventListener('pointerdown', function (e) {
     var a = e.target.closest && e.target.closest('a.pf-gc'); if (!a) return;
     var m = /#\/g\/(\w+)/.exec(a.getAttribute('href') || ''); if (!m) return;
-    ['lb.js?v=3', 'g-' + m[1] + '.js?v=1'].forEach(function (u) { if (document.querySelector('link[href="' + u + '"]')) return; var l = document.createElement('link'); l.rel = 'prefetch'; l.href = u; l.as = 'script'; document.head.appendChild(l); });
+    ['lb.js?v=4', 'g-' + m[1] + '.js?v=1'].forEach(function (u) { if (document.querySelector('link[href="' + u + '"]')) return; var l = document.createElement('link'); l.rel = 'prefetch'; l.href = u; l.as = 'script'; document.head.appendChild(l); });
   }, { passive: true });
   var funCssP = null;
   function funCss(cb) {
     if (!funCssP) funCssP = new Promise(function (res) {
-      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'fun.css?v=1';
+      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'fun.css?v=2';
       var t = setTimeout(res, 2500); l.onload = function () { clearTimeout(t); res(); }; l.onerror = function () { clearTimeout(t); res(); };
       document.head.appendChild(l);
     });
@@ -1228,7 +1230,7 @@
       var sc = document.createElement('script'); sc.src = src; sc.async = true; sc.setAttribute('data-pf', key); sc.onload = run; sc.onerror = function () { sc.remove(); fail(); }; document.head.appendChild(sc);
     };
     funCss(function () { cssOk = true; run(); });
-    ld('lb.js?v=3', 'lb'); ld('g-' + id + '.js?v=1', 'g-' + id);
+    ld('lb.js?v=4', 'lb'); ld('g-' + id + '.js?v=1', 'g-' + id);
     run();
     loadGamesCfg(function () { if (currentRoute() === '#/g/' + id && gameState(id)) location.hash = '#/fun'; });
   }

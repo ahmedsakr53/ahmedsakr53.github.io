@@ -76,4 +76,21 @@
 .pf-lb-win ul { list-style: none; margin: 0; padding: 0; font-size: 13px; line-height: 1.8; }
 
 .pf-lb-m { display: inline-block; min-width: 18px; height: 18px; line-height: 18px; margin-inline-end: 4px; border-radius: 9px; text-align: center; font-size: 11px; font-weight: 700; color: #1b1b1b; }
-.pf-lb-m1 { background: #fbbf24; } .pf-lb-m2 { background: #cbd5e1; } .pf-lb-m3 { background: #d98b4f; }
+.pf-lb-m1 { background: #fbbf24; } .pf-lb-m2 { background: #cbd5e1; } .pf-lb-m3 { background: #d98b4f; }.pf-ludo-ctl { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 4px; }
+.pf-ludo-die { min-height: 48px; padding: 0 26px; border-radius: 14px; border: 2px solid #22d3ee; background: #12143a; color: #fff; font: inherit; font-weight: 800; font-size: 16px; cursor: pointer; box-shadow: 0 0 14px rgb(34 211 238 / .45); }
+.pf-ludo-die:disabled { opacity: .45; box-shadow: none; cursor: default; }
+.pf-ludo-tk { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; min-height: 0; }
+.pf-ludo-tk button, .pf-dm-act button { min-height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid #b6ff3b; background: #12143a; color: #b6ff3b; font: inherit; font-weight: 700; cursor: pointer; }
+.pf-dm-info { font-size: 12px; opacity: .8; margin-bottom: 8px; }
+.pf-dm-board { display: flex; flex-wrap: wrap; justify-content: center; gap: 3px; min-height: 80px; padding: 10px 6px; margin-bottom: 8px; border-radius: 16px; background: #0f1130; border: 1px solid #2b2f6b; }
+.pf-dm-board em { opacity: .6; font-style: normal; align-self: center; }
+.pf-dm { width: 42px; height: 21px; display: block; }
+.pf-dm rect { fill: #f4f4ff; stroke: #22d3ee; stroke-width: 1.2; }
+.pf-dm path { stroke: #9aa0ff; stroke-width: 1; fill: none; }
+.pf-dm circle { fill: #0a0b1f; }
+.pf-dm-hand { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 8px 0; }
+.pf-dm-b { padding: 8px 2px; border-radius: 12px; border: 2px solid #3b3f7a; background: #12143a; opacity: .5; cursor: default; }
+.pf-dm-b .pf-dm { width: 100%; height: auto; }
+.pf-dm-b.ok { opacity: 1; border-color: #b6ff3b; cursor: pointer; box-shadow: 0 0 10px rgb(182 255 59 / .4); }
+.pf-dm-b.sel { border-color: #ff2bd6; box-shadow: 0 0 14px #ff2bd6; }
+.pf-dm-act { display: flex; justify-content: center; gap: 8px; min-height: 0; margin-bottom: 4px; }
