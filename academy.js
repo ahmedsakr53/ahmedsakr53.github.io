@@ -15,7 +15,7 @@
         ['الخصوصية والتتبع', 'Privacy and tracking'],
         ['إزاي الهكر بيشتغل فعلاً', 'How a hacker really works'],
         ['هجمات متقدمة والتصدي لها', 'Advanced attacks and how to stop them']] },
-    { id: 'code', ico: 'chip', ar: 'برمجة من الصفر', en: 'Programming from Scratch',
+    { id: 'code', ico: 'icBraces', ar: 'برمجة من الصفر', en: 'Programming from Scratch',
       dAr: 'JavaScript بتجرّبها لايف من موبايلك، من غير تنزيل أي حاجة.', dEn: 'JavaScript you can try live on your phone, with nothing to install.',
       eps: [
         ['البرمجة أصلاً يعني إيه', 'What programming actually is'],
@@ -41,11 +41,11 @@
         ['تقسيم الشبكات', 'Network Segmentation', 'شبكات فرعية وVLAN بشكل مبسط، وعزل أجهزة البيت الذكية والضيوف.', 'Subnets and VLANs made simple, and isolating smart-home devices and guests.'],
         ['أدوات التشخيص', 'Diagnostic Tools', 'ping وtraceroute وnslookup والـIP config، وإزاي تقرأ نتايجها وتحدد العطل.', 'ping, traceroute, nslookup and ipconfig, and how to read results and locate the fault.'],
         ['تصميم شبكة مكتب', 'Designing an Office Network', 'مكتب صغير من الصفر، مع VPN ومراقبة، واختبار وشهادة تكمل بيها.', 'A small office from scratch, with VPN and monitoring, plus an exam and certificate.']] },
-    { id: 'linux', ico: 'navCode', ar: 'لينكس من الصفر', en: 'Linux from Scratch',
+    { id: 'linux', ico: 'icTerm', ar: 'لينكس من الصفر', en: 'Linux from Scratch',
       dAr: 'تتعلم التيرمنال وأوامر لينكس خطوة خطوة، من غير خبرة قبل كده.', dEn: 'Learn the terminal and Linux commands step by step, with no prior experience.',
       eps: [
         ['ليه لينكس؟', 'Why Linux?'],
-        ['أول تعامل مع التيرمنال', 'Your first time in the terminal'],
+        ['الترمنال بعمق', 'The terminal in depth'],
         ['التنقل بين الفولدرات والملفات', 'Moving around folders and files'],
         ['إنشاء الملفات وتعديلها ومسحها', 'Creating, editing and deleting files'],
         ['الصلاحيات والمستخدمين', 'Permissions and users'],
@@ -80,7 +80,7 @@
         ['الحلقة ٨ (قريباً)', 'Episode 8 (soon)'],
         ['الحلقة ٩ (قريباً)', 'Episode 9 (soon)'],
         ['الحلقة ١٠ (قريباً)', 'Episode 10 (soon)']] },
-    { id: 'websec', ico: 'navShield', ar: 'أمن تطبيقات الويب', en: 'Web Application Security',
+    { id: 'websec', ico: 'icLock', ar: 'أمن تطبيقات الويب', en: 'Web Application Security',
       dAr: 'إزاي المواقع بتتخترق وإزاي تحميها: ثغرات الويب الشائعة من ناحية البرمجة والدفاع.', dEn: 'How websites get attacked and how to defend them: the common web vulnerabilities from the code and defence side.',
       eps: [
         ['الحلقة ١ (قريباً)', 'Episode 1 (soon)'],
@@ -93,7 +93,7 @@
         ['الحلقة ٨ (قريباً)', 'Episode 8 (soon)'],
         ['الحلقة ٩ (قريباً)', 'Episode 9 (soon)'],
         ['الحلقة ١٠ (قريباً)', 'Episode 10 (soon)']] },
-    { id: 'sql', ico: 'navCode', ar: 'قواعد البيانات SQL من الصفر', en: 'SQL Databases from Scratch',
+    { id: 'sql', ico: 'icDb', ar: 'قواعد البيانات SQL من الصفر', en: 'SQL Databases from Scratch',
       dAr: 'تتعلم تخزن البيانات وتسأل عنها بلغة SQL، من أول جدول لحد استعلامات حقيقية.', dEn: 'Learn to store and query data with SQL, from your first table to real queries.',
       eps: [
         ['الحلقة ١ (قريباً)', 'Episode 1 (soon)'],
@@ -106,7 +106,7 @@
         ['الحلقة ٨ (قريباً)', 'Episode 8 (soon)'],
         ['الحلقة ٩ (قريباً)', 'Episode 9 (soon)'],
         ['الحلقة ١٠ (قريباً)', 'Episode 10 (soon)']] },
-    { id: 'api', ico: 'navGlobe', ar: 'بناء APIs بلغة بايثون', en: 'Building APIs with Python',
+    { id: 'api', ico: 'icApi', ar: 'بناء APIs بلغة بايثون', en: 'Building APIs with Python',
       dAr: 'تبني واجهة برمجية كاملة بلغة بايثون، من أول مسار لحد خدمة تقدر تربط بيها أي تطبيق.', dEn: 'Build a complete API in Python, from your first endpoint to a service any app can connect to.',
       eps: [
         ['الحلقة ١ (قريباً)', 'Episode 1 (soon)'],
@@ -119,7 +119,7 @@
         ['الحلقة ٨ (قريباً)', 'Episode 8 (soon)'],
         ['الحلقة ٩ (قريباً)', 'Episode 9 (soon)'],
         ['الحلقة ١٠ (قريباً)', 'Episode 10 (soon)']] },
-    { id: 'ai', ico: 'chip', ar: 'الذكاء الاصطناعي للمطورين', en: 'AI for Developers',
+    { id: 'ai', ico: 'icAi', ar: 'الذكاء الاصطناعي للمطورين', en: 'AI for Developers',
       dAr: 'إزاي تستخدم نماذج الذكاء الاصطناعي في برامجك وتبني بيها أدوات حقيقية.', dEn: 'How to use AI models in your own programs and build real tools with them.',
       eps: [
         ['الحلقة ١ (قريباً)', 'Episode 1 (soon)'],
@@ -135,7 +135,7 @@
   ];
   function find(id) { for (var i = 0; i < TRACKS.length; i++) if (TRACKS[i].id === id) return TRACKS[i]; return null; }
   function n(x, ar) { return ar ? String(x).replace(/\d/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'[d]; }) : String(x); }
-  var DEF = { 'py-1': 'academy/py-1.mp4', 'py-2': 'academy/py-2.mp4', 'py-3': 'academy/py-3.mp4', 'py-4': 'academy/py-4.mp4', 'py-5': 'academy/py-5.mp4', 'py-6': 'academy/py-6.mp4', 'py-7': 'academy/py-7.mp4', 'py-8': 'academy/py-8.mp4', 'py-9': 'academy/py-9.mp4', 'py-10': 'academy/py-10.mp4', 'linux-1': 'academy/linux-1.mp4', 'net-1': 'academy/net-1.mp4', 'net-2': 'academy/net-2.mp4', 'net-3': 'academy/net-3.mp4', 'net-4': 'academy/net-4.mp4', 'net-5': 'academy/net-5.mp4', 'net-6': 'academy/net-6.mp4', 'net-7': 'academy/net-7.mp4', 'net-8': 'academy/net-8.mp4', 'net-9': 'academy/net-9.mp4', 'net-10': 'academy/net-10.mp4', 'cyber-1': 'academy/cyber-1.mp4', 'cyber-2': 'academy/cyber-2.mp4', 'cyber-3': 'academy/cyber-3.mp4', 'cyber-4': 'academy/cyber-4.mp4', 'cyber-5': 'academy/cyber-5.mp4', 'cyber-6': 'academy/cyber-6.mp4', 'cyber-7': 'academy/cyber-7.mp4', 'cyber-8': 'academy/cyber-8.mp4', 'cyber-9': 'academy/cyber-9.mp4', 'cyber-10': 'academy/cyber-10.mp4' };
+  var DEF = { 'py-1': 'academy/py-1.mp4', 'py-2': 'academy/py-2.mp4', 'py-3': 'academy/py-3.mp4', 'py-4': 'academy/py-4.mp4', 'py-5': 'academy/py-5.mp4', 'py-6': 'academy/py-6.mp4', 'py-7': 'academy/py-7.mp4', 'py-8': 'academy/py-8.mp4', 'py-9': 'academy/py-9.mp4', 'py-10': 'academy/py-10.mp4', 'linux-1': 'academy/linux-1.mp4', 'linux-2': 'academy/linux-2.mp4', 'net-1': 'academy/net-1.mp4', 'net-2': 'academy/net-2.mp4', 'net-3': 'academy/net-3.mp4', 'net-4': 'academy/net-4.mp4', 'net-5': 'academy/net-5.mp4', 'net-6': 'academy/net-6.mp4', 'net-7': 'academy/net-7.mp4', 'net-8': 'academy/net-8.mp4', 'net-9': 'academy/net-9.mp4', 'net-10': 'academy/net-10.mp4', 'cyber-1': 'academy/cyber-1.mp4', 'cyber-2': 'academy/cyber-2.mp4', 'cyber-3': 'academy/cyber-3.mp4', 'cyber-4': 'academy/cyber-4.mp4', 'cyber-5': 'academy/cyber-5.mp4', 'cyber-6': 'academy/cyber-6.mp4', 'cyber-7': 'academy/cyber-7.mp4', 'cyber-8': 'academy/cyber-8.mp4', 'cyber-9': 'academy/cyber-9.mp4', 'cyber-10': 'academy/cyber-10.mp4' };
   var CFG = null, SEL = 0;
   function ep(tid, i) {
     var k = tid + '-' + (i + 1), e = (CFG && CFG.eps && CFG.eps[k]) || (DEF[k] ? { mp4: DEF[k] } : {});

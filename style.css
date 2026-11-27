@@ -2062,3 +2062,15 @@ html[dir="rtl"] .pf-ep-d, html[dir="rtl"] .pf-card-detail, html[dir="rtl"] .pf-p
 .pf-fun-open .pf-fun-chev { transform: rotate(180deg); }
 .pf-fun-body { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .pf-fun-body[hidden] { display: none; }
+
+/* unique icon + color per academy track */
+.pf-acad-card.pf-t-cyber .pf-icon { fill: #22d3ee !important; }
+.pf-acad-card.pf-t-net .pf-icon { fill: #38bdf8 !important; }
+.pf-acad-card.pf-t-code .pf-icon { fill: #FF3EA5 !important; }
+.pf-acad-card.pf-t-linux .pf-icon { fill: #39FF14 !important; }
+.pf-acad-card.pf-t-py .pf-icon { fill: #FFD43B !important; }
+.pf-acad-card.pf-t-git .pf-icon { fill: #f97316 !important; }
+.pf-acad-card.pf-t-websec .pf-icon { fill: #fb7185 !important; }
+.pf-acad-card.pf-t-sql .pf-icon { fill: #a78bfa !important; }
+.pf-acad-card.pf-t-api .pf-icon { fill: #34d399 !important; }
+.pf-acad-card.pf-t-ai .pf-icon { fill: #f472b6 !important; }
