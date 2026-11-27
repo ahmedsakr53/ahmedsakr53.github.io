@@ -2090,3 +2090,9 @@ html[dir="rtl"] .pf-ep-d, html[dir="rtl"] .pf-card-detail, html[dir="rtl"] .pf-p
 .pf-pg-note { font-size: 12.5px; opacity: .8; line-height: 1.7; margin: 0; }
 .pf-pg-out { min-height: 120px; max-height: 60vh; padding-bottom: 16px; }
 body:has(.pf-pg-box:not([hidden]) .pf-pg) .pf-saqr-fab { top: auto; bottom: 168px; }
+/* podcast custom player (no native controls, no download menu) */
+.pf-pl { display: flex; align-items: center; gap: 10px; margin-top: 10px; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.pf-pl-b { flex: none; width: 44px; height: 44px; border-radius: 50%; border: 0; background: linear-gradient(135deg, var(--pc1, #d4a017), var(--pc2, #5b3a1a)); color: #fff; font-size: 16px; cursor: pointer; display: grid; place-items: center; }
+.pf-pl-b:disabled { opacity: .6; cursor: wait; }
+.pf-pl-r { flex: 1; min-width: 0; accent-color: var(--pc1, #d4a017); height: 28px; }
+.pf-pl-t { flex: none; min-width: 74px; font-size: 12.5px; text-align: end; opacity: .85; font-variant-numeric: tabular-nums; }

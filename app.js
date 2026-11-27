@@ -1371,7 +1371,7 @@
     if (route === '#/xo') loadXO();
     document.documentElement.classList.toggle('pf-ingame', route.indexOf('#/g/') === 0 || route === '#/xo');
     if (route.indexOf('#/g/') === 0) loadGame(route.slice(4));
-    if (route === '#/podcast') { var pdEl = document.getElementById('pf-pod'); if (pdEl) { var goP = function () { window.pfPodcast.mount(pdEl, lang === 'ar'); }; if (window.pfPodcast) goP(); else { var ps = document.createElement('script'); ps.src = 'podcast.js?v=2'; ps.onload = goP; ps.onerror = function () { pdEl.textContent = lang === 'ar' ? 'مش قادرين نحمّل البودكاست. جرّب تاني.' : 'Could not load the podcast. Try again.'; }; document.head.appendChild(ps); } } }
+    if (route === '#/podcast') { var pdEl = document.getElementById('pf-pod'); if (pdEl) { var goP = function () { window.pfPodcast.mount(pdEl, lang === 'ar'); }; if (window.pfPodcast) goP(); else { var ps = document.createElement('script'); ps.src = 'podcast.js?v=3'; ps.onload = goP; ps.onerror = function () { pdEl.textContent = lang === 'ar' ? 'مش قادرين نحمّل البودكاست. جرّب تاني.' : 'Could not load the podcast. Try again.'; }; document.head.appendChild(ps); } } }
     if (route === '#/fun') wireFun();
     if (route.indexOf('#/academy') === 0) loadAcademy(route);
     if (route === '#/map') wireLive(); else clearInterval(pfLiveTimer);
