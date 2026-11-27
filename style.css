@@ -2027,3 +2027,11 @@ body .pf-acad-card.pf-t-code b, body .pf-acad-card.pf-t-linux b, body .pf-acad-c
 .pf-ops-r { display: flex; justify-content: space-between; gap: 10px; padding: 7px 0; border-top: 1px solid var(--ds-hairline); font-size: 13.5px; }
 .pf-ops-r b { font-family: ui-monospace, Menlo, monospace; word-break: break-all; text-align: left; }
 .pf-ops-note { font-size: 12px; opacity: .7; padding-top: 6px; }
+
+/* Store */
+.pf-prod-price { font-weight: 800; font-size: 17px; margin: 8px 0; color: #ea580c; }
+.pf-prod-form { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; position: relative; }
+.pf-prod-form[hidden] { display: none; }
+.pf-prod-msg { font-size: 13px; color: #dc2626; }
+.pf-prod-ok { font-size: 14px; line-height: 1.8; }
+.pf-prod-ok p { margin: 6px 0; }
