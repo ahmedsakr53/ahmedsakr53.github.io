@@ -92,6 +92,45 @@
         ['الحلقة ٧ (قريباً)', 'Episode 7 (soon)'],
         ['الحلقة ٨ (قريباً)', 'Episode 8 (soon)'],
         ['الحلقة ٩ (قريباً)', 'Episode 9 (soon)'],
+        ['الحلقة ١٠ (قريباً)', 'Episode 10 (soon)']] },
+    { id: 'sql', ico: 'navCode', ar: 'قواعد البيانات SQL من الصفر', en: 'SQL Databases from Scratch',
+      dAr: 'تتعلم تخزن البيانات وتسأل عنها بلغة SQL، من أول جدول لحد استعلامات حقيقية.', dEn: 'Learn to store and query data with SQL, from your first table to real queries.',
+      eps: [
+        ['الحلقة ١ (قريباً)', 'Episode 1 (soon)'],
+        ['الحلقة ٢ (قريباً)', 'Episode 2 (soon)'],
+        ['الحلقة ٣ (قريباً)', 'Episode 3 (soon)'],
+        ['الحلقة ٤ (قريباً)', 'Episode 4 (soon)'],
+        ['الحلقة ٥ (قريباً)', 'Episode 5 (soon)'],
+        ['الحلقة ٦ (قريباً)', 'Episode 6 (soon)'],
+        ['الحلقة ٧ (قريباً)', 'Episode 7 (soon)'],
+        ['الحلقة ٨ (قريباً)', 'Episode 8 (soon)'],
+        ['الحلقة ٩ (قريباً)', 'Episode 9 (soon)'],
+        ['الحلقة ١٠ (قريباً)', 'Episode 10 (soon)']] },
+    { id: 'api', ico: 'navGlobe', ar: 'بناء APIs بلغة بايثون', en: 'Building APIs with Python',
+      dAr: 'تبني واجهة برمجية كاملة بلغة بايثون، من أول مسار لحد خدمة تقدر تربط بيها أي تطبيق.', dEn: 'Build a complete API in Python, from your first endpoint to a service any app can connect to.',
+      eps: [
+        ['الحلقة ١ (قريباً)', 'Episode 1 (soon)'],
+        ['الحلقة ٢ (قريباً)', 'Episode 2 (soon)'],
+        ['الحلقة ٣ (قريباً)', 'Episode 3 (soon)'],
+        ['الحلقة ٤ (قريباً)', 'Episode 4 (soon)'],
+        ['الحلقة ٥ (قريباً)', 'Episode 5 (soon)'],
+        ['الحلقة ٦ (قريباً)', 'Episode 6 (soon)'],
+        ['الحلقة ٧ (قريباً)', 'Episode 7 (soon)'],
+        ['الحلقة ٨ (قريباً)', 'Episode 8 (soon)'],
+        ['الحلقة ٩ (قريباً)', 'Episode 9 (soon)'],
+        ['الحلقة ١٠ (قريباً)', 'Episode 10 (soon)']] },
+    { id: 'ai', ico: 'chip', ar: 'الذكاء الاصطناعي للمطورين', en: 'AI for Developers',
+      dAr: 'إزاي تستخدم نماذج الذكاء الاصطناعي في برامجك وتبني بيها أدوات حقيقية.', dEn: 'How to use AI models in your own programs and build real tools with them.',
+      eps: [
+        ['الحلقة ١ (قريباً)', 'Episode 1 (soon)'],
+        ['الحلقة ٢ (قريباً)', 'Episode 2 (soon)'],
+        ['الحلقة ٣ (قريباً)', 'Episode 3 (soon)'],
+        ['الحلقة ٤ (قريباً)', 'Episode 4 (soon)'],
+        ['الحلقة ٥ (قريباً)', 'Episode 5 (soon)'],
+        ['الحلقة ٦ (قريباً)', 'Episode 6 (soon)'],
+        ['الحلقة ٧ (قريباً)', 'Episode 7 (soon)'],
+        ['الحلقة ٨ (قريباً)', 'Episode 8 (soon)'],
+        ['الحلقة ٩ (قريباً)', 'Episode 9 (soon)'],
         ['الحلقة ١٠ (قريباً)', 'Episode 10 (soon)']] }
   ];
   function find(id) { for (var i = 0; i < TRACKS.length; i++) if (TRACKS[i].id === id) return TRACKS[i]; return null; }
@@ -146,7 +185,7 @@
     if (!tr) {
       var list = TRACKS.filter(visible);
       return h.pageHead('ACADEMY', ar ? 'صقر أكاديمي' : 'Sakr Academy') +
-        '<p class="pf-para">' + esc(ar ? 'سبعة مسارات مجانية، كل مسار ١٠ حلقات قصيرة بالصوت والصورة، وفي آخره اختبار وشهادة إتمام. نبدأ بمسار الأمن السيبراني، والباقي قريباً.' : 'Seven free tracks, each with 10 short video episodes, a final exam and a completion certificate. We start with the cybersecurity track, the rest are coming soon.') + '</p>' +
+        '<p class="pf-para">' + esc(ar ? 'عشرة مسارات مجانية، كل مسار ١٠ حلقات قصيرة بالصوت والصورة، وفي آخره اختبار وشهادة إتمام. نبدأ بمسار الأمن السيبراني، والباقي قريباً.' : 'Ten free tracks, each with 10 short video episodes, a final exam and a completion certificate. We start with the cybersecurity track, the rest are coming soon.') + '</p>' +
         '<div class="pf-acad-grid">' + list.map(function (t) {
           var c = liveList(t).length;
           return '<a class="pf-acad-card pf-t-' + t.id + '" href="#/academy/' + t.id + '">' +
