@@ -46,6 +46,7 @@
     icLock: 'M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z',
     icBraces: 'M4 7v2c0 .55-.45 1-1 1H2v4h1c.55 0 1 .45 1 1v2c0 1.65 1.35 3 3 3h3v-2H7c-.55 0-1-.45-1-1v-2c0-1.3-.84-2.42-2-2.83v-.34C5.16 11.42 6 10.3 6 9V7c0-.55.45-1 1-1h3V4H7C5.35 4 4 5.35 4 7zm17 3c-.55 0-1-.45-1-1V7c0-1.65-1.35-3-3-3h-3v2h3c.55 0 1 .45 1 1v2c0 1.3.84 2.42 2 2.83v.34c-1.16.41-2 1.52-2 2.83v2c0 .55-.45 1-1 1h-3v2h3c1.65 0 3-1.35 3-3v-2c0-.55.45-1 1-1h1v-4h-1z',
     navCode: 'M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z',
+    navBag: 'M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z',
     navGrid: 'M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z',
     doc: 'M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z',
     moon: 'M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z',
@@ -75,7 +76,7 @@
     return '<svg class="pf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="' + ICON_PATHS[name] + '"/></svg>';
   }
   var navPaths = ['#/', '#/app', '#/about', '#/certifications', '#/projects', '#/services', '#/contact'];
-  var navIcons = ['home', 'navApp', 'navUser', 'navCert', 'navCode', 'navGrid', 'navShield', 'mail'];
+  var navIcons = ['home', 'navApp', 'navUser', 'navCert', 'navCode', 'navBag', 'navShield', 'mail'];
 
   var T = {
     ar: {
@@ -647,7 +648,7 @@
       '<div class="pf-purpose-label">' + esc(t.purposeTitle) + '</div><p class="pf-tagline">' + esc(t.tagline) + '</p>' +
       '<div class="pf-chips">' + t.chips.map(function (c) { return '<span class="pf-chip">' + esc(c) + '</span>'; }).join('') + '</div>' +
       '<div class="pf-cta">' +
-      '<a class="pf-btn pf-btn-services" href="#/services">' + icon('navGrid') + '<span>' + esc(t.ctaServices) + '<small>' + esc(t.ctaServicesSub) + '</small></span></a>' +
+      '<a class="pf-btn pf-btn-services" href="#/services">' + icon('navBag') + '<span>' + esc(t.ctaServices) + '<small>' + esc(t.ctaServicesSub) + '</small></span></a>' +
       '<a class="pf-btn pf-btn-primary" href="#/projects">' + esc(t.ctaProjects) + '</a>' +
       '<a class="pf-btn pf-btn-ghost" href="#/contact">' + esc(t.ctaContact) + '</a>' +
       '<a class="pf-btn pf-btn-ghost pf-btn-tg" href="https://t.me/sakrworld5" target="_blank" rel="noopener">' + icon('telegram') + esc(t.tgJoin) + '</a>' +
@@ -936,6 +937,29 @@
       if (bits[row * PF_MAP.cols + c]) { ctx.beginPath(); ctx.arc((c + 0.5) * cw, (row + 0.5) * ch, r, 0, 6.2832); ctx.fill(); }
     }
   }
+  function placeLiveLabels(d) {
+    var map = document.getElementById('pf-live-map'), old = map && map.querySelectorAll('.pf-live-lbl');
+    if (!map) return;
+    for (var q = 0; q < old.length; q++) old[q].parentNode.removeChild(old[q]);
+    if (d.labels === false) return;
+    var W = map.clientWidth, H = map.clientHeight; if (!W || !H) return;
+    var pts = (d.dots || []).filter(function (p) { return p.city; }).sort(function (a, b) { return (b.on - a.on) || (b.n - a.n); }).slice(0, 40);
+    var boxes = [], seen = {}, frag = document.createDocumentFragment();
+    (d.dots || []).forEach(function (p) { var x = (p.lo + 180) / 360 * W, y = (PF_MAP.top - p.la) / (PF_MAP.top - PF_MAP.bot) * H; boxes.push([x - 5, y - 5, x + 5, y + 5]); });
+    function hit(b) { for (var i = 0; i < boxes.length; i++) { var o = boxes[i]; if (b[0] < o[2] && b[2] > o[0] && b[1] < o[3] && b[3] > o[1]) return true; } return false; }
+    pts.forEach(function (p) {
+      var nm = String(p.city).slice(0, 18); if (seen[nm]) return;
+      var x = (p.lo + 180) / 360 * W, y = (PF_MAP.top - p.la) / (PF_MAP.top - PF_MAP.bot) * H;
+      if (y < 0 || y > H) return;
+      var w = nm.length * 5.4 + 12, h = 15, cand = [[x + 8, y - h / 2], [x - 8 - w, y - h / 2], [x - w / 2, y - h - 7], [x - w / 2, y + 7]], put = null;
+      for (var c = 0; c < cand.length && !put; c++) { var bx = cand[c][0], by = cand[c][1]; if (bx < 0 || by < 0 || bx + w > W || by + h > H) continue; var bb = [bx, by, bx + w, by + h]; if (!hit(bb)) put = bb; }
+      if (!put) return;
+      boxes.push(put); seen[nm] = 1;
+      var el = document.createElement('span'); el.className = 'pf-live-lbl' + (p.on ? ' pf-live-lbl-on' : ''); el.textContent = nm;
+      el.style.left = put[0].toFixed(1) + 'px'; el.style.top = put[1].toFixed(1) + 'px'; frag.appendChild(el);
+    });
+    map.appendChild(frag);
+  }
   function wireLive() {
     var box = document.getElementById('pf-live');
     if (!box || !SAQR_WORKER_URL) return;
@@ -965,6 +989,7 @@
           if (y < 0 || y > 100) return '';
           return '<i class="pf-live-dot' + (p.on ? ' pf-live-dot-on' : '') + '" style="left:' + x.toFixed(2) + '%;top:' + y.toFixed(2) + '%" title="' + esc((p.city ? p.city + ' ' : '') + (p.c && names ? names.of(p.c) : '')) + '"></i>';
         }).join('');
+        placeLiveLabels(d);
         document.getElementById('pf-live-list').innerHTML = cc.sort(function (a, b) { return d.countries[b] - d.countries[a]; }).map(function (c) {
           var nm = c; try { if (names) nm = names.of(c) || c; } catch (e) {}
           return '<span class="pf-live-chip">' + flag(c) + ' ' + esc(nm) + ' <b>' + d.countries[c] + '</b></span>';

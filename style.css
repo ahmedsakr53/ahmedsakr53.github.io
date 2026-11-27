@@ -2104,3 +2104,6 @@ body:has(.pf-pg-box:not([hidden]) .pf-pg) .pf-saqr-fab { top: auto; bottom: 168p
 .pf-pod-show.open .pf-pod-chev { transform: rotate(180deg); }
 .pf-pod-tg:focus-visible { outline: 2px solid #fff; outline-offset: 2px; border-radius: 12px; }
 .pf-pod-body[hidden] { display: none; }
+
+.pf-live-lbl { position: absolute; z-index: 2; height: 15px; line-height: 13px; padding: 0 5px; font-size: 9.5px; white-space: nowrap; pointer-events: none; color: #e0f2fe; background: rgb(8 14 28 / .88); border: 1px solid rgb(34 211 238 / .45); border-radius: 6px; direction: ltr; }
+.pf-live-lbl-on { border-color: rgb(52 211 153 / .8); color: #d1fae5; }
