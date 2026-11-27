@@ -135,3 +135,10 @@
 .pf-ludo-dw small b { color: #22d3ee; font-size: 12px; }
 .pf-pagehead:has(+ .pf-ludo-xo) { display: none; }
 .pf-ludo-board { padding: 70px 0; }
+
+.pf-dm-board { min-height: min(34vh, 300px); align-items: center; padding: 10px 4px; margin-inline: -8px; }
+.pf-dmsvg { width: 100%; height: auto; max-height: 100%; display: block; }
+.pf-dg rect { fill: #f4f4ff; stroke: #22d3ee; stroke-width: 1.2; }
+.pf-dg path { stroke: #9aa0ff; stroke-width: 1; fill: none; }
+.pf-dg circle { fill: #0a0b1f; }
+.pf-dm-b { padding: 10px 3px; }

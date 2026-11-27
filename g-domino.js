@@ -3,7 +3,24 @@
   window.pfG.domino = function (root) {
     var L = window.pfLB, ar = L.ar();
     var PIPS = [[], [[1,1]], [[0,0],[2,2]], [[0,0],[1,1],[2,2]], [[0,0],[2,0],[0,2],[2,2]], [[0,0],[2,0],[1,1],[0,2],[2,2]], [[0,0],[2,0],[0,1],[2,1],[0,2],[2,2]]];
-    function half(n, x) { return PIPS[n].map(function (p) { return '<circle cx="' + (x + 5 + p[0] * 8) + '" cy="' + (5 + p[1] * 8) + '" r="2.2"/>'; }).join(''); }
+    function half(n, x) { return PIPS[n].map(function (p) { return '<circle cx="' + (x + 5 + p[0] * 5.5) + '" cy="' + (4.5 + p[1] * 6) + '" r="2"/>'; }).join(''); }
+    function tg(a, b, tr) { return '<g class="pf-dg" transform="' + tr + '"><rect x=".7" y=".7" width="40.6" height="19.6" rx="4"/><path d="M21 3v15"/>' + half(a, 0) + half(b, 21) + '</g>'; }
+    function snake(ch) {
+      var per = 4, n = ch.length, out = '', x, y = 0, dir = 1, k = 0, minX = -23, maxX = per * 44 + 21, maxY = 21, ox = n <= per ? (per - n) * 22 : 0;
+      x = ox;
+      for (var i = 0; i < n; i++) {
+        var t = ch[i];
+        if (k === per) { // bend tile, vertical, going down
+          var bx = dir === 1 ? x : x + 0 - 0;
+          if (dir === 1) bx = per * 44; else bx = -23;
+          out += tg(t[0], t[1], 'translate(' + (bx + 21) + ',' + y + ') rotate(90)'); maxY = Math.max(maxY, y + 42);
+          y += 23; dir = -dir; x = dir === 1 ? 0 : (per - 1) * 44; k = 0; continue;
+        }
+        if (dir === 1) out += tg(t[0], t[1], 'translate(' + x + ',' + y + ')'); else out += tg(t[0], t[1], 'translate(' + (x + 42) + ',' + (y + 21) + ') rotate(180)');
+        maxY = Math.max(maxY, y + 21); x += dir === 1 ? 44 : -44; k++;
+      }
+      return '<svg class="pf-dmsvg" viewBox="' + minX + ' -1 ' + (maxX - minX) + ' ' + (maxY + 2) + '" preserveAspectRatio="xMidYMid meet" aria-hidden="true">' + out + '</svg>';
+    }
     function tile(a, b, cls) { return '<svg class="pf-dm ' + (cls || '') + '" viewBox="0 0 42 21" aria-hidden="true"><rect x=".7" y=".7" width="40.6" height="19.6" rx="4"/><path d="M21 3v15"/>' + half(a, 0) + half(b, 21) + '</svg>'; }
     var sh = L.shell(root, 'domino', '<div class="pf-g-top"><span>' + (ar ? 'أنت' : 'You') + ' <b id="g-a">0</b></span><span>' + (ar ? 'الكمبيوتر' : 'CPU') + ' <b id="g-c">0</b></span></div>' +
       '<div class="pf-dm-info" id="g-i"></div><div class="pf-dm-board" id="g-bd" dir="ltr"></div><div class="pf-xo-msg" id="g-m"></div><div class="pf-dm-hand" id="g-h" dir="ltr"></div><div class="pf-dm-act" id="g-ac"></div><button type="button" class="pf-xo-again" id="g-go">' + (ar ? 'جولة جديدة' : 'New round') + '</button>');
@@ -20,7 +37,7 @@
     function fits(t, side) { var e = ends(); if (!e) return true; var v = e[side]; return t[0] === v || t[1] === v; }
     function sum(h) { return h.reduce(function (s, t) { return s + t[0] + t[1]; }, 0); }
     function render() {
-      bd.innerHTML = chain.map(function (t) { return tile(t[0], t[1], 'on'); }).join('') || '<em>' + (ar ? 'الطاولة فاضية' : 'Empty table') + '</em>';
+      bd.innerHTML = chain.length ? snake(chain) : '' || '<em>' + (ar ? 'الطاولة فاضية' : 'Empty table') + '</em>';
       inf.textContent = (ar ? 'الكمبيوتر معاه ' : 'CPU has ') + cpu.length + (ar ? ' قطعة، والمخزن ' : ' tiles, boneyard ') + yard.length;
       hd.innerHTML = yours.map(function (t, i) { var ok = turn === 0 && !over && can(t); return '<button type="button" class="pf-dm-b' + (ok ? ' ok' : '') + (sel === i ? ' sel' : '') + '" data-i="' + i + '"' + (ok ? '' : ' disabled') + ' aria-label="' + t[0] + '-' + t[1] + '">' + tile(t[0], t[1]) + '</button>'; }).join('');
       var h = '';

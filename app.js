@@ -1101,7 +1101,7 @@
   }
 
   var acadCfg;
-  function acadPrefetch() { var u = 'academy.js?v=30'; if (window.pfAcademy || document.querySelector('link[href="' + u + '"]')) return; var l = document.createElement('link'); l.rel = 'prefetch'; l.as = 'script'; l.href = u; document.head.appendChild(l); }
+  function acadPrefetch() { var u = 'academy.js?v=31'; if (window.pfAcademy || document.querySelector('link[href="' + u + '"]')) return; var l = document.createElement('link'); l.rel = 'prefetch'; l.as = 'script'; l.href = u; document.head.appendChild(l); }
   document.addEventListener('pointerdown', function (e) { var a = e.target.closest && e.target.closest('a[href="#/academy"]'); if (a) acadPrefetch(); }, { passive: true });
   window.addEventListener('load', function () { setTimeout(acadPrefetch, 5000); });
   function loadAcademy(route) {
@@ -1122,7 +1122,7 @@
     if (host0 && !window.pfAcademy) host0.innerHTML = '<div class="pf-g-skel"><i></i><span>' + (lang === 'ar' ? 'جارٍ التحميل…' : 'Loading…') + '</span></div>';
     var jsP = window.pfAcademy ? Promise.resolve() : new Promise(function (res) {
       var sc = document.createElement('script');
-      sc.src = 'academy.js?v=30';
+      sc.src = 'academy.js?v=31';
       sc.onload = res; sc.onerror = res;
       document.head.appendChild(sc);
     });
@@ -1207,7 +1207,7 @@
   var funCssP = null;
   function funCss(cb) {
     if (!funCssP) funCssP = new Promise(function (res) {
-      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'fun.css?v=7';
+      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'fun.css?v=8';
       var t = setTimeout(res, 2500); l.onload = function () { clearTimeout(t); res(); }; l.onerror = function () { clearTimeout(t); res(); };
       document.head.appendChild(l);
     });
@@ -1234,7 +1234,7 @@
       var sc = document.createElement('script'); sc.src = src; sc.async = true; sc.setAttribute('data-pf', key); sc.onload = run; sc.onerror = function () { sc.remove(); fail(); }; document.head.appendChild(sc);
     };
     funCss(function () { cssOk = true; run(); });
-    ld('lb.js?v=4', 'lb'); ld('g-' + id + '.js?v=6', 'g-' + id);
+    ld('lb.js?v=4', 'lb'); ld('g-' + id + '.js?v=7', 'g-' + id);
     run();
     loadGamesCfg(function () { if (currentRoute() === '#/g/' + id && gameState(id)) location.hash = '#/fun'; });
   }
