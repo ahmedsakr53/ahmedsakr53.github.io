@@ -1359,6 +1359,7 @@
     try { document.getElementById('app').dataset.route = currentRoute(); } catch (e4) {}
   }
   function renderCore() {
+    document.body.classList.remove('pf-sheet-open');
     var t = T[lang];
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
