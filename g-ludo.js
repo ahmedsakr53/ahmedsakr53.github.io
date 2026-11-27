@@ -71,7 +71,7 @@
     function moves(i, r) { var o = []; for (var k = 0; k < 4; k++) { var q = S[i][k]; if (q === 56) continue; if (q < 0) { if (r === 6) o.push(k); } else if (q + r <= 56) o.push(k); } return o; }
     function xy(i, k) {
       var s = pl[i].s, q = S[i][k];
-      if (q < 0) return [BX[s] + (k % 2 ? 4.1 : 1.9) + 0.5, BY[s] + (k > 1 ? 4.1 : 1.9) + 0.5];
+      if (q < 0) return [BX[s] + (k % 2 ? 4 : 2), BY[s] + (k > 1 ? 4 : 2)];
       if (q <= 50) { var c = P[(START[s] + q) % 52]; return [c[0] + 0.5, c[1] + 0.5]; }
       if (q <= 55) { var h = HC[s][q - 51]; return [h[0] + 0.5, h[1] + 0.5]; }
       return [GOAL[s][0], GOAL[s][1]];
@@ -81,10 +81,10 @@
     /* ---------- drawing ---------- */
     function rr(x, y, w, h, r) { cx.beginPath(); cx.moveTo(x + r, y); cx.arcTo(x + w, y, x + w, y + h, r); cx.arcTo(x + w, y + h, x, y + h, r); cx.arcTo(x, y + h, x, y, r); cx.arcTo(x, y, x + w, y, r); cx.closePath(); }
     function pawn(x, y, c, mv, big) {
-      var sc = big ? 1.15 : 1;
+      var sc = (big ? 1.15 : 1) * 1.4;
       cx.save(); cx.translate(x, y);
       cx.beginPath(); cx.ellipse(0, 13 * sc, 12 * sc, 4.5 * sc, 0, 0, 7); cx.fillStyle = 'rgba(0,0,0,.45)'; cx.fill();
-      if (mv) { cx.beginPath(); cx.arc(0, 0, 25, 0, 7); cx.lineWidth = 4; cx.strokeStyle = ph ? '#fff' : '#b6ff3b'; cx.shadowColor = '#b6ff3b'; cx.shadowBlur = 18; cx.stroke(); cx.shadowBlur = 0; }
+      if (mv) { cx.beginPath(); cx.arc(0, 0, 31, 0, 7); cx.lineWidth = 4; cx.strokeStyle = ph ? '#fff' : '#b6ff3b'; cx.shadowColor = '#b6ff3b'; cx.shadowBlur = 18; cx.stroke(); cx.shadowBlur = 0; }
       var g = cx.createLinearGradient(-10, 0, 10, 0); g.addColorStop(0, c); g.addColorStop(0.5, '#ffffffaa'); g.addColorStop(1, c);
       cx.beginPath(); cx.moveTo(-11 * sc, 12 * sc); cx.quadraticCurveTo(-5 * sc, 0, -3.5 * sc, -5 * sc); cx.lineTo(3.5 * sc, -5 * sc); cx.quadraticCurveTo(5 * sc, 0, 11 * sc, 12 * sc); cx.closePath();
       cx.fillStyle = c; cx.shadowColor = c; cx.shadowBlur = 8; cx.fill(); cx.shadowBlur = 0; cx.lineWidth = 2; cx.strokeStyle = 'rgba(5,6,26,.9)'; cx.stroke();
@@ -100,7 +100,7 @@
       for (var s = 0; s < 4; s++) {
         var on = act.indexOf(s) > -1;
         rr(BX[s] * u + 4, BY[s] * u + 4, 6 * u - 8, 6 * u - 8, 22); cx.fillStyle = COL[s] + (on ? '30' : '10'); cx.fill(); cx.lineWidth = on ? 3 : 1.5; cx.strokeStyle = COL[s] + (on ? 'cc' : '44'); cx.stroke();
-        for (k = 0; k < 4; k++) { var bx = (BX[s] + (k % 2 ? 4.1 : 1.9) + 0.5) * u, by = (BY[s] + (k > 1 ? 4.1 : 1.9) + 0.5) * u; cx.beginPath(); cx.arc(bx, by, 19, 0, 7); cx.fillStyle = on ? 'rgba(5,6,26,.55)' : 'rgba(5,6,26,.3)'; cx.fill(); cx.lineWidth = 2; cx.strokeStyle = COL[s] + (on ? '99' : '33'); cx.stroke(); }
+        for (k = 0; k < 4; k++) { var bx = (BX[s] + (k % 2 ? 4 : 2)) * u, by = (BY[s] + (k > 1 ? 4 : 2)) * u; cx.beginPath(); cx.arc(bx, by, 26, 0, 7); cx.fillStyle = on ? 'rgba(5,6,26,.55)' : 'rgba(5,6,26,.3)'; cx.fill(); cx.lineWidth = 2; cx.strokeStyle = COL[s] + (on ? '99' : '33'); cx.stroke(); }
       }
       P.forEach(function (c, n) {
         var sc = START.indexOf(n); rr(c[0] * u + 2, c[1] * u + 2, u - 4, u - 4, 7);

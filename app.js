@@ -1234,7 +1234,7 @@
       var sc = document.createElement('script'); sc.src = src; sc.async = true; sc.setAttribute('data-pf', key); sc.onload = run; sc.onerror = function () { sc.remove(); fail(); }; document.head.appendChild(sc);
     };
     funCss(function () { cssOk = true; run(); });
-    ld('lb.js?v=4', 'lb'); ld('g-' + id + '.js?v=8', 'g-' + id);
+    ld('lb.js?v=4', 'lb'); ld('g-' + id + '.js?v=9', 'g-' + id);
     run();
     loadGamesCfg(function () { if (currentRoute() === '#/g/' + id && gameState(id)) location.hash = '#/fun'; });
   }
@@ -1260,7 +1260,7 @@
     funCss(function () { cssDone = true; go(); });
     if (window.pfMemes) return go();
     var sc = document.createElement('script');
-    sc.src = 'memes.js?v=8'; sc.onload = function () { jsDone = true; go(); }; document.head.appendChild(sc);
+    sc.src = 'memes.js?v=9'; sc.onload = function () { jsDone = true; go(); }; document.head.appendChild(sc);
   }
 
   function render() {
