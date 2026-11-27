@@ -123,11 +123,11 @@
     /* ---------- dice & scoreboard ---------- */
     function dieSvg(n) { return '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="5"/>' + (PIP[n] || []).map(function (p) { return '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="2.1"/>'; }).join('') + '</svg>'; }
     function buildDice() {
-      dice.innerHTML = pl.map(function (p, i) { return '<div class="pf-ludo-dw" id="g-dw' + i + '" style="--c:' + COL[p.s] + '"><small>' + nm(i) + '</small><div class="pf-ludo-d" id="g-d' + i + '"></div></div>'; }).join('');
+      dice.innerHTML = pl.map(function (p, i) { return '<div class="pf-ludo-dw pf-ludo-k' + p.s + '" id="g-dw' + i + '" style="--c:' + COL[p.s] + '"><small>' + nm(i) + '</small><div class="pf-ludo-d" id="g-d' + i + '"></div></div>'; }).join('');
       scb.innerHTML = pl.map(function (p, i) { return '<span style="--c:' + COL[p.s] + '"><i></i><b id="g-s' + i + '">0</b>/4</span>'; }).join('');
     }
     function showDie(i, n, on) { var e = document.getElementById('g-d' + i); if (e) { e.innerHTML = n ? dieSvg(n) : ''; e.className = 'pf-ludo-d' + (on ? ' on' : ''); } }
-    function mark() { pl.forEach(function (p, i) { var e = document.getElementById('g-dw' + i); if (e) e.className = 'pf-ludo-dw' + (i === cur && !over ? ' act' : ''); var s = document.getElementById('g-s' + i); if (s) s.textContent = done(i); }); }
+    function mark() { pl.forEach(function (p, i) { var e = document.getElementById('g-dw' + i); if (e) e.className = 'pf-ludo-dw pf-ludo-k' + p.s + (i === cur && !over ? ' act' : ''); var s = document.getElementById('g-s' + i); if (s) s.textContent = done(i); }); }
     function say(t, cls) { msg.textContent = t; msg.className = 'pf-xo-msg ' + (cls || ''); }
 
     /* ---------- turn flow ---------- */
@@ -197,7 +197,7 @@
     function play() {
       var seatIdx = cnt === 2 ? [0, 2] : cnt === 3 ? [0, 1, 2] : [0, 1, 2, 3];
       pl = seatIdx.map(function (s, i) { return { s: s, h: !!cfg[i] }; }); S = pl.map(function () { return [-1, -1, -1, -1]; }); cur = 0; roll = 0; over = false; opts = null; note = ''; busy = false;
-      W.innerHTML = '<div class="pf-g-top pf-ludo-sc" id="g-sc"></div><div class="pf-ludo-dice" id="g-dice"></div><canvas class="pf-g-cv" id="g-cv" width="600" height="600" aria-label="Ludo"></canvas>' +
+      W.innerHTML = '<div class="pf-g-top pf-ludo-sc" id="g-sc"></div><div class="pf-ludo-board"><div class="pf-ludo-dice" id="g-dice"></div><canvas class="pf-g-cv" id="g-cv" width="600" height="600" aria-label="Ludo"></canvas></div>' +
         '<div class="pf-xo-msg" id="g-m"></div><div class="pf-ludo-ctl"><button type="button" class="pf-ludo-die" id="g-die"></button></div>' +
         '<p class="pf-g-hint">' + (ar ? 'القاعدة: لو قطعتك وقفت على قطعة خصم (مش على نجمة ★) بترجّعها بيتها وبتاخد رمية تانية. ٦ بتطلّع قطعة وبتديك رمية تانية.' : 'Rule: landing on an opponent piece (not on a star) sends it home and gives you another roll. A 6 releases a piece and rolls again.') + '</p>' +
         '<div class="pf-ludo-snd"><button type="button" id="g-sn">' + '</button><button type="button" id="g-mu"></button></div><button type="button" class="pf-xo-again" id="g-new">' + (ar ? 'لعبة جديدة' : 'New game') + '</button>';

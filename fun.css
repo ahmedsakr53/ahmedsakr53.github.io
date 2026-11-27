@@ -94,7 +94,11 @@
 .pf-dm-b.ok { opacity: 1; border-color: #b6ff3b; cursor: pointer; box-shadow: 0 0 10px rgb(182 255 59 / .4); }
 .pf-dm-b.sel { border-color: #ff2bd6; box-shadow: 0 0 14px #ff2bd6; }
 .pf-dm-act { display: flex; justify-content: center; gap: 8px; min-height: 0; margin-bottom: 4px; }
-.pf-ludo-dice { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+.pf-ludo-board { position: relative; padding: 70px 0; }
+.pf-ludo-board .pf-g-cv { display: block; margin: 0 auto; }
+.pf-ludo-dice { position: absolute; inset: 0; pointer-events: none; direction: ltr; }
+.pf-ludo-dice .pf-ludo-dw { position: absolute; background: #0a0b24; }
+.pf-ludo-k0 { top: 0; left: 0; } .pf-ludo-k1 { top: 0; right: 0; } .pf-ludo-k2 { bottom: 0; right: 0; } .pf-ludo-k3 { bottom: 0; left: 0; }
 .pf-ludo-dw { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; opacity: .7; padding: 4px 6px; border-radius: 12px; border: 1px solid transparent; }
 .pf-ludo-dw.act { opacity: 1; border-color: var(--c); box-shadow: 0 0 12px var(--c); }
 .pf-ludo-d { width: 44px; height: 44px; border-radius: 12px; background: #12143a; border: 2px solid #3b3f7a; }

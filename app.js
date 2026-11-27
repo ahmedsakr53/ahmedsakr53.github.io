@@ -1203,7 +1203,7 @@
   var funCssP = null;
   function funCss(cb) {
     if (!funCssP) funCssP = new Promise(function (res) {
-      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'fun.css?v=4';
+      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'fun.css?v=5';
       var t = setTimeout(res, 2500); l.onload = function () { clearTimeout(t); res(); }; l.onerror = function () { clearTimeout(t); res(); };
       document.head.appendChild(l);
     });
@@ -1230,7 +1230,7 @@
       var sc = document.createElement('script'); sc.src = src; sc.async = true; sc.setAttribute('data-pf', key); sc.onload = run; sc.onerror = function () { sc.remove(); fail(); }; document.head.appendChild(sc);
     };
     funCss(function () { cssOk = true; run(); });
-    ld('lb.js?v=4', 'lb'); ld('g-' + id + '.js?v=3', 'g-' + id);
+    ld('lb.js?v=4', 'lb'); ld('g-' + id + '.js?v=4', 'g-' + id);
     run();
     loadGamesCfg(function () { if (currentRoute() === '#/g/' + id && gameState(id)) location.hash = '#/fun'; });
   }
