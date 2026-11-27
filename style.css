@@ -2054,3 +2054,11 @@ html[dir="rtl"] h1, html[dir="rtl"] h2, html[dir="rtl"] h3, html[dir="rtl"] .pf-
 html[dir="rtl"] .pf-ep-t { font-family: var(--ds-font-text); font-weight: 600; font-size: 15.5px; line-height: 1.6; }
 html[dir="rtl"] .pf-ep-d, html[dir="rtl"] .pf-card-detail, html[dir="rtl"] .pf-para, html[dir="rtl"] p { line-height: 1.85; }
 .pf-ep-n, .pf-ex-id { font-family: 'Space Grotesk', ui-monospace, Menlo, monospace; }
+
+/* games group: collapsed by default */
+.pf-fun-tgl { all: unset; box-sizing: border-box; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; color: #fff; padding: 4px 0; -webkit-tap-highlight-color: transparent; }
+.pf-fun-tgl:focus-visible { outline: 2px solid #fff; outline-offset: 4px; border-radius: 12px; }
+.pf-fun-chev { font-style: normal; font-size: 22px; transition: transform .2s; }
+.pf-fun-open .pf-fun-chev { transform: rotate(180deg); }
+.pf-fun-body { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.pf-fun-body[hidden] { display: none; }

@@ -1196,10 +1196,12 @@
       '<small>' + (ar ? 'اختار قالب واكتب كلامك وشارك.' : 'Pick a template, write and share.') + '</small></a>';
     return '<div class="pf-page pf-fun-page">' + pageHead('FUN', ar ? 'الألعاب والترفيه' : 'Games & fun') +
       '<div class="pf-fun-split">' +
-      '<div class="pf-fun-half pf-fun-games">' + icon('fun') + '<b>' + (ar ? 'ألعاب' : 'Games') + '</b>' +
+      '<div class="pf-fun-half pf-fun-games" id="pf-fun-games">' +
+      '<button type="button" class="pf-fun-tgl" id="pf-fun-tgl" aria-expanded="false" aria-controls="pf-fun-body">' + icon('fun') + '<b>' + (ar ? 'الألعاب' : 'Games') + '</b><i class="pf-fun-chev" aria-hidden="true">▾</i></button>' +
+      '<div class="pf-fun-body" id="pf-fun-body" hidden>' +
       '<div class="pf-gc-grid" id="pf-gc-grid">' + funGamesHTML(ar) + '</div>' +
       '<button type="button" class="pf-fun-item pf-lb-open" id="pf-lb-open">' + (ar ? '🏆 المتصدرين' : '🏆 Leaderboards') + '</button><div class="pf-lb-all" id="pf-lb-all"></div>' +
-      '</div>' + memes + '</div></div>';
+      '</div></div>' + memes + '</div></div>';
   }
   function wireFun() {
     setTimeout(function () { funCss(function () {}); }, 300);
@@ -1209,6 +1211,8 @@
       var m = document.querySelector('.pf-fun-split'); var mst = gamesCfg && gamesCfg.memes && gamesCfg.memes.state;
       if (m && mst) { var old = m.querySelector('.pf-fun-memes'); var tmp = document.createElement('div'); tmp.innerHTML = renderFun(); var nw = tmp.querySelector('.pf-fun-memes'); if (old) { if (nw) old.replaceWith(nw); else old.remove(); } }
     });
+    var tg = document.getElementById('pf-fun-tgl');
+    if (tg) tg.addEventListener('click', function () { var bd = document.getElementById('pf-fun-body'); if (!bd) return; var open = bd.hidden; bd.hidden = !open; tg.setAttribute('aria-expanded', open ? 'true' : 'false'); tg.parentNode.classList.toggle('pf-fun-open', open); });
     var b = document.getElementById('pf-lb-open');
     if (b) b.addEventListener('click', function () {
       var box = document.getElementById('pf-lb-all'); if (!box) return;
