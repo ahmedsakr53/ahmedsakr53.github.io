@@ -62,6 +62,7 @@
     store: 'M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z',
     navApp: 'M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z',
     navCap: 'M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z',
+    trend: 'M19.48 12.35c-1.57-4.08-7.16-4.3-5.81-10.23.1-.44-.37-.78-.75-.55C9.29 3.71 6.68 8 8.87 13.62c.18.46-.36.89-.75.59-1.81-1.37-2-3.34-1.84-4.75.06-.52-.62-.77-.91-.34C4.69 10.16 4 11.84 4 14.37c.38 5.6 5.11 7.32 6.81 7.54 2.43.31 5.06-.14 6.95-1.87 2.08-1.93 2.84-5.01 1.72-7.69z',
     fun: 'M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z',
     navPad: 'M6 8a5 5 0 00-5 5v2a3 3 0 005.2 2l1.6-2h8.4l1.6 2A3 3 0 0023 15v-2a5 5 0 00-5-5H6zm1 2h1.5v1.5H10V13H8.5v1.5H7V13H5.5v-1.5H7V10zm9 .8a1 1 0 110 2 1 1 0 010-2zm2.5 2.2a1 1 0 110 2 1 1 0 010-2z',
     navLaugh: 'M12 2a10 10 0 1 1 0 20a10 10 0 1 1 0-20zM8.5 8.2a1.4 1.4 0 1 0 0 2.8a1.4 1.4 0 1 0 0-2.8zM15.5 8.2a1.4 1.4 0 1 0 0 2.8a1.4 1.4 0 1 0 0-2.8zM6.6 13.2a5.4 5.4 0 0 0 10.8 0z',
@@ -1086,7 +1087,7 @@
 
   function currentRoute() {
     var h = location.hash || '#/';
-    if (navPaths.indexOf(h) === -1 && h !== '#/checkup' && h !== '#/map' && h !== '#/podcast' && h !== '#/fun' && h !== '#/memes' && h !== '#/xo' && h.indexOf('#/g/') !== 0 && h.indexOf('#/academy') !== 0) return '#/';
+    if (navPaths.indexOf(h) === -1 && h !== '#/checkup' && h !== '#/map' && h !== '#/podcast' && h !== '#/fun' && h !== '#/trend' && h !== '#/memes' && h !== '#/xo' && h.indexOf('#/g/') !== 0 && h.indexOf('#/academy') !== 0) return '#/';
     return h;
   }
 
@@ -1238,7 +1239,7 @@
   var funCssP = null;
   function funCss(cb) {
     if (!funCssP) funCssP = new Promise(function (res) {
-      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'fun.css?v=9';
+      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'fun.css?v=10';
       var t = setTimeout(res, 2500); l.onload = function () { clearTimeout(t); res(); }; l.onerror = function () { clearTimeout(t); res(); };
       document.head.appendChild(l);
     });
@@ -1294,6 +1295,19 @@
     sc.src = 'memes.js?v=9'; sc.onload = function () { jsDone = true; go(); }; document.head.appendChild(sc);
   }
 
+  function loadTrend() {
+    var host = document.getElementById('pf-trend'); if (!host) return;
+    host.innerHTML = '<div class="pf-g-skel"><i></i><span>' + (lang === 'ar' ? 'جارٍ التحميل…' : 'Loading…') + '</span></div>';
+    var cssDone = false, jsDone = !!window.pfTrend;
+    var go = function () { var h = document.getElementById('pf-trend'); if (cssDone && jsDone && window.pfTrend && currentRoute() === '#/trend' && h) window.pfTrend.mount(h, lang === 'ar'); };
+    funCss(function () { cssDone = true; go(); });
+    if (window.pfTrend) return go();
+    var sc = document.createElement('script'); sc.src = 'trend.js?v=1'; sc.onload = function () { jsDone = true; go(); }; sc.onerror = function () { host.textContent = lang === 'ar' ? 'مش قادرين نحمّل الصفحة. جرّب تاني.' : 'Could not load. Try again.'; }; document.head.appendChild(sc);
+  }
+  setTimeout(function () {
+    fetch(SAQR_WORKER_URL.replace(/\/chat$/, '/trend/config')).then(function (r) { return r.ok ? r.json() : null; }).then(function (c) { if (c && c.state === 'hidden' && !window.pfTrendHidden) { window.pfTrendHidden = true; render(); } }).catch(function () { });
+  }, 1500);
+
   function render() {
     var t = T[lang];
     document.documentElement.lang = lang;
@@ -1307,6 +1321,7 @@
     var mainIdx = [0, 5, 6];
     var moreItems = [
       { href: '#/fun', icon: 'fun', label: ar0 ? 'الألعاب والترفيه' : 'Games & fun' },
+      { href: '#/trend', icon: 'trend', label: ar0 ? 'تريند' : 'Trend', trend: 1 },
       { href: navPaths[1], icon: navIcons[1], label: t.nav[1] },
       { href: navPaths[2], icon: navIcons[2], label: t.nav[2] },
       { href: navPaths[3], icon: navIcons[3], label: t.nav[3] },
@@ -1315,6 +1330,7 @@
       { href: '#/podcast', icon: 'mic', label: ar0 ? 'بودكاست' : 'Podcast' },
       { href: '#/map', icon: 'navGlobe', label: ar0 ? 'خريطة الزوار' : 'Visitor map' }
     ];
+    if (window.pfTrendHidden) moreItems = moreItems.filter(function (m) { return !m.trend; });
     var moreActive = moreItems.some(function (m) { return m.href === route || (m.href === '#/fun' && (route === '#/memes' || route === '#/xo' || route.indexOf('#/g/') === 0)) || (m.href === '#/academy' && route.indexOf('#/academy') === 0); });
     var moreLabel = ar0 ? 'المزيد' : 'More';
     var nav = '<nav class="pf-nav" aria-label="' + esc(t.navAria) + '">' +
@@ -1354,6 +1370,7 @@
     else if (route.indexOf('#/g/') === 0) page = '<div class="pf-page" id="pf-game"></div>';
     else if (route === '#/xo') page = '<div class="pf-page" id="pf-xo"></div>';
     else if (route === '#/memes') page = '<div class="pf-page" id="pf-memes"></div>';
+    else if (route === '#/trend') page = '<div class="pf-page">' + pageHead('TREND', lang === 'ar' ? 'تريند' : 'Trend') + '<p class="pf-para">' + esc(lang === 'ar' ? 'أدوات سريعة وممتعة لحسابك واسمك. كل حاجة بتشتغل على جهازك.' : 'Quick fun tools for your profile and name. Everything runs on your device.') + '</p><div id="pf-trend"></div></div>';
     else if (route === '#/contact') page = renderContact(t);
     else if (route.indexOf('#/academy') === 0) page = '<div class="pf-page" id="pf-acad"></div>';
     else page = renderHome(t);
@@ -1368,6 +1385,7 @@
     if (route === '#/services') { var stEl = document.getElementById('pf-store'); if (stEl) { var goS = function () { window.pfStore.mount(stEl, lang === 'ar'); }; if (window.pfStore) goS(); else { var ss = document.createElement('script'); ss.src = 'store.js?v=2'; ss.onload = goS; ss.onerror = function () { stEl.textContent = ''; }; document.head.appendChild(ss); } } }
     if (route === '#/checkup') wireCheckup(t);
     if (route === '#/memes') loadMemes();
+    if (route === '#/trend') loadTrend();
     if (route === '#/xo') loadXO();
     document.documentElement.classList.toggle('pf-ingame', route.indexOf('#/g/') === 0 || route === '#/xo');
     if (route.indexOf('#/g/') === 0) loadGame(route.slice(4));
