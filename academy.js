@@ -46,7 +46,7 @@
       eps: [
         ['ليه لينكس؟', 'Why Linux?'],
         ['الترمنال بعمق', 'The terminal in depth'],
-        ['التنقل بين الفولدرات والملفات', 'Moving around folders and files'],
+        ['الملفات والمجلدات', 'Files and folders'],
         ['إنشاء الملفات وتعديلها ومسحها', 'Creating, editing and deleting files'],
         ['الصلاحيات والمستخدمين', 'Permissions and users'],
         ['تثبيت البرامج وإدارة الحزم', 'Installing software and package management'],
@@ -135,7 +135,7 @@
   ];
   function find(id) { for (var i = 0; i < TRACKS.length; i++) if (TRACKS[i].id === id) return TRACKS[i]; return null; }
   function n(x, ar) { return ar ? String(x).replace(/\d/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'[d]; }) : String(x); }
-  var DEF = { 'py-1': 'academy/py-1.mp4', 'py-2': 'academy/py-2.mp4', 'py-3': 'academy/py-3.mp4', 'py-4': 'academy/py-4.mp4', 'py-5': 'academy/py-5.mp4', 'py-6': 'academy/py-6.mp4', 'py-7': 'academy/py-7.mp4', 'py-8': 'academy/py-8.mp4', 'py-9': 'academy/py-9.mp4', 'py-10': 'academy/py-10.mp4', 'linux-1': 'academy/linux-1.mp4', 'linux-2': 'academy/linux-2.mp4', 'net-1': 'academy/net-1.mp4', 'net-2': 'academy/net-2.mp4', 'net-3': 'academy/net-3.mp4', 'net-4': 'academy/net-4.mp4', 'net-5': 'academy/net-5.mp4', 'net-6': 'academy/net-6.mp4', 'net-7': 'academy/net-7.mp4', 'net-8': 'academy/net-8.mp4', 'net-9': 'academy/net-9.mp4', 'net-10': 'academy/net-10.mp4', 'cyber-1': 'academy/cyber-1.mp4', 'cyber-2': 'academy/cyber-2.mp4', 'cyber-3': 'academy/cyber-3.mp4', 'cyber-4': 'academy/cyber-4.mp4', 'cyber-5': 'academy/cyber-5.mp4', 'cyber-6': 'academy/cyber-6.mp4', 'cyber-7': 'academy/cyber-7.mp4', 'cyber-8': 'academy/cyber-8.mp4', 'cyber-9': 'academy/cyber-9.mp4', 'cyber-10': 'academy/cyber-10.mp4' };
+  var DEF = { 'py-1': 'academy/py-1.mp4', 'py-2': 'academy/py-2.mp4', 'py-3': 'academy/py-3.mp4', 'py-4': 'academy/py-4.mp4', 'py-5': 'academy/py-5.mp4', 'py-6': 'academy/py-6.mp4', 'py-7': 'academy/py-7.mp4', 'py-8': 'academy/py-8.mp4', 'py-9': 'academy/py-9.mp4', 'py-10': 'academy/py-10.mp4', 'linux-1': 'academy/linux-1.mp4', 'linux-2': 'academy/linux-2.mp4', 'linux-3': 'academy/linux-3.mp4', 'net-1': 'academy/net-1.mp4', 'net-2': 'academy/net-2.mp4', 'net-3': 'academy/net-3.mp4', 'net-4': 'academy/net-4.mp4', 'net-5': 'academy/net-5.mp4', 'net-6': 'academy/net-6.mp4', 'net-7': 'academy/net-7.mp4', 'net-8': 'academy/net-8.mp4', 'net-9': 'academy/net-9.mp4', 'net-10': 'academy/net-10.mp4', 'cyber-1': 'academy/cyber-1.mp4', 'cyber-2': 'academy/cyber-2.mp4', 'cyber-3': 'academy/cyber-3.mp4', 'cyber-4': 'academy/cyber-4.mp4', 'cyber-5': 'academy/cyber-5.mp4', 'cyber-6': 'academy/cyber-6.mp4', 'cyber-7': 'academy/cyber-7.mp4', 'cyber-8': 'academy/cyber-8.mp4', 'cyber-9': 'academy/cyber-9.mp4', 'cyber-10': 'academy/cyber-10.mp4' };
   var CFG = null, SEL = 0;
   function ep(tid, i) {
     var k = tid + '-' + (i + 1), e = (CFG && CFG.eps && CFG.eps[k]) || (DEF[k] ? { mp4: DEF[k] } : {});
@@ -154,6 +154,22 @@
   function examRow(tr, ar, esc) {
     var ok = !!EXAM_OK[tr.id] && examReady(tr.id);
     return '<div class="pf-ep pf-exam ' + (ok ? 'pf-ep-on' : 'pf-ep-lock') + '"' + (ok ? ' id="pf-exam-open" tabindex="0" role="button"' : ' aria-disabled="true"') + '><span class="pf-ep-n">🎓</span><span class="pf-ep-t">' + esc(ar ? 'الاختبار والشهادة' : 'Exam and certificate') + '</span><span class="pf-ep-s">' + esc(ok ? (ar ? 'ابدأ' : 'Start') : (ar ? '🔒 بعد الحلقات العشر' : '🔒 After all 10 episodes')) + '</span></div>';
+  }
+  var PG_OK = { py: 1 };
+  function pgOn(tr) { return !!PG_OK[tr.id] && !(CFG && CFG.pg && CFG.pg[tr.id] === false); }
+  function pgRow(tr, ar, esc) {
+    if (!pgOn(tr)) return '';
+    return '<div class="pf-ep pf-exam pf-ep-on" id="pf-pg-open" tabindex="0" role="button"><span class="pf-ep-n">🧪</span><span class="pf-ep-t">' + esc(ar ? 'الملعب: جرّب كود بايثون' : 'Playground: try Python code') + '</span><span class="pf-ep-s">' + esc(ar ? 'افتح' : 'Open') + '</span></div><div class="pf-pg-box" id="pf-pg-box" hidden></div>';
+  }
+  function openPg(ar, tid) {
+    var box = document.getElementById('pf-pg-box'); if (!box) return;
+    if (!box.hidden) { box.hidden = true; return; }
+    box.hidden = false;
+    var go = function () { if (!box.firstChild) window.pfPlay.mount(box, ar, tid); box.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+    if (window.pfPlay) return go();
+    box.textContent = ar ? 'لحظة...' : 'One moment...';
+    var sc = document.createElement('script'); sc.src = 'playground.js?v=1'; sc.onload = function () { box.textContent = ''; go(); }; sc.onerror = function () { box.textContent = ar ? 'مش قادرين نحمّل الملعب. جرّب تاني.' : 'Could not load the playground. Try again.'; };
+    document.head.appendChild(sc);
   }
   function extraRows(tr, ar, esc) {
     if (!EXAM_OK[tr.id]) return '';
@@ -216,7 +232,7 @@
       h.pageHead(n(10, ar) + (ar ? ' حلقات' : ' EPISODES'), ar ? tr.ar : tr.en) +
       '<p class="pf-para">' + esc(ar ? tr.dAr : tr.dEn) + '</p>' + player +
       '<ol class="pf-eps">' + rows + '</ol>' +
-      examRow(tr, ar, esc) + extraRows(tr, ar, esc) + '<div class="pf-exam-box" id="pf-exam-box" hidden></div>' +
+      examRow(tr, ar, esc) + pgRow(tr, ar, esc) + extraRows(tr, ar, esc) + '<div class="pf-exam-box" id="pf-exam-box" hidden></div>' +
       '<p class="pf-acad-note">' + esc(ar ? 'كل حلقة بتتفتح بعد ما تتفرج على دقيقة من اللي قبلها، والاختبار بيتفتح بعد العشر حلقات.' : 'Each episode unlocks after you watch one minute of the previous one. The exam opens after all 10.') + '</p></div>';
   }
 
@@ -256,6 +272,8 @@
       if (x.yt) { box.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(x.yt) + '?autoplay=1&rel=0" title="Episode" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>'; track(tr, SEL, null); }
       else if (x.mp4) { box.style.cssText = 'aspect-ratio:9/16;max-height:78vh;width:min(100%,400px);margin:14px auto'; box.innerHTML = '<video src="' + x.mp4.replace(/"/g, '') + '" controls autoplay playsinline preload="none"></video>'; track(tr, SEL, box.querySelector('video')); }
     });
+    var po = document.getElementById('pf-pg-open');
+    if (po) { po.addEventListener('click', function () { openPg(ar, tr.id); }); po.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPg(ar, tr.id); } }); }
     var eo = document.getElementById('pf-exam-open');
     [['pf-board-open', 'board'], ['pf-weekly-open', 'weekly']].forEach(function (x) { var e = document.getElementById(x[0]); if (e) { e.addEventListener('click', function () { openExam(ar, x[1]); }); e.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); openExam(ar, x[1]); } }); } });
     if (eo) { eo.addEventListener('click', function () { openExam(ar, 'exam', tr.id); }); eo.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openExam(ar, 'exam', tr.id); } }); }
