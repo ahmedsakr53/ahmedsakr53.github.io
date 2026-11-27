@@ -66,11 +66,37 @@
         ['الملفات والأخطاء', 'Files and errors'],
         ['المكتبات والبيئات', 'Libraries and environments'],
         ['البرمجة الكائنية', 'Object-oriented programming'],
-        ['مشروع ختامي وتحدي', 'Final project and challenge']] }
+        ['مشروع ختامي وتحدي', 'Final project and challenge']] },
+    { id: 'git', ico: 'github', ar: 'جيت وجيت هاب من الصفر', en: 'Git and GitHub from Scratch',
+      dAr: 'تتعلم تحفظ شغلك وتتابع تغييراته وتشتغل مع فريق، من أول أمر لحد مشروعك على جيت هاب.', dEn: 'Learn to save your work, track changes and collaborate, from your first command to your own project on GitHub.',
+      eps: [
+        ['الحلقة ١ (قريباً)', 'Episode 1 (soon)'],
+        ['الحلقة ٢ (قريباً)', 'Episode 2 (soon)'],
+        ['الحلقة ٣ (قريباً)', 'Episode 3 (soon)'],
+        ['الحلقة ٤ (قريباً)', 'Episode 4 (soon)'],
+        ['الحلقة ٥ (قريباً)', 'Episode 5 (soon)'],
+        ['الحلقة ٦ (قريباً)', 'Episode 6 (soon)'],
+        ['الحلقة ٧ (قريباً)', 'Episode 7 (soon)'],
+        ['الحلقة ٨ (قريباً)', 'Episode 8 (soon)'],
+        ['الحلقة ٩ (قريباً)', 'Episode 9 (soon)'],
+        ['الحلقة ١٠ (قريباً)', 'Episode 10 (soon)']] },
+    { id: 'websec', ico: 'navShield', ar: 'أمن تطبيقات الويب', en: 'Web Application Security',
+      dAr: 'إزاي المواقع بتتخترق وإزاي تحميها: ثغرات الويب الشائعة من ناحية البرمجة والدفاع.', dEn: 'How websites get attacked and how to defend them: the common web vulnerabilities from the code and defence side.',
+      eps: [
+        ['الحلقة ١ (قريباً)', 'Episode 1 (soon)'],
+        ['الحلقة ٢ (قريباً)', 'Episode 2 (soon)'],
+        ['الحلقة ٣ (قريباً)', 'Episode 3 (soon)'],
+        ['الحلقة ٤ (قريباً)', 'Episode 4 (soon)'],
+        ['الحلقة ٥ (قريباً)', 'Episode 5 (soon)'],
+        ['الحلقة ٦ (قريباً)', 'Episode 6 (soon)'],
+        ['الحلقة ٧ (قريباً)', 'Episode 7 (soon)'],
+        ['الحلقة ٨ (قريباً)', 'Episode 8 (soon)'],
+        ['الحلقة ٩ (قريباً)', 'Episode 9 (soon)'],
+        ['الحلقة ١٠ (قريباً)', 'Episode 10 (soon)']] }
   ];
   function find(id) { for (var i = 0; i < TRACKS.length; i++) if (TRACKS[i].id === id) return TRACKS[i]; return null; }
   function n(x, ar) { return ar ? String(x).replace(/\d/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'[d]; }) : String(x); }
-  var DEF = { 'py-1': 'academy/py-1.mp4', 'py-2': 'academy/py-2.mp4', 'py-3': 'academy/py-3.mp4', 'net-1': 'academy/net-1.mp4', 'net-2': 'academy/net-2.mp4', 'net-3': 'academy/net-3.mp4', 'net-4': 'academy/net-4.mp4', 'net-5': 'academy/net-5.mp4', 'net-6': 'academy/net-6.mp4', 'net-7': 'academy/net-7.mp4', 'net-8': 'academy/net-8.mp4', 'net-9': 'academy/net-9.mp4', 'net-10': 'academy/net-10.mp4', 'cyber-1': 'academy/cyber-1.mp4', 'cyber-2': 'academy/cyber-2.mp4', 'cyber-3': 'academy/cyber-3.mp4', 'cyber-4': 'academy/cyber-4.mp4', 'cyber-5': 'academy/cyber-5.mp4', 'cyber-6': 'academy/cyber-6.mp4', 'cyber-7': 'academy/cyber-7.mp4', 'cyber-8': 'academy/cyber-8.mp4', 'cyber-9': 'academy/cyber-9.mp4', 'cyber-10': 'academy/cyber-10.mp4' };
+  var DEF = { 'py-1': 'academy/py-1.mp4', 'py-2': 'academy/py-2.mp4', 'py-3': 'academy/py-3.mp4', 'py-4': 'academy/py-4.mp4', 'net-1': 'academy/net-1.mp4', 'net-2': 'academy/net-2.mp4', 'net-3': 'academy/net-3.mp4', 'net-4': 'academy/net-4.mp4', 'net-5': 'academy/net-5.mp4', 'net-6': 'academy/net-6.mp4', 'net-7': 'academy/net-7.mp4', 'net-8': 'academy/net-8.mp4', 'net-9': 'academy/net-9.mp4', 'net-10': 'academy/net-10.mp4', 'cyber-1': 'academy/cyber-1.mp4', 'cyber-2': 'academy/cyber-2.mp4', 'cyber-3': 'academy/cyber-3.mp4', 'cyber-4': 'academy/cyber-4.mp4', 'cyber-5': 'academy/cyber-5.mp4', 'cyber-6': 'academy/cyber-6.mp4', 'cyber-7': 'academy/cyber-7.mp4', 'cyber-8': 'academy/cyber-8.mp4', 'cyber-9': 'academy/cyber-9.mp4', 'cyber-10': 'academy/cyber-10.mp4' };
   var CFG = null, SEL = 0;
   function ep(tid, i) {
     var k = tid + '-' + (i + 1), e = (CFG && CFG.eps && CFG.eps[k]) || (DEF[k] ? { mp4: DEF[k] } : {});
@@ -120,7 +146,7 @@
     if (!tr) {
       var list = TRACKS.filter(visible);
       return h.pageHead('ACADEMY', ar ? 'صقر أكاديمي' : 'Sakr Academy') +
-        '<p class="pf-para">' + esc(ar ? 'خمسة مسارات مجانية، كل مسار ١٠ حلقات قصيرة بالصوت والصورة، وفي آخره اختبار وشهادة إتمام. نبدأ بمسار الأمن السيبراني، والباقي قريباً.' : 'Five free tracks, each with 10 short video episodes, a final exam and a completion certificate. We start with the cybersecurity track, the rest are coming soon.') + '</p>' +
+        '<p class="pf-para">' + esc(ar ? 'سبعة مسارات مجانية، كل مسار ١٠ حلقات قصيرة بالصوت والصورة، وفي آخره اختبار وشهادة إتمام. نبدأ بمسار الأمن السيبراني، والباقي قريباً.' : 'Seven free tracks, each with 10 short video episodes, a final exam and a completion certificate. We start with the cybersecurity track, the rest are coming soon.') + '</p>' +
         '<div class="pf-acad-grid">' + list.map(function (t) {
           var c = liveList(t).length;
           return '<a class="pf-acad-card pf-t-' + t.id + '" href="#/academy/' + t.id + '">' +
