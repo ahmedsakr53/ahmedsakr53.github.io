@@ -7,7 +7,8 @@
   var TRK = {
     cyber: { code: 'CYB', en1: 'CYBERSECURITY AWARENESS TRACK', en2: 'Digital Safety, Made Simple', ar2: 'شهادة إتمام مسار «أمنك الرقمي ببساطة»' },
     net: { code: 'NET', en1: 'NETWORKING FUNDAMENTALS TRACK', en2: 'Networking from Scratch', ar2: 'شهادة إتمام مسار «شبكات من الصفر»' },
-    py: { code: 'PY', en1: 'PYTHON PROGRAMMING TRACK', en2: 'Python from Scratch', ar2: 'شهادة إتمام مسار «بايثون من الصفر»' }
+    py: { code: 'PY', en1: 'PYTHON PROGRAMMING TRACK', en2: 'Python from Scratch', ar2: 'شهادة إتمام مسار «بايثون من الصفر»' },
+    linux: { code: 'LNX', en1: 'LINUX TRACK', en2: 'Linux from Scratch', ar2: 'شهادة إتمام مسار «لينكس من الصفر»' }
   };
   var TRACK = 'cyber', LS = 'pf-cert-cyber', CODE = 'CYB';
   function setTrack(t) { TRACK = TRK[t] ? t : 'cyber'; LS = 'pf-cert-' + TRACK; CODE = TRK[TRACK].code; }
