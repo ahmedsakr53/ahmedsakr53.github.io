@@ -2134,3 +2134,28 @@ html:not([data-theme="dark"]) body .pf-acad-card.pf-t-py .pf-acad-meta i, html:n
 .pf-exam-box { color: #3b2412; }
 html[data-theme="dark"] .pf-exam-box { color: #f3e8ff; }
 .pf-trk[class] .pf-exam-box p, .pf-trk[class] .pf-exam-box h3, .pf-trk[class] .pf-exam-box label, .pf-trk[class] .pf-exam-box span, .pf-trk[class] .pf-exam-box b { color: inherit; }
+
+/* git track */
+.pf-trk.pf-t-git { background: linear-gradient(180deg, #0b2118, #07140F); border: 1px solid #FF7A1A; border-radius: 22px; padding: 14px; color: #fff; }
+.pf-trk.pf-t-git .pf-ep { background: #0f2a1f; border-color: rgb(255 122 26 / .4); border-radius: 22px; }
+.pf-trk.pf-t-git .pf-ep.pf-ep-on { border-color: #4CC9F0; }
+.pf-trk.pf-t-git .pf-ep-n { background: #FF7A1A; color: #fff; }
+.pf-trk.pf-t-git .pf-ep-on .pf-ep-s { color: #4CC9F0; }
+.pf-trk.pf-t-git p, .pf-trk.pf-t-git .pf-ep-t { color: #fff; }
+.pf-trk.pf-t-git .pf-player { background: linear-gradient(135deg, #FF7A1A, #0b2118); }
+.pf-trk.pf-t-git .pf-player-btn { background: #4CC9F0; }
+.pf-trk.pf-t-git .pf-player-tri { border-left-color: #07140F; }
+.pf-acad-card.pf-t-git { background: #0b2118; border-color: #FF7A1A; color: #fff; }
+.pf-acad-card.pf-t-git small { color: #bfe3d0; }
+body .pf-acad-card.pf-t-git { background: #0b2118; border-color: #FF7A1A; color: #fff; }
+body .pf-acad-card.pf-t-git small { color: #bfe3d0; }
+body .pf-acad-card.pf-t-git b { color: inherit; }
+.pf-trk.pf-t-git h1, .pf-trk.pf-t-git h2 { color: #fff; }
+.pf-trk.pf-t-git .pf-ep-d, .pf-trk.pf-t-git .pf-ep-s, .pf-trk.pf-t-git .pf-acad-note { color: #cfe6da; }
+.pf-trk.pf-t-git .pf-acad-back { color: #1a1a1a; }
+.pf-acad-card.pf-t-git .pf-icon { fill: #FF7A1A !important; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-git { background: #effaf3; border-color: #FF7A1A; color: #0f3a24; box-shadow: inset 0 -3px 0 #4CC9F0; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-git small { color: #3d6b55; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-git .pf-acad-ico .pf-icon { fill: #e0620a; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-git .pf-acad-meta i { color: inherit; opacity: .85; }
+.pf-trk.pf-t-git .pf-ep-t, .pf-trk.pf-t-git p { color: #fff; }
