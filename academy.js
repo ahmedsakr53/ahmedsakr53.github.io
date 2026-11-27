@@ -15,19 +15,19 @@
         ['الخصوصية والتتبع', 'Privacy and tracking'],
         ['إزاي الهكر بيشتغل فعلاً', 'How a hacker really works'],
         ['هجمات متقدمة والتصدي لها', 'Advanced attacks and how to stop them']] },
-    { id: 'code', ico: 'icBraces', ar: 'برمجة من الصفر', en: 'Programming from Scratch',
-      dAr: 'JavaScript بتجرّبها لايف من موبايلك، من غير تنزيل أي حاجة.', dEn: 'JavaScript you can try live on your phone, with nothing to install.',
+    { id: 'code', ico: 'icBraces', ar: 'جافاسكريبت من الصفر', en: 'JavaScript from Scratch',
+      dAr: 'لغة الويب كلها: من أول سكربت لحد تطبيق Todo كامل، وبتجرّب كل حاجة لايف.', dEn: 'The language of the web: from your first script to a full Todo app, with everything tried live.',
       eps: [
-        ['البرمجة أصلاً يعني إيه', 'What programming actually is'],
-        ['أول كود في حياتك (JavaScript)', 'Your first code (JavaScript)'],
-        ['المتغيرات وأنواع البيانات', 'Variables and data types'],
-        ['الشروط (if)', 'Conditions (if)'],
-        ['اللوبات (loops)', 'Loops'],
-        ['الفانكشنز', 'Functions'],
-        ['المصفوفات والأوبجكتس', 'Arrays and objects'],
-        ['التعامل مع الصفحة (DOM)', 'Working with the page (DOM)'],
-        ['نعمل لعبة صغيرة مع بعض', 'We build a small game together'],
-        ['المشروع النهائي + الاختبار والشهادة', 'Final project + exam and certificate']] },
+        ['ليه جافاسكريبت؟ وأول سكربت بـ Node', 'Why JavaScript? Your first script with Node'],
+        ['المتغيرات والأنواع: let وconst وtypeof', 'Variables and types: let, const and typeof'],
+        ['الشروط والحلقات: if وfor وwhile', 'Conditions and loops: if, for and while'],
+        ['الدوال: function وarrow وscope', 'Functions: function, arrow and scope'],
+        ['المصفوفات: map وfilter وreduce', 'Arrays: map, filter and reduce'],
+        ['الكائنات وJSON: objects وdestructuring', 'Objects and JSON: objects and destructuring'],
+        ['الـ DOM: تتحكم في الصفحة', 'The DOM: control the page'],
+        ['الأحداث والفورمات: events وlocalStorage', 'Events and forms: events and localStorage'],
+        ['async وfetch وPromises', 'async, fetch and Promises'],
+        ['المشروع النهائي: Todo app كاملة', 'Final project: a complete Todo app']] },
     { id: 'net', ico: 'navGlobe', ar: 'شبكات من الصفر', en: 'Networking from Scratch',
       dAr: 'إزاي الإنترنت بيشتغل فعلاً، خطوة خطوة وبأمثلة من حياتك.', dEn: 'How the internet really works, step by step, with everyday examples.',
       eps: [
@@ -135,7 +135,7 @@
   ];
   function find(id) { for (var i = 0; i < TRACKS.length; i++) if (TRACKS[i].id === id) return TRACKS[i]; return null; }
   function n(x, ar) { return ar ? String(x).replace(/\d/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'[d]; }) : String(x); }
-  var DEF = { 'py-1': 'academy/py-1.mp4', 'py-2': 'academy/py-2.mp4', 'py-3': 'academy/py-3.mp4', 'py-4': 'academy/py-4.mp4', 'py-5': 'academy/py-5.mp4', 'py-6': 'academy/py-6.mp4', 'py-7': 'academy/py-7.mp4', 'py-8': 'academy/py-8.mp4', 'py-9': 'academy/py-9.mp4', 'py-10': 'academy/py-10.mp4', 'linux-1': 'academy/linux-1.mp4', 'linux-2': 'academy/linux-2.mp4', 'linux-3': 'academy/linux-3.mp4', 'linux-4': 'academy/linux-4.mp4', 'linux-5': 'academy/linux-5.mp4', 'linux-6': 'academy/linux-6.mp4', 'linux-7': 'academy/linux-7.mp4', 'linux-8': 'academy/linux-8.mp4', 'linux-9': 'academy/linux-9.mp4', 'linux-10': 'academy/linux-10.mp4', 'net-1': 'academy/net-1.mp4', 'net-2': 'academy/net-2.mp4', 'net-3': 'academy/net-3.mp4', 'net-4': 'academy/net-4.mp4', 'net-5': 'academy/net-5.mp4', 'net-6': 'academy/net-6.mp4', 'net-7': 'academy/net-7.mp4', 'net-8': 'academy/net-8.mp4', 'net-9': 'academy/net-9.mp4', 'net-10': 'academy/net-10.mp4', 'cyber-1': 'academy/cyber-1.mp4', 'cyber-2': 'academy/cyber-2.mp4', 'cyber-3': 'academy/cyber-3.mp4', 'cyber-4': 'academy/cyber-4.mp4', 'cyber-5': 'academy/cyber-5.mp4', 'cyber-6': 'academy/cyber-6.mp4', 'cyber-7': 'academy/cyber-7.mp4', 'cyber-8': 'academy/cyber-8.mp4', 'cyber-9': 'academy/cyber-9.mp4', 'cyber-10': 'academy/cyber-10.mp4' };
+  var DEF = { 'py-1': 'academy/py-1.mp4', 'py-2': 'academy/py-2.mp4', 'py-3': 'academy/py-3.mp4', 'py-4': 'academy/py-4.mp4', 'py-5': 'academy/py-5.mp4', 'py-6': 'academy/py-6.mp4', 'py-7': 'academy/py-7.mp4', 'py-8': 'academy/py-8.mp4', 'py-9': 'academy/py-9.mp4', 'py-10': 'academy/py-10.mp4', 'linux-1': 'academy/linux-1.mp4', 'linux-2': 'academy/linux-2.mp4', 'linux-3': 'academy/linux-3.mp4', 'linux-4': 'academy/linux-4.mp4', 'linux-5': 'academy/linux-5.mp4', 'linux-6': 'academy/linux-6.mp4', 'linux-7': 'academy/linux-7.mp4', 'linux-8': 'academy/linux-8.mp4', 'linux-9': 'academy/linux-9.mp4', 'linux-10': 'academy/linux-10.mp4', 'code-1': 'academy/code-1.mp4', 'net-1': 'academy/net-1.mp4', 'net-2': 'academy/net-2.mp4', 'net-3': 'academy/net-3.mp4', 'net-4': 'academy/net-4.mp4', 'net-5': 'academy/net-5.mp4', 'net-6': 'academy/net-6.mp4', 'net-7': 'academy/net-7.mp4', 'net-8': 'academy/net-8.mp4', 'net-9': 'academy/net-9.mp4', 'net-10': 'academy/net-10.mp4', 'cyber-1': 'academy/cyber-1.mp4', 'cyber-2': 'academy/cyber-2.mp4', 'cyber-3': 'academy/cyber-3.mp4', 'cyber-4': 'academy/cyber-4.mp4', 'cyber-5': 'academy/cyber-5.mp4', 'cyber-6': 'academy/cyber-6.mp4', 'cyber-7': 'academy/cyber-7.mp4', 'cyber-8': 'academy/cyber-8.mp4', 'cyber-9': 'academy/cyber-9.mp4', 'cyber-10': 'academy/cyber-10.mp4' };
   var CFG = null, SEL = 0;
   function ep(tid, i) {
     var k = tid + '-' + (i + 1), e = (CFG && CFG.eps && CFG.eps[k]) || (DEF[k] ? { mp4: DEF[k] } : {});
@@ -188,7 +188,7 @@
     box.hidden = false; box.innerHTML = '<p class="pf-ex-p">' + (ar ? 'لحظة...' : 'One moment...') + '</p>';
     var go = function () { if (kind === 'board') window.pfExam.board(box, ar); else if (kind === 'weekly') window.pfExam.weekly(box, ar); else window.pfExam.open(box, ar, tid); box.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
     if (window.pfExam) return go();
-    var sc = document.createElement('script'); sc.src = 'academy-exam.js?v=5'; sc.onload = go; sc.onerror = function () { box.textContent = ar ? 'مش قادرين نحمّل الاختبار. جرّب تاني.' : 'Could not load the exam. Try again.'; };
+    var sc = document.createElement('script'); sc.src = 'academy-exam.js?v=6'; sc.onload = go; sc.onerror = function () { box.textContent = ar ? 'مش قادرين نحمّل الاختبار. جرّب تاني.' : 'Could not load the exam. Try again.'; };
     document.head.appendChild(sc);
   }
 

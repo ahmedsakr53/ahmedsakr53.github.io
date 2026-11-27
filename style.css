@@ -2108,3 +2108,15 @@ body:has(.pf-pg-box:not([hidden]) .pf-pg) .pf-saqr-fab { top: auto; bottom: 168p
 
 .pf-live-lbl { position: absolute; z-index: 2; height: 15px; line-height: 13px; padding: 0 5px; font-size: 9.5px; white-space: nowrap; pointer-events: none; color: #e0f2fe; background: rgb(8 14 28 / .88); border: 1px solid rgb(34 211 238 / .45); border-radius: 6px; direction: ltr; }
 .pf-live-lbl-on { border-color: rgb(52 211 153 / .8); color: #d1fae5; }
+
+/* light-mode variants of the dark track cards */
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-py { background: #fff9e0; border-color: #4B8BBE; color: #12304d; box-shadow: inset 0 -3px 0 #FFD43B; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-py small { color: #3d5a78; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-py .pf-acad-ico .pf-icon { fill: #2f6fa3; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-linux { background: #effcec; border-color: #1fa30a; color: #0b2a05; box-shadow: inset 0 -3px 0 #39FF14; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-linux small { color: #2f5a2a; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-linux .pf-acad-ico .pf-icon { fill: #178a06; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-code { background: #fff0f8; border-color: #FF3EA5; color: #4a0f33; box-shadow: inset 0 -3px 0 #C6F135; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-code small { color: #7a3a63; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-code .pf-acad-ico .pf-icon { fill: #d61f84; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-py .pf-acad-meta i, html:not([data-theme="dark"]) body .pf-acad-card.pf-t-linux .pf-acad-meta i, html:not([data-theme="dark"]) body .pf-acad-card.pf-t-code .pf-acad-meta i { color: inherit; opacity: .85; }
