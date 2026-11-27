@@ -1207,7 +1207,7 @@
   var funCssP = null;
   function funCss(cb) {
     if (!funCssP) funCssP = new Promise(function (res) {
-      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'fun.css?v=8';
+      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'fun.css?v=9';
       var t = setTimeout(res, 2500); l.onload = function () { clearTimeout(t); res(); }; l.onerror = function () { clearTimeout(t); res(); };
       document.head.appendChild(l);
     });
@@ -1234,7 +1234,7 @@
       var sc = document.createElement('script'); sc.src = src; sc.async = true; sc.setAttribute('data-pf', key); sc.onload = run; sc.onerror = function () { sc.remove(); fail(); }; document.head.appendChild(sc);
     };
     funCss(function () { cssOk = true; run(); });
-    ld('lb.js?v=4', 'lb'); ld('g-' + id + '.js?v=7', 'g-' + id);
+    ld('lb.js?v=4', 'lb'); ld('g-' + id + '.js?v=8', 'g-' + id);
     run();
     loadGamesCfg(function () { if (currentRoute() === '#/g/' + id && gameState(id)) location.hash = '#/fun'; });
   }
@@ -1260,7 +1260,7 @@
     funCss(function () { cssDone = true; go(); });
     if (window.pfMemes) return go();
     var sc = document.createElement('script');
-    sc.src = 'memes.js?v=7'; sc.onload = function () { jsDone = true; go(); }; document.head.appendChild(sc);
+    sc.src = 'memes.js?v=8'; sc.onload = function () { jsDone = true; go(); }; document.head.appendChild(sc);
   }
 
   function render() {

@@ -6,6 +6,7 @@
     var HC = [[[1,7],[2,7],[3,7],[4,7],[5,7]], [[7,1],[7,2],[7,3],[7,4],[7,5]], [[13,7],[12,7],[11,7],[10,7],[9,7]], [[7,13],[7,12],[7,11],[7,10],[7,9]]];
     var GOAL = [[6.7,7.5], [7.5,6.7], [8.3,7.5], [7.5,8.3]];
     var BX = [0, 9, 9, 0], BY = [0, 0, 9, 9];
+    var SEATS = { 2: [2, 0], 3: [2, 3, 0], 4: [2, 3, 0, 1] };
     var COL = ['#22d3ee', '#ff2bd6', '#b6ff3b', '#fbbf24'], NM = ar ? ['سماوي', 'وردي', 'أخضر', 'أصفر'] : ['Cyan', 'Pink', 'Lime', 'Amber'];
     var START = [0, 13, 26, 39], SAFE = [0, 8, 13, 21, 26, 34, 39, 47];
     var PIP = [[], [[12,12]], [[7,7],[17,17]], [[7,7],[12,12],[17,17]], [[7,7],[17,7],[7,17],[17,17]], [[7,7],[17,7],[12,12],[7,17],[17,17]], [[7,6],[17,6],[7,12],[17,12],[7,18],[17,18]]];
@@ -190,13 +191,13 @@
     /* ---------- screens ---------- */
     function setup() {
       tms.forEach(clearTimeout); tms = []; over = true; opts = null; pl = []; S = []; stopMusic();
-      var seats = ''; for (var i = 0; i < cnt; i++) seats += '<div class="pf-ludo-seat" style="--c:' + COL[cnt === 2 ? [0, 2][i] : i] + '"><i></i><span>' + (ar ? 'لاعب ' + (i + 1) : 'Player ' + (i + 1)) + '</span><button type="button" data-t="' + i + '" class="' + (cfg[i] ? 'on' : '') + '">' + (cfg[i] ? (ar ? 'إنسان' : 'Human') : (ar ? 'كمبيوتر' : 'Computer')) + '</button></div>';
+      var seats = ''; for (var i = 0; i < cnt; i++) seats += '<div class="pf-ludo-seat" style="--c:' + COL[SEATS[cnt][i]] + '"><i></i><span>' + (ar ? 'لاعب ' + (i + 1) : 'Player ' + (i + 1)) + '</span><button type="button" data-t="' + i + '" class="' + (cfg[i] ? 'on' : '') + '">' + (cfg[i] ? (ar ? 'إنسان' : 'Human') : (ar ? 'كمبيوتر' : 'Computer')) + '</button></div>';
       W.innerHTML = '<div class="pf-ludo-set"><h3>' + (ar ? 'اختار طريقة اللعب' : 'Choose how to play') + '</h3><div class="pf-ludo-pre"><button type="button" data-p="cpu">' + (ar ? 'ضد الكمبيوتر' : 'vs Computer') + '</button><button type="button" data-p="fr">' + (ar ? 'مع صاحبك' : 'With a friend') + '</button><button type="button" data-p="4">' + (ar ? '٤ لاعبين' : '4 players') + '</button></div>' +
         '<div class="pf-ludo-cnt">' + [2, 3, 4].map(function (n) { return '<button type="button" data-n="' + n + '" class="' + (cnt === n ? 'on' : '') + '">' + n + (ar ? ' لاعبين' : ' players') + '</button>'; }).join('') + '</div>' + seats +
         '<p class="pf-g-hint">' + (ar ? 'كل اللاعبين على نفس الجهاز، بالدور. اللاعب «كمبيوتر» بيلعب لوحده.' : 'All players share this device, in turns. A Computer seat plays by itself.') + '</p><button type="button" class="pf-xo-again" data-go="1">' + (ar ? 'ابدأ اللعب' : 'Start') + '</button></div>';
     }
     function play() {
-      var seatIdx = cnt === 2 ? [0, 2] : cnt === 3 ? [0, 1, 2] : [0, 1, 2, 3];
+      var seatIdx = SEATS[cnt];
       pl = seatIdx.map(function (s, i) { return { s: s, h: !!cfg[i] }; }); S = pl.map(function () { return [-1, -1, -1, -1]; }); cur = 0; roll = 0; over = false; opts = null; note = ''; busy = false;
       W.innerHTML = '<div class="pf-g-top pf-ludo-sc" id="g-sc"></div><div class="pf-ludo-board"><div class="pf-ludo-dice" id="g-dice"></div><canvas class="pf-g-cv" id="g-cv" width="600" height="600" aria-label="Ludo"></canvas></div>' +
         '<div class="pf-xo-msg" id="g-m"></div><div class="pf-ludo-ctl"><button type="button" class="pf-ludo-die" id="g-die"></button></div>' +

@@ -134,7 +134,7 @@
 .pf-ludo-xo .pf-ludo-sc { display: none; }
 .pf-ludo-dw small b { color: #22d3ee; font-size: 12px; }
 .pf-pagehead:has(+ .pf-ludo-xo) { display: none; }
-.pf-ludo-board { padding: 70px 0; }
+.pf-ludo-board { padding: 62px 0; }
 
 .pf-dm-board { min-height: min(34vh, 300px); align-items: center; padding: 10px 4px; margin-inline: -8px; }
 .pf-dmsvg { width: 100%; height: auto; max-height: 100%; display: block; }
@@ -142,3 +142,5 @@
 .pf-dg path { stroke: #9aa0ff; stroke-width: 1; fill: none; }
 .pf-dg circle { fill: #0a0b1f; }
 .pf-dm-b { padding: 10px 3px; }
+
+.pf-ludo-board .pf-g-cv { max-width: min(100%, calc(100dvh - 300px)); }
