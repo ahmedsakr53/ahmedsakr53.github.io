@@ -94,3 +94,26 @@
 .pf-dm-b.ok { opacity: 1; border-color: #b6ff3b; cursor: pointer; box-shadow: 0 0 10px rgb(182 255 59 / .4); }
 .pf-dm-b.sel { border-color: #ff2bd6; box-shadow: 0 0 14px #ff2bd6; }
 .pf-dm-act { display: flex; justify-content: center; gap: 8px; min-height: 0; margin-bottom: 4px; }
+.pf-ludo-dice { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+.pf-ludo-dw { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; opacity: .7; padding: 4px 6px; border-radius: 12px; border: 1px solid transparent; }
+.pf-ludo-dw.act { opacity: 1; border-color: var(--c); box-shadow: 0 0 12px var(--c); }
+.pf-ludo-d { width: 44px; height: 44px; border-radius: 12px; background: #12143a; border: 2px solid #3b3f7a; }
+.pf-ludo-dw .pf-ludo-d { border-color: var(--c); }
+.pf-ludo-d svg { width: 100%; height: 100%; display: block; }
+.pf-ludo-d rect { fill: #f4f4ff; stroke: #05061a; stroke-width: 1; }
+.pf-ludo-d circle { fill: #0a0b1f; }
+.pf-ludo-d.on { box-shadow: 0 0 14px #b6ff3b; }
+.pf-ludo-sc span { display: flex; align-items: center; justify-content: center; gap: 4px; padding: 6px 4px; border: 1px solid var(--c); font-size: 13px; }
+.pf-ludo-sc i { width: 10px; height: 10px; border-radius: 50%; background: var(--c); box-shadow: 0 0 8px var(--c); }
+.pf-ludo-sc b { font-size: 17px; margin: 0; color: #fff; }
+.pf-ludo-set { text-align: center; }
+.pf-ludo-set h3 { margin: 4px 0 12px; font-size: 17px; }
+.pf-ludo-pre, .pf-ludo-cnt { display: flex; gap: 8px; margin-bottom: 10px; }
+.pf-ludo-pre button, .pf-ludo-cnt button, .pf-ludo-seat button, .pf-ludo-snd button { flex: 1; min-height: 44px; border-radius: 12px; border: 1px solid #3b3f7a; background: #12143a; color: #cfd2ff; font: inherit; font-size: 13px; cursor: pointer; }
+.pf-ludo-pre button { border-color: #22d3ee; color: #22d3ee; }
+.pf-ludo-cnt button.on, .pf-ludo-seat button.on { border-color: #b6ff3b; color: #b6ff3b; box-shadow: 0 0 10px rgb(182 255 59 / .35); }
+.pf-ludo-seat { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; padding: 6px 10px; border-radius: 14px; border: 1px solid var(--c); background: #0f1130; }
+.pf-ludo-seat i { width: 16px; height: 16px; border-radius: 50%; background: var(--c); box-shadow: 0 0 10px var(--c); flex: none; }
+.pf-ludo-seat span { flex: 1; text-align: start; }
+.pf-ludo-seat button { flex: none; width: 110px; }
+.pf-ludo-snd { display: flex; gap: 8px; margin: 6px 0; }

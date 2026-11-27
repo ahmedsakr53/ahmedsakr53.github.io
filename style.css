@@ -1518,7 +1518,8 @@ html[data-theme="dark"] .pf-saqr-bubble { background: rgb(69 200 221 / 0.1); }
     }
 }
 @media (max-width: 559px) {
-    .pf-saqr-fab { font-size: 0.88rem; padding: 12px 8px 12px 12px; }
+    .pf-saqr-fab { top: 45%; font-size: 0.78rem; gap: 4px; padding: 8px 6px 8px 9px; border-start-start-radius: 11px; border-end-start-radius: 11px; }
+    .pf-saqr-fab-ico .pf-saqr-feather { width: 14px; height: 14px; }
 }
 
 /* Saqr voice controls */
