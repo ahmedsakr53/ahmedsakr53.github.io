@@ -79,7 +79,7 @@
     post('/exam/start', { t: TRACK }).then(function (r) {
       S.busy = false;
       if (!r.ok) { nameStep(errMsg(r.err)); return; }
-      S.token = r.token; S.qs = r.questions; S.i = 0; S.ans = []; S.pass = r.pass; S.total = r.total;
+      S.token = r.token; S.qs = r.questions; S.i = 0; S.ans = []; S.chk = []; S.pass = r.pass; S.total = r.total;
       question();
     }).catch(function () { S.busy = false; nameStep(errMsg('net')); });
   }
@@ -93,11 +93,26 @@
       q.o.map(function (o, k) { return '<button type="button" role="radio" aria-checked="' + (sel === k) + '" class="pf-ex-o' + (sel === k ? ' on' : '') + '" data-k="' + k + '">' + esc(o) + '</button>'; }).join('') + '</div>' +
       '<div class="pf-ex-nav">' + (S.i ? btn('pf-ex-prev', T('السابق', 'Back'), 'pf-ex-sec') : '') + btn('pf-ex-n', S.i === n - 1 ? T('إنهاء وتسليم', 'Finish and submit') : T('التالي', 'Next')) + '</div>');
     var nb = box.querySelector('#pf-ex-n'); nb.disabled = sel === undefined;
+    var qi = S.i;
+    function showChk(c) {
+      var os = box.querySelectorAll('.pf-ex-o');
+      os.forEach(function (x, k) { x.disabled = true; x.classList.remove('on'); if (k === c.right) x.classList.add('ok'); else if (k === S.ans[qi]) x.classList.add('bad'); });
+      var d = document.createElement('div'); d.className = 'pf-ex-x ' + (S.ans[qi] === c.right ? 'ok' : 'bad'); d.setAttribute('role', 'status');
+      d.textContent = (S.ans[qi] === c.right ? T('إجابة صح. ', 'Correct. ') : T('إجابة غلط. ', 'Not quite. ')) + (c.expl || '');
+      box.querySelector('.pf-ex-opts').insertAdjacentElement('afterend', d);
+    }
+    if (S.chk[qi]) showChk(S.chk[qi]);
     box.querySelectorAll('.pf-ex-o').forEach(function (b) {
       b.addEventListener('click', function () {
-        S.ans[S.i] = +b.dataset.k;
+        if (S.chk[qi] || S.pend) return;
+        S.ans[qi] = +b.dataset.k;
         box.querySelectorAll('.pf-ex-o').forEach(function (x) { x.classList.toggle('on', x === b); x.setAttribute('aria-checked', x === b); });
         nb.disabled = false;
+        S.pend = true;
+        post('/exam/check', { token: S.token, i: qi }).then(function (r) {
+          S.pend = false;
+          if (r && r.ok && S.i === qi && !S.chk[qi]) { S.chk[qi] = { right: r.right, expl: r.expl }; showChk(S.chk[qi]); }
+        }).catch(function () { S.pend = false; });
       });
     });
     on('pf-ex-prev', function () { S.i--; question(); });

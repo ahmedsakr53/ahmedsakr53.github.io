@@ -2125,3 +2125,9 @@ html:not([data-theme="dark"]) body .pf-acad-card.pf-t-py .pf-acad-meta i, html:n
 .pf-proj-extra:empty { display: none; }
 .pf-card-xp .pf-card-media-img img { aspect-ratio: 16 / 9; height: auto; }
 @media (max-width: 560px) { .pf-card-xp { flex-direction: column; gap: 10px; } .pf-card-xp .pf-card-media-img { flex: 0 0 auto; } }
+
+.pf-ex-o.ok { border-color: #16a34a; background: rgb(22 163 74 / .16); font-weight: 700; }
+.pf-ex-o.bad { border-color: #dc2626; background: rgb(220 38 38 / .12); }
+.pf-ex-o:disabled { cursor: default; opacity: 1; color: inherit; }
+.pf-ex-x { margin: 10px 0 0; padding: 10px 12px; border-radius: 12px; font: 14px/1.8 var(--ds-font-text); border: 1.5px solid #16a34a; background: rgb(22 163 74 / .1); }
+.pf-ex-x.bad { border-color: #dc2626; background: rgb(220 38 38 / .08); }
