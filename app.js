@@ -38,6 +38,7 @@
     verified: 'M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.96 8.6 1.5 6.71 4.7 3.1 5.52l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82 1.89 3.2L12 21.04l3.4 1.46 1.89-3.2 3.61-.82-.34-3.69L23 12zm-12.91 4.72l-3.8-3.81 1.48-1.48 2.32 2.33 5.85-5.87 1.48 1.48-7.33 7.35z',
     navUser: 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z',
     navCert: 'M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z',
+    mic: 'M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z',
     navCode: 'M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z',
     navGrid: 'M4 4h4v4H4V4zm6 0h4v4h-4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6 0h4v4h-4v-4z',
     doc: 'M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z',
@@ -748,6 +749,12 @@
       '<div class="pf-contact"><span class="pf-btn pf-btn-ghost pf-btn-soon">' + icon('store') + esc(t.khamsatSoon) + '</span></div></div>';
   }
 
+  function renderPodcast() {
+    var ar = lang === 'ar';
+    return '<div class="pf-page">' + pageHead('PODCAST', ar ? 'بودكاست' : 'Podcast') +
+      '<p class="pf-para">' + esc(ar ? 'حلقات صوتية قصيرة عن الأمن السيبراني والتقنية. اسمعها وانت ماشي.' : 'Short audio episodes about cybersecurity and tech. Listen on the go.') + '</p><div id="pf-pod"></div></div>';
+  }
+
   function renderCheckup(t) {
     var chk = t.chkItems.map(function (q, i) {
       return '<div class="pf-card pf-chk-item" data-chk="' + i + '">' +
@@ -1073,7 +1080,7 @@
 
   function currentRoute() {
     var h = location.hash || '#/';
-    if (navPaths.indexOf(h) === -1 && h !== '#/checkup' && h !== '#/map' && h !== '#/fun' && h !== '#/memes' && h !== '#/xo' && h.indexOf('#/g/') !== 0 && h.indexOf('#/academy') !== 0) return '#/';
+    if (navPaths.indexOf(h) === -1 && h !== '#/checkup' && h !== '#/map' && h !== '#/podcast' && h !== '#/fun' && h !== '#/memes' && h !== '#/xo' && h.indexOf('#/g/') !== 0 && h.indexOf('#/academy') !== 0) return '#/';
     return h;
   }
 
@@ -1295,6 +1302,7 @@
       { href: navPaths[3], icon: navIcons[3], label: t.nav[3] },
       { href: navPaths[4], icon: navIcons[4], label: t.nav[4] },
       { href: '#/checkup', icon: 'navShield', label: t.checkupTitle },
+      { href: '#/podcast', icon: 'mic', label: ar0 ? 'بودكاست' : 'Podcast' },
       { href: '#/map', icon: 'navGlobe', label: ar0 ? 'خريطة الزوار' : 'Visitor map' }
     ];
     var moreActive = moreItems.some(function (m) { return m.href === route || (m.href === '#/fun' && (route === '#/memes' || route === '#/xo' || route.indexOf('#/g/') === 0)) || (m.href === '#/academy' && route.indexOf('#/academy') === 0); });
@@ -1331,6 +1339,7 @@
     else if (route === '#/services') page = renderServices(t);
     else if (route === '#/checkup') page = renderCheckup(t);
     else if (route === '#/map') page = renderMapPage(t);
+    else if (route === '#/podcast') page = renderPodcast();
     else if (route === '#/fun') page = renderFun();
     else if (route.indexOf('#/g/') === 0) page = '<div class="pf-page" id="pf-game"></div>';
     else if (route === '#/xo') page = '<div class="pf-page" id="pf-xo"></div>';
@@ -1352,6 +1361,7 @@
     if (route === '#/xo') loadXO();
     document.documentElement.classList.toggle('pf-ingame', route.indexOf('#/g/') === 0 || route === '#/xo');
     if (route.indexOf('#/g/') === 0) loadGame(route.slice(4));
+    if (route === '#/podcast') { var pdEl = document.getElementById('pf-pod'); if (pdEl) { var goP = function () { window.pfPodcast.mount(pdEl, lang === 'ar'); }; if (window.pfPodcast) goP(); else { var ps = document.createElement('script'); ps.src = 'podcast.js?v=2'; ps.onload = goP; ps.onerror = function () { pdEl.textContent = lang === 'ar' ? 'مش قادرين نحمّل البودكاست. جرّب تاني.' : 'Could not load the podcast. Try again.'; }; document.head.appendChild(ps); } } }
     if (route === '#/fun') wireFun();
     if (route.indexOf('#/academy') === 0) loadAcademy(route);
     if (route === '#/map') wireLive(); else clearInterval(pfLiveTimer);

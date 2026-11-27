@@ -2035,3 +2035,12 @@ body .pf-acad-card.pf-t-code b, body .pf-acad-card.pf-t-linux b, body .pf-acad-c
 .pf-prod-msg { font-size: 13px; color: #dc2626; }
 .pf-prod-ok { font-size: 14px; line-height: 1.8; }
 .pf-prod-ok p { margin: 6px 0; }
+
+/* Podcast */
+.pf-pod-ep audio { width: 100%; margin-top: 10px; }
+.pf-pod-soon { text-align: center; }
+.pf-pod-show { margin: 16px 0; padding: 12px; border-radius: 20px; background: linear-gradient(135deg, var(--pc1), var(--pc2)); }
+.pf-pod-head { color: #fff; padding: 4px 6px 10px; }
+.pf-pod-head b { display: block; font-size: 18px; }
+.pf-pod-head small { display: block; opacity: .9; font-size: 13px; line-height: 1.6; }
+.pf-pod-show .pf-card { margin-top: 10px; }
