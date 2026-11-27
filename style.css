@@ -739,6 +739,7 @@ html[data-theme="dark"] .pf-nav {
 }
 .pf-about-photo img {
     display: block;
+    height: auto;
     width: 100%;
     max-width: 340px;
     border-radius: 20px;
