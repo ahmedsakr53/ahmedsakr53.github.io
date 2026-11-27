@@ -85,6 +85,7 @@
       chips: ['طما، سوهاج، مصر', 'طالب هندسة كهرباء قسم اتصالات', 'الهدف: تدريب SOC'],
       ctaProjects: 'استعرض مشاريعي',
       ctaContact: 'تواصل معي',
+      tgJoin: 'انضم لقناة عالم صقر على تيليجرام',
       ctaServices: 'خدماتي',
       ctaServicesSub: 'اطلب خدمتك الآن',
       aboutEyebrow: 'ABOUT',
@@ -329,6 +330,7 @@
       chips: ['Tima, Sohag, Egypt', 'Electrical Engineering, Communications student', 'Goal: SOC internship'],
       ctaProjects: 'See my projects',
       ctaContact: 'Contact me',
+      tgJoin: 'Join the Sakr World channel on Telegram',
       ctaServices: 'My services',
       ctaServicesSub: 'Order your service',
       aboutEyebrow: 'ABOUT',
@@ -640,6 +642,7 @@
       '<a class="pf-btn pf-btn-services" href="#/services">' + icon('navGrid') + '<span>' + esc(t.ctaServices) + '<small>' + esc(t.ctaServicesSub) + '</small></span></a>' +
       '<a class="pf-btn pf-btn-primary" href="#/projects">' + esc(t.ctaProjects) + '</a>' +
       '<a class="pf-btn pf-btn-ghost" href="#/contact">' + esc(t.ctaContact) + '</a>' +
+      '<a class="pf-btn pf-btn-ghost pf-btn-tg" href="https://t.me/sakrworld5" target="_blank" rel="noopener">' + icon('telegram') + esc(t.tgJoin) + '</a>' +
       '</div>' +
       '<div class="pf-visits" title="' + esc(t.visitsTitle) + '"><img src="https://hits.sh/ahmedsakr53.github.io/hits.svg?label=%F0%9F%91%81&color=2f7fd4&style=flat" alt="' + esc(t.visitsTitle) + '" loading="lazy"></div>' +
       '</div></div></div>' +
@@ -1043,6 +1046,7 @@
       '<a class="pf-btn pf-btn-primary" href="mailto:Ahmedsakr5326@gmail.com">' + icon('mail') + '<bdi>Ahmedsakr5326@gmail.com</bdi></a>' +
       '<a class="pf-btn pf-btn-ghost" href="https://linkedin.com/in/ahmed-mokhtar-3b1b3b24a">' + icon('linkedin') + '<bdi>linkedin.com/in/ahmed-mokhtar-3b1b3b24a</bdi></a>' +
       '</div>' +
+      '<div class="pf-contact"><a class="pf-btn pf-btn-primary pf-btn-tg" href="https://t.me/sakrworld5" target="_blank" rel="noopener">' + icon('telegram') + esc(t.tgJoin) + '</a></div>' +
       '<h3 class="pf-h3">' + esc(t.followTitle) + '</h3>' +
       '<div class="pf-contact">' + socialLinks.map(function (href, i) {
         return '<a class="pf-btn pf-btn-ghost pf-btn-social" href="' + href + '" target="_blank" rel="noopener">' + icon(socialIcons[i]) + esc(t.socials[i]) + '</a>';
