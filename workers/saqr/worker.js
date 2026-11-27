@@ -741,12 +741,12 @@ async function updateVisitorMem(env, chatId, lastUser, lastSaqr) {
 
 
 // ---------- Store (order requests, manual cash / Etisalat Cash, confirmed by hand) ----------
-const STORE_END = 1796354645111;
+const STORE_END = 1798754400000;
 const STORE_DEFAULT = { wallet: '01154655875', seq: 4, products: [
   { id: 'py-pdf', ar: 'ملخص بايثون من الصفر (PDF)', en: 'Python from Scratch summary (PDF)', dAr: 'ملخص مركّز لمسار بايثون كله في ملف PDF واحد بتراجعه في أي وقت.', dEn: 'A focused PDF summary of the whole Python track.', price: 50, discEnd: STORE_END, visible: true },
   { id: 'linux-pdf', ar: 'ملخص أوامر لينكس للمبتدئين (PDF)', en: 'Linux commands for beginners (PDF)', dAr: 'أهم أوامر لينكس مشروحة ببساطة مع أمثلة تطبيقية.', dEn: 'Essential Linux commands explained simply with examples.', price: 50, discEnd: STORE_END, visible: true },
   { id: 'site-tpl', ar: 'قالب موقع شخصي جاهز', en: 'Ready personal website template', dAr: 'قالب عربي RTL نضيف وسهل التعديل (index.html + css + js) تفتحه وتعدّل بياناتك.', dEn: 'A clean Arabic RTL template that is easy to edit.', price: 150, discEnd: STORE_END, visible: true },
-  { id: 'academy-all', ar: 'اشتراك الأكاديمية الكاملة', en: 'Full Academy subscription', dAr: 'باقة واحدة: كل ملخصات الـ PDF + قالب الموقع + أولوية في المسارات الجديدة قبل ما تنزل + أولوية في الرد.', dEn: 'One bundle: all PDFs, the site template, early access to new tracks and priority support.', price: 300, discEnd: STORE_END, visible: true }
+  { id: 'academy-all', ar: 'اشتراك الأكاديمية الكاملة', en: 'Full Academy subscription', dAr: 'باقة واحدة: كل ملخصات الـ PDF + قالب الموقع + أولوية في المسارات الجديدة قبل ما تنزل + أولوية في الرد.', dEn: 'One bundle: all PDFs, the site template, early access to new tracks and priority support.', price: 200, discEnd: STORE_END, visible: true }
 ] };
 function storeClean(b, old) {
   const out = { wallet: String((b && b.wallet) || '').replace(/[^0-9+]/g, '').slice(0, 16), products: [], seq: (old && old.seq) || 0 };
