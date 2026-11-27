@@ -476,30 +476,36 @@ async function handleChatImage(request, env, origin) {
   const sys = SYSTEM_PROMPT + '\n\nقاعدة الصور: المستخدم بعتلك صورة (غالباً سؤال أو واجب أو ورقة). اقرا أي نص في الصورة بدقة، وجاوب على اللي فيها خطوة بخطوة بشكل واضح ومختصر. لو سؤال حل، اشرح ببساطة. لو الصورة مش واضحة، قول كده واطلب صورة أوضح. لو الصورة فيها بيانات حساسة (بطاقة، باسورد، بطاقة هوية) نبّهه بلطف إنه ميبعتهاش. ماتحفظش ولا تكرر بيانات شخصية. ' + (en ? 'Reply in English.' : 'ردّك بعامية مصرية.');
   const parts = [{ inlineData: { mimeType: mime, data } }, { text: q || (en ? 'Read this image and answer what it asks.' : 'اقرا الصورة دي وجاوب على اللي فيها.') }];
   try {
-    const text = await callGemini(env, sys, [{ role: 'user', parts }], { temperature: 0.4, maxOutputTokens: 900 }, env.OWNER_MODEL || 'gemini-3.5-flash');
+    const text = await callGemini(env, sys, [{ role: 'user', parts }], { temperature: 0.4, maxOutputTokens: 900 }, env.OWNER_MODEL || 'gemini-3.5-flash', 22000);
     return ar(text || 'معرفتش أقرا الصورة. جرب صورة أوضح 🦅');
   } catch (e) {
-    return Response.json({ reply: 'مقدرتش أشوف الصورة دلوقتي. جرب بعد شوية 🦅' }, { status: 502, headers: H });
+    return Response.json({ reply: 'الرد اتأخر عن المعتاد. جرب تاني كمان شوية 🦅' }, { status: 502, headers: H });
   }
 }
 
 // ---- Saqr brain: shared Gemini helper, owner rules, activity log ----
 
-async function callGemini(env, systemText, contents, genCfg, modelOverride) {
+async function callGemini(env, systemText, contents, genCfg, modelOverride, limitMs) {
+  const deadline = Date.now() + (limitMs || 0);
   const defModel = env.MODEL || 'gemini-3.5-flash-lite';
   const body = JSON.stringify({
     systemInstruction: { parts: [{ text: systemText }] },
     contents,
     generationConfig: genCfg || { temperature: 0.7, maxOutputTokens: 400 },
   });
-  async function call(model) {
-    return fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': env.GEMINI_API_KEY },
-      body,
-    });
+  async function call(model, cap) {
+    let left = limitMs ? Math.max(1500, deadline - Date.now()) : 0;
+    if (left && cap) left = Math.min(left, Math.floor(limitMs * cap));
+    try {
+      return await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-goog-api-key': env.GEMINI_API_KEY },
+        body,
+        signal: left ? AbortSignal.timeout(left) : undefined,
+      });
+    } catch (e) { return { ok: false, status: 0 }; }
   }
-  let gem = await call(modelOverride || defModel);
+  let gem = await call(modelOverride || defModel, modelOverride && modelOverride !== defModel ? 0.6 : 0);
   if (!gem.ok && modelOverride && modelOverride !== defModel) {
     // Strong model unavailable on this key right now: fall back to the default brain.
     gem = await call(defModel);
@@ -715,7 +721,7 @@ async function updateVisitorMem(env, chatId, lastUser, lastSaqr) {
     const isNewVisit = !old || !old.lastActive || (now - old.lastActive) > 30 * 60 * 1000;
     const mergeSys = 'إنت بتدير ذاكرة طويلة المدى لمساعد دردشة اسمه صقر على موقع شخصي. هتاخد الذاكرة القديمة (لو موجودة) وآخر رسالة من الزائر ورد صقر، وترجع JSON بس من غير أي كلمة زيادة: {"summary":"ملخص محدث من سطرين لأربعة عن الزائر ده: مين، مهتم بإيه، وصل لإيه مع صقر","facts":["حتى 6 حقائق قصيرة ثابتة عن الزائر زي اسمه أو شغله أو الخدمة اللي طلبها"]}. ماتحفظش كلام عابر ولا أسئلة عامة ملهاش علاقة بالزائر نفسه، ولو مفيش حاجة جديدة مهمة رجع الذاكرة القديمة زي ما هي.';
     const mergeUser = 'الذاكرة القديمة: ' + (old ? JSON.stringify({ summary: old.summary, facts: old.facts || [] }) : 'مفيش') + '\nرسالة الزائر: ' + lastUser + '\nرد صقر: ' + lastSaqr;
-    const out = await callGemini(env, mergeSys, [{ role: 'user', parts: [{ text: mergeUser }] }], { temperature: 0.3, maxOutputTokens: 1500, responseMimeType: 'application/json' });
+    const out = await callGemini(env, mergeSys, [{ role: 'user', parts: [{ text: mergeUser }] }], { temperature: 0.3, maxOutputTokens: 1500, responseMimeType: 'application/json' }, undefined, 45000);
     const m = out.match(/\{[\s\S]*\}/);
     const parsed = m ? JSON.parse(m[0]) : null;
     const summary = parsed && typeof parsed.summary === 'string' && parsed.summary.trim() ? parsed.summary.trim().slice(0, 600) : (old ? old.summary : '');
@@ -959,7 +965,7 @@ async function handleAdminApi(request, env, ctx, url) {
 
     let parsed = null;
     try {
-      const out = await callGemini(env, sys, contents, { temperature: 0.6, maxOutputTokens: 4000, responseMimeType: 'application/json' }, env.OWNER_MODEL || 'gemini-3.5-flash');
+      const out = await callGemini(env, sys, contents, { temperature: 0.6, maxOutputTokens: 4000, responseMimeType: 'application/json' }, env.OWNER_MODEL || 'gemini-3.5-flash', 50000);
       const m = out.match(/\{[\s\S]*\}/);
       parsed = m ? JSON.parse(m[0]) : null;
     } catch (e) { parsed = null; }
@@ -1004,7 +1010,7 @@ async function handleAdminApi(request, env, ctx, url) {
       'الشاتات:\n' + dump;
     let suggestions = [];
     try {
-      const out = await callGemini(env, sys, [{ role: 'user', parts: [{ text: 'حلّل واقترح' }] }], { temperature: 0.4, maxOutputTokens: 3000, responseMimeType: 'application/json' }, env.OWNER_MODEL || 'gemini-3.5-flash');
+      const out = await callGemini(env, sys, [{ role: 'user', parts: [{ text: 'حلّل واقترح' }] }], { temperature: 0.4, maxOutputTokens: 3000, responseMimeType: 'application/json' }, env.OWNER_MODEL || 'gemini-3.5-flash', 50000);
       const m = out.match(/\{[\s\S]*\}/);
       const parsed = m ? JSON.parse(m[0]) : null;
       if (parsed && Array.isArray(parsed.suggestions)) {
@@ -1680,9 +1686,10 @@ export default {
           contents,
           generationConfig: { temperature: 0.6, maxOutputTokens: 500 },
         }),
+        signal: AbortSignal.timeout(20000),
       });
     } catch (e) {
-      return Response.json({ reply: 'الشبكة وقفت عندي. جرب تاني 🦅' }, { status: 502, headers: corsHeaders(origin) });
+      return Response.json({ reply: 'الرد اتأخر عن المعتاد. جرب تاني كمان شوية 🦅' }, { status: 502, headers: corsHeaders(origin) });
     }
 
     if (!gem.ok) {
