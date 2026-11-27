@@ -31,16 +31,16 @@
     { id: 'net', ico: 'navGlobe', ar: 'شبكات من الصفر', en: 'Networking from Scratch',
       dAr: 'إزاي الإنترنت بيشتغل فعلاً، خطوة خطوة وبأمثلة من حياتك.', dEn: 'How the internet really works, step by step, with everyday examples.',
       eps: [
-        ['الشبكة يعني إيه أصلاً', 'What a network is'],
-        ['الـ IP address وإزاي الأجهزة بتتكلم', 'IP addresses and how devices talk'],
-        ['الـ DNS: إزاي اسم الموقع بيبقى عنوان', 'DNS: how a site name becomes an address'],
-        ['الراوتر بتاع بيتك بيعمل إيه', 'What your home router does'],
-        ['TCP و UDP والبورتات', 'TCP, UDP and ports'],
-        ['موديل OSI ببساطة', 'The OSI model, simply'],
-        ['الـ subnetting من غير وجع دماغ', 'Subnetting without the headache'],
-        ['الواي فاي وأمان الشبكات البيتية', 'Wi-Fi and home network security'],
-        ['إزاي بتتبعت الداتا عبر العالم', 'How data travels across the world'],
-        ['المشروع النهائي + الاختبار والشهادة', 'Final project + exam and certificate']] },
+        ['رحلة الضغطة', 'A Click\'s Journey', 'إيه اللي بيحصل من لحظة ما تضغط على رابط لحد ما الصفحة تفتح.', 'What happens from the moment you click a link until the page opens.'],
+        ['العناوين والأسماء', 'Addresses and Names', 'الآي بي (خاص/عام) والدي إن إس، وإزاي تلاقي مشكلتك لو واحد منهم وقع.', 'IP (private/public) and DNS, and how to find your problem when one of them fails.'],
+        ['جوه بيتك', 'Inside Your Home', 'الراوتر والسويتش والأكسس بوينت، كل واحد بيعمل إيه، وإزاي تختار الجهاز وتحطه صح.', 'Router, switch and access point: what each does, and how to pick and place the right device.'],
+        ['الواي فاي من جوه', 'Wi-Fi From the Inside', '2.4 و5 جيجا، القنوات، الحماية، شبكة الضيوف، وقياس الإشارة.', '2.4 and 5 GHz, channels, security, a guest network, and measuring signal.'],
+        ['ليه النت بطيء', 'Why Is the Internet Slow', 'السرعة غير التأخير، وخطوات مرتبة تلاقي بيها السبب بالأرقام.', 'Speed is not latency, plus ordered steps to find the cause with numbers.'],
+        ['البروتوكولات والتشفير', 'Protocols and Encryption', 'يعني إيه HTTP وHTTPS والقفل الأخضر، وإزاي بياناتك بتتحمي وهي ماشية.', 'What HTTP, HTTPS and the green lock mean, and how your data is protected in transit.'],
+        ['النات والفايروول والبورتات', 'NAT, Firewalls and Ports', 'إزاي أجهزة البيت كلها بتشارك عنوان واحد، وإيه اللي الفايروول بيسمح بيه وبيمنعه.', 'How all home devices share one address, and what a firewall allows and blocks.'],
+        ['تقسيم الشبكات', 'Network Segmentation', 'شبكات فرعية وVLAN بشكل مبسط، وعزل أجهزة البيت الذكية والضيوف.', 'Subnets and VLANs made simple, and isolating smart-home devices and guests.'],
+        ['أدوات التشخيص', 'Diagnostic Tools', 'ping وtraceroute وnslookup والـIP config، وإزاي تقرأ نتايجها وتحدد العطل.', 'ping, traceroute, nslookup and ipconfig, and how to read results and locate the fault.'],
+        ['تصميم شبكة مكتب', 'Designing an Office Network', 'مكتب صغير من الصفر، مع VPN ومراقبة، واختبار وشهادة تكمل بيها.', 'A small office from scratch, with VPN and monitoring, plus an exam and certificate.']] },
     { id: 'linux', ico: 'navCode', ar: 'لينكس من الصفر', en: 'Linux from Scratch',
       dAr: 'تتعلم التيرمنال وأوامر لينكس خطوة خطوة، من غير خبرة قبل كده.', dEn: 'Learn the terminal and Linux commands step by step, with no prior experience.',
       eps: [
@@ -139,7 +139,7 @@
       var lk = x.live && !unlocked(tr.id, i), dn = prog(tr.id).indexOf(i) !== -1;
       var st = esc(!x.live ? (ar ? 'قريباً' : 'Soon') : lk ? (ar ? '🔒 مقفولة' : '🔒 Locked') : dn ? (ar ? '✓ تمت' : '✓ Done') : (ar ? 'متاح' : 'Available'));
       return '<li class="pf-ep' + (x.live && !lk ? ' pf-ep-on' : '') + (lk ? ' pf-ep-lock' : '') + (x.live && !lk && i === SEL ? ' pf-ep-sel' : '') + '"' + (x.live ? ' data-i="' + i + '"' + (lk ? ' aria-disabled="true"' : ' tabindex="0" role="button"') : '') + '><span class="pf-ep-n">' + n(i + 1, ar) + '</span>' +
-        '<span class="pf-ep-t">' + t + '</span><span class="pf-ep-s">' + st + '</span></li>';
+        '<span class="pf-ep-t">' + t + (e[2] ? '<small class="pf-ep-d">' + esc(ar ? e[2] : e[3]) + '</small>' : '') + '</span><span class="pf-ep-s">' + st + '</span></li>';
     }).join('');
     var player = lv.length
       ? '<div class="pf-player" id="pf-player"><button type="button" class="pf-player-btn" id="pf-player-btn" aria-label="' + esc(ar ? 'شغّل الحلقة' : 'Play episode') + '"><span class="pf-player-tri"></span></button>' +

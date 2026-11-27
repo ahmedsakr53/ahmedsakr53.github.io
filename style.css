@@ -1757,6 +1757,7 @@ body.pf-not-home .pf-fabs .pf-lang-toggle { display: none; }
 .pf-ep.pf-ep-on { opacity: 1; border-color: rgb(34 211 238 / .6); }
 .pf-ep-n { width: 30px; height: 30px; flex: 0 0 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; background: rgb(34 211 238 / .15); }
 .pf-ep-t { flex: 1; font-size: 14px; line-height: 1.6; }
+.pf-ep-d { display: block; font-size: 12px; line-height: 1.55; opacity: .72; margin-top: 2px; }
 .pf-ep-s { font-size: 12px; color: var(--ds-ink-2); white-space: nowrap; }
 .pf-ep-on .pf-ep-s { color: #0e7490; font-weight: 700; }
 .pf-acad-note { margin-top: 14px; font-size: 13px; color: var(--ds-ink-2); }
