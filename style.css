@@ -2120,3 +2120,8 @@ html:not([data-theme="dark"]) body .pf-acad-card.pf-t-code { background: #fff0f8
 html:not([data-theme="dark"]) body .pf-acad-card.pf-t-code small { color: #7a3a63; }
 html:not([data-theme="dark"]) body .pf-acad-card.pf-t-code .pf-acad-ico .pf-icon { fill: #d61f84; }
 html:not([data-theme="dark"]) body .pf-acad-card.pf-t-py .pf-acad-meta i, html:not([data-theme="dark"]) body .pf-acad-card.pf-t-linux .pf-acad-meta i, html:not([data-theme="dark"]) body .pf-acad-card.pf-t-code .pf-acad-meta i { color: inherit; opacity: .85; }
+
+.pf-proj-extra { margin-top: 14px; }
+.pf-proj-extra:empty { display: none; }
+.pf-card-xp .pf-card-media-img img { aspect-ratio: 16 / 9; height: auto; }
+@media (max-width: 560px) { .pf-card-xp { flex-direction: column; gap: 10px; } .pf-card-xp .pf-card-media-img { flex: 0 0 auto; } }

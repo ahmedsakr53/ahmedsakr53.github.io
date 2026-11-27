@@ -731,7 +731,22 @@
       return '<div class="pf-card">' + body + '</div>';
     }).join('');
     return '<div class="pf-page">' + pageHead(t.projectsEyebrow, t.projectsTitle) +
-      '<div class="pf-grid">' + cards + '</div></div>';
+      '<div class="pf-grid">' + cards + '</div><div class="pf-grid pf-proj-extra" id="pf-proj-extra"></div></div>';
+  }
+  function loadProjExtra() {
+    var host = document.getElementById('pf-proj-extra');
+    if (!host || !SAQR_WORKER_URL) return;
+    var ar = lang === 'ar';
+    fetch(SAQR_WORKER_URL.replace(/\/chat$/, '/projects/config')).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+      host = document.getElementById('pf-proj-extra');
+      if (!d || !d.items || !host) return;
+      host.innerHTML = d.items.map(function (p, i) {
+        var nm = ar ? p.ar : (p.en || p.ar), ds = ar ? p.dAr : (p.dEn || p.dAr);
+        var body = '<div class="pf-card-name">' + esc(nm) + '</div><div class="pf-card-detail">' + esc(ds) + '</div>';
+        if (p.img) return '<div class="pf-card pf-card-media pf-card-xp"><div class="pf-card-media-img"><img src="' + esc(p.img) + '" alt="' + esc(nm) + '" loading="lazy" width="640" height="360"></div><div class="pf-card-media-body">' + body + '</div></div>';
+        return '<div class="pf-card">' + body + '</div>';
+      }).join('');
+    }).catch(function () {});
   }
 
   function renderServices(t) {
@@ -1415,6 +1430,7 @@
     if (route === '#/podcast') { var pdEl = document.getElementById('pf-pod'); if (pdEl) { var goP = function () { window.pfPodcast.mount(pdEl, lang === 'ar'); }; if (window.pfPodcast) goP(); else { var ps = document.createElement('script'); ps.src = 'podcast.js?v=4'; ps.onload = goP; ps.onerror = function () { pdEl.textContent = lang === 'ar' ? 'مش قادرين نحمّل البودكاست. جرّب تاني.' : 'Could not load the podcast. Try again.'; }; document.head.appendChild(ps); } } }
     if (route === '#/fun') wireFun();
     if (route.indexOf('#/academy') === 0) loadAcademy(route);
+    if (route === '#/projects') loadProjExtra();
     if (route === '#/map') wireLive(); else clearInterval(pfLiveTimer);
     if (renderDone && window.goatcounter && window.goatcounter.count) {
       try { window.goatcounter.count({ path: location.hash.slice(1) || '/' }); } catch (e) {}
