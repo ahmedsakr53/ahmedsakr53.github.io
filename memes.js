@@ -34,6 +34,7 @@
   ];
   var cache = {};
   function loadImg(t) {
+    if (t.img) return Promise.resolve(t.img);
     if (cache[t.id]) return cache[t.id];
     cache[t.id] = new Promise(function (res) { var im = new Image(); im.onload = function () { res(im); }; im.onerror = function () { res(null); }; im.src = 'memes/' + t.id + '.webp?v=1'; });
     return cache[t.id];
@@ -68,10 +69,10 @@
     c.restore();
   }
   function L(ar) { return ar ? {
-    title: 'ميمز', sub: 'اختار قالب مشهور، اكتب كلامك، ونزّل الميم أو شاركه. كله على موبايلك، من غير تسجيل.',
+    own: '📷 ارفع صورتك واكتب عليها', ownTop: 'النص فوق', ownBot: 'النص تحت', bad: 'الملف ده مش صورة أو كبير جداً.', title: 'ميمز', sub: 'اختار قالب مشهور، اكتب كلامك، ونزّل الميم أو شاركه. كله على موبايلك، من غير تسجيل.',
     pick: 'القوالب', field: 'النص', dl: 'نزّل الصورة', sh: 'شارك', note: 'لو الشير مش متاح عندك بتتنزل الصورة وتشاركها يدوي.'
   } : {
-    title: 'Memes', sub: 'Pick a famous template, write your text, then download or share. It all runs on your phone, no sign-up.',
+    own: '📷 Use your own photo', ownTop: 'Top text', ownBot: 'Bottom text', bad: 'That file is not an image, or it is too large.', title: 'Memes', sub: 'Pick a famous template, write your text, then download or share. It all runs on your phone, no sign-up.',
     pick: 'Templates', field: 'Text', dl: 'Download image', sh: 'Share', note: 'If sharing is not available on your device, the image downloads so you can share it yourself.'
   }; }
 
@@ -79,6 +80,7 @@
     var ar = document.documentElement.lang !== 'en', s = L(ar), mc = ((window.pfGamesCfg || {}).memes || {}), TT = T.filter(function (t) { return (mc.off || []).indexOf(t.id) < 0; }), cur = TT[0], curImg = null, raf = 0;
     root.innerHTML = '<a class="pf-g-exit" href="#/fun">' + (ar ? '✕ خروج' : '✕ Exit') + '</a><div class="pf-pagehead"><div class="pf-eyebrow">MEMES</div><h2 class="pf-h2">' + s.title + '</h2></div><p class="pf-para">' + s.sub + '</p>' +
       '<div class="pf-mm-prev"><canvas id="pf-mm-c" width="' + CW + '" height="800" aria-label="meme"></canvas></div>' +
+      '<label class="pf-mm-btn pf-mm-own" for="pf-mm-file">' + s.own + '</label><input type="file" id="pf-mm-file" accept="image/*" hidden><p class="pf-mm-note" id="pf-mm-err" hidden></p>' +
       '<h3 class="pf-h3">' + s.pick + '</h3><div class="pf-mm-list" id="pf-mm-list"></div>' +
       '<div id="pf-mm-fields"></div>' +
       '<div class="pf-mm-btns"><button type="button" class="pf-mm-btn pf-mm-pri" id="pf-mm-dl">' + s.dl + '</button><button type="button" class="pf-mm-btn" id="pf-mm-sh">' + s.sh + '</button></div>' +
@@ -100,6 +102,23 @@
       var sp = document.createElement('span'); sp.textContent = ar ? t.ar : t.en; b.appendChild(sp);
       b.addEventListener('click', function () { select(t, b); window.scrollTo({ top: 0, behavior: 'smooth' }); });
       list.appendChild(b); if (i === 0) select(t, b);
+    });
+    document.getElementById('pf-mm-file').addEventListener('change', function (e) {
+      var fl = e.target.files && e.target.files[0], er = document.getElementById('pf-mm-err'); er.hidden = true;
+      if (!fl || !/^image\//.test(fl.type) || fl.size > 15 * 1024 * 1024) { er.textContent = s.bad; er.hidden = false; return; }
+      var u = URL.createObjectURL(fl), im = new Image();
+      im.onload = function () {
+        var iw = im.naturalWidth, ih = im.naturalHeight; if (!iw || !ih) { URL.revokeObjectURL(u); return; }
+        var sc = Math.min(1, 1400 / Math.max(iw, ih)), w = Math.round(iw * sc), h = Math.round(ih * sc);
+        var tmp = document.createElement('canvas'); tmp.width = w; tmp.height = h; tmp.getContext('2d').drawImage(im, 0, 0, w, h); URL.revokeObjectURL(u);
+        var t = { id: 'custom', ar: 'صورتك', en: 'Your photo', w: w, h: Math.min(h, Math.round(w * 1.6)), img: tmp, f: [[0, 0, 1, 0.2, 'w', 0, ''], [0, 0.8, 1, 0.2, 'w', 0, '']], own: 1 };
+        if (h > t.h) { var t2 = document.createElement('canvas'); t2.width = w; t2.height = t.h; t2.getContext('2d').drawImage(tmp, 0, 0, w, t.h, 0, 0, w, t.h); t.img = t2; }
+        [].forEach.call(list.children, function (x) { x.classList.remove('on'); });
+        select(t, document.createElement('button')); window.scrollTo({ top: 0, behavior: 'smooth' });
+        var labs = fields.querySelectorAll('label'); if (labs[0]) labs[0].textContent = s.ownTop; if (labs[1]) labs[1].textContent = s.ownBot;
+      };
+      im.onerror = function () { URL.revokeObjectURL(u); er.textContent = s.bad; er.hidden = false; };
+      im.src = u; e.target.value = '';
     });
     function blob(cb) { cv.toBlob(cb, 'image/png'); }
     function save() { blob(function (b) { var a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'meme.png'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000); }); }

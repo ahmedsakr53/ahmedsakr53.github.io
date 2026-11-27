@@ -1282,7 +1282,7 @@
   var funCssP = null;
   function funCss(cb) {
     if (!funCssP) funCssP = new Promise(function (res) {
-      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'fun.css?v=10';
+      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'fun.css?v=11';
       var t = setTimeout(res, 2500); l.onload = function () { clearTimeout(t); res(); }; l.onerror = function () { clearTimeout(t); res(); };
       document.head.appendChild(l);
     });
@@ -1335,7 +1335,7 @@
     funCss(function () { cssDone = true; go(); });
     if (window.pfMemes) return go();
     var sc = document.createElement('script');
-    sc.src = 'memes.js?v=9'; sc.onload = function () { jsDone = true; go(); }; document.head.appendChild(sc);
+    sc.src = 'memes.js?v=10'; sc.onload = function () { jsDone = true; go(); }; document.head.appendChild(sc);
   }
 
   function loadTrend() {

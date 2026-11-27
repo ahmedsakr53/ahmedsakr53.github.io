@@ -172,3 +172,4 @@
 .pf-tr-col { width: 100%; height: 46px; padding: 3px; border-radius: 12px; border: 1px solid var(--ds-hairline); background: transparent; }
 .pf-tr-prev { background: transparent; border: 0; max-width: 340px; margin-inline: auto; }
 .pf-tr-prev canvas { background: transparent; }
+.pf-mm-own { display: flex; align-items: center; justify-content: center; margin: 12px 0 4px; cursor: pointer; }
