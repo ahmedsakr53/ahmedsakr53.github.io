@@ -1968,7 +1968,7 @@ html[data-theme="dark"] .pf-fun-banner .pf-icon { fill: #39ff14; }
 
 /* per-track themes (Python, Linux, JavaScript) */
 .pf-trk.pf-t-py { --tk: #FFD43B; --tk2: #4B8BBE; background: linear-gradient(180deg, #0D1520, #070B12); border: 1px solid rgb(75 139 190 / .4); border-radius: 20px; padding: 14px; color: #e6edf6; }
-.pf-trk.pf-t-py .pf-ep { background: #101b2b; border-color: rgb(75 139 190 / .35); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; position: relative; padding-top: 22px; }
+.pf-trk.pf-t-py .pf-ep { background: #101b2b; border-color: rgb(75 139 190 / .35); position: relative; padding-top: 22px; }
 .pf-trk.pf-t-py .pf-ep::before { content: ""; position: absolute; top: 7px; left: 12px; width: 6px; height: 6px; border-radius: 50%; background: #ff5f57; box-shadow: 11px 0 #febc2e, 22px 0 #28c840; }
 .pf-trk.pf-t-py .pf-ep.pf-ep-on { border-color: #FFD43B; }
 .pf-trk.pf-t-py .pf-ep-n { background: rgb(255 212 59 / .16); color: #FFD43B; }
@@ -1983,7 +1983,7 @@ html[data-theme="dark"] .pf-fun-banner .pf-icon { fill: #39ff14; }
 .pf-acad-card.pf-t-py { background: #0D1520; border-color: rgb(75 139 190 / .5); color: #e6edf6; }
 .pf-acad-card.pf-t-py small { color: #9db4cc; }
 .pf-acad-card.pf-t-py:hover { border-color: #FFD43B; }
-.pf-trk.pf-t-linux { background: #000; border: 1px solid #39FF14; border-radius: 14px; padding: 14px; color: #fff; font-family: ui-monospace, Menlo, monospace; }
+.pf-trk.pf-t-linux { background: #000; border: 1px solid #39FF14; border-radius: 14px; padding: 14px; color: #fff; }
 .pf-trk.pf-t-linux .pf-ep { background: #050805; border-color: rgb(57 255 20 / .35); }
 .pf-trk.pf-t-linux .pf-ep-t::before { content: "$ "; color: #39FF14; }
 .pf-trk.pf-t-linux .pf-ep.pf-ep-on { border-color: #39FF14; }
@@ -2046,3 +2046,11 @@ body .pf-acad-card.pf-t-code b, body .pf-acad-card.pf-t-linux b, body .pf-acad-c
 .pf-pod-show .pf-card { margin-top: 10px; }
 .pf-prod-badge { display: inline-block; margin: 8px 0 2px; padding: 4px 12px; border-radius: 999px; background: #dc2626; color: #fff; font-weight: 700; font-size: 13px; }
 .pf-prod-cd { font-weight: 700; font-variant-numeric: tabular-nums; color: #dc2626; margin-bottom: 4px; }
+
+/* Arabic typography: joined letters, no tracking, readable line-height, no monospace for Arabic text */
+html[dir="rtl"] body, html[dir="rtl"] * { letter-spacing: 0 !important; }
+html[dir="rtl"] body { line-height: 1.75; font-feature-settings: "kern", "liga", "calt"; text-rendering: optimizeLegibility; }
+html[dir="rtl"] h1, html[dir="rtl"] h2, html[dir="rtl"] h3, html[dir="rtl"] .pf-card-name { line-height: 1.45; font-weight: 700; }
+html[dir="rtl"] .pf-ep-t { font-family: var(--ds-font-text); font-weight: 600; font-size: 15.5px; line-height: 1.6; }
+html[dir="rtl"] .pf-ep-d, html[dir="rtl"] .pf-card-detail, html[dir="rtl"] .pf-para, html[dir="rtl"] p { line-height: 1.85; }
+.pf-ep-n, .pf-ex-id { font-family: 'Space Grotesk', ui-monospace, Menlo, monospace; }

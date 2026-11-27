@@ -81,7 +81,7 @@
       engPrefix: 'المهندس',
       role: 'Junior Cybersecurity Analyst · Network Technician · Software & Games Designer',
       purposeTitle: 'هدف التطبيق',
-      tagline: 'أن يكون الواجهة الرسمية للمهندس أحمد مختار صقر: مكان واحد يعرض خدماته ومشاريعه وشهاداته، وتصل منه إليه مباشرة لتطلب خدمتك بضغطة واحدة، ويطمّن فيه أي زائر على أمانه الرقمي بفحص شخصي مجاني يعمل بالكامل على جهازه، ويتعلّم من «صقر أكاديمي»: كورسات مجانية في الأمن السيبراني والبرمجة والشبكات بشهادة إتمام، وركن «الألعاب والترفيه» بألعاب خفيفة وصانع ميمز.',
+      tagline: 'الواجهة الرسمية للمهندس أحمد مختار صقر: خدماته ومشاريعه، وفحص أمان مجاني، وكورسات «صقر أكاديمي» بشهادة، وألعاب خفيفة.',
       visitsTitle: 'عدد زيارات الموقع',
       chips: ['طما، سوهاج، مصر', 'طالب هندسة كهرباء قسم اتصالات', 'الهدف: تدريب SOC'],
       ctaProjects: 'استعرض مشاريعي',
@@ -326,7 +326,7 @@
       engPrefix: 'Eng.',
       role: 'Junior Cybersecurity Analyst · Network Technician · Software & Games Designer',
       purposeTitle: 'Purpose of the app',
-      tagline: 'To be the official home of Eng. Ahmed Mokhtar Sakr: one place for his services, projects and certifications, with a direct line to reach him and order your service in one tap, and where any visitor can check their own digital safety with a free personal checkup that runs entirely on their device, plus a free Sakr Academy with courses in cybersecurity, programming and networking, each ending with a completion certificate, and a Games & fun corner with light games and a meme maker.',
+      tagline: "The official home of Eng. Ahmed Mokhtar Sakr: his services and projects, a free safety checkup, Sakr Academy courses with certificates, and light games.",
       visitsTitle: 'Site visit count',
       chips: ['Tima, Sohag, Egypt', 'Electrical Engineering, Communications student', 'Goal: SOC internship'],
       ctaProjects: 'See my projects',
@@ -1122,7 +1122,7 @@
   }
 
   var acadCfg;
-  function acadPrefetch() { var u = 'academy.js?v=42'; if (window.pfAcademy || document.querySelector('link[href="' + u + '"]')) return; var l = document.createElement('link'); l.rel = 'prefetch'; l.as = 'script'; l.href = u; document.head.appendChild(l); }
+  function acadPrefetch() { var u = 'academy.js?v=43'; if (window.pfAcademy || document.querySelector('link[href="' + u + '"]')) return; var l = document.createElement('link'); l.rel = 'prefetch'; l.as = 'script'; l.href = u; document.head.appendChild(l); }
   document.addEventListener('pointerdown', function (e) { var a = e.target.closest && e.target.closest('a[href="#/academy"]'); if (a) acadPrefetch(); }, { passive: true });
   window.addEventListener('load', function () { setTimeout(acadPrefetch, 5000); });
   function loadAcademy(route) {
@@ -1143,7 +1143,7 @@
     if (host0 && !window.pfAcademy) host0.innerHTML = '<div class="pf-g-skel"><i></i><span>' + (lang === 'ar' ? 'جارٍ التحميل…' : 'Loading…') + '</span></div>';
     var jsP = window.pfAcademy ? Promise.resolve() : new Promise(function (res) {
       var sc = document.createElement('script');
-      sc.src = 'academy.js?v=42';
+      sc.src = 'academy.js?v=43';
       sc.onload = res; sc.onerror = res;
       document.head.appendChild(sc);
     });
