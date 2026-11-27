@@ -2159,3 +2159,28 @@ html:not([data-theme="dark"]) body .pf-acad-card.pf-t-git small { color: #3d6b55
 html:not([data-theme="dark"]) body .pf-acad-card.pf-t-git .pf-acad-ico .pf-icon { fill: #e0620a; }
 html:not([data-theme="dark"]) body .pf-acad-card.pf-t-git .pf-acad-meta i { color: inherit; opacity: .85; }
 .pf-trk.pf-t-git .pf-ep-t, .pf-trk.pf-t-git p { color: #fff; }
+
+/* websec track */
+.pf-trk.pf-t-websec { background: linear-gradient(180deg, #17102b, #0E0A1A); border: 1px solid #E63946; border-radius: 22px; padding: 14px; color: #fff; }
+.pf-trk.pf-t-websec .pf-ep { background: #1c1336; border-color: rgb(230 57 70 / .45); border-radius: 22px; }
+.pf-trk.pf-t-websec .pf-ep.pf-ep-on { border-color: #FFB703; }
+.pf-trk.pf-t-websec .pf-ep-n { background: #E63946; color: #fff; }
+.pf-trk.pf-t-websec .pf-ep-on .pf-ep-s { color: #FFB703; }
+.pf-trk.pf-t-websec p, .pf-trk.pf-t-websec .pf-ep-t { color: #fff; }
+.pf-trk.pf-t-websec .pf-player { background: linear-gradient(135deg, #E63946, #17102b); }
+.pf-trk.pf-t-websec .pf-player-btn { background: #FFB703; }
+.pf-trk.pf-t-websec .pf-player-tri { border-left-color: #0E0A1A; }
+.pf-acad-card.pf-t-websec { background: #17102b; border-color: #E63946; color: #fff; }
+.pf-acad-card.pf-t-websec small { color: #d9cff0; }
+body .pf-acad-card.pf-t-websec { background: #17102b; border-color: #E63946; color: #fff; }
+body .pf-acad-card.pf-t-websec small { color: #d9cff0; }
+body .pf-acad-card.pf-t-websec b { color: inherit; }
+.pf-trk.pf-t-websec h1, .pf-trk.pf-t-websec h2 { color: #fff; }
+.pf-trk.pf-t-websec .pf-ep-d, .pf-trk.pf-t-websec .pf-ep-s, .pf-trk.pf-t-websec .pf-acad-note { color: #d9cff0; }
+.pf-trk.pf-t-websec .pf-acad-back { color: #1a1a1a; }
+.pf-acad-card.pf-t-websec .pf-icon { fill: #E63946 !important; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-websec { background: #f6f0ff; border-color: #E63946; color: #2a1450; box-shadow: inset 0 -3px 0 #FFB703; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-websec small { color: #6b4f94; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-websec .pf-acad-ico .pf-icon { fill: #c42a37; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-websec .pf-acad-meta i { color: inherit; opacity: .85; }
+.pf-trk.pf-t-websec .pf-ep-t, .pf-trk.pf-t-websec p { color: #fff; }

@@ -9,6 +9,7 @@
     net: { code: 'NET', en1: 'NETWORKING FUNDAMENTALS TRACK', en2: 'Networking from Scratch', ar2: 'شهادة إتمام مسار «شبكات من الصفر»' },
     py: { code: 'PY', en1: 'PYTHON PROGRAMMING TRACK', en2: 'Python from Scratch', ar2: 'شهادة إتمام مسار «بايثون من الصفر»' },
     code: { code: 'JS', en1: 'JAVASCRIPT TRACK', en2: 'JavaScript from Scratch', ar2: 'شهادة إتمام مسار «جافاسكريبت من الصفر»' },
+    websec: { code: 'WEB', en1: 'WEB APPLICATION SECURITY TRACK', en2: 'Web Application Security', ar2: 'شهادة إتمام مسار «أمن تطبيقات الويب»' },
     git: { code: 'GIT', en1: 'GIT AND GITHUB TRACK', en2: 'Git and GitHub from Scratch', ar2: 'شهادة إتمام مسار «جيت وجيت هاب من الصفر»' },
     linux: { code: 'LNX', en1: 'LINUX TRACK', en2: 'Linux from Scratch', ar2: 'شهادة إتمام مسار «لينكس من الصفر»' }
   };

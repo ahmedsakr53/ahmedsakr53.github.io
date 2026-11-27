@@ -80,19 +80,19 @@
         ['.gitignore المتقدم وإدارة الأسرار وتنضيف التاريخ', 'Advanced .gitignore, secrets and cleaning history'],
         ['أخطاء الكوارث: reset وrevert وreflog وسر مسرب', 'Disaster mistakes: reset, revert, reflog and a leaked secret'],
         ['المشروع النهائي', 'Final project']] },
-    { id: 'websec', ico: 'icLock', ar: 'أمن تطبيقات الويب', en: 'Web Application Security',
+    { id: 'websec', ico: 'icBug', ar: 'أمن تطبيقات الويب', en: 'Web Application Security',
       dAr: 'إزاي المواقع بتتخترق وإزاي تحميها: ثغرات الويب الشائعة من ناحية البرمجة والدفاع.', dEn: 'How websites get attacked and how to defend them: the common web vulnerabilities from the code and defence side.',
       eps: [
-        ['الحلقة ١ (قريباً)', 'Episode 1 (soon)'],
-        ['الحلقة ٢ (قريباً)', 'Episode 2 (soon)'],
-        ['الحلقة ٣ (قريباً)', 'Episode 3 (soon)'],
-        ['الحلقة ٤ (قريباً)', 'Episode 4 (soon)'],
-        ['الحلقة ٥ (قريباً)', 'Episode 5 (soon)'],
-        ['الحلقة ٦ (قريباً)', 'Episode 6 (soon)'],
-        ['الحلقة ٧ (قريباً)', 'Episode 7 (soon)'],
-        ['الحلقة ٨ (قريباً)', 'Episode 8 (soon)'],
-        ['الحلقة ٩ (قريباً)', 'Episode 9 (soon)'],
-        ['الحلقة ١٠ (قريباً)', 'Episode 10 (soon)']] },
+        ['إزاي الويب بيشتغل ونقاط الضعف', 'How the web works and where it breaks'],
+        ['حقن SQL ودفاعها', 'SQL injection and its defense'],
+        ['XSS', 'XSS'],
+        ['CSRF', 'CSRF'],
+        ['Hashing وbcrypt', 'Hashing and bcrypt'],
+        ['الجلسات وJWT', 'Sessions and JWT'],
+        ['الصلاحيات وIDOR', 'Permissions and IDOR'],
+        ['رفع الملفات', 'File uploads'],
+        ['Headers وHTTPS وCORS', 'Headers, HTTPS and CORS'],
+        ['مشروع التأمين', 'Hardening project']] },
     { id: 'sql', ico: 'icDb', ar: 'قواعد البيانات SQL من الصفر', en: 'SQL Databases from Scratch',
       dAr: 'تتعلم تخزن البيانات وتسأل عنها بلغة SQL، من أول جدول لحد استعلامات حقيقية.', dEn: 'Learn to store and query data with SQL, from your first table to real queries.',
       eps: [
@@ -135,7 +135,7 @@
   ];
   function find(id) { for (var i = 0; i < TRACKS.length; i++) if (TRACKS[i].id === id) return TRACKS[i]; return null; }
   function n(x, ar) { return ar ? String(x).replace(/\d/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'[d]; }) : String(x); }
-  var DEF = { 'py-1': 'academy/py-1.mp4', 'py-2': 'academy/py-2.mp4', 'py-3': 'academy/py-3.mp4', 'py-4': 'academy/py-4.mp4', 'py-5': 'academy/py-5.mp4', 'py-6': 'academy/py-6.mp4', 'py-7': 'academy/py-7.mp4', 'py-8': 'academy/py-8.mp4', 'py-9': 'academy/py-9.mp4', 'py-10': 'academy/py-10.mp4', 'linux-1': 'academy/linux-1.mp4', 'linux-2': 'academy/linux-2.mp4', 'linux-3': 'academy/linux-3.mp4', 'linux-4': 'academy/linux-4.mp4', 'linux-5': 'academy/linux-5.mp4', 'linux-6': 'academy/linux-6.mp4', 'linux-7': 'academy/linux-7.mp4', 'linux-8': 'academy/linux-8.mp4', 'linux-9': 'academy/linux-9.mp4', 'linux-10': 'academy/linux-10.mp4', 'code-1': 'academy/code-1.mp4', 'code-2': 'academy/code-2.mp4', 'code-3': 'academy/code-3.mp4', 'code-4': 'academy/code-4.mp4', 'code-5': 'academy/code-5.mp4', 'code-6': 'academy/code-6.mp4', 'code-7': 'academy/code-7.mp4', 'code-8': 'academy/code-8.mp4', 'code-9': 'academy/code-9.mp4', 'code-10': 'academy/code-10.mp4', 'git-1': 'academy/git-1.mp4', 'git-2': 'academy/git-2.mp4', 'git-3': 'academy/git-3.mp4', 'git-4': 'academy/git-4.mp4', 'git-5': 'academy/git-5.mp4', 'git-6': 'academy/git-6.mp4', 'git-7': 'academy/git-7.mp4', 'git-8': 'academy/git-8.mp4', 'git-9': 'academy/git-9.mp4', 'git-10': 'academy/git-10.mp4', 'net-1': 'academy/net-1.mp4', 'net-2': 'academy/net-2.mp4', 'net-3': 'academy/net-3.mp4', 'net-4': 'academy/net-4.mp4', 'net-5': 'academy/net-5.mp4', 'net-6': 'academy/net-6.mp4', 'net-7': 'academy/net-7.mp4', 'net-8': 'academy/net-8.mp4', 'net-9': 'academy/net-9.mp4', 'net-10': 'academy/net-10.mp4', 'cyber-1': 'academy/cyber-1.mp4', 'cyber-2': 'academy/cyber-2.mp4', 'cyber-3': 'academy/cyber-3.mp4', 'cyber-4': 'academy/cyber-4.mp4', 'cyber-5': 'academy/cyber-5.mp4', 'cyber-6': 'academy/cyber-6.mp4', 'cyber-7': 'academy/cyber-7.mp4', 'cyber-8': 'academy/cyber-8.mp4', 'cyber-9': 'academy/cyber-9.mp4', 'cyber-10': 'academy/cyber-10.mp4' };
+  var DEF = { 'py-1': 'academy/py-1.mp4', 'py-2': 'academy/py-2.mp4', 'py-3': 'academy/py-3.mp4', 'py-4': 'academy/py-4.mp4', 'py-5': 'academy/py-5.mp4', 'py-6': 'academy/py-6.mp4', 'py-7': 'academy/py-7.mp4', 'py-8': 'academy/py-8.mp4', 'py-9': 'academy/py-9.mp4', 'py-10': 'academy/py-10.mp4', 'linux-1': 'academy/linux-1.mp4', 'linux-2': 'academy/linux-2.mp4', 'linux-3': 'academy/linux-3.mp4', 'linux-4': 'academy/linux-4.mp4', 'linux-5': 'academy/linux-5.mp4', 'linux-6': 'academy/linux-6.mp4', 'linux-7': 'academy/linux-7.mp4', 'linux-8': 'academy/linux-8.mp4', 'linux-9': 'academy/linux-9.mp4', 'linux-10': 'academy/linux-10.mp4', 'code-1': 'academy/code-1.mp4', 'code-2': 'academy/code-2.mp4', 'code-3': 'academy/code-3.mp4', 'code-4': 'academy/code-4.mp4', 'code-5': 'academy/code-5.mp4', 'code-6': 'academy/code-6.mp4', 'code-7': 'academy/code-7.mp4', 'code-8': 'academy/code-8.mp4', 'code-9': 'academy/code-9.mp4', 'code-10': 'academy/code-10.mp4', 'git-1': 'academy/git-1.mp4', 'git-2': 'academy/git-2.mp4', 'git-3': 'academy/git-3.mp4', 'git-4': 'academy/git-4.mp4', 'git-5': 'academy/git-5.mp4', 'git-6': 'academy/git-6.mp4', 'git-7': 'academy/git-7.mp4', 'git-8': 'academy/git-8.mp4', 'git-9': 'academy/git-9.mp4', 'git-10': 'academy/git-10.mp4', 'websec-1': 'academy/websec-1.mp4', 'net-1': 'academy/net-1.mp4', 'net-2': 'academy/net-2.mp4', 'net-3': 'academy/net-3.mp4', 'net-4': 'academy/net-4.mp4', 'net-5': 'academy/net-5.mp4', 'net-6': 'academy/net-6.mp4', 'net-7': 'academy/net-7.mp4', 'net-8': 'academy/net-8.mp4', 'net-9': 'academy/net-9.mp4', 'net-10': 'academy/net-10.mp4', 'cyber-1': 'academy/cyber-1.mp4', 'cyber-2': 'academy/cyber-2.mp4', 'cyber-3': 'academy/cyber-3.mp4', 'cyber-4': 'academy/cyber-4.mp4', 'cyber-5': 'academy/cyber-5.mp4', 'cyber-6': 'academy/cyber-6.mp4', 'cyber-7': 'academy/cyber-7.mp4', 'cyber-8': 'academy/cyber-8.mp4', 'cyber-9': 'academy/cyber-9.mp4', 'cyber-10': 'academy/cyber-10.mp4' };
   var CFG = null, SEL = 0;
   function ep(tid, i) {
     var k = tid + '-' + (i + 1), e = (CFG && CFG.eps && CFG.eps[k]) || (DEF[k] ? { mp4: DEF[k] } : {});
@@ -188,7 +188,7 @@
     box.hidden = false; box.innerHTML = '<p class="pf-ex-p">' + (ar ? 'لحظة...' : 'One moment...') + '</p>';
     var go = function () { if (kind === 'board') window.pfExam.board(box, ar); else if (kind === 'weekly') window.pfExam.weekly(box, ar); else window.pfExam.open(box, ar, tid); box.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
     if (window.pfExam) return go();
-    var sc = document.createElement('script'); sc.src = 'academy-exam.js?v=8'; sc.onload = go; sc.onerror = function () { box.textContent = ar ? 'مش قادرين نحمّل الاختبار. جرّب تاني.' : 'Could not load the exam. Try again.'; };
+    var sc = document.createElement('script'); sc.src = 'academy-exam.js?v=9'; sc.onload = go; sc.onerror = function () { box.textContent = ar ? 'مش قادرين نحمّل الاختبار. جرّب تاني.' : 'Could not load the exam. Try again.'; };
     document.head.appendChild(sc);
   }
 
