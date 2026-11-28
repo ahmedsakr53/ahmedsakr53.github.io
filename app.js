@@ -69,6 +69,7 @@
     fun: 'M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z',
     navPad: 'M6 8a5 5 0 00-5 5v2a3 3 0 005.2 2l1.6-2h8.4l1.6 2A3 3 0 0023 15v-2a5 5 0 00-5-5H6zm1 2h1.5v1.5H10V13H8.5v1.5H7V13H5.5v-1.5H7V10zm9 .8a1 1 0 110 2 1 1 0 010-2zm2.5 2.2a1 1 0 110 2 1 1 0 010-2z',
     navLaugh: 'M12 2a10 10 0 1 1 0 20a10 10 0 1 1 0-20zM8.5 8.2a1.4 1.4 0 1 0 0 2.8a1.4 1.4 0 1 0 0-2.8zM15.5 8.2a1.4 1.4 0 1 0 0 2.8a1.4 1.4 0 1 0 0-2.8zM6.6 13.2a5.4 5.4 0 0 0 10.8 0z',
+    navQr: 'M3 11h8V3H3v8zm2-6h4v4H5V5zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM19 19h2v2h-2zM13 13h2v2h-2zM15 15h2v2h-2zM13 17h2v2h-2zM15 19h2v2h-2zM17 17h2v2h-2zM17 13h2v2h-2zM19 15h2v2h-2z',
     navGlobe: 'M12 2a10 10 0 100 20 10 10 0 000-20zm0 2c1.7 2 2.7 4.6 2.9 7H9.1C9.3 8.6 10.3 6 12 4zM4.3 11a8 8 0 013.9-6.1C7.3 6.5 6.7 8.6 6.6 11H4.3zm0 2h2.3c.1 2.4.7 4.5 1.6 6.1A8 8 0 014.3 13zM12 20c-1.7-2-2.7-4.6-2.9-7h5.8c-.2 2.4-1.2 5-2.9 7zm3.8-.9c.9-1.6 1.5-3.7 1.6-6.1h2.3a8 8 0 01-3.9 6.1zM17.4 11c-.1-2.4-.7-4.5-1.6-6.1A8 8 0 0119.7 11h-2.3z',
     navShield: 'M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z',
     pin: 'M12 2C8.13 2 5 5.13 5 8.5c0 5.25 7 13 7 13s7-7.75 7-13c0-3.37-3.13-6.5-7-6.5zm0 8.75a2.25 2.25 0 1 1 0-4.5 2.25 2.25 0 0 1 0 4.5z'
@@ -1130,7 +1131,7 @@
 
   function currentRoute() {
     var h = location.hash || '#/';
-    if (navPaths.indexOf(h) === -1 && h !== '#/checkup' && h !== '#/map' && h !== '#/podcast' && h !== '#/fun' && h !== '#/trend' && h !== '#/memes' && h !== '#/stickers' && h !== '#/xo' && h.indexOf('#/g/') !== 0 && h.indexOf('#/academy') !== 0) return '#/';
+    if (navPaths.indexOf(h) === -1 && h !== '#/checkup' && h !== '#/map' && h !== '#/podcast' && h !== '#/fun' && h !== '#/trend' && h !== '#/memes' && h !== '#/stickers' && h !== '#/qr' && h !== '#/games' && h !== '#/xo' && h.indexOf('#/g/') !== 0 && h.indexOf('#/academy') !== 0) return '#/';
     return h;
   }
 
@@ -1245,25 +1246,19 @@
       '<span class="pf-fun-item">' + (ar ? 'ميمز' : 'Memes') + '<i>' + (mst === 'soon' ? (ar ? 'قريباً' : 'Soon') : (ar ? 'افتح' : 'Open')) + '</i></span>' +
       '<small>' + (ar ? 'اختار قالب واكتب كلامك وشارك.' : 'Pick a template, write and share.') + '</small></a>'
     var stk = '<a class="pf-fun-half pf-fun-stk" href="#/stickers">' + icon('navLaugh') + '<b>' + (ar ? 'صانع استيكرز' : 'Sticker maker') + '</b><span class="pf-fun-item">' + (ar ? 'استيكرز' : 'Stickers') + '<i>' + (ar ? 'افتح' : 'Open') + '</i></span><small>' + (ar ? 'حوّل صورتك لاستيكر، وباكات مصرية جاهزة.' : 'Turn a photo into a sticker, plus Egyptian packs.') + '</small></a>';
+    var qs = gamesCfg && gamesCfg.memes && gamesCfg.memes.qr && gamesCfg.memes.qr.state;
+    var qr = qs === 'hidden' ? '' : '<a class="pf-fun-half pf-fun-qr' + (qs === 'soon' ? ' soon' : '') + '" href="' + (qs === 'soon' ? '#/fun' : '#/qr') + '">' + icon('navQr') + '<b>' + (ar ? 'QR وبطاقات' : 'QR & cards') + '</b><span class="pf-fun-item">' + (ar ? 'منشئ QR وبطاقات' : 'QR maker and cards') + '<i>' + (qs === 'soon' ? (ar ? 'قريباً' : 'Soon') : (ar ? 'افتح' : 'Open')) + '</i></span><small>' + (ar ? 'اعمل QR لأي رابط أو واتساب أو واي فاي، وبطاقات معايدة ودعوة باسمك.' : 'Make a QR for a link, WhatsApp or Wi-Fi, plus greeting and invitation cards.') + '</small></a>';
+    var games = '<a class="pf-fun-half pf-fun-games" id="pf-fun-games" href="#/games">' + icon('fun') + '<b>' + (ar ? 'الألعاب' : 'Games') + '</b><span class="pf-fun-item">' + (ar ? 'ألعاب خفيفة' : 'Quick games') + '<i>' + (ar ? 'افتح' : 'Open') + '</i></span><small>' + (ar ? 'ألعاب بتلعبها على موبايلك، ومعاها المتصدرين.' : 'Games you play on your phone, with leaderboards.') + '</small></a>';
     return '<div class="pf-page pf-fun-page">' + pageHead('FUN', ar ? 'الألعاب والترفيه' : 'Games & fun') +
-      '<div class="pf-fun-split">' +
-      '<div class="pf-fun-half pf-fun-games" id="pf-fun-games">' +
-      '<button type="button" class="pf-fun-tgl" id="pf-fun-tgl" aria-expanded="false" aria-controls="pf-fun-body">' + icon('fun') + '<b>' + (ar ? 'الألعاب' : 'Games') + '</b><i class="pf-fun-chev" aria-hidden="true">▾</i></button>' +
-      '<div class="pf-fun-body" id="pf-fun-body" hidden>' +
-      '<div class="pf-gc-grid" id="pf-gc-grid">' + funGamesHTML(ar) + '</div>' +
-      '<button type="button" class="pf-fun-item pf-lb-open" id="pf-lb-open">' + (ar ? '🏆 المتصدرين' : '🏆 Leaderboards') + '</button><div class="pf-lb-all" id="pf-lb-all"></div>' +
-      '</div></div>' + memes + stk + '</div></div>';
+      '<div class="pf-fun-split">' + games + memes + stk + qr + '</div></div>';
   }
-  function wireFun() {
-    setTimeout(function () { funCss(function () {}); }, 300);
-    loadGamesCfg(function () {
-      if (currentRoute() !== '#/fun') return;
-      var g = document.getElementById('pf-gc-grid'); if (g) g.innerHTML = funGamesHTML(lang === 'ar');
-      var m = document.querySelector('.pf-fun-split'); var mst = gamesCfg && gamesCfg.memes && gamesCfg.memes.state;
-      if (m && mst) { var old = m.querySelector('.pf-fun-memes'); var tmp = document.createElement('div'); tmp.innerHTML = renderFun(); var nw = tmp.querySelector('.pf-fun-memes'); if (old) { if (nw) old.replaceWith(nw); else old.remove(); } }
-    });
-    var tg = document.getElementById('pf-fun-tgl');
-    if (tg) tg.addEventListener('click', function () { var bd = document.getElementById('pf-fun-body'); if (!bd) return; var open = bd.hidden; bd.hidden = !open; tg.setAttribute('aria-expanded', open ? 'true' : 'false'); tg.parentNode.classList.toggle('pf-fun-open', open); });
+  function renderGamesPage() {
+    var ar = lang === 'ar';
+    return '<div class="pf-page pf-fun-page"><a class="pf-g-exit pf-g-back" href="#/fun">' + (ar ? 'رجوع' : 'Back') + '</a>' + pageHead('GAMES', ar ? 'الألعاب' : 'Games') +
+      '<div class="pf-gc-grid" id="pf-gc-grid">' + funGamesHTML(ar) + '</div>' +
+      '<button type="button" class="pf-fun-item pf-lb-open" id="pf-lb-open">' + (ar ? '🏆 المتصدرين' : '🏆 Leaderboards') + '</button><div class="pf-lb-all" id="pf-lb-all"></div></div>';
+  }
+  function lbWire() {
     var b = document.getElementById('pf-lb-open');
     if (b) b.addEventListener('click', function () {
       var box = document.getElementById('pf-lb-all'); if (!box) return;
@@ -1275,6 +1270,30 @@
       var sc = document.createElement('script'); sc.src = 'lb.js?v=4'; sc.onload = go; document.head.appendChild(sc);
     });
   }
+  function wireGamesPage() {
+    funCss(function () {});
+    loadGamesCfg(function () { if (currentRoute() !== '#/games') return; var g = document.getElementById('pf-gc-grid'); if (g) g.innerHTML = funGamesHTML(lang === 'ar'); });
+    lbWire();
+  }
+  function loadQR() {
+    var host = document.getElementById('pf-qr'); if (!host) return;
+    if (!gamesCfg) return loadGamesCfg(function () { if (currentRoute() === '#/qr') loadQR(); });
+    if (!window.pfQR) host.innerHTML = '<div class="pf-g-skel"><i></i><span>' + (lang === 'ar' ? 'جارٍ التحميل…' : 'Loading…') + '</span></div>';
+    var cssDone = false, jsDone = !!window.pfQR;
+    var go = function () { if (cssDone && jsDone && window.pfQR && currentRoute() === '#/qr' && document.getElementById('pf-qr')) window.pfQR.render(document.getElementById('pf-qr')); };
+    funCss(function () { cssDone = true; go(); });
+    if (window.pfQR) return go();
+    var sc = document.createElement('script');
+    sc.src = 'qr.js?v=1'; sc.onload = function () { jsDone = true; go(); }; document.head.appendChild(sc);
+  }
+  function wireFun() {
+    setTimeout(function () { funCss(function () {}); }, 300);
+    loadGamesCfg(function () {
+      if (currentRoute() !== '#/fun') return;
+      var g = document.getElementById('pf-gc-grid'); if (g) g.innerHTML = funGamesHTML(lang === 'ar');
+      var m = document.querySelector('.pf-fun-split'); if (m && gamesCfg && gamesCfg.memes) { var tmp = document.createElement('div'); tmp.innerHTML = renderFun(); var nw = tmp.querySelector('.pf-fun-split'); if (nw && nw.innerHTML !== m.innerHTML) m.innerHTML = nw.innerHTML; }
+    });
+  }
   document.addEventListener('pointerdown', function (e) {
     var a = e.target.closest && e.target.closest('a.pf-gc'); if (!a) return;
     var m = /#\/g\/(\w+)/.exec(a.getAttribute('href') || ''); if (!m) return;
@@ -1283,7 +1302,7 @@
   var funCssP = null;
   function funCss(cb) {
     if (!funCssP) funCssP = new Promise(function (res) {
-      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'fun.css?v=15';
+      var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'fun.css?v=16';
       var t = setTimeout(res, 2500); l.onload = function () { clearTimeout(t); res(); }; l.onerror = function () { clearTimeout(t); res(); };
       document.head.appendChild(l);
     });
@@ -1348,7 +1367,7 @@
     funCss(function () { cssDone = true; go(); });
     if (window.pfStickers) return go();
     var sc = document.createElement('script');
-    sc.src = 'stickers.js?v=3'; sc.onload = function () { jsDone = true; go(); }; document.head.appendChild(sc);
+    sc.src = 'stickers.js?v=4'; sc.onload = function () { jsDone = true; go(); }; document.head.appendChild(sc);
   }
 
   function loadTrend() {
@@ -1395,7 +1414,7 @@
       { href: '#/map', icon: 'navGlobe', label: ar0 ? 'خريطة الزوار' : 'Visitor map' }
     ];
     if (window.pfTrendHidden) moreItems = moreItems.filter(function (m) { return !m.trend; });
-    var moreActive = moreItems.some(function (m) { return m.href === route || (m.href === '#/fun' && (route === '#/memes' || route === '#/stickers' || route === '#/xo' || route.indexOf('#/g/') === 0)) || (m.href === '#/academy' && route.indexOf('#/academy') === 0); });
+    var moreActive = moreItems.some(function (m) { return m.href === route || (m.href === '#/fun' && (route === '#/memes' || route === '#/stickers' || route === '#/qr' || route === '#/games' || route === '#/xo' || route.indexOf('#/g/') === 0)) || (m.href === '#/academy' && route.indexOf('#/academy') === 0); });
     var moreLabel = ar0 ? 'المزيد' : 'More';
     var nav = '<nav class="pf-nav" aria-label="' + esc(t.navAria) + '">' +
       mainIdx.map(function (i) {
@@ -1407,7 +1426,7 @@
       '<div class="pf-sheet" id="pf-sheet" hidden><div class="pf-sheet-back" data-close="1"></div>' +
       '<div class="pf-sheet-panel" role="dialog" aria-label="' + esc(moreLabel) + '"><div class="pf-sheet-grip"></div>' +
       '<div class="pf-sheet-grid">' + moreItems.map(function (m) {
-        return '<a href="' + m.href + '"' + ((m.href === route || (m.href === '#/fun' && (route === '#/memes' || route === '#/stickers' || route === '#/xo' || route.indexOf('#/g/') === 0)) || (m.href === '#/academy' && route.indexOf('#/academy') === 0)) ? ' aria-current="page"' : '') + '>' + icon(m.icon) + '<span>' + esc(m.label) + '</span></a>';
+        return '<a href="' + m.href + '"' + ((m.href === route || (m.href === '#/fun' && (route === '#/memes' || route === '#/stickers' || route === '#/qr' || route === '#/games' || route === '#/xo' || route.indexOf('#/g/') === 0)) || (m.href === '#/academy' && route.indexOf('#/academy') === 0)) ? ' aria-current="page"' : '') + '>' + icon(m.icon) + '<span>' + esc(m.label) + '</span></a>';
       }).join('') + '</div></div></div>' +
       '<div class="pf-switch" role="navigation">' +
       '<a class="pf-sw-site' + (isAcad ? '' : ' pf-sw-on') + '" href="#/">' + icon('navGlobe') + esc(ar0 ? 'الموقع' : 'Site') + '</a>' +
@@ -1435,6 +1454,8 @@
     else if (route === '#/xo') page = '<div class="pf-page" id="pf-xo"></div>';
     else if (route === '#/memes') page = '<div class="pf-page" id="pf-memes"></div>';
     else if (route === '#/stickers') page = '<div class="pf-page" id="pf-stickers"></div>';
+    else if (route === '#/qr') page = '<div class="pf-page" id="pf-qr"></div>';
+    else if (route === '#/games') page = renderGamesPage();
     else if (route === '#/trend') page = '<div class="pf-page">' + pageHead('TREND', lang === 'ar' ? 'تريند' : 'Trend') + '<p class="pf-para">' + esc(lang === 'ar' ? 'أدوات سريعة وممتعة لحسابك واسمك. كل حاجة بتشتغل على جهازك.' : 'Quick fun tools for your profile and name. Everything runs on your device.') + '</p><div id="pf-trend"></div></div>';
     else if (route === '#/contact') page = renderContact(t);
     else if (route.indexOf('#/academy') === 0) page = '<div class="pf-page" id="pf-acad"></div>';
@@ -1451,6 +1472,8 @@
     if (route === '#/checkup') wireCheckup(t);
     if (route === '#/memes') loadMemes();
     if (route === '#/stickers') loadStickers();
+    if (route === '#/qr') loadQR();
+    if (route === '#/games') wireGamesPage();
     if (route === '#/trend') loadTrend();
     if (route === '#/xo') loadXO();
     document.documentElement.classList.toggle('pf-ingame', route.indexOf('#/g/') === 0 || route === '#/xo');

@@ -285,5 +285,5 @@
     var go = function () { draw(); start(); };
     if (document.fonts && document.fonts.load) Promise.all([document.fonts.load('800 60px Cairo', 'ابج')]).catch(function () {}).then(go); else go();
   }
-  window.pfStickers = { render: render };
+  window.pfStickers = { render: render, art: function (ch, eyes, mouth, props, sz) { return build({ ch: ch, eyes: eyes, mouth: mouth, brow: '', props: props || [] }, '', sz || 400); } };
 })();
