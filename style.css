@@ -2208,3 +2208,28 @@ html:not([data-theme="dark"]) body .pf-acad-card.pf-t-sql small { color: #3f7f77
 html:not([data-theme="dark"]) body .pf-acad-card.pf-t-sql .pf-acad-ico .pf-icon { fill: #0f8f81; }
 html:not([data-theme="dark"]) body .pf-acad-card.pf-t-sql .pf-acad-meta i { color: inherit; opacity: .85; }
 .pf-trk.pf-t-sql .pf-ep-t, .pf-trk.pf-t-sql p { color: #fff; }
+
+/* api track (violet/pink) */
+.pf-trk.pf-t-api { background: linear-gradient(180deg, #1a1033, #12082a); border: 1px solid #8B5CF6; border-radius: 22px; padding: 14px; color: #fff; }
+.pf-trk.pf-t-api .pf-ep { background: #241547; border-color: rgb(139 92 246 / .45); border-radius: 22px; }
+.pf-trk.pf-t-api .pf-ep.pf-ep-on { border-color: #F472B6; }
+.pf-trk.pf-t-api .pf-ep-n { background: #8B5CF6; color: #fff; }
+.pf-trk.pf-t-api .pf-ep-on .pf-ep-s { color: #F472B6; }
+.pf-trk.pf-t-api p, .pf-trk.pf-t-api .pf-ep-t { color: #fff; }
+.pf-trk.pf-t-api .pf-player { background: linear-gradient(135deg, #8B5CF6, #1a1033); }
+.pf-trk.pf-t-api .pf-player-btn { background: #F472B6; }
+.pf-trk.pf-t-api .pf-player-tri { border-left-color: #12082a; }
+.pf-acad-card.pf-t-api { background: #1a1033; border-color: #8B5CF6; color: #fff; }
+.pf-acad-card.pf-t-api small { color: #e6d9ff; }
+body .pf-acad-card.pf-t-api { background: #1a1033; border-color: #8B5CF6; color: #fff; }
+body .pf-acad-card.pf-t-api small { color: #e6d9ff; }
+body .pf-acad-card.pf-t-api b { color: inherit; }
+.pf-trk.pf-t-api h1, .pf-trk.pf-t-api h2 { color: #fff; }
+.pf-trk.pf-t-api .pf-ep-d, .pf-trk.pf-t-api .pf-ep-s, .pf-trk.pf-t-api .pf-acad-note { color: #e6d9ff; }
+.pf-trk.pf-t-api .pf-acad-back { color: #1a1a1a; }
+.pf-acad-card.pf-t-api .pf-icon { fill: #8B5CF6 !important; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-api { background: #f5f0ff; border-color: #8B5CF6; color: #2e1065; box-shadow: inset 0 -3px 0 #F472B6; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-api small { color: #6d4fb3; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-api .pf-acad-ico .pf-icon { fill: #7c3aed; }
+html:not([data-theme="dark"]) body .pf-acad-card.pf-t-api .pf-acad-meta i { color: inherit; opacity: .85; }
+.pf-trk.pf-t-api .pf-ep-t, .pf-trk.pf-t-api p { color: #fff; }
